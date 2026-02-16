@@ -1,0 +1,35 @@
+.intro {
+  height: 50rem;
+
+  @media (--lg) {
+    height: 70rem;
+  }
+}
+
+.intro .container {
+  /* Стили для контейнера в intro */
+}
+
+.intro .slider__item.content-wrap {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 0 2rem 2rem 2rem;
+  color: var(--color-1);
+}
+
+.intro .slider__subitem {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.intro .slider__title {
+  text-shadow: 0 0 1.5rem hsla(0, 0%, 0%, 0.5);
+}
+
+.intro .slider__desc {
+  text-shadow: 0 0 1.5rem hsla(0, 0%, 0%, 0.5);
+}

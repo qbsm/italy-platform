@@ -1,0 +1,24 @@
+<section class="burger-menu" id="burgerMenu">
+  <div class="container">
+    {% for item in items %}
+      {% set nav_path = item.href | trim('/') %}
+      
+      {# Scope Prefix #}
+      {% set scope_segment = (current_scope == 'op' ? 'op/' : '') %}
+      
+      {% if lang_code != config.settings.default_lang %}
+        {% set nav_path = lang_code ~ '/' ~ scope_segment ~ nav_path %}
+      {% else %}
+        {% set nav_path = scope_segment ~ nav_path %}
+      {% endif %}
+      
+      {% if nav_path is not empty and not nav_path ends with '/' %}
+        {% set nav_path = nav_path ~ '/' %}
+      {% endif %}
+
+      <a href="{{ url(nav_path) }}" class="burger-menu__item link">
+        <span class="burger-menu__title uppercase">{{ item.title }}</span>
+      </a>
+    {% endfor %}
+  </div>
+</section> 

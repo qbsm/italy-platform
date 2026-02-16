@@ -1,0 +1,37 @@
+:root {
+    --color-1: #fff;
+    --color-2: #000;
+    --color-3: #000;
+    --color-4: #EBE8E6;
+    --color-5: #6C6B6B;
+    --color-6: #B9B3B3;
+}
+
+:root {
+    /* Семейство шрифтов TT Commons Pro Expanded (только существующие шрифты) */
+    --font-1-light: "TT-Commons-Pro-Expanded-Light", sans-serif;
+    --font-1-regular: "TT-Commons-Pro-Expanded-Regular", sans-serif;
+    --font-1-normal: "TT-Commons-Pro-Expanded-Normal", sans-serif;
+    --font-1-medium: "TT-Commons-Pro-Expanded-Medium", sans-serif;
+    --font-1-demibold: "TT-Commons-Pro-Expanded-DemiBold", sans-serif;
+    --font-1-bold: "TT-Commons-Pro-Expanded-Bold", sans-serif;
+}
+
+:root {
+    --transition-1: 0.25s all ease-out;
+    --transition-2: 0.5s all ease-out;
+    --transition-3: 1s all ease-out;
+}
+
+:root {
+    --z-index-1: 1000;
+    --z-index-2: 990;
+    --z-index-3: 980;
+    --z-index-4: 970;
+    --z-index-5: 960;
+    --z-index-6: 950;
+    --z-index-7: 940;
+    --z-index-8: 930;
+    --z-index-9: 920;
+    --z-index-10: 910;
+}

@@ -1,0 +1,136 @@
+body,
+input,
+select,
+textarea {
+    font-size: 1.4rem;
+    font-family: var(--font-1-regular);
+ 
+    @media (--lg) {
+        font-size: 1.6rem;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  font-family: var(--font-1-demibold);
+  line-height: 1.1;
+}
+
+.h1 {
+  font-size: 1.8em;
+
+  @media (--lg) {
+    font-size: 3.2em;
+  }
+}
+
+.h2 {
+  font-size: 1.6em;
+
+  @media (--lg) {
+    font-size: 2.8em;
+  }
+}
+
+.h3 {
+  font-size: 1.4em;
+
+  @media (--lg) {
+    font-size: 2.4em;
+  }
+}
+
+.h4 {
+  font-size: 1.2em;
+
+  @media (--lg) {
+    font-size: 2.0em;
+  }
+}
+
+.h5 {
+  font-size: 1em;
+
+  @media (--lg) {
+    font-size: 1.6em;
+  }
+}
+
+.h6 {
+  font-size: 0.9em;
+
+  @media (--lg) {
+    font-size: 1.2em;
+  }
+}
+
+b,
+strong {
+  font-family: var(--font-1-bold);
+}
+
+.font-1-light {
+  font-family: var(--font-1-light);
+}
+
+.font-1-regular {
+  font-family: var(--font-1-regular);
+}
+
+.font-1-normal {
+  font-family: var(--font-1-normal);
+}
+
+.font-1-medium {
+  font-family: var(--font-1-medium);
+}
+
+.font-1-demibold {
+  font-family: var(--font-1-demibold);
+}
+
+.font-1-bold {
+  font-family: var(--font-1-bold);
+}
+
+.text-lg {
+  font-size: 1.8em;
+  line-height: 1.1em;
+
+  @media (--lg) {
+    font-size: 2.4em;
+  }
+}
+
+.text-md {
+  font-size: 1.4em;
+  line-height: 1.1em;
+}
+
+.desc {
+  font-size: 1em;
+
+  @media (--lg) {
+    font-size: 0.9em;
+  }
+}
+
+.longread {
+  font-size: 0.8em;
+}
+
+.heading .copyright {
+  margin-left: -0.05em;
+  font-size: 0.7em;
+  font-family: var(--font-1-light);
+  font-weight: 100;
+}

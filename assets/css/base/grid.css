@@ -1,0 +1,72 @@
+.container {
+  position: relative;
+  width: 100%;
+  padding-left: 2rem;
+  padding-right: 2rem;
+
+  @media (--lg) {
+    max-width: 120rem;
+    margin-left: calc((100vw - 120rem)/2);
+    margin-right: calc((100vw - 120rem)/2);
+  }
+
+  @media (--xl) {
+    max-width: 140rem;
+    margin-left: calc((100vw - 140rem)/2);
+    margin-right: calc((100vw - 140rem)/2);
+  }
+}
+
+.container-narrow {
+  position: relative;
+  width: 100%;
+  padding-left: 2rem;
+  padding-right: 2rem;
+
+  @media (--lg) {
+    max-width: 90rem;
+    margin-left: calc((100vw - 90rem)/2);
+    margin-right: calc((100vw - 90rem)/2);
+  }
+}
+
+.container-grid-left {
+  width: 100%;
+  padding-left: 1rem;
+
+  @media (--lg) {
+    width: calc(100vw - ((100vw - 120rem)/2));
+    margin-left: calc((100vw - 120rem)/2);
+  }
+}
+
+.padding-grid-left {
+  width: 100%;
+  padding-left: 1rem;
+
+  @media (--lg) {
+    padding-left: calc(((100vw - 120rem)/2) + 1rem);
+  }
+}
+
+.section {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+
+  @media (--lg) {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+
+.container-md {
+  max-width: 45rem;
+}
+
+.container-lg {
+  max-width: 60rem;
+}
+
+.container-full {
+  width: 100%;
+}

@@ -1,0 +1,38 @@
+<form class="form-callback">
+  <div class="form-callback__container">
+    <div class="form-callback__item input-phone">
+      <input type="tel" class="phone required" name="phone" placeholder="{{ global['form-callback'].placeholder[lang_code].phone }}">
+    </div>
+    <div class="form-callback__item input-name">
+      <input type="text" name="name" placeholder="{{ global['form-callback'].placeholder[lang_code].name }}" class="required">
+    </div>
+    <div class="form-callback__item input-square">
+      <input type="text" name="square" placeholder="{{ global['form-callback'].placeholder[lang_code].square }}" class="required">
+    </div>
+    <div class="form-callback__item input-policy">
+      <label class="form-callback__custom-checkbox">
+        <input type="checkbox" name="policy" class="form-callback__checkbox">
+        <span class="form-callback__checkmark"></span>
+        <span class="form-callback__placeholder uppercase">{{ global['form-callback'].label[lang_code].policy }}</span>
+      </label>
+    </div>
+    <div class="form-callback__item input-hidden">
+      <input type="hidden" name="current_url" value="">
+    </div>
+    <div class="form-callback__item button-wrap">
+      <button class="button button-sm button-outline-color-2 button-animated animation-shift uppercase link" type="submit">
+        {% if data.button is defined and data.button.title is defined %}
+          {{ data.button.title }}
+        {% else %}
+          {{ global['form-callback'].button[lang_code].title }}
+        {% endif %}
+      </button>
+    </div>
+    <div class="form-callback__item rules-wrap">
+      <span class="form-callback__rules">{{ global['form-callback'].rules[lang_code].policy | raw }}</span>
+    </div>
+    <div class="form-callback__item form-callback__error hidden">
+      <span class="form-callback__error">{{ global['form-callback'].error.title }}</span>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,142 @@
+@keyframes fadeout {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+@keyframes fly {
+    0% {
+        transform: translate(0%, 0%);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translate(150%, -150%);
+        opacity: 1;
+    }
+
+    51% {
+        transform: translate(-150%, 150%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(0%, 0%);
+        opacity: 1;
+    }
+}
+
+@keyframes left-to-right {
+    0% {
+        transform: translate(0%, 0%);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translate(150%, 0);
+        opacity: 1;
+    }
+
+    51% {
+        transform: translate(-150%, 0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(0%, 0%);
+        opacity: 1;
+    }
+}
+
+@keyframes top-to-down {
+    0% {
+        transform: translate(0%, 0%);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translate(0%, 150%);
+        opacity: 1;
+    }
+
+    51% {
+        transform: translate(0, -150%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(0%, 0%);
+        opacity: 1;
+    }
+}
+
+@keyframes scale {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.5);
+        opacity: 1;
+    }
+
+    51% {
+        transform: scale(1.5);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes down-to-top {
+    0% {
+        transform: translate(0%, 0%);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translate(0%, -150%);
+        opacity: 1;
+    }
+
+    51% {
+        transform: translate(0, 150%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(0%, 0%);
+        opacity: 1;
+    }
+}
+
+/* Ключевые кадры для появления */
+@keyframes fadein {
+    from {
+        opacity: 0;
+        visibility: visible;
+    }
+
+    to {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+/* Ключевые кадры для исчезновения */
+@keyframes fadeout {
+    from {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
