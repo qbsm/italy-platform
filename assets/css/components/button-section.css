@@ -1,0 +1,32 @@
+.button-section {
+}
+
+.button-section__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem 3rem;
+  border: 1px solid var(--color-2);
+  text-decoration: none;
+  color: var(--color-2);
+  transition: all 0.25s ease-out;
+
+  @media (--lg) {
+    padding: 1.4rem 4rem;
+  }
+}
+
+.button-section__link:hover {
+  background: var(--color-2);
+  color: var(--color-1);
+}
+
+.button-section__title {
+  font-size: 0.9em;
+  font-weight: 400;
+  text-transform: uppercase;
+
+  @media (--lg) {
+    font-size: 1em;
+  }
+}

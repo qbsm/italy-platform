@@ -34,12 +34,16 @@ function initIntroSlider() {
       
       // Создаем базовые настройки
       const swiperOptions = {
-        // Параметры слайдера
         direction: 'horizontal',
         loop: settings.loop !== undefined ? settings.loop : true,
         allowTouchMove: settings.allowTouchMove !== undefined ? settings.allowTouchMove : true,
         slidesPerView: 1,
         spaceBetween: 0,
+        effect: 'fade',
+        fadeEffect: {
+          crossFade: true,
+        },
+        speed: 800,
         autoplay: settings.autoplay !== false ? {
           delay: 5000,
           disableOnInteraction: false,

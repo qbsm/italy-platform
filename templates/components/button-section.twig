@@ -1,0 +1,9 @@
+<div class="button-section">
+  {% if item.href is defined %}
+    <a href="{{ item.href }}" class="button-section__link link" {% if item.target is defined %}target="{{ item.target }}"{% endif %}>
+      <span class="button-section__title">{{ item.title | raw }}</span>
+    </a>
+  {% else %}
+    <span class="button-section__title">{{ item.title | raw }}</span>
+  {% endif %}
+</div>

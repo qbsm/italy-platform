@@ -21,6 +21,7 @@ import './vendor.js';
 import './base/expose-vendors.js';
 
 // --- Sections ---
+import './sections/logoline.js';
 import './sections/content.js';
 import './sections/intro.js';
 import './sections/footer.js';
@@ -28,6 +29,7 @@ import './sections/burger-menu.js';
 import './sections/header.js';
 import './sections/cookie-panel.js';
 import './sections/contacts.js';
+import './sections/headline.js';
 
 // --- Components ---
 import './components/button.js';

@@ -1,0 +1,13 @@
+.us {
+  height: 60rem;
+
+  @media (--lg) {
+    height: 80rem;
+  }
+}
+
+.us .section__item.heading-wrap {
+}
+
+.us .section__item.desc-wrap {
+}

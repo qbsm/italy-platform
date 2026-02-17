@@ -1,20 +1,7 @@
-@import "content-index.css";
-@import "content-contacts.css";
-@import "content-services.css";
-@import "content-chastnye-sady.css";
-@import "content-obshchestvennye-prostranstva.css";
-@import "content-landshaftnoe-proektirovanie.css";
-@import "content-blog.css";
-@import "content-blog-detail.css";
-@import "content-team.css";
-@import "content-skandinavskiy-sad.css";
-@import "content-planirovka-uchastka.css";
-@import "content-proektirovanie-lesnyh-uchastkov.css";
-@import "content-avtorskiy-nadzor.css";
-@import "content-portfolio-detail.css";
-@import "content-policy.css";
-@import "content-policy-yandex.css";
-@import "content-agree.css";
-@import "content-razrabotka-dendroplana-uchastka.css";
-@import "content-plan-pokrytiy.css";
-@import "content-design-system.css";
+.content {
+  /* Стили для контента */
+}
+
+.content .container {
+  /* Стили для контейнера в content */
+}

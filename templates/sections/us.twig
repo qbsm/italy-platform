@@ -1,0 +1,14 @@
+<section class="us section">
+  <div class="container">
+    {% if data.heading is defined %}
+      <div class="section__item heading-wrap">
+        {% include 'components/heading.twig' with {'item': data.heading} %}
+      </div>
+    {% endif %}
+    {% if data.desc is defined %}
+      <div class="section__item desc-wrap">
+        <p class="desc">{{ data.desc | raw }}</p>
+      </div>
+    {% endif %}
+  </div>
+</section>

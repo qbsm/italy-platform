@@ -37,10 +37,12 @@
 .accordion__title {
   font-size: 0.8em;
   font-family: var(--font-1-medium);
+  font-weight: 500;
 }
 
 .accordion__item.active .accordion__title {
   font-family: var(--font-1-demibold);
+  font-weight: 600;
 }
 
 .accordion__icon-wrap {

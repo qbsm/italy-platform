@@ -1,0 +1,19 @@
+<section class="navigation section">
+  <div class="container">
+    {% if data.items is defined and data.items is not empty %}
+      <div class="section__item cards-nav-wrap">
+        {% for nav in data.items %}
+          {% if nav.href is defined %}
+            <a href="{{ nav.href }}" class="section__subitem card-nav-wrap size-{{ nav.size }} link">
+              {% include 'components/card-nav.twig' with {'item': nav} %}
+            </a>
+          {% else %}
+            <div class="section__subitem card-nav-wrap size-{{ nav.size }}">
+              {% include 'components/card-nav.twig' with {'item': nav} %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>

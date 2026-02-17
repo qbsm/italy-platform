@@ -25,12 +25,8 @@
           "href": "/"
         },
         {
-          "title": "Услуги",
-          "href": "/services/"
-        },
-        {
-          "title": "Контакты",
-          "href": "/contacts/"
+          "title": "Рестораны",
+          "href": "/rest/"
         }
       ]
     },
@@ -41,12 +37,8 @@
           "href": "/"
         },
         {
-          "title": "Services",
-          "href": "/services/"
-        },
-        {
-          "title": "Contacts",
-          "href": "/contacts/"
+          "title": "Restraunts",
+          "href": "/rest/"
         }
       ]
     }
@@ -56,28 +48,18 @@
     "href": "mailto:info@example.com"
   },
   "logo": {
-    "black": {
-      "src": "data/img/ui/logo-dark.svg",
+    "white": {
+      "src": "data/img/ui/logo-color-1.svg",
       "alt": "Logo"
     },
-    "white": {
-      "src": "data/img/ui/logo-light.svg",
+    "black": {
+      "src": "data/img/ui/logo-color-2.svg",
+      "alt": "Logo"
+    },
+    "color": {
+      "src": "data/img/ui/logo-color.svg",
       "alt": "Logo"
     }
-  },
-  "address": {
-    "ru": [
-      {
-        "title": "Москва, ул. Примерная, д. 1",
-        "href": "#"
-      }
-    ],
-    "en": [
-      {
-        "title": "Moscow, Example st., 1",
-        "href": "#"
-      }
-    ]
   },
   "socials": [],
   "socials-headings": {
@@ -104,34 +86,19 @@
       "href": "/agree/"
     }
   },
-  "blog": {
-    "ru": {
-      "title": "Блог",
-      "href": "/blog/"
-    }
-  },
   "copyright": {
     "ru": "Все права защищены",
     "en": "All rights reserved"
-  },
-  "header": {
-    "lang-switch": {
-      "icon": {
-        "src": "data/img/ui/icons/icon-triangle-down.svg"
-      }
-    }
   },
   "form-callback": {
     "placeholder": {
       "ru": {
         "phone": "+7 ( _ _ _ ) _ _ _ - _ _ - _ _",
-        "name": "Ваше имя",
-        "square": "Площадь участка"
+        "name": "Ваше имя"
       },
       "en": {
-        "phone": "+1 ( _ _ _ ) _ _ _ - _ _ _ _",
-        "name": "Your name",
-        "square": "Area in square meters"
+        "phone": "+7 ( _ _ _ ) _ _ _ - _ _ - _ _",
+        "name": "Your name"
       }
     },
     "label": {
@@ -156,7 +123,6 @@
         "name_min_length": "Имя должно содержать не менее 2 символов",
         "phone_required": "Пожалуйста, укажите номер телефона",
         "phone_invalid": "Неверный формат номера телефона",
-        "square_required": "Пожалуйста, укажите площадь участка",
         "policy_required": "Необходимо согласиться с политикой конфиденциальности",
         "form_errors": "Пожалуйста, исправьте ошибки в форме",
         "invalid_method": "Недопустимый метод запроса",
@@ -172,7 +138,6 @@
         "name_min_length": "Name should be at least 2 characters",
         "phone_required": "Please enter your phone number",
         "phone_invalid": "Invalid phone number format",
-        "square_required": "Please specify the area",
         "policy_required": "You must agree to the privacy policy",
         "form_errors": "Please correct the errors in the form",
         "invalid_method": "Invalid request method",

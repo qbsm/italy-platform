@@ -1,0 +1,15 @@
+<section class="logoline section">
+    <div class="swiper-container" id="logolineSlider">
+      <div class="swiper-wrapper">
+        {% if data.restaurants is defined %}
+          {% for name in data.restaurants %}
+            <div class="swiper-slide">
+              <a href="#" class="logoline__item link">
+                <img src="data/img/restaurants/{{ name }}/logos/logo-color-2.svg" alt="{{ name }}" class="logoline__logo" loading="lazy">
+              </a>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+</section>

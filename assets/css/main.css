@@ -18,6 +18,10 @@
 @import "sections/content.css";
 @import "sections/cookie-panel.css";
 @import "sections/intro.css";
+@import "sections/headline.css";
+@import "sections/owners.css";
+@import "sections/us.css";
+@import "sections/navigation.css";
 
 /* Components */
 @import "components/accordion.css";
@@ -36,8 +40,11 @@
 @import "components/numbered-list.css";
 @import "components/slider.css";
 @import "components/spoiler.css";
+@import "components/card-owner.css";
+@import "components/card-nav.css";
+@import "components/button-section.css";
 
 /* Pages */
 @import "pages/404.css";
 @import "pages/contacts.css";
-@import "pages/index.css";
+@import "pages/index.css";@import "sections/logoline.css";
