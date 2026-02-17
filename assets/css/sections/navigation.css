@@ -47,3 +47,28 @@
 
 .navigation .section__subitem.card-nav-wrap {
 }
+
+.navigation .section__item.buttons-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  @media (--lg) {
+    gap: 1.5rem;
+  }
+}
+
+.navigation .section__subitem.button-section-wrap {
+}
+
+.navigation .section__subitem.button-section-wrap.size-half {
+  width: 100%;
+
+  @media (--lg) {
+    width: calc(50% - 0.75rem);
+  }
+}
+
+.navigation .section__subitem.button-section-wrap.size-half .button-section {
+  width: 100%;
+}

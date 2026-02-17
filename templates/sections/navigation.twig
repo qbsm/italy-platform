@@ -15,5 +15,14 @@
         {% endfor %}
       </div>
     {% endif %}
+    {% if data.buttons is defined and data.buttons is not empty %}
+      <div class="section__item buttons-wrap">
+        {% for btn in data.buttons %}
+          <div class="section__subitem button-section-wrap size-{{ btn.size|default('half') }}">
+            {% include 'components/button-section.twig' with {'item': btn} %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
   </div>
 </section>

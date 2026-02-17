@@ -8,6 +8,7 @@
     --color-7: #151515;
     --gradient-1: linear-gradient(to bottom, hsla(0, 0%, 100%, 1), hsla(0, 0%, 100%, 0));
     --gradient-2: linear-gradient(to bottom, hsla(0, 0%, 0%, 1), hsla(0, 0%, 0%, 0));
+    --gradient-3: linear-gradient(to left, #F1ECE4, #DAD8D7);
 }
 
 :root {

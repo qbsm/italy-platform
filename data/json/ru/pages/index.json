@@ -120,6 +120,56 @@
             "title": "Розыгрыш",
             "class": "color-1"
           }
+        ],
+        "buttons": [
+          {
+            "title": "Ресторанам",
+            "href": "#",
+            "icon": {
+              "src": "data/img/ui/button-icons/1.svg",
+              "class": "green"
+            }
+          },
+          {
+            "title": "Банкеты и кейтеринг",
+            "href": "#",
+            "icon": {
+              "src": "data/img/ui/button-icons/1.svg",
+              "class": "green"
+            }
+          },
+          {
+            "title": "Ресторанный консалтинг",
+            "href": "#",
+            "icon": {
+              "src": "data/img/ui/button-icons/1.svg",
+              "class": "green"
+            }
+          },
+          {
+            "title": "Франшиза",
+            "href": "#",
+            "icon": {
+              "src": "data/img/ui/button-icons/1.svg",
+              "class": "green"
+            }
+          },
+          {
+            "title": "italy studios",
+            "href": "#",
+            "icon": {
+              "src": "data/img/ui/button-icons/2.svg",
+              "class": "blue"
+            }
+          },
+          {
+            "title": "Работай с нами",
+            "href": "#",
+            "icon": {
+              "src": "data/img/ui/button-icons/3.svg",
+              "class": "red"
+            }
+          }
         ]
       }
     },
