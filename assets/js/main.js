@@ -30,6 +30,7 @@ import './sections/header.js';
 import './sections/cookie-panel.js';
 import './sections/contacts.js';
 import './sections/headline.js';
+import './sections/us.js';
 
 // --- Components ---
 import './components/button.js';
@@ -44,6 +45,7 @@ import './components/mini-table.js';
 import './components/blockquote.js';
 import './components/cover.js';
 import './components/features-list.js';
+import './components/card-number.js';
 import setupSliders from './components/slider.js';
 import './components/burger-icon.js';
 

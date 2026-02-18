@@ -1,14 +1,34 @@
 <section class="us section">
-  <div class="container">
-    {% if data.heading is defined %}
-      <div class="section__item heading-wrap">
-        {% include 'components/heading.twig' with {'item': data.heading} %}
+  <div class="section__item bg-wrap">
+    <div class="section__subitem bg-top">
+      <img src="{{ url('data/img/us/bg-gradient-top.svg') }}" alt="" class="img-responsive">
+    </div>
+    <div class="section__subitem bg-bottom">
+      <img src="{{ url('data/img/us/bg-gradient-down.svg') }}" alt="" class="img-responsive">
+    </div>
+  </div>
+  <div class="container container-lg">
+    <div class="section__item visual-wrap">
+      <div class="section__subitem cover-wrap">
+        {% if data.cover.src is defined %}
+          <img src="{{ url(data.cover.src) }}" alt="" class="img-responsive" loading="lazy">
+        {% endif %}
       </div>
-    {% endif %}
-    {% if data.desc is defined %}
-      <div class="section__item desc-wrap">
-        <p class="desc">{{ data.desc | raw }}</p>
-      </div>
-    {% endif %}
+      {% if data.cards is defined %}
+        <div class="section__subitem card-text-wrap card-text-1">
+          <span class="card-text">{{ data.cards[0].text | raw }}</span>
+        </div>
+        <div class="section__subitem card-text-wrap card-text-2">
+          <span class="card-text">{{ data.cards[1].text | raw }}</span>
+        </div>
+      {% endif %}
+    </div>
+    <div class="section__item cards-number-wrap">
+      {% for item in data.items %}
+        <div class="section__subitem card-number-wrap">
+          {% include 'components/card-number.twig' with {'item': item} %}
+        </div>
+      {% endfor %}
+    </div>
   </div>
 </section>

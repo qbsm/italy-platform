@@ -90,10 +90,44 @@
       }
     },
     {
+      "name": "us",
+      "data": {
+        "cover": {
+          "src": "data/img/us/video-cover.jpg"
+        },
+        "cards": [
+          {
+            "text": "Наши ценности — доверие, уникальность, самореализация, страсть, результат и удовольствие"
+          },
+          {
+            "text": "Мы развиваем таланты, создаем нейросеть партнерских отношений и открываем возможности для новых достижений и впечатлений, раскрывая вкус жизни."
+          }
+        ],
+        "items": [
+          {
+            "title": "15",
+            "label": "лет на рынке",
+            "time": "1"
+          },
+          {
+            "title": "20+",
+            "label": "проектов",
+            "time": "1"
+          },
+          {
+            "title": "1000+",
+            "label": "сотрудников",
+            "time": "1"
+          }
+        ]
+      }
+    },
+    {
       "name": "navigation",
       "data": {
         "items": [
           {
+            "type": "card",
             "size": "half",
             "href": "#",
             "cover": {
@@ -103,6 +137,7 @@
             "class": "color-1"
           },
           {
+            "type": "card",
             "size": "half",
             "href": "#",
             "cover": {
@@ -112,6 +147,7 @@
             "class": "color-1"
           },
           {
+            "type": "card",
             "size": "full",
             "href": "#",
             "cover": {
@@ -119,65 +155,95 @@
             },
             "title": "Розыгрыш",
             "class": "color-1"
-          }
-        ],
-        "buttons": [
-          {
-            "title": "Ресторанам",
-            "href": "#",
-            "icon": {
-              "src": "data/img/ui/button-icons/1.svg",
-              "class": "green"
-            }
           },
           {
-            "title": "Банкеты и кейтеринг",
+            "type": "gradient",
+            "size": "full",
             "href": "#",
-            "icon": {
-              "src": "data/img/ui/button-icons/1.svg",
-              "class": "green"
-            }
+            "cover": {
+              "src": "data/img/navigation/bg-gradient1.png"
+            },
+            "title": "Программа лояльности",
+            "class": "color-1"
           },
           {
-            "title": "Ресторанный консалтинг",
-            "href": "#",
-            "icon": {
-              "src": "data/img/ui/button-icons/1.svg",
-              "class": "green"
-            }
+            "type": "buttons",
+            "size": "full",
+            "items": [
+              {
+                "title": "Ресторанам",
+                "href": "#",
+                "icon": {
+                  "src": "data/img/ui/button-icons/1.svg",
+                  "class": "green"
+                }
+              },
+              {
+                "title": "Банкеты и кейтеринг",
+                "href": "#",
+                "icon": {
+                  "src": "data/img/ui/button-icons/1.svg",
+                  "class": "green"
+                }
+              },
+              {
+                "title": "Ресторанный консалтинг",
+                "href": "#",
+                "icon": {
+                  "src": "data/img/ui/button-icons/1.svg",
+                  "class": "green"
+                }
+              },
+              {
+                "title": "Франшиза",
+                "href": "#",
+                "icon": {
+                  "src": "data/img/ui/button-icons/1.svg",
+                  "class": "green"
+                }
+              },
+              {
+                "title": "italy studios",
+                "href": "#",
+                "icon": {
+                  "src": "data/img/ui/button-icons/2.svg",
+                  "class": "blue"
+                }
+              },
+              {
+                "title": "Работай с нами",
+                "href": "#",
+                "icon": {
+                  "src": "data/img/ui/button-icons/3.svg",
+                  "class": "red"
+                }
+              }
+            ]
           },
           {
-            "title": "Франшиза",
+            "type": "card",
+            "size": "full",
             "href": "#",
-            "icon": {
-              "src": "data/img/ui/button-icons/1.svg",
-              "class": "green"
-            }
+            "cover": {
+              "src": "data/img/navigation/italy-people.jpg"
+            },
+            "title": "italy people",
+            "class": "color-1"
           },
           {
-            "title": "italy studios",
+            "type": "gradient",
+            "size": "full",
             "href": "#",
+            "cover": {
+              "src": "data/img/navigation/bg-gradient2.png"
+            },
+            "title": "italy run club",
+            "class": "color-1",
             "icon": {
-              "src": "data/img/ui/button-icons/2.svg",
-              "class": "blue"
-            }
-          },
-          {
-            "title": "Работай с нами",
-            "href": "#",
-            "icon": {
-              "src": "data/img/ui/button-icons/3.svg",
-              "class": "red"
+              "src": "data/img/ui/button-icons/icon-telegram.svg"
             }
           }
         ]
-      }
-    },
-    {
-      "name": "us",
-      "data": {
-        "heading": {},
-        "desc": ""
       }
     },
     {
@@ -185,6 +251,9 @@
       "data": {
         "background": {
           "src": "data/img/ui/bg3.webp"
+        },
+        "form": {
+          "heading": "Получить консультацию"
         }
       }
     }

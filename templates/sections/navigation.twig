@@ -1,25 +1,22 @@
 <section class="navigation section">
   <div class="container">
     {% if data.items is defined and data.items is not empty %}
-      <div class="section__item cards-nav-wrap">
-        {% for nav in data.items %}
-          {% if nav.href is defined %}
-            <a href="{{ nav.href }}" class="section__subitem card-nav-wrap size-{{ nav.size }} link">
-              {% include 'components/card-nav.twig' with {'item': nav} %}
-            </a>
-          {% else %}
-            <div class="section__subitem card-nav-wrap size-{{ nav.size }}">
-              {% include 'components/card-nav.twig' with {'item': nav} %}
-            </div>
-          {% endif %}
-        {% endfor %}
-      </div>
-    {% endif %}
-    {% if data.buttons is defined and data.buttons is not empty %}
-      <div class="section__item buttons-wrap">
-        {% for btn in data.buttons %}
-          <div class="section__subitem button-section-wrap size-{{ btn.size|default('half') }}">
-            {% include 'components/button-section.twig' with {'item': btn} %}
+      <div class="section__item items-wrap">
+        {% for item in data.items %}
+          <div class="section__subitem item-wrap size-{{ item.size|default('half') }}">
+            {% if item.type == 'buttons' %}
+              <div class="buttons-wrap">
+                {% for btn in item.items %}
+                  {% include 'components/button-section.twig' with {'item': btn} %}
+                {% endfor %}
+              </div>
+            {% elseif item.type == 'gradient' %}
+              {% include 'components/card-gradient.twig' with {'item': item} %}
+            {% elseif item.type == 'button' %}
+              {% include 'components/button-section.twig' with {'item': item} %}
+            {% else %}
+              {% include 'components/card-nav.twig' with {'item': item} %}
+            {% endif %}
           </div>
         {% endfor %}
       </div>

@@ -43,6 +43,8 @@
 @import "components/card-owner.css";
 @import "components/card-nav.css";
 @import "components/button-section.css";
+@import "components/card-gradient.css";
+@import "components/card-number.css";
 
 /* Pages */
 @import "pages/404.css";

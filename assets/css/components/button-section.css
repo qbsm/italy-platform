@@ -1,14 +1,15 @@
 .button-section {
+  position: relative;
+  width: 100%;
   height: 5rem;
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
+  gap: 1rem;
   padding: 1.2rem 2rem;
   border-radius: 2rem;
   background: var(--gradient-3);
   color: var(--color-2);
-  transition: background 0.25s ease-out;
 
   @media (--lg) {
     height: 11rem;
@@ -18,8 +19,7 @@
 }
 
 .button-section:hover {
-  background: unset;
-  background-color: var(--color-2);
+  background: linear-gradient(to left, #000, #000);
   color: var(--color-1);
   opacity: 1;
 }
@@ -29,6 +29,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
 }
 
 .button-section__title {
@@ -51,6 +52,7 @@
   flex-shrink: 0;
   background: var(--color-2);
   overflow: hidden;
+  transition: background 0.15s ease-out;
 
   @media (--lg) {
     width: 4rem;

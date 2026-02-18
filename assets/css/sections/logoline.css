@@ -1,5 +1,10 @@
 .logoline {
   overflow: hidden;
+
+  @media (--lg) {
+    padding-top: 10rem;
+    padding-bottom: 2rem;
+  }
 }
 
 .logoline .swiper-container {
