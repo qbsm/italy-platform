@@ -3,10 +3,12 @@
   "sections": [
     {
       "name": "header",
+      "visible": true,
       "data": {}
     },
     {
       "name": "intro",
+      "visible": true,
       "data": {
         "slider": {
           "id": "introSlider",
@@ -33,6 +35,7 @@
     },
     {
       "name": "logoline",
+      "visible": true,
       "data": {
         "restaurants": [
           "atelier",
@@ -45,7 +48,7 @@
           "italy-bolshoy",
           "italy-moskovskiy",
           "italy-vilenskiy",
-          "jam",
+          "jam-cafe",
           "joli-grand-bistrot",
           "juan-cantina-espanola",
           "oasis-gourmet",
@@ -57,6 +60,7 @@
     },
     {
       "name": "headline",
+      "visible": true,
       "data": {
         "heading": {
           "tag": "span",
@@ -67,6 +71,7 @@
     },
     {
       "name": "owners",
+      "visible": true,
       "data": {
         "heading": {
           "tag": "span",
@@ -91,6 +96,7 @@
     },
     {
       "name": "us",
+      "visible": true,
       "data": {
         "cover": {
           "src": "data/img/us/video-cover.jpg"
@@ -124,6 +130,7 @@
     },
     {
       "name": "navigation",
+      "visible": true,
       "data": {
         "items": [
           {
@@ -248,6 +255,7 @@
     },
     {
       "name": "footer",
+      "visible": true,
       "data": {
         "background": {
           "src": "data/img/ui/bg3.webp"

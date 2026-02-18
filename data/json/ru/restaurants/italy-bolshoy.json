@@ -1,1 +1,84 @@
-{}
+{
+  "slug": "italy-bolshoy",
+  "visible": true,
+  "restaurant": {
+    "@type": "Restaurant",
+    "name": "Italy на Большом",
+    "telephone": {
+      "title": "+7 (812) 900-63-33",
+      "href": "tel:+78129006333"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Большой проспект П.С., 58, 3 и 4 этажи",
+      "addressLocality": "Санкт-Петербург",
+      "addressRegion": "Санкт-Петербург",
+      "addressCountry": "RU"
+    },
+    "openingHours": [
+      { "days": "Пн-Вс", "hours": "09:00–23:00" }
+    ],
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "59.966069",
+      "longitude": "30.299584"
+    },
+    "hasMap": "https://yandex.ru/maps/-/CDa6jA",
+    "servesCuisine": [
+      "Итальянская кухня"
+    ],
+    "priceRange": "₽₽",
+    "menuLink": "https://italyrestaurants.ru/italybolshoymenu"
+  },
+  "desc": {
+    "short": "Двухэтажный ресторан на каждый день с панорамным видом на Петроградку",
+    "full": "Первое заведение, открытое 15 лет назад Михаилом Соколовым и Тимуром Дмитриевым. Ресторан сочетает в себе современную атмосферу и дух традиционных итальянских праздников. Идеальное место для дружеских и семейных встреч в самом сердце Петроградки."
+  },
+  "loyalty": true,
+  "tags": [
+    "рады детям",
+    "с красивым видом",
+    "итальянская кухня",
+    "завтраки",
+    "на каждый день",
+    "можно с животными"
+  ],
+  "covers": [
+    {
+      "src": "data/img/restaurants/italy-bolshoy/covers/raw/1.jpg",
+      "alt": "Italy на Большом"
+    },
+    {
+      "src": "data/img/restaurants/italy-bolshoy/covers/raw/2.jpg",
+      "alt": "Italy на Большом"
+    },
+    {
+      "src": "data/img/restaurants/italy-bolshoy/covers/raw/3.jpg",
+      "alt": "Italy на Большом"
+    },
+    {
+      "src": "data/img/restaurants/italy-bolshoy/covers/raw/4.jpg",
+      "alt": "Italy на Большом"
+    }
+  ],
+  "logos": [
+    {
+      "src": "data/img/restaurants/italy-bolshoy/logos/logo-color-1.svg",
+      "alt": "Italy Большой белый лого"
+    },
+    {
+      "src": "data/img/restaurants/italy-bolshoy/logos/logo-color-2.svg",
+      "alt": "Italy Большой черный лого"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data/img/restaurants/italy-bolshoy/icons/icon-color-1.svg",
+      "alt": "Italy Большой белая иконка"
+    },
+    {
+      "src": "data/img/restaurants/italy-bolshoy/icons/icon-color-2.svg",
+      "alt": "Italy Большой черная иконка"
+    }
+  ]
+}

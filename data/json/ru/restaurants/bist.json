@@ -1,1 +1,104 @@
-{}
+{
+  "slug": "bist",
+  "visible": true,
+  "restaurant": {
+    "@type": "Restaurant",
+    "name": "Bist meat & pasta bar",
+    "telephone": {
+      "title": "+7 (931) 994-75-15",
+      "href": "tel:+79319947515"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "«Андреевский двор», Большой пр-т В.О. 18 А",
+      "addressLocality": "Санкт-Петербург",
+      "addressRegion": "Санкт-Петербург",
+      "addressCountry": "RU"
+    },
+    "openingHours": [
+      {
+        "days": "Пн-Чт",
+        "hours": "9:00–00:00"
+      },
+      {
+        "days": "Пт",
+        "hours": "9:00–01:00"
+      },
+      {
+        "days": "Сб",
+        "hours": "10:00–01:00"
+      },
+      {
+        "days": "Вс",
+        "hours": "10:00–00:00"
+      }
+    ],
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "59.94282",
+      "longitude": "30.28316"
+    },
+    "hasMap": "https://yandex.ru/maps/?pt=30.28316,59.94282&z=17&l=map",
+    "servesCuisine": [
+      "Итальянская кухня",
+      "Мясные специалитеты"
+    ],
+    "priceRange": "₽₽",
+    "menuLink": "https://italyrestaurants.ru/bistmenu"
+  },
+  "desc": {
+    "short": "Ресторан на Васильевском острове с мясными специалитетами и пастой, акцентом на вино и коктейли",
+    "full": "Ресторан с фресками, витражными окнами и пересечением двух концептуальных линий: мясо и культура Италии. Название происходит от итальянского Bistecca alla Fiorentina, что означает «стейк из говядины жареный на углях». Блюдо является одним из основных специалитетов региона Тоскана, и именно оно отражает идею места."
+  },
+  "loyalty": true,
+  "tags": [
+    "рады детям",
+    "с красивым видом",
+    "итальянская кухня",
+    "завтраки",
+    "на каждый день",
+    "можно с животными"
+  ],
+  "covers": [
+    {
+      "src": "data/img/restaurants/bist/covers/raw/14.jpg",
+      "alt": "Bist"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/15.jpg",
+      "alt": "Bist"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/16.jpg",
+      "alt": "Bist"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/17.jpg",
+      "alt": "Bist"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/18.jpg",
+      "alt": "Bist"
+    }
+  ],
+  "logos": [
+    {
+      "src": "data/img/restaurants/bist/logos/logo-color-1.svg",
+      "alt": "Bist белый лого"
+    },
+    {
+      "src": "data/img/restaurants/bist/logos/logo-color-2.svg",
+      "alt": "Bist черный лого"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data/img/restaurants/bist/icons/icon-color-1.svg",
+      "alt": "Bist белая иконка"
+    },
+    {
+      "src": "data/img/restaurants/bist/icons/icon-color-2.svg",
+      "alt": "Bist черная иконка"
+    }
+  ]
+}

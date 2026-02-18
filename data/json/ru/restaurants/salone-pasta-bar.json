@@ -1,1 +1,87 @@
-{}
+{
+  "slug": "salone-pasta-bar",
+  "visible": true,
+  "restaurant": {
+    "@type": "Restaurant",
+    "name": "Salone pasta&bar",
+    "telephone": {
+      "title": "+7 (921) 777-06-23",
+      "href": "tel:+79217770623"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Набережная реки Фонтанки, 30",
+      "addressLocality": "Санкт-Петербург",
+      "addressRegion": "Санкт-Петербург",
+      "addressCountry": "RU"
+    },
+    "openingHours": [
+      {
+        "days": "Вс-Чт",
+        "hours": "12:00–01:00"
+      },
+      {
+        "days": "Пт-Сб",
+        "hours": "12:00–02:00"
+      }
+    ],
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "59.93876",
+      "longitude": "30.34371"
+    },
+    "hasMap": "https://yandex.ru/maps/?pt=30.34371,59.93876&z=17&l=map",
+    "servesCuisine": [
+      "Итальянская кухня"
+    ],
+    "priceRange": "₽₽",
+    "menuLink": "https://drive.google.com/file/d/12CK-KyVsCBzgFewnHbVOQ58EiAnEgBM6/view?usp=drivesdk"
+  },
+  "desc": {
+    "short": "Ресторан на Фонтанке с домашней пастой и по-настоящему дружелюбным сервисом",
+    "full": "Логическое продолжение «Ателье tapas&bar». Постоянные гости просили о заведении в центре, а москвичи опаздывали на мосты. Теперь в самом сердце Петербурга появился младший по возрасту, но более взрослый в манерах итальянский младший брат."
+  },
+  "loyalty": false,
+  "tags": [
+    "рады детям",
+    "с красивым видом",
+    "итальянская кухня",
+    "завтраки",
+    "на каждый день",
+    "можно с животными"
+  ],
+  "covers": [
+    {
+      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/1.jpg",
+      "alt": "Salone pasta&bar"
+    },
+    {
+      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/2.jpg",
+      "alt": "Salone pasta&bar"
+    },
+    {
+      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/3.jpg",
+      "alt": "Salone pasta&bar"
+    }
+  ],
+  "logos": [
+    {
+      "src": "data/img/restaurants/salone-pasta-bar/logos/logo-color-1.svg",
+      "alt": "Salone pasta&bar белый лого"
+    },
+    {
+      "src": "data/img/restaurants/salone-pasta-bar/logos/logo-color-2.svg",
+      "alt": "Salone pasta&bar черный лого"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data/img/restaurants/salone-pasta-bar/icons/icon-color-1.svg",
+      "alt": "Salone pasta&bar белая иконка"
+    },
+    {
+      "src": "data/img/restaurants/salone-pasta-bar/icons/icon-color-2.svg",
+      "alt": "Salone pasta&bar черная иконка"
+    }
+  ]
+}

@@ -1,1 +1,96 @@
-{}
+{
+  "slug": "atelier",
+  "visible": true,
+  "restaurant": {
+    "@type": "Restaurant",
+    "name": "Ателье tapas&bar",
+    "telephone": {
+      "title": "+7 (812) 904-08-55",
+      "href": "tel:+78129040855"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Лахтинская улица, 8",
+      "addressLocality": "Санкт-Петербург",
+      "addressRegion": "Санкт-Петербург",
+      "addressCountry": "RU"
+    },
+    "openingHours": [
+      {
+        "days": "Вс-Чт",
+        "hours": "13:00–23:00"
+      },
+      {
+        "days": "Пт-Сб",
+        "hours": "13:00–01:00"
+      }
+    ],
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "59.96162",
+      "longitude": "30.30245"
+    },
+    "hasMap": "https://yandex.ru/maps/?pt=30.30245,59.96162&z=17&l=map",
+    "servesCuisine": [
+      "Испанская кухня",
+      "Мексиканская кухня"
+    ],
+    "priceRange": "₽₽",
+    "menuLink": "https://drive.google.com/file/d/1wcX8_W_rSxVBC7VQRafBs89KJJDDkI8U/view?usp=drivesdk"
+  },
+  "desc": {
+    "short": "Культовый тапас-бар на Петроградке с испанской угольной печью, мексиканскими блюдами и акцентом на коктейли",
+    "full": "Бунтарский интерьер и слоган заведения — no bad days, уникальная испанская угольная печь, в которой блюда приобретают особый вкус, мексиканская классика в меню и высокое внимание к коктейльной карте превращают Ателье в настоящий уголок Барселоны в Петербурге."
+  },
+  "loyalty": false,
+  "tags": [
+    "рады детям",
+    "с красивым видом",
+    "итальянская кухня",
+    "завтраки",
+    "на каждый день",
+    "можно с животными"
+  ],
+  "covers": [
+    {
+      "src": "data/img/restaurants/atelier/covers/raw/1.jpg",
+      "alt": "Ателье tapas&bar"
+    },
+    {
+      "src": "data/img/restaurants/atelier/covers/raw/2.jpg",
+      "alt": "Ателье tapas&bar"
+    },
+    {
+      "src": "data/img/restaurants/atelier/covers/raw/3.jpg",
+      "alt": "Ателье tapas&bar"
+    },
+    {
+      "src": "data/img/restaurants/atelier/covers/raw/4.jpg",
+      "alt": "Ателье tapas&bar"
+    },
+    {
+      "src": "data/img/restaurants/atelier/covers/raw/5.jpg",
+      "alt": "Ателье tapas&bar"
+    }
+  ],
+  "logos": [
+    {
+      "src": "data/img/restaurants/atelier/logos/logo-color-1.svg",
+      "alt": "Ателье tapas&bar белый лого"
+    },
+    {
+      "src": "data/img/restaurants/atelier/logos/logo-color-2.svg",
+      "alt": "Ателье tapas&bar черный лого"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data/img/restaurants/atelier/icons/icon-color-1.svg",
+      "alt": "Ателье tapas&bar белая иконка"
+    },
+    {
+      "src": "data/img/restaurants/atelier/icons/icon-color-2.svg",
+      "alt": "Ателье tapas&bar черная иконка"
+    }
+  ]
+}

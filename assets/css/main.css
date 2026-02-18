@@ -22,6 +22,7 @@
 @import "sections/owners.css";
 @import "sections/us.css";
 @import "sections/navigation.css";
+@import "sections/restaurants.css";
 
 /* Components */
 @import "components/accordion.css";
@@ -45,8 +46,10 @@
 @import "components/button-section.css";
 @import "components/card-gradient.css";
 @import "components/card-number.css";
+@import "components/card-restaurant.css";
 
 /* Pages */
 @import "pages/404.css";
 @import "pages/contacts.css";
 @import "pages/index.css";@import "sections/logoline.css";
+@import "pages/restaurants.css";

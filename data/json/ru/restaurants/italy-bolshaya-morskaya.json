@@ -1,1 +1,87 @@
-{}
+{
+  "slug": "italy-bolshaya-morskaya",
+  "visible": true,
+  "restaurant": {
+    "@type": "Restaurant",
+    "name": "Italy на Большой Морской",
+    "telephone": {
+      "title": "+7 (921) 944-03-00",
+      "href": "tel:+79219440300"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ул. Большая Морская, 14",
+      "addressLocality": "Санкт-Петербург",
+      "addressRegion": "Санкт-Петербург",
+      "addressCountry": "RU"
+    },
+    "openingHours": [
+      {
+        "days": "Пн-Вс",
+        "hours": "12:00–23:00"
+      }
+    ],
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "59.93589",
+      "longitude": "30.31866"
+    },
+    "hasMap": "https://yandex.ru/maps/?pt=30.31866,59.93589&z=17&l=map",
+    "servesCuisine": [
+      "Итальянская кухня"
+    ],
+    "priceRange": "₽₽",
+    "menuLink": "https://italyrestaurants.ru/bmmenu"
+  },
+  "desc": {
+    "short": "Камерная траттория в центре Петербурга с завтраками целый день",
+    "full": "Гастрономическое пространство и самый камерный ресторан. Это позволяет окунуться в атмосферу римской траттории и насладиться итальянской кухней в историческом центре Петербурга."
+  },
+  "loyalty": true,
+  "tags": [
+    "рады детям",
+    "с красивым видом",
+    "итальянская кухня",
+    "завтраки",
+    "на каждый день",
+    "можно с животными"
+  ],
+  "covers": [
+    {
+      "src": "data/img/restaurants/italy-bolshaya-morskaya/covers/raw/1.jpg",
+      "alt": "Italy на Большой Морской"
+    },
+    {
+      "src": "data/img/restaurants/italy-bolshaya-morskaya/covers/raw/2.png",
+      "alt": "Italy на Большой Морской"
+    },
+    {
+      "src": "data/img/restaurants/italy-bolshaya-morskaya/covers/raw/3.png",
+      "alt": "Italy на Большой Морской"
+    },
+    {
+      "src": "data/img/restaurants/italy-bolshaya-morskaya/covers/raw/4.png",
+      "alt": "Italy на Большой Морской"
+    }
+  ],
+  "logos": [
+    {
+      "src": "data/img/restaurants/italy-bolshaya-morskaya/logos/logo-color-1.svg",
+      "alt": "Italy на Большой Морской белый лого"
+    },
+    {
+      "src": "data/img/restaurants/italy-bolshaya-morskaya/logos/logo-color-2.svg",
+      "alt": "Italy на Большой Морской черный лого"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data/img/restaurants/italy-bolshaya-morskaya/icons/icon-color-1.svg",
+      "alt": "Italy на Большой Морской белая иконка"
+    },
+    {
+      "src": "data/img/restaurants/italy-bolshaya-morskaya/icons/icon-color-2.svg",
+      "alt": "Italy на Большой Морской черная иконка"
+    }
+  ]
+}

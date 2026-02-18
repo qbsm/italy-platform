@@ -1,8 +1,8 @@
-<header class="header js-header" itemscope itemtype="https://schema.org/Organization">
+<header class="header js-header{{ page_id != 'index' ? ' header-logo-visible' : '' }}" itemscope itemtype="https://schema.org/Organization">
   <div class="container">
     <div class="section__item logo-wrap">
       <a href="/" class="link header__logo" itemprop="url">
-        <img src="data/img/ui/logos/logo-color.svg" alt="Logo" class="img-responsive" itemprop="logo">
+        <img src="{{ url('data/img/ui/logos/logo-color.svg') }}" alt="Logo" class="img-responsive" itemprop="logo">
       </a>
     </div>
     <div class="section__item burger-icon-wrap">

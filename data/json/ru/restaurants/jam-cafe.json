@@ -1,0 +1,103 @@
+{
+  "slug": "jam-cafe",
+  "visible": true,
+  "restaurant": {
+    "@type": "Restaurant",
+    "name": "Jam Café",
+    "telephone": {
+      "title": "+7 (981) 963-11-17",
+      "href": "tel:+79819631117"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ул. Римского-Корсакова, 22",
+      "addressLocality": "Санкт-Петербург",
+      "addressRegion": "Санкт-Петербург",
+      "addressCountry": "RU"
+    },
+    "openingHours": [
+      {
+        "days": "Пн-Чт",
+        "hours": "12:00–00:00"
+      },
+      {
+        "days": "Пт",
+        "hours": "12:00–01:00"
+      },
+      {
+        "days": "Сб",
+        "hours": "10:00–01:00"
+      },
+      {
+        "days": "Вс",
+        "hours": "10:00–00:00"
+      }
+    ],
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "59.92224",
+      "longitude": "30.29483"
+    },
+    "hasMap": "https://yandex.ru/maps/?pt=30.29483,59.92224&z=17&l=map",
+    "servesCuisine": [
+      "Французская кухня"
+    ],
+    "priceRange": "₽₽",
+    "menuLink": "https://atelierfamily.ru/jam-menu"
+  },
+  "desc": {
+    "short": "Модное парижское кафе с самым фотогеничным двором в Петербурге",
+    "full": "Парижское кафе под сводами бывшего морского ведомства в квартале Hideout. Основу меню составляют французские традиции и классика во главе всего: парижский тартар, луковый суп и гратен Дофинуа, а к ним в компанию — около 150 винных этикеток и коктейльная карта французских реминисценций, тонких акцентов и пара экспериментов."
+  },
+  "loyalty": false,
+  "tags": [
+    "рады детям",
+    "с красивым видом",
+    "итальянская кухня",
+    "завтраки",
+    "на каждый день",
+    "можно с животными"
+  ],
+  "covers": [
+    {
+      "src": "data/img/restaurants/jam-cafe/covers/raw/1.jpg",
+      "alt": "Jam Café"
+    },
+    {
+      "src": "data/img/restaurants/jam-cafe/covers/raw/2.jpg",
+      "alt": "Jam Café"
+    },
+    {
+      "src": "data/img/restaurants/jam-cafe/covers/raw/3.jpg",
+      "alt": "Jam Café"
+    },
+    {
+      "src": "data/img/restaurants/jam-cafe/covers/raw/4.jpg",
+      "alt": "Jam Café"
+    },
+    {
+      "src": "data/img/restaurants/jam-cafe/covers/raw/5.jpg",
+      "alt": "Jam Café"
+    }
+  ],
+  "logos": [
+    {
+      "src": "data/img/restaurants/jam-cafe/logos/logo-color-1.svg",
+      "alt": "Jam Café белый лого"
+    },
+    {
+      "src": "data/img/restaurants/jam-cafe/logos/logo-color-2.svg",
+      "alt": "Jam Café черный лого"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data/img/restaurants/jam-cafe/icons/icon-color-1.svg",
+      "alt": "Jam Café белая иконка"
+    },
+    {
+      "src": "data/img/restaurants/jam-cafe/icons/icon-color-2.svg",
+      "alt": "Jam Café черная иконка"
+    }
+  ]
+}

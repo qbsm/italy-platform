@@ -1,1 +1,92 @@
-{}
+{
+  "slug": "oasis-gourmet",
+  "visible": true,
+  "restaurant": {
+    "@type": "Restaurant",
+    "name": "Oasis Gourmet",
+    "telephone": {
+      "title": "+7 (929) 127-32-31",
+      "href": "tel:+79291273231"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ЛО, посёлок Ленинское, коттеджный посёлок Репинское",
+      "addressLocality": "Ленинградская область",
+      "addressRegion": "Ленинградская область",
+      "addressCountry": "RU"
+    },
+    "openingHours": [
+      {
+        "days": "Пн-Чт",
+        "hours": "12:00–22:00"
+      },
+      {
+        "days": "Пт",
+        "hours": "12:00–23:00"
+      },
+      {
+        "days": "Сб",
+        "hours": "10:00–23:00"
+      },
+      {
+        "days": "Вс",
+        "hours": "10:00–22:00"
+      }
+    ],
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "60.15932",
+      "longitude": "29.85618"
+    },
+    "hasMap": "https://yandex.ru/maps/?pt=29.85618,60.15932&z=17&l=map",
+    "servesCuisine": [
+      "Европейская кухня",
+      "Азиатская кухня"
+    ],
+    "priceRange": "₽₽",
+    "menuLink": "https://oasisgourmet.ru/digital_menu"
+  },
+  "desc": {
+    "short": "Загородный ресторан в Репино с мировой кухней",
+    "full": "Место, где можно провести время с близкими на свежем воздухе, наслаждаясь блюдами мировой кулинарии. Здесь каждый стол — как маленькая сцена для приятных разговоров, а просторная терраса создает атмосферу праздника и уюта."
+  },
+  "loyalty": false,
+  "tags": [
+    "рады детям",
+    "с красивым видом",
+    "итальянская кухня",
+    "завтраки",
+    "на каждый день",
+    "можно с животными"
+  ],
+  "covers": [
+    {
+      "src": "data/img/restaurants/oasis-gourmet/covers/raw/1.jpg",
+      "alt": "Oasis Gourmet"
+    },
+    {
+      "src": "data/img/restaurants/oasis-gourmet/covers/raw/2.jpg",
+      "alt": "Oasis Gourmet"
+    }
+  ],
+  "logos": [
+    {
+      "src": "data/img/restaurants/oasis-gourmet/logos/logo-color-1.svg",
+      "alt": "Oasis Gourmet белый лого"
+    },
+    {
+      "src": "data/img/restaurants/oasis-gourmet/logos/logo-color-2.svg",
+      "alt": "Oasis Gourmet черный лого"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data/img/restaurants/oasis-gourmet/icons/icon-color-1.svg",
+      "alt": "Oasis Gourmet белая иконка"
+    },
+    {
+      "src": "data/img/restaurants/oasis-gourmet/icons/icon-color-2.svg",
+      "alt": "Oasis Gourmet черная иконка"
+    }
+  ]
+}

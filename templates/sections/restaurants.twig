@@ -1,0 +1,22 @@
+<section class="restaurants section">
+  <div class="container">
+    {% if data.heading is defined %}
+      <div class="section__item heading-wrap">
+        {% include 'components/heading.twig' with {'item': data.heading} %}
+      </div>
+    {% endif %}
+    {% set restaurantsList = load_json('data/json/' ~ lang_code ~ '/pages/restaurants.json') %}
+    {% if restaurantsList and restaurantsList.items is not empty %}
+      <div class="section__item cards-restaurant-wrap">
+        {% for slug in restaurantsList.items %}
+          {% set restaurant = load_json('data/json/' ~ lang_code ~ '/restaurants/' ~ slug ~ '.json') %}
+          {% if restaurant and restaurant.visible | default(false) %}
+            <div class="section__subitem card-restaurant-wrap">
+              {% include 'components/card-restaurant.twig' with {'item': restaurant} %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>

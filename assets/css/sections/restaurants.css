@@ -1,0 +1,39 @@
+.restaurants {
+}
+
+.restaurants .section__item.heading-wrap {
+  margin-bottom: 2rem;
+  text-align: center;
+
+  @media (--lg) {
+    margin-bottom: 4rem;
+  }
+}
+
+.restaurants .heading {
+  font-size: 1.8em;
+
+  @media (--lg) {
+    font-size: 3.2em;
+  }
+}
+
+.restaurants .section__item.cards-restaurant-wrap {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+
+  @media (--sm) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (--lg) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+}
+
+.restaurants .section__subitem.card-restaurant-wrap {
+  aspect-ratio: 1 / 1;
+}

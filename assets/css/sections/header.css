@@ -41,7 +41,12 @@
   transition: opacity 0.25s ease-out;
 }
 
-.header.fixed .section__item.logo-wrap {
+.header.header-logo-visible {
+  background: var(--color-2);
+}
+
+.header.fixed .section__item.logo-wrap,
+.header.header-logo-visible .section__item.logo-wrap {
   opacity: 1;
 }
 

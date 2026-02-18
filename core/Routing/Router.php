@@ -7,6 +7,10 @@ class Router
     /** @var string[] */
     private array $routeParams = [];
 
+    private const ROUTE_MAP = [
+        'restaurants' => 'restaurants-list',
+    ];
+
     /**
      * Примитивное определение page_id и параметров по сегментам
      */
@@ -15,7 +19,8 @@ class Router
         $this->pageId = 'index';
         $this->routeParams = [];
         if (!empty($segments)) {
-            $this->pageId = (string)$segments[0];
+            $slug = (string)$segments[0];
+            $this->pageId = self::ROUTE_MAP[$slug] ?? $slug;
             $this->routeParams = array_slice($segments, 1);
         }
     }

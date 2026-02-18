@@ -1,1 +1,88 @@
-{}
+{
+  "slug": "joli-grand-bistrot",
+  "visible": true,
+  "restaurant": {
+    "@type": "Restaurant",
+    "name": "Joli Grand Bistrot",
+    "telephone": {
+      "title": "+7 (931) 380-22-06",
+      "href": "tel:+79313802206"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ул. Восстания, 45Б",
+      "addressLocality": "Санкт-Петербург",
+      "addressRegion": "Санкт-Петербург",
+      "addressCountry": "RU"
+    },
+    "openingHours": [
+      {
+        "days": "Пн-Вс",
+        "hours": "09:00–00:00"
+      }
+    ],
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "59.94141",
+      "longitude": "30.36109"
+    },
+    "hasMap": "https://yandex.ru/maps/?pt=30.36109,59.94141&z=17&l=map",
+    "servesCuisine": [
+      "Французская кухня",
+      "Итальянская кухня"
+    ],
+    "priceRange": "₽₽",
+    "menuLink": "https://drive.google.com/file/d/1g6tJ-ZkTDuhFGbuh7RUGf9U0svxUELu8/view?usp=sharing"
+  },
+  "desc": {
+    "short": "Светлый ресторан-сад с чувством теплой ностальгии",
+    "full": "Joli — означает прекрасный, а grand bistrot — ресторан на каждый день, светлый, просторный и впечатляющий своей красотой. Главная идея, заложенная в этот проект — воспроизведение атмосферы натурального сада, созданного самой природой, от которого веет чувством теплой ностальгии."
+  },
+  "loyalty": false,
+  "tags": [
+    "рады детям",
+    "с красивым видом",
+    "итальянская кухня",
+    "завтраки",
+    "на каждый день",
+    "можно с животными"
+  ],
+  "covers": [
+    {
+      "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/1.jpg",
+      "alt": "Joli Grand Bistrot"
+    },
+    {
+      "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/2.jpg",
+      "alt": "Joli Grand Bistrot"
+    },
+    {
+      "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/3.jpg",
+      "alt": "Joli Grand Bistrot"
+    },
+    {
+      "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/4.jpg",
+      "alt": "Joli Grand Bistrot"
+    }
+  ],
+  "logos": [
+    {
+      "src": "data/img/restaurants/joli-grand-bistrot/logos/logo-color-1.svg",
+      "alt": "Joli Grand Bistrot белый лого"
+    },
+    {
+      "src": "data/img/restaurants/joli-grand-bistrot/logos/logo-color-2.svg",
+      "alt": "Joli Grand Bistrot черный лого"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data/img/restaurants/joli-grand-bistrot/icons/icon-color-1.svg",
+      "alt": "Joli Grand Bistrot белая иконка"
+    },
+    {
+      "src": "data/img/restaurants/joli-grand-bistrot/icons/icon-color-2.svg",
+      "alt": "Joli Grand Bistrot черная иконка"
+    }
+  ]
+}

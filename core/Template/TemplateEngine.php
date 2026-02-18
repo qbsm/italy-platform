@@ -30,6 +30,9 @@ class TemplateEngine
         if (class_exists('App\\Twig\\UrlExtension')) {
             $this->twig->addExtension(new \App\Twig\UrlExtension($baseUrl));
         }
+        if (class_exists('App\\Twig\\DataExtension')) {
+            $this->twig->addExtension(new \App\Twig\DataExtension($baseDir, $baseUrl));
+        }
 
         $this->twig->addExtension(new \Twig\Extension\StringLoaderExtension());
         $this->twig->addGlobal('base_url', rtrim($baseUrl, '/') . '/');

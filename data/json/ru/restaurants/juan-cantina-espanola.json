@@ -1,1 +1,96 @@
-{}
+{
+  "slug": "juan-cantina-espanola",
+  "visible": true,
+  "restaurant": {
+    "@type": "Restaurant",
+    "name": "Juan Cantina Espanola",
+    "telephone": {
+      "title": "+7 (929) 111-45-55",
+      "href": "tel:+79291114555"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ул. Восстания, 45Б",
+      "addressLocality": "Санкт-Петербург",
+      "addressRegion": "Санкт-Петербург",
+      "addressCountry": "RU"
+    },
+    "openingHours": [
+      {
+        "days": "Пн-Чт, Вс",
+        "hours": "13:00–01:00"
+      },
+      {
+        "days": "Пт-Сб",
+        "hours": "13:00–02:00"
+      }
+    ],
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "59.94141",
+      "longitude": "30.36109"
+    },
+    "hasMap": "https://yandex.ru/maps/?pt=30.36109,59.94141&z=17&l=map",
+    "servesCuisine": [
+      "Испанская кухня",
+      "Мексиканская кухня"
+    ],
+    "priceRange": "₽₽",
+    "menuLink": "https://atelierfamily.ru/juan"
+  },
+  "desc": {
+    "short": "Испано-мексиканская кантина, визуализация наших воспоминаний о солнечных днях",
+    "full": "Летом во дворе открыта терраса с шезлонгами и столом для пинг-понга, создающая для гостей расслабленную и непринужденную атмосферу. Все это делает Juan одним из самых аутентичных проектов, а каждый визит туда становится для гостя невероятно увлекательным опытом."
+  },
+  "loyalty": false,
+  "tags": [
+    "рады детям",
+    "с красивым видом",
+    "итальянская кухня",
+    "завтраки",
+    "на каждый день",
+    "можно с животными"
+  ],
+  "covers": [
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/1.jpg",
+      "alt": "Juan Cantina Espanola"
+    },
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/2.jpg",
+      "alt": "Juan Cantina Espanola"
+    },
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/3.jpg",
+      "alt": "Juan Cantina Espanola"
+    },
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/4.jpg",
+      "alt": "Juan Cantina Espanola"
+    },
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/5.jpg",
+      "alt": "Juan Cantina Espanola"
+    }
+  ],
+  "logos": [
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/logos/logo-color-1.svg",
+      "alt": "Juan Cantina Espanola белый лого"
+    },
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/logos/logo-color-2.svg",
+      "alt": "Juan Cantina Espanola черный лого"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/icons/icon-color-1.svg",
+      "alt": "Juan Cantina Espanola белая иконка"
+    },
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/icons/icon-color-2.svg",
+      "alt": "Juan Cantina Espanola черная иконка"
+    }
+  ]
+}

@@ -1,6 +1,13 @@
 .us {
   position: relative;
   overflow: visible;
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+
+  @media (--lg) {
+    gap: 20rem;
+  }
 }
 
 .us .section__item.bg-wrap {
@@ -57,14 +64,7 @@
 
 .us .container {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 6rem;
   z-index: 1;
-
-  @media (--lg) {
-    gap: 20rem;
-  }
 }
 
 .us .section__item.visual-wrap {

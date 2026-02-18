@@ -1,1 +1,104 @@
-{}
+{
+  "slug": "hitch",
+  "visible": true,
+  "restaurant": {
+    "@type": "Restaurant",
+    "name": "HITCH на Московском",
+    "telephone": {
+      "title": "+7 (921) 919-01-79",
+      "href": "tel:+79219190179"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Московский проспект, 179",
+      "addressLocality": "Санкт-Петербург",
+      "addressRegion": "Санкт-Петербург",
+      "addressCountry": "RU"
+    },
+    "openingHours": [
+      {
+        "days": "Пн-Чт",
+        "hours": "09:00–00:00"
+      },
+      {
+        "days": "Пт",
+        "hours": "09:00–01:00"
+      },
+      {
+        "days": "Сб",
+        "hours": "10:00–01:00"
+      },
+      {
+        "days": "Вс",
+        "hours": "10:00–00:00"
+      }
+    ],
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "59.85863",
+      "longitude": "30.32028"
+    },
+    "hasMap": "https://yandex.ru/maps/?pt=30.32028,59.85863&z=17&l=map",
+    "servesCuisine": [
+      "Гриль",
+      "Мясная кухня"
+    ],
+    "priceRange": "₽₽",
+    "menuLink": "https://italyrestaurants.ru/hitchmoskovsky"
+  },
+  "desc": {
+    "short": "Мясной ресторан для настоящих ценителей вкуса",
+    "full": "Ресторан, сформировавший собственную культуру мяса, где каждый сможет почувствовать себя «хищником» оригинальных вкусов и осознать собственное «я»."
+  },
+  "loyalty": true,
+  "tags": [
+    "рады детям",
+    "с красивым видом",
+    "итальянская кухня",
+    "завтраки",
+    "на каждый день",
+    "можно с животными"
+  ],
+  "covers": [
+    {
+      "src": "data/img/restaurants/hitch/covers/raw/7.jpg",
+      "alt": "HITCH"
+    },
+    {
+      "src": "data/img/restaurants/hitch/covers/raw/12.jpg",
+      "alt": "HITCH"
+    },
+    {
+      "src": "data/img/restaurants/hitch/covers/raw/9.jpg",
+      "alt": "HITCH"
+    },
+    {
+      "src": "data/img/restaurants/hitch/covers/raw/10.jpg",
+      "alt": "HITCH"
+    },
+    {
+      "src": "data/img/restaurants/hitch/covers/raw/11.jpg",
+      "alt": "HITCH"
+    }
+  ],
+  "logos": [
+    {
+      "src": "data/img/restaurants/hitch/logos/logo-color-1.svg",
+      "alt": "HITCH белый лого"
+    },
+    {
+      "src": "data/img/restaurants/hitch/logos/logo-color-2.svg",
+      "alt": "HITCH черный лого"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data/img/restaurants/hitch/icons/icon-color-1.svg",
+      "alt": "HITCH белая иконка"
+    },
+    {
+      "src": "data/img/restaurants/hitch/icons/icon-color-2.svg",
+      "alt": "HITCH черная иконка"
+    }
+  ]
+}

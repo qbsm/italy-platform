@@ -26,7 +26,7 @@
         },
         {
           "title": "Рестораны",
-          "href": "/rest/"
+          "href": "/restaurants/"
         }
       ]
     },
@@ -37,8 +37,8 @@
           "href": "/"
         },
         {
-          "title": "Restraunts",
-          "href": "/rest/"
+          "title": "Restaurants",
+          "href": "/restaurants/"
         }
       ]
     }

@@ -50,6 +50,7 @@ import setupSliders from './components/slider.js';
 import './components/burger-icon.js';
 
 // --- Pages ---
+import './pages/restaurants.js';
 import './pages/404.js';
 import './pages/contacts.js';
 import './pages/index.js';

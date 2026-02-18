@@ -1,1 +1,96 @@
-{}
+{
+  "slug": "goose-goose",
+  "visible": true,
+  "restaurant": {
+    "@type": "Restaurant",
+    "name": "Goose Goose",
+    "telephone": {
+      "title": "+7 (911) 928-37-27",
+      "href": "tel:+79119283727"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ул. Большая Конюшенная, 27",
+      "addressLocality": "Санкт-Петербург",
+      "addressRegion": "Санкт-Петербург",
+      "addressCountry": "RU"
+    },
+    "openingHours": [
+      {
+        "days": "Вс-Чт",
+        "hours": "10:00–23:00"
+      },
+      {
+        "days": "Пт-Сб",
+        "hours": "10:00–00:00"
+      }
+    ],
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "59.93713",
+      "longitude": "30.32187"
+    },
+    "hasMap": "https://yandex.ru/maps/?pt=30.32187,59.93713&z=17&l=map",
+    "servesCuisine": [
+      "Итальянская кухня",
+      "Пьемонтская кухня"
+    ],
+    "priceRange": "₽₽₽",
+    "menuLink": "http://goosegoose.ru/digital-menu?utm_source=website&utm_medium=digitalmenu_goose&utm_campaign=goosegoose&utm_content=link&utm_term=italycogoose"
+  },
+  "desc": {
+    "short": "Элегантный ресторан с историей в центре Петербурга",
+    "full": "Место, где классика и современность складываются в единую картину стиля вне времени. Еще в XIX веке в этом здании находился известный петербургский ресторан. И, вот, спустя 100 лет здесь можно поужинать, выпить коктейль и ощутить особенный вкус жизни."
+  },
+  "loyalty": true,
+  "tags": [
+    "рады детям",
+    "с красивым видом",
+    "итальянская кухня",
+    "завтраки",
+    "на каждый день",
+    "можно с животными"
+  ],
+  "covers": [
+    {
+      "src": "data/img/restaurants/goose-goose/covers/raw/1.jpg",
+      "alt": "Goose Goose"
+    },
+    {
+      "src": "data/img/restaurants/goose-goose/covers/raw/2.jpg",
+      "alt": "Goose Goose"
+    },
+    {
+      "src": "data/img/restaurants/goose-goose/covers/raw/3.jpg",
+      "alt": "Goose Goose"
+    },
+    {
+      "src": "data/img/restaurants/goose-goose/covers/raw/4.jpg",
+      "alt": "Goose Goose"
+    },
+    {
+      "src": "data/img/restaurants/goose-goose/covers/raw/5.jpg",
+      "alt": "Goose Goose"
+    }
+  ],
+  "logos": [
+    {
+      "src": "data/img/restaurants/goose-goose/logos/logo-color-1.svg",
+      "alt": "Goose Goose белый лого"
+    },
+    {
+      "src": "data/img/restaurants/goose-goose/logos/logo-color-2.svg",
+      "alt": "Goose Goose черный лого"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data/img/restaurants/goose-goose/icons/icon-color-1.svg",
+      "alt": "Goose Goose белая иконка"
+    },
+    {
+      "src": "data/img/restaurants/goose-goose/icons/icon-color-2.svg",
+      "alt": "Goose Goose черная иконка"
+    }
+  ]
+}

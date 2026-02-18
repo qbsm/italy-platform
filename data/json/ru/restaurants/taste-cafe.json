@@ -1,1 +1,82 @@
-{}
+{
+  "slug": "taste-cafe",
+  "visible": true,
+  "restaurant": {
+    "@type": "Restaurant",
+    "name": "TASTE Cafe",
+    "telephone": {
+      "title": "+7 (964) 614-99-37",
+      "href": "tel:+79646149937"
+    },
+    "address": [
+      {
+        "@type": "PostalAddress",
+        "name": "Основная сцена",
+        "streetAddress": "наб. реки Фонтанки, 49А",
+        "addressLocality": "Санкт-Петербург",
+        "addressRegion": "Санкт-Петербург",
+        "addressCountry": "RU"
+      },
+      {
+        "@type": "PostalAddress",
+        "name": "Новая сцена",
+        "streetAddress": "пл. Островского, 6",
+        "addressLocality": "Санкт-Петербург",
+        "addressRegion": "Санкт-Петербург",
+        "addressCountry": "RU"
+      }
+    ],
+    "openingHours": [
+      {
+        "days": "Пн-Вс",
+        "hours": "12:00–22:00"
+      }
+    ],
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "59.93179",
+      "longitude": "30.33618"
+    },
+    "hasMap": "https://yandex.ru/maps/?pt=30.33618,59.93179&z=17&l=map",
+    "servesCuisine": [
+      "Итальянская кухня",
+      "Европейская кухня"
+    ],
+    "priceRange": "₽₽",
+    "menuLink": ""
+  },
+  "desc": {
+    "short": "Буфеты на Исторической и Новой сценах, сочетающие театральную классику и современную гастрономию",
+    "full": "Доступный и качественный продукт итальянской кухни формата fast casual ресторанного качества с высокой скоростью обслуживания – всего за 7 минут. В ресторане полуавтоматическое обслуживание: заказ совершается на стойке, а блюда и напитки выносит официант."
+  },
+  "loyalty": false,
+  "tags": [
+    "рады детям",
+    "с красивым видом",
+    "итальянская кухня",
+    "завтраки",
+    "на каждый день",
+    "можно с животными"
+  ],
+  "covers": [],
+  "logos": [
+    {
+      "src": "data/img/restaurants/taste-cafe/logos/logo-color-1.svg",
+      "alt": "Taste Cafe белый лого"
+    },
+    {
+      "src": "data/img/restaurants/taste-cafe/logos/logo-color-2.svg",
+      "alt": "Taste Cafe черный лого"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data/img/restaurants/taste-cafe/icons/icon-color-1.svg",
+      "alt": "Taste Cafe белая иконка"
+    },
+    {
+      "src": "data/img/restaurants/taste-cafe/icons/icon-color-2.svg",
+      "alt": "Taste Cafe черная иконка"
+    }
+  ]
+}

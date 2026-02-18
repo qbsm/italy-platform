@@ -1,1 +1,103 @@
-{}
+{
+  "slug": "italy-moskovskiy",
+  "visible": true,
+  "restaurant": {
+    "@type": "Restaurant",
+    "name": "Italy на Московском",
+    "telephone": {
+      "title": "+7 (931) 954-61-97",
+      "href": "tel:+79319546197"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Площадь Чернышевского, 11",
+      "addressLocality": "Санкт-Петербург",
+      "addressRegion": "Санкт-Петербург",
+      "addressCountry": "RU"
+    },
+    "openingHours": [
+      {
+        "days": "Пн-Вс",
+        "hours": "09:00–23:00"
+      }
+    ],
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "59.86884",
+      "longitude": "30.31489"
+    },
+    "hasMap": "https://yandex.ru/maps/?pt=30.31489,59.86884&z=17&l=map",
+    "servesCuisine": [
+      "Итальянская кухня"
+    ],
+    "priceRange": "₽₽",
+    "menuLink": "https://italyrestaurants.ru/moskovskymenuitaly"
+  },
+  "desc": {
+    "short": "Двухэтажный ресторан с большим детским пространством около Парка Победы",
+    "full": "Самый большой ресторан из всех Italy. Команда тепло называет заведение «большим итальянским домом». Ресторан комфортен для семейных встреч с детьми, друзьями и любимыми на романтический ужин."
+  },
+  "loyalty": true,
+  "tags": [
+    "рады детям",
+    "с красивым видом",
+    "итальянская кухня",
+    "завтраки",
+    "на каждый день",
+    "можно с животными"
+  ],
+  "covers": [
+    {
+      "src": "data/img/restaurants/italy-moskovskiy/covers/raw/9.jpg",
+      "alt": "Italy на Московском"
+    },
+    {
+      "src": "data/img/restaurants/italy-moskovskiy/covers/raw/10.jpg",
+      "alt": "Italy на Московском"
+    },
+    {
+      "src": "data/img/restaurants/italy-moskovskiy/covers/raw/11.jpg",
+      "alt": "Italy на Московском"
+    },
+    {
+      "src": "data/img/restaurants/italy-moskovskiy/covers/raw/12.jpg",
+      "alt": "Italy на Московском"
+    },
+    {
+      "src": "data/img/restaurants/italy-moskovskiy/covers/raw/13.jpg",
+      "alt": "Italy на Московском"
+    },
+    {
+      "src": "data/img/restaurants/italy-moskovskiy/covers/raw/14.jpg",
+      "alt": "Italy на Московском"
+    },
+    {
+      "src": "data/img/restaurants/italy-moskovskiy/covers/raw/15.jpg",
+      "alt": "Italy на Московском"
+    },
+    {
+      "src": "data/img/restaurants/italy-moskovskiy/covers/raw/16.jpg",
+      "alt": "Italy на Московском"
+    }
+  ],
+  "logos": [
+    {
+      "src": "data/img/restaurants/italy-moskovskiy/logos/logo-color-1.svg",
+      "alt": "Italy на Московском белый лого"
+    },
+    {
+      "src": "data/img/restaurants/italy-moskovskiy/logos/logo-color-2.svg",
+      "alt": "Italy на Московском черный лого"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data/img/restaurants/italy-moskovskiy/icons/icon-color-1.svg",
+      "alt": "Italy на Московском белая иконка"
+    },
+    {
+      "src": "data/img/restaurants/italy-moskovskiy/icons/icon-color-2.svg",
+      "alt": "Italy на Московском черная иконка"
+    }
+  ]
+}

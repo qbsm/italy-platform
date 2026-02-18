@@ -1,0 +1,34 @@
+{
+  "name": "restaurants",
+  "title": "Рестораны — Платформа italy",
+  "meta": [
+    {
+      "name": "description",
+      "content": "Рестораны гастрономического сообщества italy — места встреч, где каждый человек чувствует свою ценность."
+    },
+    {
+      "property": "og:url",
+      "content": "https://example.com/restaurants/"
+    },
+    {
+      "property": "og:type",
+      "content": "website"
+    },
+    {
+      "property": "og:title",
+      "content": "Рестораны — Платформа italy"
+    },
+    {
+      "property": "og:description",
+      "content": "Рестораны гастрономического сообщества italy — места встреч, где каждый человек чувствует свою ценность."
+    },
+    {
+      "property": "og:site_name",
+      "content": "Платформа italy"
+    },
+    {
+      "property": "og:image",
+      "content": "https://example.com/data/img/seo/og.webp?v=1"
+    }
+  ]
+}

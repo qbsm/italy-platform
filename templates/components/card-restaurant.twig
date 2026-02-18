@@ -1,0 +1,30 @@
+{% set name = item.restaurant.name | default('') %}
+{% set icon = item.icons[0] | default(null) %}
+{% set logo = item.logos[0] | default(null) %}
+{% set href = item.slug is defined ? '/' ~ item.slug ~ '/' : null %}
+
+{% if href %}
+<a href="{{ url(href) }}" class="card-restaurant {{ item.class | default('') }} link">
+{% else %}
+<div class="card-restaurant {{ item.class | default('') }}">
+{% endif %}
+  <div class="card__item icon-wrap">
+    {% if icon %}
+      <img src="{{ icon.src }}" alt="{{ icon.alt | default(name) }}" class="card__icon img-responsive" loading="lazy">
+    {% endif %}
+  </div>
+  <div class="card__item logo-wrap">
+    {% if logo %}
+      <img src="{{ logo.src }}" alt="{{ logo.alt | default(name) }}" class="card__logo img-responsive" loading="lazy">
+    {% endif %}
+  </div>
+  {% if name %}
+    <div class="card__item title-wrap">
+      <span class="card__title">{{ name }}</span>
+    </div>
+  {% endif %}
+{% if href %}
+</a>
+{% else %}
+</div>
+{% endif %}

@@ -1,1 +1,95 @@
-{}
+{
+  "slug": "bear",
+  "visible": true,
+  "restaurant": {
+    "@type": "Restaurant",
+    "name": "Бар «Медведь»",
+    "telephone": {
+      "title": "+7 (911) 928-37-27",
+      "href": "tel:+79119283727"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ул. Большая Конюшенная, 27",
+      "addressLocality": "Санкт-Петербург",
+      "addressRegion": "Санкт-Петербург",
+      "addressCountry": "RU"
+    },
+    "openingHours": [
+      {
+        "days": "Пн-Чт",
+        "hours": "16:00–01:00"
+      },
+      {
+        "days": "Пт-Сб",
+        "hours": "16:00–02:00"
+      }
+    ],
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "59.93713",
+      "longitude": "30.32187"
+    },
+    "hasMap": "https://yandex.ru/maps/?pt=30.32187,59.93713&z=17&l=map",
+    "servesCuisine": [
+      "Коктейльный бар"
+    ],
+    "priceRange": "₽₽",
+    "menuLink": "https://drive.google.com/file/d/1qMQlWZnajZNPxVkBt683xEwI6-d7qfkL/view?usp=sharing"
+  },
+  "desc": {
+    "short": "Самый первый коктейльный бар Российской Империи, открытый в 1906 году",
+    "full": "Легендарный бар, который называли «американским» — потому что именно в нем жители города впервые увидели барную стойку и алкогольные миксы со льдом в стакане."
+  },
+  "loyalty": false,
+  "tags": [
+    "рады детям",
+    "с красивым видом",
+    "итальянская кухня",
+    "завтраки",
+    "на каждый день",
+    "можно с животными"
+  ],
+  "covers": [
+    {
+      "src": "data/img/restaurants/bear/covers/raw/1.jpg",
+      "alt": "Бар «Медведь»"
+    },
+    {
+      "src": "data/img/restaurants/bear/covers/raw/2.jpg",
+      "alt": "Бар «Медведь»"
+    },
+    {
+      "src": "data/img/restaurants/bear/covers/raw/3.jpg",
+      "alt": "Бар «Медведь»"
+    },
+    {
+      "src": "data/img/restaurants/bear/covers/raw/4.jpg",
+      "alt": "Бар «Медведь»"
+    },
+    {
+      "src": "data/img/restaurants/bear/covers/raw/5.jpg",
+      "alt": "Бар «Медведь»"
+    }
+  ],
+  "logos": [
+    {
+      "src": "data/img/restaurants/bear/logos/logo-color-1.svg",
+      "alt": "Бар «Медведь» белый лого"
+    },
+    {
+      "src": "data/img/restaurants/bear/logos/logo-color-2.svg",
+      "alt": "Бар «Медведь» черный лого"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data/img/restaurants/bear/icons/icon-color-1.svg",
+      "alt": "Бар «Медведь» белая иконка"
+    },
+    {
+      "src": "data/img/restaurants/bear/icons/icon-color-2.svg",
+      "alt": "Бар «Медведь» черная иконка"
+    }
+  ]
+}

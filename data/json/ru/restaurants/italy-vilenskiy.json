@@ -1,1 +1,103 @@
-{}
+{
+  "slug": "italy-vilenskiy",
+  "visible": true,
+  "restaurant": {
+    "@type": "Restaurant",
+    "name": "Italy в Виленском",
+    "telephone": {
+      "title": "+7 (812) 906-65-58",
+      "href": "tel:+78129066558"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Виленский переулок, 15",
+      "addressLocality": "Санкт-Петербург",
+      "addressRegion": "Санкт-Петербург",
+      "addressCountry": "RU"
+    },
+    "openingHours": [
+      {
+        "days": "Вс-Чт",
+        "hours": "09:00–23:00"
+      },
+      {
+        "days": "Пт-Сб",
+        "hours": "09:00–00:00"
+      }
+    ],
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "59.93997",
+      "longitude": "30.36540"
+    },
+    "hasMap": "https://yandex.ru/maps/?pt=30.36540,59.93997&z=17&l=map",
+    "servesCuisine": [
+      "Итальянская кухня"
+    ],
+    "priceRange": "₽₽",
+    "menuLink": "https://italyrestaurants.ru/vilenskymenuitaly"
+  },
+  "desc": {
+    "short": "Ресторан в центре Петербурга с итальянским стилем жизни и детской комнатой",
+    "full": "Здесь хранят традиции итальянской гастрономии, приветствуют легкий итальянский образ жизни, а атмосфера и меню ресторана переносят в путешествие по Сицилии или Тоскане. Есть отдельная современная детская комната для самых маленьких гостей."
+  },
+  "loyalty": true,
+  "tags": [
+    "рады детям",
+    "с красивым видом",
+    "итальянская кухня",
+    "завтраки",
+    "на каждый день",
+    "можно с животными"
+  ],
+  "covers": [
+    {
+      "src": "data/img/restaurants/italy-vilenskiy/covers/raw/9.jpg",
+      "alt": "Italy в Виленском"
+    },
+    {
+      "src": "data/img/restaurants/italy-vilenskiy/covers/raw/10.jpg",
+      "alt": "Italy в Виленском"
+    },
+    {
+      "src": "data/img/restaurants/italy-vilenskiy/covers/raw/11.jpg",
+      "alt": "Italy в Виленском"
+    },
+    {
+      "src": "data/img/restaurants/italy-vilenskiy/covers/raw/12.jpg",
+      "alt": "Italy в Виленском"
+    },
+    {
+      "src": "data/img/restaurants/italy-vilenskiy/covers/raw/13.jpg",
+      "alt": "Italy в Виленском"
+    },
+    {
+      "src": "data/img/restaurants/italy-vilenskiy/covers/raw/14.jpg",
+      "alt": "Italy в Виленском"
+    },
+    {
+      "src": "data/img/restaurants/italy-vilenskiy/covers/raw/15.jpg",
+      "alt": "Italy в Виленском"
+    }
+  ],
+  "logos": [
+    {
+      "src": "data/img/restaurants/italy-vilenskiy/logos/logo-color-1.svg",
+      "alt": "Italy в Виленском белый лого"
+    },
+    {
+      "src": "data/img/restaurants/italy-vilenskiy/logos/logo-color-2.svg",
+      "alt": "Italy в Виленском черный лого"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data/img/restaurants/italy-vilenskiy/icons/icon-color-1.svg",
+      "alt": "Italy в Виленском белая иконка"
+    },
+    {
+      "src": "data/img/restaurants/italy-vilenskiy/icons/icon-color-2.svg",
+      "alt": "Italy в Виленском черная иконка"
+    }
+  ]
+}

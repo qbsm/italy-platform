@@ -1,1 +1,107 @@
-{}
+{
+  "slug": "salone-pasta-bar-moscow",
+  "visible": true,
+  "restaurant": {
+    "@type": "Restaurant",
+    "name": "Salone pasta&bar Moscow",
+    "telephone": {
+      "title": "+7 (929) 926-11-99",
+      "href": "tel:+79299261199"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Малая Дмитровка, 18Ас3",
+      "addressLocality": "Москва",
+      "addressRegion": "Москва",
+      "addressCountry": "RU"
+    },
+    "openingHours": [
+      {
+        "days": "Пн-Чт",
+        "hours": "09:00–00:00"
+      },
+      {
+        "days": "Пт",
+        "hours": "09:00–01:00"
+      },
+      {
+        "days": "Сб",
+        "hours": "10:00–01:00"
+      },
+      {
+        "days": "Вс",
+        "hours": "10:00–00:00"
+      }
+    ],
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "55.76731",
+      "longitude": "37.60943"
+    },
+    "hasMap": "https://yandex.ru/maps/?pt=37.60943,55.76731&z=17&l=map",
+    "servesCuisine": [
+      "Итальянская кухня"
+    ],
+    "priceRange": "₽₽",
+    "menuLink": "https://drive.google.com/file/d/1vZBqLlEdfo_SWeMVnPGliDN3WGUWaG4L/view?usp=drivesdk"
+  },
+  "desc": {
+    "short": "Гастрозвезда Петербурга в Москве и место, в котором царит культ пасты",
+    "full": "Заведение, в котором влюблены в еду, музыку, кино, искусство и саму жизнь, а потому вплели эту страсть в каждую деталь — от винтажной мебели и фресок в стиле Ренессанса до ироничных работ современных художников."
+  },
+  "loyalty": false,
+  "tags": [
+    "рады детям",
+    "с красивым видом",
+    "итальянская кухня",
+    "завтраки",
+    "на каждый день",
+    "можно с животными"
+  ],
+  "covers": [
+    {
+      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/8.jpg",
+      "alt": "Salone pasta&bar Moscow"
+    },
+    {
+      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/9.jpg",
+      "alt": "Salone pasta&bar Moscow"
+    },
+    {
+      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/10.jpg",
+      "alt": "Salone pasta&bar Moscow"
+    },
+    {
+      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/11.jpg",
+      "alt": "Salone pasta&bar Moscow"
+    },
+    {
+      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/12.jpg",
+      "alt": "Salone pasta&bar Moscow"
+    },
+    {
+      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/13.jpg",
+      "alt": "Salone pasta&bar Moscow"
+    }
+  ],
+  "logos": [
+    {
+      "src": "data/img/restaurants/salone-pasta-bar-moscow/logos/logo-color-1.svg",
+      "alt": "Salone pasta&bar Moscow белый лого"
+    },
+    {
+      "src": "data/img/restaurants/salone-pasta-bar-moscow/logos/logo-color-2.svg",
+      "alt": "Salone pasta&bar Moscow черный лого"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data/img/restaurants/salone-pasta-bar-moscow/icons/icon-color-1.svg",
+      "alt": "Salone pasta&bar Moscow белая иконка"
+    },
+    {
+      "src": "data/img/restaurants/salone-pasta-bar-moscow/icons/icon-color-2.svg",
+      "alt": "Salone pasta&bar Moscow черная иконка"
+    }
+  ]
+}

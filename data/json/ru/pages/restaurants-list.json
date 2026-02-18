@@ -1,0 +1,44 @@
+{
+  "name": "restaurants-list",
+  "sections": [
+    {
+      "name": "header",
+      "visible": true,
+      "data": {}
+    },
+    {
+      "name": "headline",
+      "visible": true,
+      "data": {
+        "heading": {
+          "tag": "h1",
+          "class": "title font-1 weight-300 text-center uppercase",
+          "title": "Рестораны italy — места встреч, где каждый человек чувствует свою ценность"
+        }
+      }
+    },
+    {
+      "name": "restaurants",
+      "visible": true,
+      "data": {
+        "heading": {
+          "tag": "h2",
+          "class": "heading weight-300 uppercase",
+          "title": "Наши рестораны"
+        }
+      }
+    },
+    {
+      "name": "footer",
+      "visible": true,
+      "data": {
+        "background": {
+          "src": "data/img/ui/bg3.webp"
+        },
+        "form": {
+          "heading": "Получить консультацию"
+        }
+      }
+    }
+  ]
+}
