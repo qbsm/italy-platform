@@ -5,14 +5,33 @@
         {% include 'components/heading.twig' with {'item': data.heading} %}
       </div>
     {% endif %}
+  </div>
+  <div class="padding-grid-left">
+    {% set tags = global.filter[lang_code].items | default([]) %}
+    {% if tags is not empty %}
+      <div class="section__item tags-wrap">
+        {% for tag in tags %}
+          <div class="section__subitem button-wrap">
+            {% include 'components/button.twig' with {'item': {
+              'class': data.tag.class,
+              'title': tag,
+              'data_tag': tag
+            }} %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="container">
     {% set restaurantsList = load_json('data/json/' ~ lang_code ~ '/pages/restaurants.json') %}
     {% if restaurantsList and restaurantsList.items is not empty %}
       <div class="section__item cards-restaurant-wrap">
         {% for slug in restaurantsList.items %}
           {% set restaurant = load_json('data/json/' ~ lang_code ~ '/restaurants/' ~ slug ~ '.json') %}
           {% if restaurant and restaurant.visible | default(false) %}
-            <div class="section__subitem card-restaurant-wrap">
-              {% include 'components/card-restaurant.twig' with {'item': restaurant} %}
+            <div class="section__subitem card-restaurant-wrap" data-tags="{{ restaurant.tags | default([]) | join(',') }}">
+              {% include 'components/card-restaurant.twig' with {'item': restaurant, 'buttons': data.buttons | default(null)} %}
             </div>
           {% endif %}
         {% endfor %}

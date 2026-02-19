@@ -8,6 +8,9 @@
 {% else %}
 <div class="card-restaurant {{ item.class | default('') }}">
 {% endif %}
+  <div class="card__item bg-wrap">
+    <img src="{{ url('data/img/restaurants-list/card-bg.png') }}" alt="" class="card__bg img-responsive" loading="lazy">
+  </div>
   <div class="card__item icon-wrap">
     {% if icon %}
       <img src="{{ icon.src }}" alt="{{ icon.alt | default(name) }}" class="card__icon img-responsive" loading="lazy">
@@ -18,13 +21,41 @@
       <img src="{{ logo.src }}" alt="{{ logo.alt | default(name) }}" class="card__logo img-responsive" loading="lazy">
     {% endif %}
   </div>
-  {% if name %}
-    <div class="card__item title-wrap">
-      <span class="card__title">{{ name }}</span>
-    </div>
-  {% endif %}
 {% if href %}
 </a>
 {% else %}
 </div>
+{% endif %}
+{% if name %}
+  <div class="card__item title-wrap">
+    <span class="card__title font-1 weight-500">{{ name }}</span>
+  </div>
+{% endif %}
+{% if item.desc.short is defined and item.desc.short %}
+  <div class="card__item desc-wrap">
+    <span class="card__desc">{{ item.desc.short }}</span>
+  </div>
+{% endif %}
+{% if buttons is defined %}
+  <div class="card__item buttons-wrap">
+    {% if buttons.booking is defined %}
+      <div class="card__subitem button-wrap">
+        {% include 'components/button.twig' with {'item': {
+          'class': buttons.booking.class,
+          'title': buttons.booking.title,
+          'href': item.restaurant.bookingLink | default(null)
+        }} %}
+      </div>
+    {% endif %}
+    {% if buttons.menu is defined %}
+      <div class="card__subitem button-wrap">
+        {% include 'components/button.twig' with {'item': {
+          'class': buttons.menu.class,
+          'title': buttons.menu.title,
+          'href': item.restaurant.menuLink | default(null),
+          'icon': buttons.menu.icon | default(null)
+        }} %}
+      </div>
+    {% endif %}
+  </div>
 {% endif %}

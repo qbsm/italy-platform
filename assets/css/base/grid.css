@@ -51,14 +51,24 @@
     width: calc(100vw - ((100vw - 120rem)/2));
     margin-left: calc((100vw - 120rem)/2);
   }
+
+  @media (--xl) {
+    width: calc(100vw - ((100vw - 136rem)/2));
+    margin-left: calc((100vw - 136rem)/2);
+    margin-right: calc((100vw - 136rem)/2);
+  }
 }
 
 .padding-grid-left {
   width: 100%;
-  padding-left: 1rem;
+  padding-left: 2rem;
 
   @media (--lg) {
-    padding-left: calc(((100vw - 120rem)/2) + 1rem);
+    padding-left: calc((100vw - 120rem)/2 + 2rem);
+  }
+
+  @media (--xl) {
+    padding-left: calc((100vw - 136rem)/2 + 2rem);
   }
 }
 

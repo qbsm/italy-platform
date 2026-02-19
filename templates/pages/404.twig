@@ -4,8 +4,9 @@
   {# Используем глобальную переменную sections #}
   {% if sections is defined %}
     {% for section in sections %}
-      {# Включаем шаблон, передавая данные из section.data #}
-      {% include 'sections/' ~ section.name ~ '.twig' ignore missing with {'data': section.data} %}
+      {% if section.visible | default(true) %}
+        {% include 'sections/' ~ section.name ~ '.twig' ignore missing with {'data': section.data} %}
+      {% endif %}
     {% endfor %}
   {% else %}
     <h1>Данные для страницы не найдены или неверный формат секций</h1>

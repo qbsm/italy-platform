@@ -36,6 +36,7 @@ class TemplateEngine
 
         $this->twig->addExtension(new \Twig\Extension\StringLoaderExtension());
         $this->twig->addGlobal('base_url', rtrim($baseUrl, '/') . '/');
+        $this->twig->addGlobal('global', $this->loadGlobalJson($baseDir, $baseUrl));
     }
 
     public function render(string $templatePath, array $data = []): string
@@ -51,5 +52,23 @@ class TemplateEngine
     public function getTwig(): Environment
     {
         return $this->twig;
+    }
+
+    private function loadGlobalJson(string $baseDir, string $baseUrl): array
+    {
+        $path = rtrim($baseDir, '/') . '/data/json/global.json';
+        if (!is_file($path)) {
+            return [];
+        }
+        $content = @file_get_contents($path);
+        if ($content === false) {
+            return [];
+        }
+        $data = json_decode($content, true);
+        if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
+            return [];
+        }
+        \App\Utils\JsonProcessor::processJsonPaths($data, $baseUrl);
+        return $data;
     }
 }

@@ -7,24 +7,31 @@
       "data": {}
     },
     {
-      "name": "headline",
-      "visible": true,
-      "data": {
-        "heading": {
-          "tag": "h1",
-          "class": "title font-1 weight-300 text-center uppercase",
-          "title": "Рестораны italy — места встреч, где каждый человек чувствует свою ценность"
-        }
-      }
-    },
-    {
       "name": "restaurants",
       "visible": true,
       "data": {
         "heading": {
-          "tag": "h2",
-          "class": "heading weight-300 uppercase",
+          "tag": "span",
+          "class": "heading weight-400 uppercase",
           "title": "Наши рестораны"
+        },
+        "tag": {
+          "class": "button bg-color-6 button-tag button-sm button-rounded nowrap"
+        },
+        "buttons": {
+          "booking": {
+            "class": "button bg-color-2 color-1 button-md nowrap",
+            "title": "Забронировать"
+          },
+          "menu": {
+            "class": "button button-outline-color-2 button-md nowrap",
+            "title": "Меню",
+            "icon": {
+              "src": "data/img/ui/icons/icon-arrow-right-sm-color-2.svg",
+              "alt": "",
+              "class": "icon-chevron-right"
+            }
+          }
         }
       }
     },

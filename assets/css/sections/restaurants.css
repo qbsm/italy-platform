@@ -1,39 +1,60 @@
 .restaurants {
-}
-
-.restaurants .section__item.heading-wrap {
-  margin-bottom: 2rem;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 2rem;
 
   @media (--lg) {
-    margin-bottom: 4rem;
+    gap: 6rem;
   }
 }
 
+.restaurants .section__item.heading-wrap {
+}
+
 .restaurants .heading {
-  font-size: 1.8em;
+  font-size: 2em;
 
   @media (--lg) {
     font-size: 3.2em;
   }
 }
 
+.restaurants .section__item.tags-wrap {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 1rem;
+  overflow-x: scroll;
+
+  @media (--lg) {
+    margin-top: -4rem;
+    overflow-x: unset;
+  }
+}
+
 .restaurants .section__item.cards-restaurant-wrap {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+  grid-template-columns: 1fr;
+  row-gap: 4rem;
 
   @media (--sm) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
 
   @media (--lg) {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 2rem;
+    row-gap: 4rem;
   }
 }
 
-.restaurants .section__subitem.card-restaurant-wrap {
-  aspect-ratio: 1 / 1;
+.restaurants .section__subitem.card-restaurant-wrap .card-restaurant {
+  height: 18rem;
+
+  @media (--lg) {
+    height: 26rem;
+  }
 }

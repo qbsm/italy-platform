@@ -1,7 +1,6 @@
 .card-restaurant {
   position: relative;
   width: 100%;
-  height: 100%;
   padding: 2rem;
   display: flex;
   flex-direction: column;
@@ -21,20 +20,41 @@
   }
 }
 
+.card-restaurant .card__item.bg-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.card-restaurant .card__bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-restaurant .card__item.icon-wrap,
+.card-restaurant .card__item.logo-wrap {
+  position: relative;
+  z-index: 1;
+}
+
 .card-restaurant:hover {
   background: var(--color-2);
 }
 
 .card-restaurant .card__item.icon-wrap {
-  width: 6rem;
-  height: 6rem;
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1;
+  width: 18rem;
   display: flex;
   align-items: center;
   justify-content: center;
 
   @media (--lg) {
-    width: 8rem;
-    height: 8rem;
+    bottom: 3rem;
+    right: 3rem;
   }
 }
 
@@ -45,14 +65,19 @@
 }
 
 .card-restaurant .card__item.logo-wrap {
-  width: 100%;
-  max-width: 12rem;
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  z-index: 1;
+  width: 15rem;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
 
   @media (--lg) {
-    max-width: 16rem;
+    top: 3rem;
+    left: 3rem;
+    width: 18.5rem;
   }
 }
 
@@ -60,26 +85,30 @@
   width: 100%;
   height: auto;
   object-fit: contain;
-  opacity: 0.7;
-  transition: var(--transition-1);
 }
 
-.card-restaurant:hover .card__logo {
-  opacity: 1;
+.card-restaurant-wrap .card__item.title-wrap {
+  padding-top: 1rem;
 }
 
-.card-restaurant .card__item.title-wrap {
-  text-align: center;
+.card-restaurant-wrap .card__title {
+  font-size: 1.4em;
+
+  @media (--lg) {
+    font-size: 1.5em;
+  }
 }
 
-.card-restaurant .card__title {
-  font-size: 0.9em;
-  color: var(--color-6);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  transition: var(--transition-1);
+.card-restaurant-wrap .card__item.desc-wrap {
+  padding-top: 0.5rem;
 }
 
-.card-restaurant:hover .card__title {
-  color: var(--color-1);
+.card-restaurant-wrap .card__desc {
+  font-size: 1em;
+}
+
+.card-restaurant-wrap .card__item.buttons-wrap {
+  display: flex;
+  gap: 1rem;
+  padding-top: 1rem;
 }

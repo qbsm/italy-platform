@@ -3,7 +3,9 @@
 {% block content %}
   {% if sections is defined %}
     {% for section in sections %}
-      {% include 'sections/' ~ section.name ~ '.twig' ignore missing with {'data': section.data} %}
+      {% if section.visible | default(true) %}
+        {% include 'sections/' ~ section.name ~ '.twig' ignore missing with {'data': section.data} %}
+      {% endif %}
     {% endfor %}
   {% endif %}
 {% endblock %}

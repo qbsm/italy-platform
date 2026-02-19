@@ -166,6 +166,28 @@
       }
     }
   },
+  "filter": {
+    "ru": {
+      "items": [
+        "рады детям",
+        "с красивым видом",
+        "итальянская кухня",
+        "завтраки",
+        "на каждый день",
+        "можно с животными"
+      ]
+    },
+    "en": {
+      "items": [
+        "kids friendly",
+        "with a beautiful view",
+        "italian cuisine",
+        "breakfast",
+        "every day",
+        "pets friendly"
+      ]
+    }
+  },
   "icons": {
     "cup": {
       "white": {
