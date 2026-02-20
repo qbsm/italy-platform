@@ -45,7 +45,7 @@
                   loading: loop.first ? 'eager' : 'lazy'
                 } %}
               {% elseif item.cover is defined and item.cover %}
-                {# Old format with cover URL #}
+                {# Слайд с обложкой (URL в item.cover) #}
                 {% include 'components/picture.twig' with {
                   image: {'src': item.cover},
                   alt: item.alt|default(item.heading.title|default('Slider image')),

@@ -73,7 +73,6 @@ error_log
 sitemap.xml
 sitemap.xml.gz
 sitemap-pages-*.xml
-sitemap-portfolio-*.xml
 
 # Проекты
 whatsapp
@@ -83,4 +82,8 @@ telegram
 
 # Добавляем папку logs/
 logs/
-robots.txt
+
+# Симлинки в public/ (создаются при сборке)
+public/assets
+public/data
+public/robots.txt

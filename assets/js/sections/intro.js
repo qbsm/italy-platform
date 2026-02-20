@@ -1,7 +1,5 @@
 // JavaScript для intro
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('intro загружен');
-  
   // Инициализация слайдера в секции intro
   initIntroSlider();
 });
@@ -19,8 +17,6 @@ function initIntroSlider() {
 
   if (sliderElement && !sliderElement.swiperInstance) {
     try {
-      console.log('Инициализация introSlider в секции intro');
-      
       // Получение настроек из data-атрибута
       let settings = {};
       try {
@@ -96,8 +92,6 @@ function initIntroSlider() {
       }
       
       const introSlider = new window.Swiper(sliderElement, swiperOptions);
-      console.log('introSlider в секции intro успешно инициализирован:', introSlider);
-      
       // Сохраняем экземпляр слайдера
       sliderElement.swiperInstance = introSlider;
     } catch (error) {
@@ -105,7 +99,5 @@ function initIntroSlider() {
     }
   } else if (!sliderElement) {
     console.warn('Элемент слайдера #introSlider не найден на странице');
-  } else {
-    console.log('introSlider уже инициализирован');
   }
 }

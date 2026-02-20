@@ -1,7 +1,5 @@
 // JavaScript для spoiler
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('spoiler загружен');
-  
   // Находим все заголовки спойлеров
   const spoilerTitles = document.querySelectorAll('.spoiler__item.title-wrap');
   

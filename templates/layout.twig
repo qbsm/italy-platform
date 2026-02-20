@@ -20,14 +20,8 @@
   {# Логика формирования current_url, canonical и alternate, как было предоставлено (с минимальными правками для сборки URL) #}
   {% set _base_url_trimmed = base_url|trim('/') %} {# base_url без слешей по краям #}
 
-  {% if page_id == 'portfolio-detail' and project is defined and project.slug is defined %}
-    {% set _path_segment = 'portfolio/' ~ project.slug %}
-  {% elseif page_id == 'blog-detail' and article is defined and article.slug is defined %}
+  {% if page_id == 'blog-detail' and article is defined and article.slug is defined %}
     {% set _path_segment = 'blog/' ~ article.slug %}
-  {% elseif page_id in ['portfolio-chastnye-sady', 'portfolio-obshchestvennye-prostranstva'] %}
-    {% set _path_segment = page_id %}
-  {% elseif page_id in ['chastnye-sady', 'obshchestvennye-prostranstva'] %}
-    {% set _path_segment = page_id %}
   {% elseif page_id == 'index' %}
     {% set _path_segment = '' %}
   {% else %}

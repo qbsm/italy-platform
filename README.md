@@ -33,7 +33,7 @@
 ### UI библиотеки
 - **Swiper** — слайдеры и карусели
 - **GLightbox** — галереи изображений и видео
-- **jQuery** — для совместимости с legacy-компонентами
+- **jQuery** — используется в формах и части компонентов
 - **Inputmask** — маски ввода для форм
 - **Animate.css** — CSS-анимации
 
@@ -54,40 +54,36 @@
 4. **Многоязычная структура**: Единая архитектура для всех языков
 5. **SEO-первый подход**: Полная оптимизация для поисковых систем
 
-### Ядро приложения (`core/`)
+### Ядро приложения (`src/` + Slim 4)
 
-Централизованное ядро с модульной архитектурой (подробности в `core/README.md`).
+Приложение построено на Slim 4 с PSR-совместимой архитектурой: middleware + action + сервисы.
 
 Жизненный цикл запроса:
 
-```
-index.php → ConfigManager::build() → Application::run()
-  ├─ Redirector           проверка redirects.json → 301/302
-  ├─ UrlParser            разбор URL на сегменты
-  ├─ loadGlobal()         чтение global.json
-  ├─ LanguageDetector     определение языка из URL
-  ├─ Router               page_id из сегмента (или "index")
-  ├─ PageDataLoader       data/json/{lang}/pages/{page_id}.json
-  ├─ SeoDataLoader        data/json/{lang}/seo/{page_id}.json
-  ├─ TemplateEngine       инициализация Twig + расширения
-  ├─ SeoProcessor         рендер Twig-плейсхолдеров в SEO-полях
-  ├─ TemplateResolver     pages/{page_id}.twig → фолбэк на 404.twig
-  ├─ TemplateDataBuilder  сборка данных для шаблона
-  └─ Twig::render()       вывод HTML
+```text
+public/index.php
+  ├─ Dotenv загрузка .env
+  ├─ DI-контейнер (config/container.php)
+  ├─ Middleware stack (config/middleware.php)
+  │   ├─ TrailingSlashMiddleware
+  │   ├─ RedirectMiddleware (config/redirects.json)
+  │   └─ LanguageMiddleware
+  ├─ Routes (config/routes.php)
+  └─ PageAction
+      ├─ DataLoaderService
+      ├─ SeoService
+      ├─ TemplateDataBuilder
+      └─ Twig render
 ```
 
-Модули ядра:
+Основные модули:
 
-- `Bootstrap` — `Application` (оркестратор запроса), `ServiceContainer` (DI-контейнер)
-- `Config` — `ConfigManager`, `EnvironmentDetector`, `PathResolver`
-- `Routing` — `Router`, `Redirector`, `UrlParser`, `redirects.json`
-- `Language` — `LanguageDetector`, `LanguageService`
-- `Data` — `DataLoader`, `PageDataLoader`
-- `SEO` — `SeoDataLoader`, `SeoProcessor`
-- `Template` — `TemplateEngine`, `TemplateResolver`, `TemplateDataBuilder`
-- `Twig` — расширения: `AssetExtension` (манифесты ассетов), `UrlExtension` (генерация URL)
-- `Logging` — `Logger`, `RequestLogger`
-- `Utils` — `JsonProcessor` (обработка путей в JSON), `ErrorHandler`
+- `src/Action` — HTTP-обработчики (сейчас `PageAction`)
+- `src/Middleware` — PSR-15 middleware (URL-нормализация, редиректы, язык)
+- `src/Service` — бизнес-логика загрузки данных/SEO/сборки шаблонных данных
+- `src/Twig` — Twig-расширения (`AssetExtension`, `DataExtension`, `UrlExtension`)
+- `src/Support` — вспомогательные утилиты (`JsonProcessor`, `BaseUrlResolver`)
+- `config/` — конфигурация контейнера, маршрутов, middleware и runtime-настроек
 
 ### Структура данных
 
@@ -111,16 +107,19 @@ data/json/
 
 ### Модульная структура шаблонов
 
+Подробнее: [docs/architecture/structure.md](docs/architecture/structure.md).
+
 ```
 templates/
-├── layout.twig                    # Базовый шаблон с мета-тегами и структурой
-├── pages/                         # Шаблоны страниц
-│   ├── index.twig                 # Главная страница
-│   ├── contacts.twig              # Контакты
-│   ├── policy.twig                # Политика конфиденциальности
-│   ├── agree.twig                 # Пользовательское соглашение
-│   └── 404.twig                   # Страница ошибки 404
-├── sections/                      # Переиспользуемые секции
+├── layout.twig                    # Базовый шаблон (мета-теги, canonical, скрипты)
+├── pages/                         # Шаблоны страниц (расширяют layout)
+│   ├── index.twig
+│   ├── contacts.twig
+│   ├── policy.twig
+│   ├── agree.twig
+│   ├── restaurants-list.twig
+│   └── 404.twig
+├── sections/                      # Секции (header, footer, intro, …)
 │   ├── header.twig                # Шапка сайта
 │   ├── footer.twig                # Подвал
 │   ├── intro.twig                 # Вводная секция
@@ -254,13 +253,27 @@ npm run generate-favicons
 npm run validate-json
 
 # Тестирование правил .htaccess
-bash scripts/test-htaccess.sh
+bash tools/ops/test-htaccess.sh
 
 # Исправление прав доступа
 npm run fix-permissions
 ```
 
-## Структура файлов
+### Стандарт структуры проекта (best practice)
+
+В проекте используется стандартизированная структура:
+
+- `docs/` — документация проекта
+  - `docs/guides` — практические инструкции
+  - `docs/architecture` — техническая и архитектурная документация
+- `tools/` — утилиты автоматизации
+  - `tools/build` — скрипты сборки и постобработки
+  - `tools/scaffold` — генераторы страниц/секций/компонентов
+  - `tools/ops` — эксплуатационные и проверочные скрипты
+
+## Структура файлов (эталонная)
+
+Полное описание: [docs/architecture/structure.md](docs/architecture/structure.md).
 
 ```
 project/
@@ -282,40 +295,31 @@ project/
 │   │   └── build/                 # Собранные JS (runtime, vendors, main + manifest)
 │   ├── fonts/                     # Веб-шрифты (.woff2)
 │   └── img/                       # Иконки для ассетов
-├── core/                          # Ядро PHP-приложения (см. core/README.md)
-│   ├── Bootstrap/                 # Application, ServiceContainer
-│   ├── Config/                    # ConfigManager, EnvironmentDetector, PathResolver
-│   ├── Routing/                   # Router, Redirector, UrlParser, redirects.json
-│   ├── Language/                  # LanguageDetector, LanguageService
-│   ├── Data/                      # DataLoader, PageDataLoader
-│   ├── SEO/                       # SeoDataLoader, SeoProcessor
-│   ├── Template/                  # TemplateEngine, TemplateResolver, TemplateDataBuilder
-│   ├── Twig/                      # AssetExtension, UrlExtension
-│   ├── Logging/                   # Logger, RequestLogger
-│   └── Utils/                     # JsonProcessor, ErrorHandler
+├── src/                           # Ядро PHP-приложения (Slim 4)
+│   ├── Action/                    # Action-классы
+│   ├── Middleware/                # PSR-15 middleware
+│   ├── Service/                   # Бизнес-сервисы
+│   ├── Twig/                      # Twig extensions
+│   └── Support/                   # Утилиты/хелперы
+├── config/                        # settings/container/middleware/routes/redirects
+├── public/                        # Публичная точка входа (DocumentRoot)
+│   ├── index.php
+│   └── .htaccess
 ├── data/                          # Данные и медиа
 │   ├── json/                      # JSON-данные (см. выше)
 │   └── img/                       # Изображения (ui, favicons, seo, контент)
-├── dev/                           # Документация для разработки
-│   ├── instructions/              # Инструкции по добавлению страниц, SEO и т.д.
-│   └── docs/                      # Техническая документация
-├── scripts/                       # Скрипты автоматизации
-│   ├── create-component.js        # Генератор компонента (twig + css + js)
-│   ├── create-section.js          # Генератор секции
-│   ├── create-page.js             # Генератор страницы
-│   ├── css-hash.js                # Сборка и хеширование CSS
-│   ├── clean-assets.js            # Очистка устаревших файлов сборки
-│   ├── validate-json.js           # Валидация JSON-файлов
-│   ├── generate-favicons.js       # Генерация фавиконок
-│   ├── test-htaccess.sh           # Тест правил .htaccess
-│   └── fix-permissions.sh         # Исправление прав доступа
+├── docs/                          # Документация проекта
+│   ├── guides/                    # Инструкции (страницы, SEO и т.д.)
+│   └── architecture/              # Техническая документация
+├── tools/                         # Проектные утилиты
+│   ├── build/                     # Сборка и постобработка ассетов
+│   ├── scaffold/                  # Генераторы страниц/секций/компонентов
+│   └── ops/                       # Операционные скрипты (валидации, проверки, права)
 ├── templates/                     # Twig-шаблоны (см. выше)
 ├── .env.example                   # Пример переменных окружения
-├── .htaccess                      # Правила Apache (mod_rewrite)
-├── index.php                      # Точка входа → core/Bootstrap/Application
 ├── robots.txt                     # Правила для поисковых роботов
 ├── package.json                   # Node.js зависимости и скрипты
-├── composer.json                  # PHP зависимости (Twig 3.x)
+├── composer.json                  # PHP зависимости (Slim 4, Twig, PHP-DI)
 ├── webpack.config.js              # Конфигурация Webpack 5
 └── postcss.config.js              # Конфигурация PostCSS
 ```
@@ -327,6 +331,7 @@ project/
 | `APP_DEFAULT_LANG` | `ru` | Язык по умолчанию |
 | `APP_DEBUG` | `1` | Режим отладки |
 | `APP_ENV` | `prod` | Окружение (`prod` / `dev`) |
+| `APP_BASE_URL` | auto | Базовый URL (опционально, можно переопределить автоопределение) |
 
 ## Развертывание
 
@@ -341,7 +346,46 @@ project/
 2. Копирование `.env.example` → `.env` и настройка переменных
 3. Установка зависимостей: `composer install && npm install`
 4. Сборка ресурсов: `npm run build`
-5. Настройка веб-сервера (DocumentRoot на корень проекта)
+5. Настройка веб-сервера: **DocumentRoot обязательно указывает на `public/`** (единственная точка входа — `public/index.php`)
+
+### Apache (рекомендуемо для текущего проекта)
+
+Минимальный VirtualHost:
+
+```apache
+<VirtualHost *:80>
+    ServerName example.com
+    DocumentRoot /var/www/italy-platform/public
+
+    <Directory /var/www/italy-platform/public>
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+```
+
+Важно: должны быть включены `mod_rewrite` и `AllowOverride All` для `public/.htaccess`.
+
+### Nginx (эквивалент)
+
+```nginx
+server {
+    listen 80;
+    server_name example.com;
+    root /var/www/italy-platform/public;
+    index index.php;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+    }
+}
+```
 
 ## Производительность и оптимизация
 
@@ -351,9 +395,8 @@ project/
 - **HTTP-кеширование**: Настройки в `.htaccess` для статических ресурсов
 
 ### Логирование
-- **Логи приложения**: `logs/app.txt` — информационные сообщения
-- **Логи ошибок**: `logs/errors.txt` — ошибки с контекстом
-- Директория `logs/` создаётся автоматически при первом запуске
+- **Логи приложения**: `logs/app.log` (Monolog)
+- Ошибки PHP/Slim также доступны через стандартный error log веб-сервера
 
 ### Оптимизация изображений
 - **WebP формат**: Современный формат для всех изображений
@@ -367,6 +410,199 @@ project/
 ### CSS
 - **Модульность**: Компонентный подход — загрузка только необходимых стилей
 - **PostCSS-оптимизация**: Автопрефиксы и минификация через cssnano
+
+## Roadmap / Чеклист улучшений
+
+### Требования: Производительность и SEO
+
+Целевые метрики и критерии, которым должен соответствовать проект.
+
+**Производительность (Core Web Vitals и др.):**
+
+| Требование | Цель | Чеклист |
+|------------|------|---------|
+| First Contentful Paint (FCP) | ≤ 1.8 с | Мониторинг, оптимизация критического пути, preload шрифтов/hero |
+| Largest Contentful Paint (LCP) | ≤ 2.5 с | Preload hero-изображений, WebP/AVIF, width/height, серверное сжатие |
+| Cumulative Layout Shift (CLS) | < 0.1 | width/height у всех изображений, резервирование места под контент |
+| Interaction to Next Paint (INP) | ≤ 200 мс | Дебаунс/троттл, лёгкий JS, минификация |
+| Изображения | WebP/AVIF, width/height | Компонент picture: WebP есть; AVIF + явные width/height — в чеклисте |
+| Lazy loading | Ниже первого экрана | picture.twig: `loading="lazy"` по умолчанию; проверить все img |
+| Минификация и сжатие | CSS/JS minify, gzip/brotli | CSS/JS минифицируются; gzip/brotli — в чеклисте |
+
+**SEO и мета-данные:**
+
+| Требование | Чеклист |
+|------------|---------|
+| Уникальные `title` и `meta description` | Через `pageSeoData.meta` |
+| Один `<h1>` на странице | Аудит шаблонов, конвенция в компонентах |
+| Иерархия заголовков h1 → h2 → h3 | Аудит, документация |
+| `alt` у всех изображений | Проверить все `img`/picture (декоративные — `alt=""`) |
+| Канонический URL | Реализовано в layout.twig |
+| Open Graph и Twitter Card | В чеклисте (Фронтенд: шаблоны) |
+| Favicon | Реализовано (favicons.twig) |
+| robots.txt | Есть; актуализировать пути — в чеклисте |
+| sitemap.xml | В чеклисте |
+
+Ниже — детальный чеклист задач для выполнения этих требований.
+
+---
+
+### Архитектура и ядро
+
+- [x] Миграция на Slim 4 (PSR-7/11/15)
+- [x] PHP-DI контейнер с autowiring
+- [x] PSR-15 middleware (trailing slash, redirects, language)
+- [x] Single Action Controllers (PageAction)
+- [x] Сервисный слой (DataLoader, Seo, Language, TemplateDataBuilder)
+- [x] `public/` как DocumentRoot (безопасность)
+- [x] `vlucas/phpdotenv` вместо кастомного .env loader
+- [x] `monolog` вместо кастомного логгера
+- [x] `slim/twig-view` вместо ручного TemplateEngine
+- [ ] Единый production error-handler (структурированный JSON, 500.twig, маскирование данных)
+- [ ] Correlation ID middleware (X-Request-Id в логах и ответах)
+- [ ] Карта доменных ошибок (400/404/409/500 с чистыми сообщениями)
+- [ ] Body parsing middleware для POST-форм (если понадобится API)
+- [ ] `APP_ENV` (production/development) — программное разделение окружений
+- [ ] PHP-DI autowiring вместо ручного создания простых сервисов в `container.php`
+
+### Безопасность
+
+- [x] HTTPS redirect в `.htaccess`
+- [x] `public/` как DocumentRoot (исходники вне веб-корня)
+- [ ] HTTP security headers (X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy)
+- [ ] HSTS (Strict-Transport-Security) — раз HTTPS уже форсируется
+- [ ] Content-Security-Policy (хотя бы базовая)
+- [ ] Блокировка доступа к `.env`, `.git`, `composer.*` через `.htaccess` (защита при ошибке DocumentRoot)
+- [ ] CORS middleware (подготовка для API / форм)
+- [ ] Брендированная страница ошибки `500.twig` вместо Slim default
+
+### Структура проекта
+
+- [x] `core/` -> `src/` (PSR-4 стандарт)
+- [x] `dev/` -> `docs/` (guides + architecture)
+- [x] `scripts/` -> `tools/` (build / scaffold / ops)
+- [x] `config/` отделён от кода (settings, container, middleware, routes, redirects)
+- [x] Симлинки `public/assets`, `public/data`, `public/robots.txt`
+- [x] Автосоздание симлинков при сборке (`setup-public-links`)
+- [ ] `.editorconfig` — добавить `[*.php]` с `indent_size = 4` (PSR-12)
+- [ ] `.gitignore` — добавить `public/assets`, `public/data`, `public/robots.txt` (симлинки)
+- [ ] `.env.example` — добавить `APP_ENV`, `APP_BASE_URL`
+- [ ] `robots.txt` — убрать устаревшие `/dev/`, `/scripts/`, `/core/`, добавить `/src/`, `/config/`, `/tools/`
+
+### Quality gates и линтинг
+
+- [x] ESLint (flat config, v10) для `tools/`, `webpack.config`, `postcss.config`
+- [x] Prettier (форматирование toolchain-файлов)
+- [x] `npm run check` (lint + format:check + validate-json)
+- [x] Quality gate встроен в `npm run build`
+- [ ] ESLint для `assets/js/**` (весь клиентский JS)
+- [ ] Stylelint для `assets/css/**` (весь CSS)
+- [ ] PHPStan / Psalm для `src/**` (статический анализ PHP)
+- [ ] PHP-CS-Fixer / ECS для `src/**` (форматирование PHP)
+- [ ] Pre-commit hook (husky + lint-staged): автопроверка при коммите
+
+### Фронтенд: шаблоны
+
+- [ ] Переименовать `layout.twig` → `base.twig` (имя `base` точнее отражает роль базового шаблона)
+- [ ] Единый `page.twig` вместо 6 идентичных файлов в `pages/` (data-driven рендеринг секций)
+- [ ] Accessibility: `<button>` вместо `<a href="javascript:void(0)">` в `accordion.twig`
+- [ ] Accessibility: ARIA-атрибуты (`aria-expanded`, `aria-controls`) для accordion, burger-menu
+- [ ] Accessibility: `aria-label` для кнопок без текста
+- [ ] Open Graph теги (`og:title`, `og:description`, `og:image`, `og:url`) в `layout.twig`
+- [ ] Twitter Card разметка (`twitter:card`, `twitter:title`, `twitter:image`) в `layout.twig`
+- [ ] SEO: один `<h1>` на страницу, иерархия h1 → h2 → h3 (аудит шаблонов)
+- [ ] SEO: `alt` у всех изображений (декоративные — `alt=""`)
+- [ ] Inline-стили → CSS-классы (`spoiler`, `cookie-panel`, `card-nav`, `card-gradient`, `footer`, `intro`, `slider`)
+- [ ] Логотип в `intro.twig` — вынести дубликат в компонент
+- [ ] `<link rel="preload">` для критичных шрифтов в `<head>`
+- [ ] `<link rel="preload">` для hero-изображений above-the-fold
+
+### Фронтенд: JavaScript
+
+- [ ] Убрать `console.log` из production-кода (или обернуть в `APP_DEBUG`)
+- [ ] `form-callback.js` — переписать логику форм с нуля (модульная архитектура, валидация, отправка)
+- [ ] `accordion.js` — CSS-классы вместо inline-стилей через JS
+- [ ] Debounce/throttle утилиты для scroll/resize обработчиков
+- [ ] Единая система инициализации компонентов (вместо множественных `DOMContentLoaded`)
+- [ ] Проверить актуальность версий vendor-библиотек (jQuery, Swiper, GLightbox, Inputmask)
+
+### Фронтенд: CSS и шрифты
+
+- [x] Заменить связку плагинов на `postcss-preset-env` (custom-media, nested, custom-properties + container-queries)
+- [ ] Container Queries — использовать для карточек/компонентов (адаптация к размеру контейнера)
+- [ ] Аудит неиспользуемых начертаний шрифтов (загружаются 100–900)
+- [ ] Рассмотреть variable fonts для сокращения количества файлов
+- [ ] `MiniCssExtractPlugin` в webpack для production (вместо `style-loader`)
+
+### Производительность и кэширование
+
+- [x] Webpack 5 с code splitting и content-hash
+- [x] PostCSS с custom properties, nesting, autoprefixer, cssnano
+- [x] CSS/JS манифесты для cache-busting
+- [x] Очистка устаревших ассетов (clean-assets)
+- [x] Source maps отключены в production JS (webpack)
+- [ ] Twig кэш в production (`cache => $projectRoot . '/cache/twig'` при `APP_ENV=production`)
+- [ ] Cache-Control / Expires для статики в `.htaccess` (img, css, js, fonts)
+- [ ] Gzip/Brotli сжатие (mod_deflate / mod_brotli в `.htaccess`)
+- [ ] PostCSS source maps отключить в production (`css-hash.js`)
+- [ ] Оптимизация изображений при сборке (sharp/imagemin в `tools/build`)
+- [ ] Генерация WebP/AVIF при сборке; в `picture.twig` — явные `width`/`height` у `<img>` (CLS < 0.1)
+- [ ] Lazy loading для всех изображений ниже первого экрана (аудит вызовов picture/img)
+- [ ] Цели по метрикам: FCP ≤ 1.8 с, LCP ≤ 2.5 с, CLS < 0.1, INP ≤ 200 мс (Lighthouse-аудит, при необходимости — мониторинг)
+
+### Конфигурация и окружение
+
+- [ ] Вынести `YANDEX_METRIC_ID` из `layout.twig` в `.env` / `global.json`
+- [ ] Twig-кэш: привязать к `APP_ENV` вместо хардкода `false`
+- [ ] Лог-уровень: `DEBUG` для dev, `WARNING` для production (через `APP_ENV`)
+
+### Документация
+
+- [x] README.md обновлён под Slim 4 + новую структуру
+- [x] Конфиги Apache и Nginx в README
+- [x] Описание env-переменных
+- [ ] `docs/guides/local-setup.md` — пошаговый запуск с нуля (Valet, Composer, npm)
+- [ ] `docs/guides/deploy-checklist.md` — чеклист продакшн-выкатки
+- [x] Эталонная структура: [docs/architecture/structure.md](docs/architecture/structure.md); ссылки `scripts/` → `tools/`, убраны portfolio из docs
+
+### DevOps / CI
+
+- [ ] GitHub Actions / GitLab CI (lint + check + build + php syntax)
+- [ ] Автоматический деплой (staging / production)
+
+### Тестирование
+
+- [x] Валидация JSON (`validate-json`)
+
+**PHP (PHPUnit) — `tests/php/`:**
+- [ ] Unit: `DataLoaderService` — загрузка JSON, обработка отсутствующих файлов
+- [ ] Unit: `SeoService` — обработка Twig-шаблонов в SEO-данных
+- [ ] Unit: `LanguageService` — определение языка из URL
+- [ ] Unit: `TemplateDataBuilder` — сборка данных для шаблонов
+- [ ] Unit: `JsonProcessor` — обработка путей в JSON
+- [ ] Integration: `PageAction` — рендеринг страниц (200, 404)
+- [ ] Integration: Middleware-цепочка (trailing slash, redirects, language)
+
+**JS (Vitest) — `tests/js/`:**
+- [ ] Unit: утилита `url()` из `main.js`
+- [ ] Unit: логика форм (новый `form-callback`)
+- [ ] Unit: accordion — toggle, show-all, ARIA-состояния
+- [ ] Unit: debounce/throttle утилиты
+
+**Smoke-тесты — `tests/smoke/`:**
+- [ ] `GET /` → 200, `Content-Type: text/html`
+- [ ] `GET /contacts/` → 200
+- [ ] `GET /nonexistent/` → 404
+- [ ] `GET /en/` → 200 (мультиязычность)
+- [ ] Redirect `http → https`
+- [ ] Redirect без trailing slash → со слешом
+
+**Инфраструктура:**
+- [ ] Создать `tests/` со структурой `php/`, `js/`, `smoke/`
+- [ ] `phpunit.xml` в корне проекта
+- [ ] `vitest.config.js` для JS-тестов
+- [ ] Интеграция тестов в `npm run build` (vitest --run перед webpack)
+- [ ] `npm run test` — запуск PHPUnit + Vitest
 
 ---
 

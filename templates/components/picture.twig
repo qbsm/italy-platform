@@ -120,62 +120,7 @@
       {% if itemprop is defined %}itemprop="{{ itemprop }}"{% endif %}>
   </picture>
 
-{# Старый формат: sources (обратная совместимость) #}
-{% elseif image.sources is defined %}
-  <picture {% if pictureClass %}class="{{ pictureClass }}"{% endif %} {% if pictureStyle %}style="{{ pictureStyle }}"{% endif %}>
-    {% if image.sources.mobile is defined %}
-      {% set mobileSrc = image.sources.mobile.src is defined ? image.sources.mobile.src : image.sources.mobile %}
-      <source 
-        media="(max-width: 767px)" 
-        srcset="{{ url(mobileSrc) }}"
-        type="image/webp">
-    {% endif %}
-    {% set desktopImg = image.sources.desktop is defined ? image.sources.desktop : (image.sources.default is defined ? image.sources.default : null) %}
-    {% if desktopImg %}
-      {% set desktopSrc = desktopImg.src is defined ? desktopImg.src : desktopImg %}
-      <img 
-        src="{{ url(desktopSrc) }}" 
-        alt="{{ imageAlt }}" 
-        loading="{{ imageLoading }}" 
-        decoding="async"
-        class="{{ imageClass }}"
-        {% if imageStyle %}style="{{ imageStyle }}"{% endif %}
-        {% if itemprop is defined %}itemprop="{{ itemprop }}"{% endif %}>
-    {% endif %}
-  </picture>
-
-{# Старый формат: versions (обратная совместимость) #}
-{% elseif image.versions is defined and image.versions %}
-  {% set srcsetItems = [] %}
-  {% if image.versions['800'] is defined %}
-    {% set srcsetItems = srcsetItems|merge([url(image.versions['800']) ~ ' 800w']) %}
-  {% endif %}
-  {% if image.versions['1600'] is defined %}
-    {% set srcsetItems = srcsetItems|merge([url(image.versions['1600']) ~ ' 1600w']) %}
-  {% endif %}
-  {% if image.versions.raw is defined %}
-    {% set srcsetItems = srcsetItems|merge([url(image.versions.raw) ~ ' 1920w']) %}
-  {% endif %}
-  {% set fallbackSrc = image.versions['1600']|default(image.versions['800']|default(image.versions.raw)) %}
-  
-  <picture {% if pictureClass %}class="{{ pictureClass }}"{% endif %} {% if pictureStyle %}style="{{ pictureStyle }}"{% endif %}>
-    {% if srcsetItems|length > 0 %}
-      <source 
-        srcset="{{ srcsetItems|join(', ') }}" 
-        sizes="{{ imageSizes }}" 
-        type="image/webp">
-    {% endif %}
-    <img 
-      src="{{ url(fallbackSrc) }}" 
-      alt="{{ imageAlt }}" 
-      loading="{{ imageLoading }}" 
-      decoding="async"
-      class="{{ imageClass }}"
-      {% if imageStyle %}style="{{ imageStyle }}"{% endif %}
-      {% if itemprop is defined %}itemprop="{{ itemprop }}"{% endif %}>
-  </picture>
-
-{# Старый формат: src (обратная совместимость) #}
+{# Формат: один URL (image.src) #}
 {% elseif image.src is defined %}
   <picture {% if pictureClass %}class="{{ pictureClass }}"{% endif %} {% if pictureStyle %}style="{{ pictureStyle }}"{% endif %}>
     <img 

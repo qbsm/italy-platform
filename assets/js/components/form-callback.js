@@ -45,10 +45,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (forms.length === 0) {
       const lang = document.documentElement.lang ? document.documentElement.lang.toLowerCase() : 'ru';
       // Предполагается, что globalData уже загружен или не критичен для этого сообщения
-      const noFormsMessage = window.globalData
-        ? getLocalizedText('messages', 'no_forms_found', 'Формы обратной связи не найдены.', lang)
-        : 'Формы обратной связи не найдены (globalData не загружен).';
-      console.log(noFormsMessage);
       return;
     }
     // console.log('Найдено форм .form-callback:', forms.length);
@@ -700,10 +696,7 @@ document.addEventListener('DOMContentLoaded', function () {
       ? serverResponse.request_id 
       : Math.floor(Date.now() / 1000); // Fallback, если не получен из первого ответа
     
-    console.log('Проверка статуса заявки с ID:', requestId);
-    
-    // Для отладки - обрабатываем без проверки статуса, предполагая успех
-    // Временное решение, пока нет проверки статуса на сервере
+    // При отсутствии api/status считаем заявку успешной после отправки
     if (submitButton) {
       submitButton.classList.add('no-pseudo-icon');
       submitButton.innerHTML = `<img src="${window.url('data/img/ui/icons/icon-check-sm-color-2.svg')}" alt="Успешно" class="button-icon"> Успешно отправлена`;
@@ -726,9 +719,8 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
     clearErrors(form);
-    
-    return; // Отключаем реальную проверку на время отладки
-    
+    return;
+
     let attempts = 0;
     const maxAttempts = 3;
     

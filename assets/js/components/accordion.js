@@ -1,6 +1,5 @@
 // JavaScript для accordion
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('accordion загружен');
   const accordions = document.querySelectorAll('.accordion');
   
   accordions.forEach(accordion => {
