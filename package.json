@@ -29,7 +29,7 @@
     "create-component": "node tools/scaffold/create-component.js",
     "create-page": "node tools/scaffold/create-page.js",
     "generate-favicons": "node tools/ops/generate-favicons.js",
-    "init": "node tools/ops/init-env.js",
+    "init": "npm install && composer install && node tools/ops/init-env.js",
     "validate-json": "node tools/ops/validate-json.js data/json",
     "fix-permissions": "sudo bash tools/ops/fix-permissions.sh",
     "prepare": "husky"

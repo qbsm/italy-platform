@@ -84,6 +84,16 @@ async function main() {
     env = readEnvFile(envPath);
   }
 
+  const allRequiredSet = Object.keys(REQUIRED).every((key) => {
+    const v = (env[key] || '').trim();
+    const { placeholder } = REQUIRED[key];
+    return v && (!placeholder || v !== placeholder);
+  });
+  if (allRequiredSet) {
+    console.log('Все обязательные переменные в .env уже заданы. Пропуск запроса.');
+    return;
+  }
+
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
   let needWrite = false;
 
