@@ -28,6 +28,8 @@
 {% set imageStyle = style|default('') %}
 {% set pictureClass = picture_class|default('') %}
 {% set pictureStyle = picture_style|default('') %}
+{% set imageWidth = image.width|default(null) %}
+{% set imageHeight = image.height|default(null) %}
 
 {# Новый формат: horizontal/vertical #}
 {% if image.horizontal is defined or image.vertical is defined %}
@@ -79,12 +81,14 @@
       {% set fallbackSrc = vImg['800']|default(vImg['1600']|default(vImg.raw)) %}
     {% endif %}
     
+    {% set dims = imageWidth and imageHeight ? {'width': imageWidth, 'height': imageHeight} : image_dimensions(fallbackSrc) %}
     <img 
       src="{{ url(fallbackSrc) }}" 
       alt="{{ imageAlt }}" 
       loading="{{ imageLoading }}" 
       decoding="async"
       class="{{ imageClass }}"
+      {% if dims %}width="{{ dims.width }}" height="{{ dims.height }}"{% endif %}
       {% if imageStyle %}style="{{ imageStyle }}"{% endif %}
       {% if itemprop is defined %}itemprop="{{ itemprop }}"{% endif %}>
   </picture>
@@ -102,6 +106,7 @@
     {% set srcsetItems = srcsetItems|merge([url(image.raw) ~ ' 1920w']) %}
   {% endif %}
   {% set fallbackSrc = image['800']|default(image['1600']|default(image.raw)) %}
+  {% set dims = imageWidth and imageHeight ? {'width': imageWidth, 'height': imageHeight} : image_dimensions(fallbackSrc) %}
   
   <picture {% if pictureClass %}class="{{ pictureClass }}"{% endif %} {% if pictureStyle %}style="{{ pictureStyle }}"{% endif %}>
     {% if srcsetItems|length > 0 %}
@@ -116,12 +121,14 @@
       loading="{{ imageLoading }}" 
       decoding="async"
       class="{{ imageClass }}"
+      {% if dims %}width="{{ dims.width }}" height="{{ dims.height }}"{% endif %}
       {% if imageStyle %}style="{{ imageStyle }}"{% endif %}
       {% if itemprop is defined %}itemprop="{{ itemprop }}"{% endif %}>
   </picture>
 
 {# Формат: один URL (image.src) #}
 {% elseif image.src is defined %}
+  {% set dims = imageWidth and imageHeight ? {'width': imageWidth, 'height': imageHeight} : image_dimensions(image.src) %}
   <picture {% if pictureClass %}class="{{ pictureClass }}"{% endif %} {% if pictureStyle %}style="{{ pictureStyle }}"{% endif %}>
     <img 
       src="{{ url(image.src) }}" 
@@ -129,6 +136,7 @@
       loading="{{ imageLoading }}" 
       decoding="async"
       class="{{ imageClass }}"
+      {% if dims %}width="{{ dims.width }}" height="{{ dims.height }}"{% endif %}
       {% if imageStyle %}style="{{ imageStyle }}"{% endif %}
       {% if itemprop is defined %}itemprop="{{ itemprop }}"{% endif %}>
   </picture>

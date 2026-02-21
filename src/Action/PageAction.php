@@ -81,14 +81,7 @@ final class PageAction
             'is_lang_in_url' => $isLangInUrl,
         ], $twigEnv);
 
-        $template = 'pages/' . $pageId . '.twig';
-        if (!$twigEnv->getLoader()->exists($template)) {
-            $status = 404;
-            $pageId = '404';
-            $template = 'pages/404.twig';
-            $pageData = $this->dataLoader->loadPage($pageJsonDir, '404', $baseUrl) ?? ['name' => '404', 'sections' => []];
-            $seoData = $this->dataLoader->loadSeo($jsonBaseDir, $langCode, '404', $baseUrl);
-        }
+        $template = 'pages/page.twig';
 
         $data = $this->templateDataBuilder->build(
             $this->settings,

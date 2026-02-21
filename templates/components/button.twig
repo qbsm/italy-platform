@@ -1,7 +1,7 @@
 {% set content %}
   {{ item.title | raw }}
   {% if item.icon is defined %}
-    <img src="{{ item.icon.src }}" alt="{{ item.icon.alt | default('') }}" class="button__icon {{ item.icon.class | default('') }}">
+    <img src="{{ item.icon.src }}" alt="{{ item.icon.alt | default('') }}" class="button__icon {{ item.icon.class | default('') }}" loading="lazy">
   {% endif %}
 {% endset %}
 {% if item.href %}

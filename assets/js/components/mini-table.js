@@ -1,4 +1,6 @@
 // JavaScript для mini-table
-document.addEventListener('DOMContentLoaded', function() {
+import { onReady } from '../base/init.js';
+
+onReady(function () {
   // Код для mini-table
 });

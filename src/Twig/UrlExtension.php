@@ -42,6 +42,11 @@ class UrlExtension extends AbstractExtension
             $trimmedPath = rtrim($trimmedPath, '/') . '/';
         }
 
+        // Статика (data/, assets/) всегда от корня документа (public/), иначе на /ru/ картинки 404
+        if ($trimmedPath !== '' && (str_starts_with($trimmedPath, 'data/') || str_starts_with($trimmedPath, 'assets/'))) {
+            return '/' . $trimmedPath;
+        }
+
         return $this->baseUrl . $trimmedPath;
     }
 }

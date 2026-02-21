@@ -63,47 +63,47 @@
 }
 
 .opacity-08 {
-  opacity: 8%;
+  opacity: 0.08;
 }
 
 .opacity-10 {
-  opacity: 10%;
+  opacity: 0.1;
 }
 
 .opacity-12 {
-  opacity: 12%;
+  opacity: 0.12;
 }
 
 .opacity-20 {
-  opacity: 20%;
+  opacity: 0.2;
 }
 
 .opacity-30 {
-  opacity: 30%;
+  opacity: 0.3;
 }
 
 .opacity-40 {
-  opacity: 40%;
+  opacity: 0.4;
 }
 
 .opacity-50 {
-  opacity: 50%;
+  opacity: 0.5;
 }
 
 .opacity-60 {
-  opacity: 60%;
+  opacity: 0.6;
 }
 
 .opacity-70 {
-  opacity: 70%;
+  opacity: 0.7;
 }
 
 .opacity-80 {
-  opacity: 80%;
+  opacity: 0.8;
 }
 
 .opacity-90 {
-  opacity: 90%;
+  opacity: 0.9;
 }
 
 .height-1 {
@@ -225,7 +225,7 @@
   justify-content: center;
   border-radius: 50%;
   flex-shrink: 0;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 10%);
   transition: all 0.3s ease;
 
   @media (--lg) {
@@ -235,7 +235,7 @@
 }
 
 .icon-sm-wrap:hover {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 20%);
 }
 
 .icon-sm {

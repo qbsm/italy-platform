@@ -1,4 +1,6 @@
-document.addEventListener('DOMContentLoaded', function() {
+import { onReady } from '../base/init.js';
+
+onReady(() => {
   initLogolineSlider();
 });
 
@@ -30,8 +32,8 @@ function initLogolineSlider() {
       1200: {
         slidesPerView: 10,
         spaceBetween: 10,
-      }
-    }
+      },
+    },
   });
 
   el.swiperInstance = swiper;

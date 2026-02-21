@@ -12,13 +12,14 @@
   --mouse-x: -100px;
   --mouse-y: -100px;
   --spotlight-radius: 6rem;
+
   background: radial-gradient(
     circle var(--spotlight-radius) at var(--mouse-x) var(--mouse-y),
     var(--color-4) 0%,
     var(--color-4) 40%,
     var(--color-2) 100%
   );
-  -webkit-background-clip: text;
+  background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   cursor: default;

@@ -16,8 +16,10 @@
   color: var(--color-1);
   overflow: hidden;
   transition: all 0.25s ease-out;
+  container-type: inline-size;
+  container-name: card-gradient;
 
-  @media (--lg) {
+  @container card-gradient (min-width: 75rem) {
     padding: 4rem;
     gap: 1.25rem;
     border-radius: 4rem;
@@ -37,7 +39,7 @@ a.card-gradient:hover {
 .card-gradient .card__item.title-wrap .card__title {
   font-size: 2em;
 
-  @media (--lg) {
+  @container card-gradient (min-width: 75rem) {
     font-size: 2.5em;
   }
 }
@@ -51,7 +53,7 @@ a.card-gradient:hover {
   width: 2rem;
   height: 2rem;
 
-  @media (--lg) {
+  @container card-gradient (min-width: 75rem) {
     width: 3.2rem;
     height: 3.2rem;
   }

@@ -49,15 +49,15 @@
   },
   "logo": {
     "white": {
-      "src": "data/img/ui/logo-color-1.svg",
+      "src": "data/img/ui/logos/logo-color-1.svg",
       "alt": "Logo"
     },
     "black": {
-      "src": "data/img/ui/logo-color-2.svg",
+      "src": "data/img/ui/logos/logo-color-2.svg",
       "alt": "Logo"
     },
     "color": {
-      "src": "data/img/ui/logo-color.svg",
+      "src": "data/img/ui/logos/logo-color.svg",
       "alt": "Logo"
     }
   },
@@ -204,6 +204,16 @@
     "show-all": {
       "ru": "Показать все",
       "en": "Show all"
+    }
+  },
+  "burger": {
+    "aria_open": {
+      "ru": "Открыть меню",
+      "en": "Open menu"
+    },
+    "aria_close": {
+      "ru": "Закрыть меню",
+      "en": "Close menu"
     }
   },
   "cookie-panel": {

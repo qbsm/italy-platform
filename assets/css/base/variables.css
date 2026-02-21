@@ -6,8 +6,8 @@
     --color-5: #EEC479;
     --color-6: #D4D2D2;
     --color-7: #151515;
-    --gradient-1: linear-gradient(to bottom, hsla(0, 0%, 100%, 1), hsla(0, 0%, 100%, 0));
-    --gradient-2: linear-gradient(to bottom, hsla(0, 0%, 0%, 1), hsla(0, 0%, 0%, 0));
+    --gradient-1: linear-gradient(to bottom, hsl(0deg 0% 100% / 100%), hsl(0deg 0% 100% / 0%));
+    --gradient-2: linear-gradient(to bottom, hsl(0deg 0% 0% / 100%), hsl(0deg 0% 0% / 0%));
     --gradient-3: linear-gradient(to left, #F1ECE4, #DAD8D7);
 }
 

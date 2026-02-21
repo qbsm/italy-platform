@@ -19,6 +19,7 @@ window.url = url;
 // --- Vendor ---
 import './vendor.js';
 import './base/expose-vendors.js';
+import { onReady } from './base/init.js';
 
 // --- Sections ---
 import './sections/logoline.js';
@@ -56,7 +57,7 @@ import './pages/contacts.js';
 import './pages/index.js';
 
 // --- Init ---
-document.addEventListener('DOMContentLoaded', () => {
+onReady(() => {
   if (typeof setupSliders === 'function') {
     setupSliders();
   }

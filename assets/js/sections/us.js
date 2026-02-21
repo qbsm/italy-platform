@@ -1,4 +1,6 @@
-document.addEventListener('DOMContentLoaded', () => {
+import { onReady } from '../base/init.js';
+
+onReady(() => {
   const section = document.querySelector('.us');
   if (!section) return;
 
@@ -10,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateBg() {
       const rect = section.getBoundingClientRect();
-      const progress = (rect.top + rect.height / 2 - window.innerHeight / 2);
+      const progress = rect.top + rect.height / 2 - window.innerHeight / 2;
 
       if (bgTop) bgTop.style.transform = `translateY(${progress * 0.06}px)`;
       if (bgBottom) bgBottom.style.transform = `translateY(${progress * -0.06}px)`;
@@ -18,11 +20,15 @@ document.addEventListener('DOMContentLoaded', () => {
       bgTicking = false;
     }
 
-    window.addEventListener('scroll', () => {
-      if (bgTicking) return;
-      bgTicking = true;
-      requestAnimationFrame(updateBg);
-    }, { passive: true });
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (bgTicking) return;
+        bgTicking = true;
+        requestAnimationFrame(updateBg);
+      },
+      { passive: true }
+    );
   }
 
   const visual = section.querySelector('.section__item.visual-wrap');

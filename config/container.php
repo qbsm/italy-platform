@@ -3,14 +3,13 @@
 declare(strict_types=1);
 
 use App\Action\PageAction;
+use App\Handler\HttpErrorHandler;
+use App\Handler\ServerErrorHandler;
+use App\Middleware\CorsMiddleware;
 use App\Middleware\LanguageMiddleware;
 use App\Middleware\RedirectMiddleware;
-use App\Middleware\TrailingSlashMiddleware;
+use App\Middleware\SecurityHeadersMiddleware;
 use App\Service\DataLoaderService;
-use App\Service\LanguageService;
-use App\Service\SeoService;
-use App\Service\TemplateDataBuilder;
-use App\Support\BaseUrlResolver;
 use App\Twig\AssetExtension;
 use App\Twig\DataExtension;
 use App\Twig\UrlExtension;
@@ -31,13 +30,10 @@ return static function (): ContainerInterface {
 
     $builder->addDefinitions([
         'settings' => $settings,
+        'displayErrorDetails' => (bool) ($settings['twig']['debug'] ?? false),
+        'errorMap' => $settings['errors'] ?? [],
 
-        ResponseFactoryInterface::class => static fn() => new ResponseFactory(),
-        BaseUrlResolver::class => static fn() => new BaseUrlResolver(),
-        DataLoaderService::class => static fn() => new DataLoaderService(),
-        LanguageService::class => static fn() => new LanguageService(),
-        SeoService::class => static fn() => new SeoService(),
-        TemplateDataBuilder::class => static fn() => new TemplateDataBuilder(),
+        ResponseFactoryInterface::class => \DI\get(ResponseFactory::class),
 
         LoggerInterface::class => static function () use ($settings): LoggerInterface {
             $logDir = (string) ($settings['paths']['logs'] ?? '');
@@ -47,13 +43,14 @@ return static function (): ContainerInterface {
 
             $logger = new Logger('app');
             $logFile = rtrim($logDir, '/') . '/app.log';
-            $logger->pushHandler(new StreamHandler($logFile, Logger::INFO));
+            $level = ($settings['env'] ?? 'development') === 'production' ? Logger::WARNING : Logger::DEBUG;
+            $logger->pushHandler(new StreamHandler($logFile, $level));
             return $logger;
         },
 
         Twig::class => static function (ContainerInterface $container) use ($settings): Twig {
             $baseDir = (string) $settings['project_root'];
-            $baseUrl = rtrim((string) ($_SERVER['APP_BASE_URL'] ?? ''), '/');
+            $baseUrl = rtrim((string) ($_ENV['APP_BASE_URL'] ?? $_SERVER['APP_BASE_URL'] ?? getenv('APP_BASE_URL') ?: ''), '/');
             if ($baseUrl === '') {
                 $https = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
                 $host = (string) ($_SERVER['HTTP_HOST'] ?? 'localhost');
@@ -84,26 +81,18 @@ return static function (): ContainerInterface {
             return $twig;
         },
 
-        TrailingSlashMiddleware::class => static fn(ContainerInterface $c) => new TrailingSlashMiddleware(
-            $c->get(ResponseFactoryInterface::class)
+        SecurityHeadersMiddleware::class => static fn(ContainerInterface $c) => new SecurityHeadersMiddleware(
+            ($c->get('settings')['env'] ?? 'development') === 'production'
         ),
-        RedirectMiddleware::class => static fn(ContainerInterface $c) => new RedirectMiddleware(
-            $c->get('settings'),
+
+        PageAction::class => \DI\autowire()->constructorParameter('settings', \DI\get('settings')),
+        ServerErrorHandler::class => \DI\autowire()->constructorParameter('displayErrorDetails', \DI\get('displayErrorDetails')),
+        HttpErrorHandler::class => \DI\autowire()->constructorParameter('errorMap', \DI\get('errorMap')),
+        RedirectMiddleware::class => \DI\autowire()->constructorParameter('settings', \DI\get('settings')),
+        LanguageMiddleware::class => \DI\autowire()->constructorParameter('settings', \DI\get('settings')),
+        CorsMiddleware::class => static fn(ContainerInterface $c) => new CorsMiddleware(
             $c->get(ResponseFactoryInterface::class),
-            $c->get(BaseUrlResolver::class)
-        ),
-        LanguageMiddleware::class => static fn(ContainerInterface $c) => new LanguageMiddleware(
-            $c->get('settings'),
-            $c->get(DataLoaderService::class),
-            $c->get(LanguageService::class),
-            $c->get(BaseUrlResolver::class)
-        ),
-        PageAction::class => static fn(ContainerInterface $c) => new PageAction(
-            $c->get(Twig::class),
-            $c->get(DataLoaderService::class),
-            $c->get(SeoService::class),
-            $c->get(TemplateDataBuilder::class),
-            $c->get('settings')
+            $c->get('settings')['cors'] ?? []
         ),
     ]);
 

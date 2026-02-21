@@ -14,5 +14,15 @@
         "psr-4": {
             "App\\": "src/"
         }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "php-cs-fixer/shim": "^3.94",
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/php/"
+        }
     }
 }

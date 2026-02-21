@@ -1,4 +1,6 @@
-document.addEventListener('DOMContentLoaded', function () {
+import { onReady } from '../base/init.js';
+
+onReady(function () {
   const buttons = document.querySelectorAll('[data-tag]');
   const cards = document.querySelectorAll('.card-restaurant-wrap[data-tags]');
 
@@ -12,8 +14,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (activeTag === tag) {
         activeTag = null;
-        buttons.forEach(function (b) { b.classList.remove('active'); });
-        cards.forEach(function (card) { card.style.display = ''; });
+        buttons.forEach(function (b) {
+          b.classList.remove('active');
+        });
+        cards.forEach(function (card) {
+          card.style.display = '';
+        });
         return;
       }
 

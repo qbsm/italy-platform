@@ -65,9 +65,10 @@ public/index.php
   ├─ Dotenv загрузка .env
   ├─ DI-контейнер (config/container.php)
   ├─ Middleware stack (config/middleware.php)
-  │   ├─ TrailingSlashMiddleware
+  │   ├─ SecurityHeadersMiddleware (X-Content-Type-Options, HSTS и др.)
+  │   ├─ LanguageMiddleware
   │   ├─ RedirectMiddleware (config/redirects.json)
-  │   └─ LanguageMiddleware
+  │   └─ TrailingSlashMiddleware
   ├─ Routes (config/routes.php)
   └─ PageAction
       ├─ DataLoaderService
@@ -79,11 +80,11 @@ public/index.php
 Основные модули:
 
 - `src/Action` — HTTP-обработчики (сейчас `PageAction`)
-- `src/Middleware` — PSR-15 middleware (URL-нормализация, редиректы, язык)
+- `src/Middleware` — PSR-15 middleware (security headers, язык, редиректы, trailing slash)
 - `src/Service` — бизнес-логика загрузки данных/SEO/сборки шаблонных данных
 - `src/Twig` — Twig-расширения (`AssetExtension`, `DataExtension`, `UrlExtension`)
 - `src/Support` — вспомогательные утилиты (`JsonProcessor`, `BaseUrlResolver`)
-- `config/` — конфигурация контейнера, маршрутов, middleware и runtime-настроек
+- `config/` — конфигурация контейнера, маршрутов, middleware и runtime-настроек (окружение и настройки: [docs/architecture/config.md](docs/architecture/config.md))
 
 ### Структура данных
 
@@ -111,14 +112,9 @@ data/json/
 
 ```
 templates/
-├── layout.twig                    # Базовый шаблон (мета-теги, canonical, скрипты)
-├── pages/                         # Шаблоны страниц (расширяют layout)
-│   ├── index.twig
-│   ├── contacts.twig
-│   ├── policy.twig
-│   ├── agree.twig
-│   ├── restaurants-list.twig
-│   └── 404.twig
+├── base.twig                    # Базовый шаблон (мета-теги, canonical, скрипты)
+├── pages/                         # Единый data-driven шаблон
+│   └── page.twig                 # Рендеринг по sections из JSON страницы
 ├── sections/                      # Секции (header, footer, intro, …)
 │   ├── header.twig                # Шапка сайта
 │   ├── footer.twig                # Подвал
@@ -193,7 +189,7 @@ templates/
 ### 4. Формы и аналитика
 - **Форма обратной связи**: С валидацией на клиенте, маской телефона и политикой согласия
 - **Множественная аналитика**: Яндекс.Метрика, Roistat, Top.Mail.Ru
-- **Cookie-панель**: Глобальная панель из `layout.twig`, тексты из `global.json`
+- **Cookie-панель**: Глобальная панель из `base.twig`, тексты из `global.json`
 
 ## Команды разработки
 
@@ -257,6 +253,9 @@ bash tools/ops/test-htaccess.sh
 
 # Исправление прав доступа
 npm run fix-permissions
+
+# Проверка актуальности версий зависимостей (в т.ч. jQuery, Swiper, GLightbox, Inputmask)
+npm outdated
 ```
 
 ### Стандарт структуры проекта (best practice)
@@ -355,9 +354,9 @@ project/
 ```apache
 <VirtualHost *:80>
     ServerName example.com
-    DocumentRoot /var/www/italy-platform/public
+    DocumentRoot /var/www/platform/public
 
-    <Directory /var/www/italy-platform/public>
+    <Directory /var/www/platform/public>
         AllowOverride All
         Require all granted
     </Directory>
@@ -372,7 +371,7 @@ project/
 server {
     listen 80;
     server_name example.com;
-    root /var/www/italy-platform/public;
+    root /var/www/platform/public;
     index index.php;
 
     location / {
@@ -422,11 +421,11 @@ server {
 | Требование | Цель | Чеклист |
 |------------|------|---------|
 | First Contentful Paint (FCP) | ≤ 1.8 с | Мониторинг, оптимизация критического пути, preload шрифтов/hero |
-| Largest Contentful Paint (LCP) | ≤ 2.5 с | Preload hero-изображений, WebP/AVIF, width/height, серверное сжатие |
+| Largest Contentful Paint (LCP) | ≤ 2.5 с | Preload hero-изображений, WebP, width/height, серверное сжатие |
 | Cumulative Layout Shift (CLS) | < 0.1 | width/height у всех изображений, резервирование места под контент |
 | Interaction to Next Paint (INP) | ≤ 200 мс | Дебаунс/троттл, лёгкий JS, минификация |
-| Изображения | WebP/AVIF, width/height | Компонент picture: WebP есть; AVIF + явные width/height — в чеклисте |
-| Lazy loading | Ниже первого экрана | picture.twig: `loading="lazy"` по умолчанию; проверить все img |
+| Изображения | WebP, width/height | Компонент picture: WebP, явные width/height из манифеста |
+| Lazy loading | Ниже первого экрана | picture.twig: `loading="lazy"` по умолчанию; при добавлении img — см. [images-lazy-loading.md](docs/guides/images-lazy-loading.md) |
 | Минификация и сжатие | CSS/JS minify, gzip/brotli | CSS/JS минифицируются; gzip/brotli — в чеклисте |
 
 **SEO и мета-данные:**
@@ -437,13 +436,13 @@ server {
 | Один `<h1>` на странице | Аудит шаблонов, конвенция в компонентах |
 | Иерархия заголовков h1 → h2 → h3 | Аудит, документация |
 | `alt` у всех изображений | Проверить все `img`/picture (декоративные — `alt=""`) |
-| Канонический URL | Реализовано в layout.twig |
+| Канонический URL | Реализовано в base.twig |
 | Open Graph и Twitter Card | В чеклисте (Фронтенд: шаблоны) |
 | Favicon | Реализовано (favicons.twig) |
 | robots.txt | Есть; актуализировать пути — в чеклисте |
 | sitemap.xml | В чеклисте |
 
-Ниже — детальный чеклист задач для выполнения этих требований.
+Ниже — детальный чеклист задач для выполнения этих требований. **Задачи по формам (form-callback, api/send, CSRF, rate limiting, контракт API) — на hold.**
 
 ---
 
@@ -458,23 +457,23 @@ server {
 - [x] `vlucas/phpdotenv` вместо кастомного .env loader
 - [x] `monolog` вместо кастомного логгера
 - [x] `slim/twig-view` вместо ручного TemplateEngine
-- [ ] Единый production error-handler (структурированный JSON, 500.twig, маскирование данных)
-- [ ] Correlation ID middleware (X-Request-Id в логах и ответах)
-- [ ] Карта доменных ошибок (400/404/409/500 с чистыми сообщениями)
-- [ ] Body parsing middleware для POST-форм (если понадобится API)
-- [ ] `APP_ENV` (production/development) — программное разделение окружений
-- [ ] PHP-DI autowiring вместо ручного создания простых сервисов в `container.php`
+- [x] Единый production error-handler (структурированный JSON, 500.twig, маскирование данных)
+- [x] Correlation ID middleware (X-Request-Id в запросе и ответе)
+- [x] Карта доменных ошибок (400/404/409/500 с чистыми сообщениями)
+- [x] Body parsing middleware для POST-форм (если понадобится API)
+- [x] `APP_ENV` (production/development) — программное разделение окружений (Twig cache, log level)
+- [x] PHP-DI autowiring вместо ручного создания простых сервисов в `container.php`
 
 ### Безопасность
 
 - [x] HTTPS redirect в `.htaccess`
 - [x] `public/` как DocumentRoot (исходники вне веб-корня)
-- [ ] HTTP security headers (X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy)
-- [ ] HSTS (Strict-Transport-Security) — раз HTTPS уже форсируется
-- [ ] Content-Security-Policy (хотя бы базовая)
-- [ ] Блокировка доступа к `.env`, `.git`, `composer.*` через `.htaccess` (защита при ошибке DocumentRoot)
-- [ ] CORS middleware (подготовка для API / форм)
-- [ ] Брендированная страница ошибки `500.twig` вместо Slim default
+- [x] HTTP security headers (X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy)
+- [x] HSTS (Strict-Transport-Security) — в production через SecurityHeadersMiddleware
+- [x] Content-Security-Policy (хотя бы базовая)
+- [x] Блокировка доступа к `.env`, `.git`, `config/`, `src/` через `.htaccess` в корне (защита при ошибке DocumentRoot)
+- [x] CORS middleware (подготовка для API / форм)
+- [x] Брендированная страница ошибки `500.twig` (ServerErrorHandler)
 
 ### Структура проекта
 
@@ -484,10 +483,10 @@ server {
 - [x] `config/` отделён от кода (settings, container, middleware, routes, redirects)
 - [x] Симлинки `public/assets`, `public/data`, `public/robots.txt`
 - [x] Автосоздание симлинков при сборке (`setup-public-links`)
-- [ ] `.editorconfig` — добавить `[*.php]` с `indent_size = 4` (PSR-12)
-- [ ] `.gitignore` — добавить `public/assets`, `public/data`, `public/robots.txt` (симлинки)
-- [ ] `.env.example` — добавить `APP_ENV`, `APP_BASE_URL`
-- [ ] `robots.txt` — убрать устаревшие `/dev/`, `/scripts/`, `/core/`, добавить `/src/`, `/config/`, `/tools/`
+- [x] `.editorconfig` — `[*.php]` с `indent_size = 4` (PSR-12)
+- [x] `.gitignore` — симлинки `public/assets`, `public/data`, `public/robots.txt`
+- [x] `.env.example` — `APP_ENV`, `APP_BASE_URL`, `YANDEX_METRIC_ID` (опционально)
+- [x] `robots.txt` — актуальные Disallow: `/src/`, `/config/`, `/tools/`
 
 ### Quality gates и линтинг
 
@@ -495,44 +494,44 @@ server {
 - [x] Prettier (форматирование toolchain-файлов)
 - [x] `npm run check` (lint + format:check + validate-json)
 - [x] Quality gate встроен в `npm run build`
-- [ ] ESLint для `assets/js/**` (весь клиентский JS)
-- [ ] Stylelint для `assets/css/**` (весь CSS)
-- [ ] PHPStan / Psalm для `src/**` (статический анализ PHP)
-- [ ] PHP-CS-Fixer / ECS для `src/**` (форматирование PHP)
-- [ ] Pre-commit hook (husky + lint-staged): автопроверка при коммите
+- [x] ESLint для `assets/js/**` (весь клиентский JS)
+- [x] Stylelint для `assets/css/**` (весь CSS)
+- [x] PHPStan / Psalm для `src/**` (статический анализ PHP)
+- [x] PHP-CS-Fixer / ECS для `src/**` (форматирование PHP)
+- [x] Pre-commit hook (husky + lint-staged): автопроверка при коммите
 
 ### Фронтенд: шаблоны
 
-- [ ] Переименовать `layout.twig` → `base.twig` (имя `base` точнее отражает роль базового шаблона)
-- [ ] Единый `page.twig` вместо 6 идентичных файлов в `pages/` (data-driven рендеринг секций)
-- [ ] Accessibility: `<button>` вместо `<a href="javascript:void(0)">` в `accordion.twig`
-- [ ] Accessibility: ARIA-атрибуты (`aria-expanded`, `aria-controls`) для accordion, burger-menu
-- [ ] Accessibility: `aria-label` для кнопок без текста
-- [ ] Open Graph теги (`og:title`, `og:description`, `og:image`, `og:url`) в `layout.twig`
-- [ ] Twitter Card разметка (`twitter:card`, `twitter:title`, `twitter:image`) в `layout.twig`
-- [ ] SEO: один `<h1>` на страницу, иерархия h1 → h2 → h3 (аудит шаблонов)
-- [ ] SEO: `alt` у всех изображений (декоративные — `alt=""`)
-- [ ] Inline-стили → CSS-классы (`spoiler`, `cookie-panel`, `card-nav`, `card-gradient`, `footer`, `intro`, `slider`)
-- [ ] Логотип в `intro.twig` — вынести дубликат в компонент
-- [ ] `<link rel="preload">` для критичных шрифтов в `<head>`
-- [ ] `<link rel="preload">` для hero-изображений above-the-fold
+- [x] Переименовать `layout.twig` → `base.twig` (имя `base` отражает роль базового шаблона)
+- [x] Единый `page.twig` вместо 6 идентичных файлов в `pages/` (data-driven рендеринг секций)
+- [x] Accessibility: `<button>` вместо `<a href="javascript:void(0)">` в `accordion.twig`
+- [x] Accessibility: ARIA-атрибуты (`aria-expanded`, `aria-controls`) для accordion, burger-menu
+- [x] Accessibility: `aria-label` для кнопок без текста (burger: открыть/закрыть меню)
+- [x] Open Graph теги (`og:title`, `og:description`, `og:image`, `og:url`) в `base.twig` (из pageSeoData.meta)
+- [x] Twitter Card разметка (`twitter:card`, `twitter:title`, `twitter:image`) в `base.twig`
+- [x] SEO: один `<h1>` на страницу, иерархия h1 → h2 → h3 (аудит шаблонов)
+- [x] SEO: `alt` у всех изображений (декоративные — `alt=""`)
+- [x] Inline-стили → CSS-классы (`spoiler`, `cookie-panel`, `card-nav`, `card-gradient`, `footer`, `intro`, `slider`)
+- [x] Логотип в `intro.twig` — вынести дубликат в компонент
+- [x] `<link rel="preload">` для критичных шрифтов в `<head>`
+- [x] `<link rel="preload">` для hero-изображений above-the-fold
 
 ### Фронтенд: JavaScript
 
-- [ ] Убрать `console.log` из production-кода (или обернуть в `APP_DEBUG`)
+- [x] Убрать отладочные `console.log` из production-кода
 - [ ] `form-callback.js` — переписать логику форм с нуля (модульная архитектура, валидация, отправка)
-- [ ] `accordion.js` — CSS-классы вместо inline-стилей через JS
-- [ ] Debounce/throttle утилиты для scroll/resize обработчиков
-- [ ] Единая система инициализации компонентов (вместо множественных `DOMContentLoaded`)
-- [ ] Проверить актуальность версий vendor-библиотек (jQuery, Swiper, GLightbox, Inputmask)
+- [x] `accordion.js` — CSS-классы вместо inline-стилей через JS
+- [x] Debounce/throttle утилиты (assets/js/base/debounce-throttle.js)
+- [x] Единая система инициализации компонентов (вместо множественных `DOMContentLoaded`)
+- [x] Проверить актуальность версий vendor-библиотек (jQuery, Swiper, GLightbox, Inputmask)
 
 ### Фронтенд: CSS и шрифты
 
 - [x] Заменить связку плагинов на `postcss-preset-env` (custom-media, nested, custom-properties + container-queries)
-- [ ] Container Queries — использовать для карточек/компонентов (адаптация к размеру контейнера)
-- [ ] Аудит неиспользуемых начертаний шрифтов (загружаются 100–900)
-- [ ] Рассмотреть variable fonts для сокращения количества файлов
-- [ ] `MiniCssExtractPlugin` в webpack для production (вместо `style-loader`)
+- [x] Container Queries — использовать для карточек/компонентов (адаптация к размеру контейнера)
+- [x] Аудит неиспользуемых начертаний шрифтов (загружаются 100–900)
+- [x] Рассмотреть variable fonts для сокращения количества файлов
+- [x] `MiniCssExtractPlugin` в webpack для production (вместо `style-loader`)
 
 ### Производительность и кэширование
 
@@ -541,28 +540,28 @@ server {
 - [x] CSS/JS манифесты для cache-busting
 - [x] Очистка устаревших ассетов (clean-assets)
 - [x] Source maps отключены в production JS (webpack)
-- [ ] Twig кэш в production (`cache => $projectRoot . '/cache/twig'` при `APP_ENV=production`)
-- [ ] Cache-Control / Expires для статики в `.htaccess` (img, css, js, fonts)
-- [ ] Gzip/Brotli сжатие (mod_deflate / mod_brotli в `.htaccess`)
-- [ ] PostCSS source maps отключить в production (`css-hash.js`)
-- [ ] Оптимизация изображений при сборке (sharp/imagemin в `tools/build`)
-- [ ] Генерация WebP/AVIF при сборке; в `picture.twig` — явные `width`/`height` у `<img>` (CLS < 0.1)
-- [ ] Lazy loading для всех изображений ниже первого экрана (аудит вызовов picture/img)
-- [ ] Цели по метрикам: FCP ≤ 1.8 с, LCP ≤ 2.5 с, CLS < 0.1, INP ≤ 200 мс (Lighthouse-аудит, при необходимости — мониторинг)
+- [x] Twig кэш в production (`cache => $projectRoot . '/cache/twig'` при `APP_ENV=production`)
+- [x] Cache-Control / Expires для статики в `public/.htaccess` (img, css, js, fonts)
+- [x] Gzip/Brotli сжатие (mod_deflate / mod_brotli в `public/.htaccess`)
+- [x] PostCSS source maps отключить в production (`tools/build/css-hash.js`)
+- [x] Оптимизация изображений при сборке (sharp в `tools/build/build-images.js`, ключи из `config/image-sizes.json`)
+- [x] Генерация WebP при сборке по ключам из конфига; в `picture.twig` — явные `width`/`height` у `<img>` (CLS < 0.1)
+- [x] Lazy loading для всех изображений ниже первого экрана (аудит вызовов picture/img); поддержка — [docs/guides/images-lazy-loading.md](docs/guides/images-lazy-loading.md)
+- [x] Цели по метрикам: FCP ≤ 1.8 с, LCP ≤ 2.5 с, CLS < 0.1, INP ≤ 200 мс ([docs/guides/metrics-goals.md](docs/guides/metrics-goals.md), Lighthouse-аудит, при необходимости — мониторинг)
 
 ### Конфигурация и окружение
 
-- [ ] Вынести `YANDEX_METRIC_ID` из `layout.twig` в `.env` / `global.json`
-- [ ] Twig-кэш: привязать к `APP_ENV` вместо хардкода `false`
-- [ ] Лог-уровень: `DEBUG` для dev, `WARNING` для production (через `APP_ENV`)
+- [x] Вынести `YANDEX_METRIC_ID` из `base.twig` в `.env` (config.settings.yandex_metric_id)
+- [x] Twig-кэш: привязан к APP_ENV в config/settings.php
+- [x] Лог-уровень: `DEBUG` для dev, `WARNING` для production (через `APP_ENV`)
 
 ### Документация
 
 - [x] README.md обновлён под Slim 4 + новую структуру
 - [x] Конфиги Apache и Nginx в README
 - [x] Описание env-переменных
-- [ ] `docs/guides/local-setup.md` — пошаговый запуск с нуля (Valet, Composer, npm)
-- [ ] `docs/guides/deploy-checklist.md` — чеклист продакшн-выкатки
+- [x] `docs/guides/local-setup.md` — пошаговый запуск с нуля (Valet, Composer, npm)
+- [x] `docs/guides/deploy-checklist.md` — чеклист продакшн-выкатки
 - [x] Эталонная структура: [docs/architecture/structure.md](docs/architecture/structure.md); ссылки `scripts/` → `tools/`, убраны portfolio из docs
 
 ### DevOps / CI
@@ -575,13 +574,13 @@ server {
 - [x] Валидация JSON (`validate-json`)
 
 **PHP (PHPUnit) — `tests/php/`:**
-- [ ] Unit: `DataLoaderService` — загрузка JSON, обработка отсутствующих файлов
-- [ ] Unit: `SeoService` — обработка Twig-шаблонов в SEO-данных
-- [ ] Unit: `LanguageService` — определение языка из URL
-- [ ] Unit: `TemplateDataBuilder` — сборка данных для шаблонов
-- [ ] Unit: `JsonProcessor` — обработка путей в JSON
-- [ ] Integration: `PageAction` — рендеринг страниц (200, 404)
-- [ ] Integration: Middleware-цепочка (trailing slash, redirects, language)
+- [x] Unit: `DataLoaderService` — загрузка JSON, обработка отсутствующих файлов
+- [x] Unit: `SeoService` — обработка Twig-шаблонов в SEO-данных
+- [x] Unit: `LanguageService` — определение языка из URL
+- [x] Unit: `TemplateDataBuilder` — сборка данных для шаблонов
+- [x] Unit: `JsonProcessor` — обработка путей в JSON
+- [x] Integration: `PageAction` — рендеринг страниц (200, 404)
+- [x] Integration: Middleware-цепочка (trailing slash, redirects, language)
 
 **JS (Vitest) — `tests/js/`:**
 - [ ] Unit: утилита `url()` из `main.js`
@@ -598,11 +597,57 @@ server {
 - [ ] Redirect без trailing slash → со слешом
 
 **Инфраструктура:**
-- [ ] Создать `tests/` со структурой `php/`, `js/`, `smoke/`
-- [ ] `phpunit.xml` в корне проекта
+- [x] Создать `tests/` со структурой `php/`, `js/`, `smoke/`
+- [x] `phpunit.xml` в корне проекта
 - [ ] `vitest.config.js` для JS-тестов
 - [ ] Интеграция тестов в `npm run build` (vitest --run перед webpack)
 - [ ] `npm run test` — запуск PHPUnit + Vitest
+
+### Конфигурация и код (из «Что не учтено»)
+
+- [x] `config.settings.available_langs` — задать в `config/settings.php` (документация: docs/architecture/config.md)
+- [ ] Trailing slash для статики в `public/.htaccess` — при необходимости редирект URL без слеша на со слешом для статических файлов
+- [ ] Блокировка доступа к `.env`, `config/`, `src/` при ошибочном DocumentRoot (правила в .htaccess корня)
+
+### Безопасность и формы
+
+- [ ] CSRF-токены для форм (form-callback и др.): токен в форме + проверка на бэкенде
+- [ ] Rate limiting для формы обратной связи и API
+- [ ] Валидация и санитизация на бэкенде для api/send; описать контракт в README/docs
+
+### Производительность и мониторинг
+
+- [ ] Описать замер FCP/LCP/CLS/INP (Lighthouse, RUM, CI) и реакцию на деградацию
+- [ ] Health check endpoint (`/health` или `/ping`) для мониторинга
+- [ ] Структурированное логирование: зафиксировать поля (request_id, duration и т.д.) и способ поиска
+
+### Фронтенд и доступность
+
+- [ ] Browserslist в проекте (package.json или .browserslistrc) для autoprefixer/полифиллов
+- [ ] Skip-link «перейти к контенту» и управление фокусом (модалки, меню)
+- [ ] Зафиксировать целевой уровень WCAG (A/AA) в документации
+
+### Данные и контент
+
+- [ ] Описать политику резервного копирования (data/json, медиа, конфиги)
+- [ ] Описать подход к версионированию/изменениям контента в JSON (история, откат)
+
+### DevOps и процесс
+
+- [ ] Правила ведения CHANGELOG и семантического версионирования релизов
+- [ ] Политика обновления зависимостей (Dependabot/Renovate или ручной процесс)
+- [ ] Документировать хранение секретов в CI/CD и на сервере (помимо .env)
+
+### Документация
+
+- [ ] Описать контракт API (api/send и др.): метод, поля, коды ответов
+- [ ] JSON Schema или примеры для валидации структуры `data/json` (при росте проекта)
+
+---
+
+## Что не учтено в проекте
+
+Все пункты преобразованы в задачи и добавлены в Roadmap выше (блоки «Конфигурация и код», «Безопасность и формы», «Производительность и мониторинг», «Фронтенд и доступность», «Данные и контент», «DevOps и процесс», «Документация»).
 
 ---
 

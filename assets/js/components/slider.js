@@ -5,7 +5,7 @@ export default function setupSliders() {
     console.error('Критическая ошибка: Swiper не найден. Слайдеры не будут инициализированы.');
     return;
   }
-  
+
   initializeSliders();
 }
 
@@ -14,10 +14,10 @@ function initializeSliders() {
   if (!sliders.length) return;
 
   // Инициализация каждого слайдера
-  sliders.forEach(slider => {
+  sliders.forEach((slider) => {
     // Пропускаем слайдеры, которые инициализируются в своих модулях
     if (slider.id === 'studioSlider' || slider.id === 'introSlider') return;
-    
+
     try {
       initSlider(slider);
     } catch (error) {
@@ -29,10 +29,10 @@ function initializeSliders() {
 function initSlider(slider) {
   // Проверяем, был ли слайдер уже инициализирован
   if (slider.swiperInstance) return;
-  
+
   // Получаем настройки, переданные через data-атрибут
   let settings = {};
-  
+
   try {
     const dataSettings = slider.getAttribute('data-settings');
     if (dataSettings) {
@@ -43,14 +43,17 @@ function initSlider(slider) {
   }
 
   // Объединяем пользовательские настройки с дефолтными
-  const mergedSettings = Object.assign({
-    autoplay: false,
-    pagination: { enabled: false },
-    navigation: { enabled: false },
-    effect: 'slide',
-    speed: 300,
-    loop: false
-  }, settings);
+  const mergedSettings = Object.assign(
+    {
+      autoplay: false,
+      pagination: { enabled: false },
+      navigation: { enabled: false },
+      effect: 'slide',
+      speed: 300,
+      loop: false,
+    },
+    settings
+  );
 
   // Формируем объект настроек для Swiper
   const swiperOptions = {
@@ -59,7 +62,7 @@ function initSlider(slider) {
     speed: mergedSettings.speed || 300,
     loop: mergedSettings.loop || false,
   };
-  
+
   // Добавляем настройки breakpoints для адаптивности
   if (mergedSettings.breakpoints) {
     swiperOptions.breakpoints = mergedSettings.breakpoints;
@@ -74,9 +77,10 @@ function initSlider(slider) {
   if (mergedSettings.autoplay) {
     swiperOptions.autoplay = {
       delay: mergedSettings.autoplay.delay || 3000,
-      disableOnInteraction: mergedSettings.autoplay.disableOnInteraction !== undefined 
-        ? mergedSettings.autoplay.disableOnInteraction 
-        : true
+      disableOnInteraction:
+        mergedSettings.autoplay.disableOnInteraction !== undefined
+          ? mergedSettings.autoplay.disableOnInteraction
+          : true,
     };
   }
 
@@ -84,9 +88,7 @@ function initSlider(slider) {
   if (mergedSettings.pagination && mergedSettings.pagination.enabled) {
     swiperOptions.pagination = {
       el: slider.querySelector('.swiper-pagination'),
-      clickable: mergedSettings.pagination.clickable !== undefined 
-        ? mergedSettings.pagination.clickable 
-        : true
+      clickable: mergedSettings.pagination.clickable !== undefined ? mergedSettings.pagination.clickable : true,
     };
   }
 
@@ -95,9 +97,7 @@ function initSlider(slider) {
     swiperOptions.navigation = {
       nextEl: slider.querySelector('.swiper-button-next'),
       prevEl: slider.querySelector('.swiper-button-prev'),
-      clickable: mergedSettings.navigation.clickable !== undefined 
-        ? mergedSettings.navigation.clickable 
-        : true
+      clickable: mergedSettings.navigation.clickable !== undefined ? mergedSettings.navigation.clickable : true,
     };
   }
 

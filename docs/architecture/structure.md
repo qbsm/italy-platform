@@ -26,11 +26,13 @@ project/
 
 ## config/
 
-- `settings.php` — настройки приложения (пути, языки, Twig)
+- `settings.php` — настройки приложения (пути, языки, Twig, APP_ENV)
 - `container.php` — определения PHP-DI
 - `middleware.php` — порядок middleware
 - `routes.php` — маршруты Slim
 - `redirects.json` — правила редиректов
+
+Подробнее: [config.md](config.md) (окружение, available_langs, доступ в шаблонах).
 
 ## data/
 
@@ -57,8 +59,8 @@ project/
 
 ## templates/
 
-- `layout.twig` — базовый шаблон (head, canonical, скрипты)
-- `pages/*.twig` — шаблоны страниц (расширяют layout, блок content)
+- `base.twig` — базовый шаблон (head, canonical, скрипты)
+- `pages/page.twig` — единый шаблон страницы (data-driven: секции из JSON)
 - `sections/*.twig` — секции (header, footer, intro и т.д.)
 - `components/*.twig` — компоненты (form, slider, picture и т.д.)
 

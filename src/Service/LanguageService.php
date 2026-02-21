@@ -27,7 +27,7 @@ final class LanguageService
             'lang_code' => $langCode,
             'current_lang' => $currentLang,
             'is_lang_in_url' => $isInUrl,
-            'segments' => array_values($resultSegments),
+            'segments' => $resultSegments,
         ];
     }
 }

@@ -13,7 +13,7 @@ final class RedirectMiddleware implements MiddlewareInterface
 {
     /** @var array<string,mixed> */
     private array $settings;
-    /** @var array<int,array{from:string,to:string,status?:int}>|null */
+    /** @var array<int,array{from?:string,to?:string,status?:int}>|null */
     private ?array $map = null;
 
     /**
@@ -70,7 +70,7 @@ final class RedirectMiddleware implements MiddlewareInterface
     }
 
     /**
-     * @return array<int,array{from:string,to:string,status?:int}>
+     * @return array<int,array{from?:string,to?:string,status?:int}>
      */
     private function loadMap(): array
     {

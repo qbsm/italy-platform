@@ -1,7 +1,7 @@
 <section class="footer section" itemscope itemtype="https://schema.org/Organization">
   {% if data.background.src is defined and data.background.src %}
     <div class="section__item background-wrap">
-      <div class="background" style="background-image: url('{{ url(data.background.src) }}')"></div>
+      <div class="background" style="--bg-image: url('{{ url(data.background.src) }}');"></div>
     </div>
   {% endif %}
   <div class="container">
@@ -29,7 +29,7 @@
             {% if social.visible is not defined or social.visible %}
               <a href="{{ social.href }}" target="_blank" rel="noopener noreferrer" class="link social-link" itemprop="sameAs">
                 {% if social.icon is defined %}
-                  <img src="{{ url(social.icon.src) }}" alt="{{ social.icon.alt | default(social.title | default('')) }}" class="icon-sm">
+                  <img src="{{ url(social.icon.src) }}" alt="{{ social.icon.alt | default(social.title | default('')) }}" class="icon-sm" loading="lazy">
                 {% else %}
                   {{ social.title }}
                 {% endif %}

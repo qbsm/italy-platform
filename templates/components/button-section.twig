@@ -5,7 +5,7 @@
     </div>
     {% if item.icon is defined %}
       <div class="button-section__item icon-wrap {{ item.icon.class|default('') }}">
-        <img src="{{ item.icon.src }}" alt="{{ item.icon.alt|default('') }}" class="img-responsive">
+        <img src="{{ item.icon.src }}" alt="{{ item.icon.alt|default('') }}" class="img-responsive" loading="lazy">
       </div>
     {% endif %}
   </a>
@@ -16,7 +16,7 @@
     </div>
     {% if item.icon is defined %}
       <div class="button-section__item icon-wrap {{ item.icon.class|default('') }}">
-        <img src="{{ item.icon.src }}" alt="{{ item.icon.alt|default('') }}" class="img-responsive">
+        <img src="{{ item.icon.src }}" alt="{{ item.icon.alt|default('') }}" class="img-responsive" loading="lazy">
       </div>
     {% endif %}
   </div>

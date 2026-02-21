@@ -11,7 +11,7 @@
       "visible": true,
       "data": {
         "heading": {
-          "tag": "span",
+          "tag": "h1",
           "class": "heading weight-400 uppercase",
           "title": "Наши рестораны"
         },

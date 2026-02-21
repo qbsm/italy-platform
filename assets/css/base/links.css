@@ -53,18 +53,18 @@
     position: relative;
 }
 
-.link-underline .link__item:last-child:after {
+.link-underline .link__item:last-child::after {
     content: '';
     position: absolute;
     bottom: -2px;
     left: 0;
     width: 0;
     height: 1px;
-    background-color: currentColor;
+    background-color: currentcolor;
     transition: width 0.3s ease;
 }
 
-.link-underline:hover .link__item:last-child:after {
+.link-underline:hover .link__item:last-child::after {
     width: 100%;
 }
 
@@ -139,7 +139,7 @@
 .icon {
     width: .7rem;
     height: 1rem;
-}*/
+} */
 
 .link:hover .link-icon {
     fill: var(--color-3);

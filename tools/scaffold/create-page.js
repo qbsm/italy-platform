@@ -4,45 +4,45 @@ const path = require('path');
 // Получаем аргументы командной строки
 const args = process.argv.slice(2);
 const page = args[0];
-const baseTemplate = args[1] || 'layout.twig';
 
 if (!page) {
   console.error('Укажите имя страницы в качестве аргумента');
   process.exit(1);
 }
 
-const twigPath = path.join('templates', 'pages', `${page}.twig`);
-const content = `{% extends '${baseTemplate}' %}
+// Все страницы рендерятся через единый pages/page.twig (data-driven по sections из JSON).
+// Twig для страницы не создаём — достаточно JSON в data/json/{lang}/pages/ и маршрута в config.
 
-{% block content %}
-  {# Используем глобальную переменную sections #}
-  {% if sections is defined %}
-    {% for section in sections %}
-      {# Включаем шаблон, передавая данные из section.data #}
-      {% include 'sections/' ~ section.name ~ '.twig' ignore missing with {'data': section.data} %}
-    {% endfor %}
-  {% else %}
-    <h1>Данные для страницы не найдены или неверный формат секций</h1>
-  {% endif %}
-{% endblock %}`;
-
-let isNewFile = false;
-
-if (!fs.existsSync(twigPath)) {
+// Создаем JSON для страницы (если ещё нет) — по нему определяем, новая ли страница
+const pagesDir = path.join('data', 'json', 'ru', 'pages');
+const jsonPath = path.join(pagesDir, `${page}.json`);
+if (!fs.existsSync(pagesDir)) {
+  fs.mkdirSync(pagesDir, { recursive: true });
+  console.log(`Создана директория ${pagesDir}`);
+}
+let isNewPage = false;
+if (!fs.existsSync(jsonPath)) {
   try {
-    fs.writeFileSync(twigPath, content);
-    console.log(`Создан файл ${twigPath}`);
-    isNewFile = true;
+    const pageJsonData = {
+      name: page,
+      sections: [
+        { name: 'header', data: {} },
+        { name: 'intro', data: {} },
+        { name: 'footer', data: {} },
+      ],
+    };
+    fs.writeFileSync(jsonPath, JSON.stringify(pageJsonData, null, 2));
+    console.log(`Создан файл JSON для страницы: ${jsonPath}`);
+    isNewPage = true;
   } catch (err) {
-    console.error(`Ошибка при создании файла: ${err.message}`);
+    console.error(`Ошибка при создании файла JSON: ${err.message}`);
     process.exit(1);
   }
 } else {
-  console.log(`Файл ${twigPath} уже существует`);
+  console.log(`Файл JSON для страницы ${page} уже существует: ${jsonPath}`);
 }
 
-// Если был создан новый файл, создаем JS и CSS файлы и добавляем импорты
-if (isNewFile) {
+if (isNewPage) {
   // Создаем JS файл
   const jsDir = path.join('assets', 'js', 'pages');
   const jsPath = path.join(jsDir, `${page}.js`);
@@ -115,41 +115,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   console.log('Файлы JS и CSS успешно созданы и подключены');
-}
-
-// Создаем отдельный JSON файл для страницы в директории data/json/ru/pages/
-const pagesDir = path.join('data', 'json', 'ru', 'pages');
-const jsonPath = path.join(pagesDir, `${page}.json`);
-
-// Проверяем существование директории
-if (!fs.existsSync(pagesDir)) {
-  fs.mkdirSync(pagesDir, { recursive: true });
-  console.log(`Создана директория ${pagesDir}`);
-}
-
-// Проверяем, существует ли уже файл JSON для этой страницы
-if (!fs.existsSync(jsonPath)) {
-  try {
-    // Обновленная структура JSON с вложенными секциями
-    const pageJsonData = {
-      name: page,
-      sections: [
-        // Теперь массив объектов
-        { name: 'header', data: {} },
-        { name: 'promo', data: {} }, // Пример секции с пустыми данными
-        { name: 'form-container', data: {} },
-        { name: 'footer', data: {} },
-      ],
-    };
-
-    // Записываем данные в файл
-    fs.writeFileSync(jsonPath, JSON.stringify(pageJsonData, null, 2));
-    console.log(`Создан файл JSON для страницы: ${jsonPath}`);
-  } catch (err) {
-    console.error(`Ошибка при создании файла JSON: ${err.message}`);
-  }
-} else {
-  console.log(`Файл JSON для страницы ${page} уже существует: ${jsonPath}`);
 }
 
 // Создаем SEO файл для страницы в директории data/json/ru/seo/

@@ -5,7 +5,7 @@
 {% endif %}
   {% if item.cover is defined %}
     <div class="card__item cover-wrap">
-      <div class="card__cover" style="background-image: url('{{ item.cover.src }}')"></div>
+      <div class="card__cover" style="background-image: url('{{ url(item.cover.src) }}');"></div>
     </div>
   {% endif %}
   {% if item.title is defined %}

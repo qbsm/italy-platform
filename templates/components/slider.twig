@@ -20,12 +20,11 @@
   {% set sliderSettings = sliderSettings|merge({'pagination': {'color': '#fff'}|merge(sliderSettings.pagination)}) %}
 {% endif %}
 
-<div class="slider" style="width: 100%; height: 100%;">
+<div class="slider">
   <div 
     class="swiper-container {% if sliderSettings.pagination is defined and not sliderSettings.pagination.enabled %}no-pagination{% endif %}" 
     id="{{ slider_id|default('introSlider') }}" 
-    data-settings="{{ sliderSettings|json_encode }}"
-    style="width: 100%; height: 100%;">
+    data-settings="{{ sliderSettings|json_encode }}">
     <div class="swiper-wrapper">
       {% if items is defined and items is not empty %}
         {% for item in items %}

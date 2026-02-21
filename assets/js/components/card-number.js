@@ -1,4 +1,6 @@
-document.addEventListener('DOMContentLoaded', () => {
+import { onReady } from '../base/init.js';
+
+onReady(() => {
   const cards = document.querySelectorAll('.card-number__item.title-wrap');
   if (!cards.length) return;
 
@@ -17,13 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     titleEl.textContent = '0';
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        observer.unobserve(card);
-        animateCount(titleEl, target, duration, hasSuffix, labelWrap);
-      });
-    }, { threshold: 0.3 });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          observer.unobserve(card);
+          animateCount(titleEl, target, duration, hasSuffix, labelWrap);
+        });
+      },
+      { threshold: 0.3 }
+    );
 
     observer.observe(card);
   });

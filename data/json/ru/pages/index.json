@@ -63,7 +63,7 @@
       "visible": true,
       "data": {
         "heading": {
-          "tag": "span",
+          "tag": "h1",
           "class": "title font-1 weight-300 text-center uppercase",
           "title": "Гастрономическое сообщество italy — рестораны, сервис, гостепреимство, проекты, экспертиза, поддержка талантов."
         }
@@ -74,7 +74,7 @@
       "visible": true,
       "data": {
         "heading": {
-          "tag": "span",
+          "tag": "h2",
           "class": "heading weight-300 uppercase",
           "title": "Основатели"
         },

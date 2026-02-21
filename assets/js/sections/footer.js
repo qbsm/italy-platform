@@ -1,4 +1,6 @@
 // JavaScript для footer
-document.addEventListener('DOMContentLoaded', function() {
+import { onReady } from '../base/init.js';
+
+onReady(function () {
   // Код для footer
 });

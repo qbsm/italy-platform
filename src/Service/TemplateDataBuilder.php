@@ -21,8 +21,13 @@ final class TemplateDataBuilder
         array $ctx,
         array $extras = []
     ): array {
+        $sections = (isset($pageData['sections']) && is_array($pageData['sections'])) ? $pageData['sections'] : [];
+        $heroPreloadImage = $this->extractHeroPreloadImage($sections);
+        $preloadFonts = $this->extractFontPathsFromCss((string) ($settings['project_root'] ?? ''));
+
         $templateData = [
             'settings' => $settings,
+            'config' => ['settings' => $settings],
             'global' => $global,
             'currentLang' => $ctx['current_lang'] ?? null,
             'lang_code' => $ctx['lang_code'] ?? null,
@@ -33,7 +38,9 @@ final class TemplateDataBuilder
             'pageData' => $pageData,
             'pageSeoData' => $seo,
             'pageTitle' => $seo['title'] ?? ($pageData['title'] ?? ''),
-            'sections' => (isset($pageData['sections']) && is_array($pageData['sections'])) ? $pageData['sections'] : [],
+            'sections' => $sections,
+            'hero_preload_image' => $heroPreloadImage,
+            'preload_fonts' => $preloadFonts,
         ];
 
         foreach ($extras as $key => $value) {
@@ -41,5 +48,63 @@ final class TemplateDataBuilder
         }
 
         return $templateData;
+    }
+
+    /**
+     * @param array<int,array<string,mixed>> $sections
+     */
+    private function extractHeroPreloadImage(array $sections): ?string
+    {
+        foreach ($sections as $section) {
+            if (isset($section['name']) && $section['name'] !== 'intro') {
+                continue;
+            }
+            $items = $section['data']['slider']['items'] ?? null;
+            if (!is_array($items) || $items === []) {
+                return null;
+            }
+            $first = $items[0];
+            if (isset($first['cover']) && is_string($first['cover'])) {
+                return $first['cover'];
+            }
+            if (isset($first['image']['raw']) && is_string($first['image']['raw'])) {
+                return $first['image']['raw'];
+            }
+            if (isset($first['image']['src']) && is_string($first['image']['src'])) {
+                return $first['image']['src'];
+            }
+            return null;
+        }
+        return null;
+    }
+
+    /**
+     * Извлекает пути шрифтов из fonts.css для preload (один источник правды — fonts.css).
+     *
+     * @return array<int,string>
+     */
+    private function extractFontPathsFromCss(string $projectRoot): array
+    {
+        $fontsCss = $projectRoot . '/assets/css/base/fonts.css';
+        if (!is_readable($fontsCss)) {
+            return [];
+        }
+        $content = (string) file_get_contents($fontsCss);
+        if (preg_match_all("/url\s*\(\s*['\"]?(.+?)['\"]?\s*\)/", $content, $matches) === 0) {
+            return [];
+        }
+        $paths = [];
+        foreach ($matches[1] ?? [] as $path) {
+            $path = trim($path, " \t\n\r\0\x0B'\"");
+            if ($path === '') {
+                continue;
+            }
+            // В fonts.css пути вида ../../fonts/...; собранный CSS лежит в assets/css/build/ → ../../ = assets/
+            $preloadPath = preg_replace('#^\.\./\.\./#', 'assets/', $path);
+            if ($preloadPath !== $path || str_contains($path, 'fonts/')) {
+                $paths[] = $preloadPath;
+            }
+        }
+        return array_values(array_unique($paths));
     }
 }

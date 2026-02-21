@@ -16,14 +16,14 @@
                     loading: loop.first ? 'eager' : 'lazy'
                   } %}
                 {% elseif slide.cover is defined %}
-                  <div class="cover" style="background-image: url('{{ slide.cover }}')"></div>
+                  <div class="cover" style="background-image: url('{{ url(slide.cover) }}');"></div>
                 {% endif %}
               </div>
               <div class="section__item logo-heading-wrap">
                 <div class="container">
                   <div class="section__subitem empty-wrap"></div>
                   <div class="section__subitem logo-wrap">
-                    <img src="data/img/ui/logos/logo-color-1.svg" alt="Logo" class="img-responsive">
+                    {% include 'components/logo.twig' %}
                   </div>
                   <div class="section__subitem heading-wrap">
                     {% if slide.heading is defined %}
@@ -37,12 +37,12 @@
       {% else %}
         <div class="section__item slide-wrap swiper-slide">
             <div class="section__subitem cover-wrap">
-              <div class="cover" style="background: {{ data.background|default('') }}"></div>
+              <div class="cover" style="--bg-color: {{ data.background|default('transparent') }};"></div>
             </div>
             <div class="section__item logo-heading-wrap">
               <div class="container">
                 <div class="section__subitem logo-wrap">
-                  <img src="data/img/ui/logos/logo-color-1.svg" alt="Logo" class="img-responsive">
+                  {% include 'components/logo.twig' %}
                 </div>
                 <div class="section__subitem heading-wrap">
                   {% if data.heading is defined %}
