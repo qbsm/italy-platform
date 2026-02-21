@@ -15,7 +15,8 @@
 ## Сборка
 
 - [ ] Выполнена продакшн-сборка: `NODE_ENV=production npm run build`
-- [ ] Симлинки в `public/` созданы: `assets`, `data`, `robots.txt`
+- [ ] Симлинки в `public/` созданы: `npm run setup:public-links` (создаёт `assets` → `../assets`, `data` → `../data`, `robots.txt` → `../robots.txt`; входит в `npm run build`)
+- [ ] В репозитории есть каталог `tools/build/` и скрипт `setup-public-links.js`
 - [ ] В `public/assets` лежат хешированные CSS/JS (манифесты актуальны)
 
 ## Веб-сервер

@@ -46,6 +46,7 @@ uploads/
 
 # Файлы сборки (если используется сборщик)
 build/
+!tools/build/
 dist/
 
 # Файлы сборки CSS и JS
