@@ -206,7 +206,7 @@ export class CallbackForm {
 }
 
 export function initCallbackForms(root = document, globalData = window.globalData || {}) {
-  const forms = root.querySelectorAll('.form-callback');
+  const forms = root.querySelectorAll('.js-form-callback');
   if (!forms.length) {
     return [];
   }

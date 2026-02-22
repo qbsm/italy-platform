@@ -14,7 +14,7 @@
 | -------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Страница**         | Контейнер страницы, общие обёртки страницы                                     | классы страницы в `pages/*.css`, например `.contacts`, `.restaurants`                                                                                                    |
 | **Секция**           | Крупные блоки страницы (шапка, подвал, intro, контентный блок)                 | общий блок `section`, элементы `section__item`, `section__subitem`, `section__inner`, `section__add`; секции могут иметь собственное имя: `.header`, `.intro`, `.footer` |
-| **Блок / компонент** | Повторяемые или изолированные части внутри секции (карточка, форма, аккордеон) | блок по имени компонента, например `card-restaurant`, `form-callback`; элементы `{component}__item`, `{component}__subitem` и т.д.                                       |
+| **Блок / компонент** | Повторяемые или изолированные части внутри секции (карточка, форма, аккордеон) | блок по имени компонента, например `card-general`, `form-callback`; элементы `{component}__item`, `{component}__subitem` и т.д.                                          |
 
 Иерархия вложенности (item → subitem → inner → add) применяется **внутри** уровня секции и **внутри** уровня блока/компонента. При необходимости большей глубины в секцию вставляется компонент — у него своя такая же цепочка.
 
@@ -22,7 +22,7 @@
 
 - Один или два слова через **дефис**, в нижнем регистре.
 - Имя блока = компонент или секция.
-- Примеры: `form-callback`, `burger-icon`, `card-restaurant`, `cookie-panel`, `mini-table`, `accordion`, `intro`, `header`, `footer`.
+- Примеры: `form-callback`, `burger-icon`, `card-general`, `cookie-panel`, `mini-table`, `accordion`, `intro`, `header`, `footer`.
 
 ### Элемент (Element)
 
@@ -43,9 +43,9 @@
 ### Обёртки (wrap) и сочетание с элементами
 
 - Классы-обёртки для сетки/раскладки заканчиваются на **`-wrap`**.
-- Примеры: `logo-wrap`, `title-wrap`, `icon-wrap`, `button-wrap`, `card-restaurant-wrap`, `heading-wrap`, `slide-wrap`.
+- Примеры: `logo-wrap`, `title-wrap`, `icon-wrap`, `button-wrap`, `card-general-wrap`, `heading-wrap`, `slide-wrap`.
 - **Элемент иерархии задаётся первым, роль ячейки — вторым.** На один узел вешаются оба класса: уровень вложенности (`section__item`, `section__subitem` и т.д.) и обёртка (`*-wrap`) или другой смысловой класс.
-- Примеры разметки: `section__item logo-wrap`, `section__subitem card-restaurant-wrap`, `section__item heading-wrap`, `section__item button-wrap`.
+- Примеры разметки: `section__item logo-wrap`, `section__subitem card-general-wrap`, `section__item heading-wrap`, `section__item button-wrap`.
 
 ### Основные слова для контента
 
@@ -71,25 +71,33 @@
 
 ### Иерархия вложенности (секции)
 
-У секций — фиксированный порядок уровней (общий блок **`section`**):
+У секций и компонентов — **неограниченная** глубина вложенности. Первые 7 уровней имеют именованные суффиксы, далее используется `__leaf` с числовым индексом:
 
-| Уровень | Класс элемента     | Пример с обёрткой                       |
-| ------- | ------------------ | --------------------------------------- |
-| 1       | `section__item`    | `section__item logo-wrap`               |
-| 2       | `section__subitem` | `section__subitem card-restaurant-wrap` |
-| 3       | `section__inner`   | `section__inner title-wrap`             |
-| 4       | `section__add`     | `section__add button-wrap`              |
+| Уровень | Суффикс     | Класс элемента     | Пример с обёрткой                       |
+| ------- | ----------- | ------------------ | --------------------------------------- |
+| 1       | `__item`    | `section__item`    | `section__item logo-wrap`               |
+| 2       | `__subitem` | `section__subitem` | `section__subitem card-general-wrap`    |
+| 3       | `__inner`   | `section__inner`   | `section__inner title-wrap`             |
+| 4       | `__add`     | `section__add`     | `section__add button-wrap`              |
+| 5       | `__nested`  | `section__nested`  | `section__nested icon-wrap`             |
+| 6       | `__deep`    | `section__deep`    | `section__deep desc-wrap`               |
+| 7       | `__extra`   | `section__extra`   | `section__extra form-wrap`              |
+| 8+      | `__leaf-N`  | `section__leaf-1`  | `section__leaf-1`, `section__leaf-2`, … |
 
-Если нужна большая глубина — вставляется **компонент**; у него та же схема (блок = имя компонента, например `card-restaurant`):
+Для компонентов — та же схема (блок = имя компонента, например `card-general`):
 
-| Уровень | Класс элемента (пример для компонента `card-restaurant`) |
-| ------- | -------------------------------------------------------- |
-| 1       | `card-restaurant__item`                                  |
-| 2       | `card-restaurant__subitem`                               |
-| 3       | `card-restaurant__inner`                                 |
-| 4       | `card-restaurant__add`                                   |
+| Уровень | Класс элемента                        |
+| ------- | ------------------------------------- |
+| 1       | `card-general__item`                  |
+| 2       | `card-general__subitem`               |
+| 3       | `card-general__inner`                 |
+| 4       | `card-general__add`                   |
+| 5       | `card-general__nested`                |
+| 6       | `card-general__deep`                  |
+| 7       | `card-general__extra`                 |
+| 8+      | `card-general__leaf-1`, `__leaf-2`, … |
 
-Для любого компонента: **`{component}__item`** → **`{component}__subitem`** → **`{component}__inner`** → **`{component}__add`**.
+Для любого блока/компонента: **`__item`** → **`__subitem`** → **`__inner`** → **`__add`** → **`__nested`** → **`__deep`** → **`__extra`** → **`__leaf-1`** → **`__leaf-2`** → …
 
 ### Система размеров (t-shirt sizing)
 
@@ -113,7 +121,7 @@
 ### Файловая структура
 
 - **Один блок = один файл**.
-- Пример: блок `.card-restaurant` → `assets/css/components/card-restaurant.css`.
+- Пример: блок `.card-general` → `assets/css/components/card-general.css`.
 - Пример: секция `.intro` → `assets/css/sections/intro.css`.
 
 ---
@@ -166,7 +174,7 @@
 
 Используется системная нумерация вместо семантических имен (primary/secondary).
 
-- **Цвета**: `--color-1` ... `--color-7`.
+- **Цвета**: `--color-1` … `--color-7` (базовые и фирменные). Служебные: `--color-error`, `--color-success`, `--color-placeholder`, `--color-muted`, `--color-border`.
 - **Градиенты**: `--gradient-1`, `--gradient-2`, `--gradient-3`.
 - **Шрифты**: `--font-1` (основное семейство), `--font-1-extended` (расширенное). Начертания задаются через `font-weight` и утилиты `.weight-100` … `.weight-900`.
 - **Z-index**: `--z-index-1` (1000) ... `--z-index-10` (910) — убывающий порядок.
@@ -195,7 +203,7 @@
 
 | Сущность          | Формат                                                                       | Примеры                                                                                                                                         |
 | ----------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| Класс блока       | `kebab-case`                                                                 | `form-callback`, `card-restaurant`                                                                                                              |
+| Класс блока       | `kebab-case`                                                                 | `form-callback`, `card-general`                                                                                                                 |
 | Класс элемента    | в компоненте: **`component__element`**; в секции: `section__item` + `*-wrap` | `form-callback__container`, `accordion__title`; `section__item logo-wrap`                                                                       |
 | Обёртка           | `*-wrap` (дополняет элемент)                                                 | `title-wrap`, `button-wrap` — пишутся вместе с `section__item` и т.д.                                                                           |
 | Состояние         | блок + класс состояния на одном элементе                                     | `class="header active"` → в CSS `.header.active`; состояния: `active`, `open`, `visible`                                                        |
@@ -205,3 +213,12 @@
 | Секция в JSON     | kebab-case                                                                   | `content-container`, `form-container`                                                                                                           |
 | Контент (слова)   | единый набор                                                                 | `heading`, `headline`, `subheading`, `subtitle`, `title`, `desc`, `name`, `label`, `placeholder`, `link`, `content` — в классах, \*-wrap и JSON |
 | Размеры (t-shirt) | xs, sm, md, lg, xl                                                           | `container-sm`, `button-md`, `text-lg` — единая шкала для контейнеров, кнопок, текста, иконок                                                   |
+
+---
+
+## См. также
+
+- [css-naming.md](css-naming.md) — организация и нейминг CSS
+- [js-naming.md](js-naming.md) — JavaScript: селекторы, модули, глобальные объекты
+- [twig-naming.md](twig-naming.md) — Twig: секции, переменные, подключения
+- [json-naming.md](json-naming.md) — JSON: структура страниц и глобальных данных

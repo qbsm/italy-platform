@@ -22,14 +22,14 @@
 }
 
 .custom-checkbox__box:hover {
-  border-color: #888;
+  border-color: var(--color-border);
 }
 
 .custom-checkbox__icon {
   width: 1.5rem;
   height: 1.5rem;
   fill: none;
-  stroke: #fff;
+  stroke: var(--color-1);
   stroke-width: 0.2rem;
   visibility: hidden;
 }

@@ -257,9 +257,6 @@
       "name": "footer",
       "visible": true,
       "data": {
-        "background": {
-          "src": "data/img/ui/bg3.webp"
-        },
         "form": {
           "heading": "Получить консультацию"
         }

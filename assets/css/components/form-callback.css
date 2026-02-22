@@ -1,3 +1,4 @@
+/* Форма обратной связи: BEM, переменные, доступность (подписи над полями, обязательность *, подпись под кнопкой) */
 .form-callback {
   width: 100%;
 }
@@ -18,7 +19,7 @@
   display: grid;
   gap: 1.25rem;
   grid-template-columns: 1fr;
-  grid-template-areas: 
+  grid-template-areas:
     "phone"
     "name"
     "square"
@@ -28,23 +29,23 @@
     "error";
 }
 
-.form-callback__item.input-phone {
+.form-callback__item.form-callback-item-phone {
   grid-area: phone;
 }
 
-.form-callback__item.input-name {
+.form-callback__item.form-callback-item-name {
   grid-area: name;
 }
 
-.form-callback__item.input-square {
+.form-callback__item.form-callback-item-square {
   grid-area: square;
 }
 
-.form-callback__item.input-policy {
+.form-callback__item.form-callback-item-policy {
   grid-area: policy;
 }
 
-.form-callback__item.input-hidden {
+.form-callback__item.form-callback-item-hidden {
   display: none;
 }
 
@@ -52,7 +53,7 @@
   grid-area: button;
 }
 
-.form-callback__item.rules-wrap {
+.form-callback__item.form-callback-item-rules {
   grid-area: rules;
   font-size: 0.8em;
 }
@@ -61,12 +62,41 @@
   grid-area: error;
 }
 
-.form-callback input[type="text"],
-.form-callback input[type="tel"] {
-  width: 100%;
-  padding-bottom: 1.25rem;
+/* Подпись над полем */
+.form-callback__label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.85em;
   font-weight: 400;
-  font-size: 0.8em;
+  color: var(--color-2);
+  cursor: pointer;
+  transition: color var(--transition-1);
+}
+
+.form-callback__label-text {
+  text-transform: uppercase;
+}
+
+.form-callback__required {
+  color: var(--color-error);
+}
+
+.form-callback__caption {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.75em;
+  color: var(--color-placeholder);
+  line-height: 1.3;
+}
+
+/* Поля ввода: класс .form-callback__input вместо селекторов по тегу */
+.form-callback__input,
+.form-callback textarea.form-callback__input {
+  width: 100%;
+  padding-top: 0.25rem;
+  padding-bottom: 1rem;
+  font-weight: 400;
+  font-size: 1em;
   background: none;
   color: var(--color-2);
   text-transform: uppercase;
@@ -74,16 +104,39 @@
   border-bottom: 0.1rem solid var(--color-5);
   border-radius: 0;
   outline: none;
+  transition: border-color var(--transition-1), background-color var(--transition-1);
 }
 
-.form-callback input[type="text"]:focus-visible,
-.form-callback input[type="tel"]:focus-visible,
+.form-callback__input::placeholder,
+.form-callback textarea.form-callback__input::placeholder {
+  color: var(--color-placeholder);
+  text-transform: uppercase;
+}
+
+.form-callback__input:focus,
+.form-callback textarea.form-callback__input:focus {
+  border-bottom-color: var(--color-2);
+}
+
+.form-callback textarea.form-callback__input {
+  min-height: 6rem;
+  resize: vertical;
+  text-transform: none;
+}
+
+.form-callback textarea.form-callback__input::placeholder {
+  text-transform: none;
+}
+
+.form-callback__input:focus-visible,
+.form-callback textarea.form-callback__input:focus-visible,
 .form-callback .form-callback__checkbox:focus-visible + .form-callback__checkmark,
 .form-callback button:focus-visible {
   outline: 0.125rem solid var(--color-2);
   outline-offset: 0.125rem;
 }
 
+/* Кастомный чекбокс */
 .form-callback__custom-checkbox {
   position: relative;
   display: flex;
@@ -91,13 +144,13 @@
   justify-content: flex-start;
   gap: 1rem;
   padding: 0 0 1.25rem;
-  transition: all 0.3s ease;
+  transition: border-color var(--transition-1), padding var(--transition-1);
   border-bottom: 0.1rem solid var(--color-5);
   cursor: pointer;
   user-select: none;
 }
 
-.form-callback__custom-checkbox .form-callback__checkbox:checked ~.form-callback__checkmark::after {
+.form-callback__custom-checkbox .form-callback__checkbox:checked ~ .form-callback__checkmark::after {
   opacity: 1;
   visibility: visible;
 }
@@ -112,7 +165,7 @@
   transform: translate(-50%, -50%);
   background: var(--color-2);
   opacity: 0;
-  transition: all 0.3s ease;
+  transition: opacity var(--transition-1), visibility var(--transition-1);
   visibility: hidden;
 }
 
@@ -124,13 +177,13 @@
   background: transparent;
   border-radius: 0;
   border: 0.1rem solid var(--color-5);
-  transition: all 0.3s ease;
+  transition: border-color var(--transition-1);
 }
 
 .form-callback__placeholder {
   font-weight: 400;
   text-transform: uppercase;
-  color: #6C6B6B;
+  color: var(--color-placeholder);
   font-size: 0.8em;
   margin: 0 1rem 0 0;
 }
@@ -139,37 +192,44 @@
   position: absolute;
   height: 0;
   width: 0;
-  transition: all 0.3s ease;
   opacity: 0;
   cursor: pointer;
 }
 
 .form-callback__item.button-wrap {
-  padding-top: 0.6rem;
+  padding-top: 0.25rem;
 }
 
-/* Дополнительные стили для ошибок */
-.form-callback__item.error input,
+.form-callback__rules {
+  display: block;
+  margin-top: 1rem;
+  line-height: 1.4;
+  color: var(--color-muted);
+}
+
+.form-callback__rules a {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+/* Состояние ошибки поля */
+.form-callback__item.error .form-callback__input,
 .form-callback__item.error textarea,
 .form-callback__item.error .form-callback__checkmark {
-  border-bottom: 0.1rem solid #f44336 !important;
-  background-color: rgb(244 67 54 / 5%);
+  border-bottom-color: var(--color-error);
+  background-color: var(--color-error-bg);
 }
 
 .form-callback__item.error .form-callback__placeholder {
-  color: #f44336 !important;
+  color: var(--color-error);
 }
 
-.form-callback__error {
-  color: #f44336;
+.form-callback__error-text {
+  color: var(--color-error);
   font-size: 0.9em;
 }
 
-.form-callback__error.hidden {
-  display: none !important;
-}
-
-/* Стили для сообщения об успешной отправке */
+/* Сообщение об успешной отправке */
 .form-callback__success {
   text-align: center;
   padding: 1.25rem;
@@ -179,8 +239,8 @@
   width: 3.75rem;
   height: 3.75rem;
   line-height: 3.75rem;
-  background-color: #4CAF50;
-  color: white;
+  background-color: var(--color-success);
+  color: var(--color-1);
   border-radius: 50%;
   font-size: 1.875rem;
   margin: 0 auto 0.9375rem;
@@ -194,10 +254,10 @@
 
 .form-callback__success-text {
   font-size: 1rem;
-  color: #666;
+  color: var(--color-muted);
 }
 
-/* Стили для кнопки во время загрузки */
+/* Кнопка: состояние загрузки (анимация из base/animations.css) */
 .form-callback button.loading {
   opacity: 0.7;
   position: relative;
@@ -206,34 +266,28 @@
 .form-callback button.loading::after {
   content: "";
   display: inline-block;
-  width: 16px;
-  height: 16px;
-  margin-left: 8px;
+  width: 1rem;
+  height: 1rem;
+  margin-left: 0.5rem;
   vertical-align: middle;
-  border: 2px solid currentcolor;
+  border: 0.125rem solid currentcolor;
   border-right-color: transparent;
   border-radius: 50%;
   animation: spinner 0.8s linear infinite;
 }
 
-@keyframes spinner {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Стили для кнопки без псевдоэлемента */
 .no-pseudo-icon::before,
 .no-pseudo-icon::after {
-  display: none !important;
+  display: none;
 }
 
-/* Стили для иконки внутри кнопки */
 .button-icon {
   display: inline-block;
   vertical-align: middle;
-  margin-right: 8px;
+  margin-right: 0.5rem;
 }
 
+/* Доступность: отключение движения по prefers-reduced-motion ( !important по гайду допустим) */
 @media (prefers-reduced-motion: reduce) {
   .form-callback *,
   .form-callback *::before,

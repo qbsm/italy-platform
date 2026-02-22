@@ -131,7 +131,12 @@ export class FormUI {
 
     container = document.createElement('div');
     container.className = 'form-callback__item form-callback__error hidden';
+    container.setAttribute('aria-live', 'polite');
+    container.setAttribute('aria-atomic', 'true');
     const span = document.createElement('span');
+    span.className = 'form-callback__error-text';
+    span.setAttribute('role', 'alert');
+    span.setAttribute('aria-live', 'assertive');
     container.appendChild(span);
 
     const formContentWrapper = this.form.querySelector('.form-callback__container') || this.form;

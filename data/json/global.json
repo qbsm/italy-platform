@@ -94,18 +94,26 @@
     "placeholder": {
       "ru": {
         "phone": "+7 ( _ _ _ ) _ _ _ - _ _ - _ _",
-        "name": "Ваше имя"
+        "name": "Ваше имя",
+        "square": "Площадь, м²"
       },
       "en": {
         "phone": "+7 ( _ _ _ ) _ _ _ - _ _ - _ _",
-        "name": "Your name"
+        "name": "Your name",
+        "square": "Area, m²"
       }
     },
     "label": {
       "ru": {
+        "phone": "Телефон",
+        "name": "Ваше имя",
+        "square": "Площадь, м²",
         "policy": "Принять конфиденциальность"
       },
       "en": {
+        "phone": "Phone",
+        "name": "Your name",
+        "square": "Area, m²",
         "policy": "Accept privacy policy"
       }
     },
@@ -119,6 +127,7 @@
     },
     "error": {
       "ru": {
+        "title": "Пожалуйста, исправьте ошибки в форме",
         "name_required": "Пожалуйста, укажите ваше имя",
         "name_min_length": "Имя должно содержать не менее 2 символов",
         "phone_required": "Пожалуйста, укажите номер телефона",
@@ -134,6 +143,7 @@
         "connection_error": "Ошибка соединения с сервером"
       },
       "en": {
+        "title": "Please correct the errors in the form",
         "name_required": "Please enter your name",
         "name_min_length": "Name should be at least 2 characters",
         "phone_required": "Please enter your phone number",

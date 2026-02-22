@@ -1,11 +1,22 @@
 :root {
+    /* Базовые */
     --color-1: #fff;
     --color-2: #000;
+
+    /* Фирменные */
     --color-3: #942617;
     --color-4: #E24E2A;
     --color-5: #EEC479;
     --color-6: #D4D2D2;
     --color-7: #151515;
+
+    /* Служебные: ошибки, статусы, подписи */
+    --color-error: #f44336;
+    --color-error-bg: rgb(244 67 54 / 5%);
+    --color-success: #4CAF50;
+    --color-placeholder: #6C6B6B;
+    --color-muted: #666;
+    --color-border: #888;
     --gradient-1: linear-gradient(to bottom, hsl(0deg 0% 100% / 100%), hsl(0deg 0% 100% / 0%));
     --gradient-2: linear-gradient(to bottom, hsl(0deg 0% 0% / 100%), hsl(0deg 0% 0% / 0%));
     --gradient-3: linear-gradient(to left, #F1ECE4, #DAD8D7);

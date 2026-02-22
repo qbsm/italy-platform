@@ -142,9 +142,31 @@
   line-height: 1.2;
 }
 
+.footer .form-callback__label {
+  color: var(--color-1);
+}
+
+.footer .form-callback__required {
+  color: var(--color-5);
+}
+
+.footer .form-callback__caption {
+  color: var(--color-6);
+}
+
 .footer .form-callback input[type="text"],
 .footer .form-callback input[type="tel"] {
   color: var(--color-1);
+  border-bottom-color: var(--color-1);
+}
+
+.footer .form-callback input[type="text"]::placeholder,
+.footer .form-callback input[type="tel"]::placeholder {
+  color: var(--color-6);
+}
+
+.footer .form-callback input[type="text"]:focus,
+.footer .form-callback input[type="tel"]:focus {
   border-bottom-color: var(--color-1);
 }
 
