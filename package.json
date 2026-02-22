@@ -38,7 +38,7 @@
     "*.{js,mjs}": "eslint --fix",
     "*.css": "stylelint --fix",
     "*.php": [
-      "vendor/bin/php-cs-fixer fix --path-mode=intersection",
+      "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --path-mode=intersection",
       "vendor/bin/phpstan analyse --no-progress"
     ],
     "*.{json,md}": "prettier --write"

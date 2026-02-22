@@ -157,4 +157,3 @@ final class ApiSendAction
         $_SESSION['api_send_idempotency'] = $store;
     }
 }
-
