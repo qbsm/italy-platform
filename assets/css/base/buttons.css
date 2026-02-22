@@ -1,3 +1,7 @@
+/* ============================================
+   Button — base
+   ============================================ */
+
 .button {
     position: relative;
     width: auto;
@@ -19,18 +23,14 @@
     gap: 0.5rem;
 }
 
-.button .button__icon {
+/* ============================================
+   Button — elements (component__element)
+   ============================================ */
+
+.button__icon {
     width: 1rem;
     height: 1rem;
     flex-shrink: 0;
-}
-
-.button-circle {
-    height: 4.6rem;
-    width: 4.6rem;
-    background: transparent;
-    border: .1rem solid var(--color-1);
-    border-radius: 50%;
 }
 
 .button__item.content-wrap {
@@ -66,6 +66,10 @@
     overflow: hidden;
 }
 
+/* ============================================
+   Button — sizes
+   ============================================ */
+
 .button-sm {
     height: 4rem;
     gap: 1rem;
@@ -77,14 +81,23 @@
     }
 }
 
-.button-sm.button-rounded {
-    border-radius: 2rem;
-}
-
 .button-md {
     height: 5rem;
     gap: 1rem;
     padding: 1rem 2rem;
+}
+
+.button-md .button__item.content-wrap::before {
+    left: calc(-1 * (100% - 3rem));
+}
+
+.button-md .button__subitem.icon-wrap {
+    height: 3rem;
+    width: 3rem;
+}
+
+.button-md .button__icon {
+    height: 1.4rem;
 }
 
 .button-md.button-circle {
@@ -99,43 +112,6 @@
     left: calc(-1 * (100% + 1rem));
 }
 
-.button-md.button-circle.button-animated:hover .button__item.animation-shift {
-    transform: translateX(calc(100% + 1rem));
-}
-
-.button-md.button-animated:hover .button__item.animation-shift {
-    transform: translateX(calc(100% - 2rem));
-}
-
-.button-md.button-circle.button-animated .button__subitem.icon-wrap.animation-rotate-90 {
-    transition: var(--transition-2);
-}
-
-.button-md.button-circle.button-animated:hover .button__subitem.icon-wrap.animation-rotate-90 {
-    transform: rotate(90deg)
-}
-
-.button-md .button__item.content-wrap::before {
-    left: calc(-1 * (100% - 3rem));
-}
-
-.button-md.button-rounded {
-    border-radius: 2.5rem;
-}
-
-.button-md.button-rounded-sm {
-    border-radius: 1rem;
-}
-
-.button-md .button__subitem.icon-wrap {
-    height: 3rem;
-    width: 3rem;
-}
-
-.button-md .button__icon {
-    height: 1.4rem;
-}
-
 .button-lg {
     height: 6rem;
     gap: 1rem;
@@ -148,10 +124,6 @@
     left: calc(-1 * (100% - 4rem));
 }
 
-.button-lg.button-rounded {
-    border-radius: 3rem;
-}
-
 .button-lg .button__subitem.icon-wrap {
     height: 4rem;
     width: 4rem;
@@ -159,6 +131,47 @@
 
 .button-lg .button__icon {
     width: 1.6rem;
+}
+
+/* ============================================
+   Button — shapes
+   ============================================ */
+
+.button-circle {
+    height: 4.6rem;
+    width: 4.6rem;
+    background: transparent;
+    border: .1rem solid var(--color-1);
+    border-radius: 50%;
+}
+
+.button-sm.button-rounded {
+    border-radius: 2rem;
+}
+
+.button-md.button-rounded {
+    border-radius: 2.5rem;
+}
+
+.button-md.button-rounded-sm {
+    border-radius: 1rem;
+}
+
+.button-lg.button-rounded {
+    border-radius: 3rem;
+}
+
+/* ============================================
+   Button — colors (background)
+   ============================================ */
+
+.button.bg-color-1:hover {
+    background: var(--color-6);
+    color: var(--color-1);
+}
+
+.button.bg-color-1.color-3:hover {
+    color: var(--color-1);
 }
 
 .button.bg-color-2 {
@@ -171,6 +184,10 @@
     color: var(--color-2);
 }
 
+.button.bg-color-3:hover {
+    background: var(--color-6);
+}
+
 .button.bg-color-6 {
     background: var(--color-6);
 }
@@ -181,20 +198,11 @@
     color: var(--color-1);
 }
 
-.button.bg-color-1:hover {
-    background: var(--color-6);
-    color: var(--color-1);
-}
+/* ============================================
+   Button — colors (outline)
+   ============================================ */
 
-.button.bg-color-1.color-3:hover {
-    color: var(--color-1);
-}
-
-.button.bg-color-3:hover {
-    background: var(--color-6);
-}
-
-.outline-color-1 {
+.button.outline-color-1 {
     border-color: var(--color-1);
 }
 
@@ -206,21 +214,21 @@
     background: var(--color-6);
 }
 
-.button-outline-color-2 {
+.button.outline-color-2 {
     border-color: var(--color-2);
 }
 
-.button-outline-color-2:hover {
+.button.outline-color-2:hover {
     background: var(--color-2);
     border-color: var(--color-2);
     color: var(--color-1);
 }
 
-.button-outline-color-2:hover .button__subitem.icon-wrap {
+.button.outline-color-2:hover .button__subitem.icon-wrap {
     background: var(--color-6);
 }
 
-.outline-color-3 {
+.button.outline-color-3 {
     border-color: var(--color-3);
 }
 
@@ -228,7 +236,7 @@
     background: var(--color-6);
 }
 
-.outline-color-6 {
+.button.outline-color-6 {
     border-color: var(--color-6);
 }
 
@@ -236,8 +244,43 @@
     border-color: var(--color-1);
 }
 
-.outline-color-6:hover .button__subitem.icon-wrap {
+.button.outline-color-6:hover .button__subitem.icon-wrap {
     background: var(--color-6);
+}
+
+/* ============================================
+   Button — animations
+   ============================================ */
+
+.button-animated.animation-shift::after {
+    content: "";
+    display: block;
+    right: 0;
+    top: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    background: url("/data/img/ui/icons/icon-arrow-right-sm-color-2.svg") center no-repeat;
+    transition: transform 0.25s ease-out;
+}
+
+.button-animated.animation-shift:hover::after {
+    transform: translateX(0.5rem);
+}
+
+.button-md.button-animated:hover .button__item.animation-shift {
+    transform: translateX(calc(100% - 2rem));
+}
+
+.button-md.button-circle.button-animated:hover .button__item.animation-shift {
+    transform: translateX(calc(100% + 1rem));
+}
+
+.button-md.button-circle.button-animated .button__subitem.icon-wrap.animation-rotate-90 {
+    transition: var(--transition-2);
+}
+
+.button-md.button-circle.button-animated:hover .button__subitem.icon-wrap.animation-rotate-90 {
+    transform: rotate(90deg);
 }
 
 .button-animated:hover .button__subitem.icon-wrap.animation-rotate-45 {
@@ -258,19 +301,4 @@
 
 .button-animated:hover .button__subitem.icon-wrap.animation-icon-up .button__icon {
     animation: top-to-down 0.5s ease-out forwards;
-}
-
-.button-animated.animation-shift::after {
-    content: "";
-    display: block;
-    right: 0;
-    top: 0;
-    width: 1.25rem;
-    height: 1.25rem;
-    background: url("/data/img/ui/icons/icon-arrow-right-sm-color-2.svg") center no-repeat;
-    transition: transform 0.25s ease-out;
-}
-
-.button-animated.animation-shift:hover::after {
-    transform: translateX(0.5rem);
 }

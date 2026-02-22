@@ -25,7 +25,7 @@
       <input type="hidden" name="csrf_token" value="{{ csrf_token | default('') }}">
     </div>
     <div class="form-callback__item button-wrap">
-      <button class="button button-sm button-outline-color-2 button-animated animation-shift uppercase link" type="submit">
+      <button class="button button-sm outline-color-2 button-animated animation-shift uppercase link" type="submit">
         {% if data.button is defined and data.button.title is defined %}
           {{ data.button.title }}
         {% else %}

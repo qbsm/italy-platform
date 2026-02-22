@@ -50,18 +50,6 @@
   background: var(--color-7);
 }
 
-.bg-color-8 {
-  background: var(--color-8);
-}
-
-.bg-color-9 {
-  background: var(--color-9);
-}
-
-.bg-color-10 {
-  background: var(--color-10);
-}
-
 .opacity-08 {
   opacity: 0.08;
 }
@@ -253,5 +241,5 @@
 }
 
 .no-zoom img {
-  transition: scale(1) !important;
+  transform: scale(1);
 }

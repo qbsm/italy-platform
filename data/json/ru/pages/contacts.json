@@ -80,7 +80,7 @@
               },
               "button": {
                 "title": "Показать на карте",
-                "class": "button button-sm button-outline-color-2 button-animated animation-shift uppercase link"
+                "class": "button button-sm outline-color-2 button-animated animation-shift uppercase link"
               },
               "address": {
                 "heading": {

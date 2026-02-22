@@ -6,7 +6,7 @@
       </div>
     {% endif %}
   </div>
-  <div class="padding-grid-left">
+  <div class="container-left offset">
     {% set tags = global.filter[lang_code].items | default([]) %}
     {% if tags is not empty %}
       <div class="section__item tags-wrap">

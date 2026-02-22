@@ -24,7 +24,7 @@
             "title": "Забронировать"
           },
           "menu": {
-            "class": "button button-outline-color-2 button-md nowrap",
+            "class": "button outline-color-2 button-md nowrap",
             "title": "Меню",
             "icon": {
               "src": "data/img/ui/icons/icon-arrow-right-sm-color-2.svg",

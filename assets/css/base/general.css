@@ -5,13 +5,7 @@
 }
 
 html {
-  font-size: 10px;
   height: 100%;
-
-}
-
-* {
-  font-size: 1em;
 }
 
 body {
@@ -78,7 +72,13 @@ rt,
 rp,
 del,
 ins,
-s {
+s,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   display: inline-block;
   margin: 0;
   padding: 0;

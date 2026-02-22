@@ -14,7 +14,7 @@
     "setup:public-links": "node tools/build/setup-public-links.js",
     "build:images": "node tools/build/build-images.js",
     "lint": "eslint \"tools/**/*.js\" \"webpack.config.js\" \"postcss.config.js\" \"assets/js/**/*.js\"",
-    "lint:css": "stylelint \"assets/css/**/*.css\"",
+    "lint:css": "stylelint \"assets/css/main.css\" \"assets/css/base/**/*.css\" \"assets/css/sections/**/*.css\" \"assets/css/components/**/*.css\" \"assets/css/pages/**/*.css\"",
     "lint:php": "vendor/bin/phpstan analyse --no-progress",
     "format:php": "vendor/bin/php-cs-fixer fix",
     "format:php:check": "vendor/bin/php-cs-fixer fix --dry-run --diff",

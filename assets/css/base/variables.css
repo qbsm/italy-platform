@@ -15,16 +15,6 @@
     /* Семейство шрифтов TT Norms Pro (вариативный) */
     --font-1: "TT Norms Pro", sans-serif;
     --font-1-extended: "TT Norms Pro Expanded", "TT Norms Pro", sans-serif;
-    --font-1-thin: "TT Norms Pro", sans-serif;         /* font-weight: 100 */
-    --font-1-extralight: "TT Norms Pro", sans-serif;    /* font-weight: 200 */
-    --font-1-light: "TT Norms Pro", sans-serif;         /* font-weight: 300 */
-    --font-1-regular: "TT Norms Pro", sans-serif;       /* font-weight: 400 */
-    --font-1-normal: "TT Norms Pro", sans-serif;        /* font-weight: 400 */
-    --font-1-medium: "TT Norms Pro", sans-serif;        /* font-weight: 500 */
-    --font-1-demibold: "TT Norms Pro", sans-serif;      /* font-weight: 600 */
-    --font-1-bold: "TT Norms Pro", sans-serif;          /* font-weight: 700 */
-    --font-1-extrabold: "TT Norms Pro", sans-serif;     /* font-weight: 800 */
-    --font-1-black: "TT Norms Pro", sans-serif;         /* font-weight: 900 */
 }
 
 :root {

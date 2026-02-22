@@ -1,12 +1,20 @@
+html {
+  font-size: 10px;
+}
+
+* {
+  font-size: 1em;
+}
+
 body,
 input,
 select,
 textarea {
     font-size: 1.4rem;
-    font-family: var(--font-1-regular);
+    font-family: var(--font-1);
     font-weight: 300;
     line-height: 1.2;
- 
+
     @media (--lg) {
         font-size: 1.6rem;
     }
@@ -18,11 +26,7 @@ h3,
 h4,
 h5,
 h6 {
-  display: inline-block;
-  margin: 0;
-  padding: 0;
   margin-block: 0;
-  font-family: var(--font-1-demibold);
   font-weight: 600;
   line-height: 1.1;
 }
@@ -77,7 +81,6 @@ h6 {
 
 b,
 strong {
-  font-family: var(--font-1-bold);
   font-weight: 700;
 }
 
@@ -119,56 +122,6 @@ strong {
 
 .font-1 {
   font-family: var(--font-1);
-}
-
-.font-1-thin {
-  font-family: var(--font-1);
-  font-weight: 100;
-}
-
-.font-1-extralight {
-  font-family: var(--font-1);
-  font-weight: 200;
-}
-
-.font-1-light {
-  font-family: var(--font-1);
-  font-weight: 300;
-}
-
-.font-1-regular {
-  font-family: var(--font-1);
-  font-weight: 400;
-}
-
-.font-1-normal {
-  font-family: var(--font-1);
-  font-weight: 400;
-}
-
-.font-1-medium {
-  font-family: var(--font-1);
-  font-weight: 500;
-}
-
-.font-1-demibold {
-  font-family: var(--font-1);
-  font-weight: 600;
-}
-
-.font-1-bold {
-  font-family: var(--font-1);
-  font-weight: 700;
-}
-
-.font-1-extrabold {
-  font-family: var(--font-1);
-  font-weight: 800;
-}
-
-.font-1-black {
-  font-family: var(--font-1);
-  font-weight: 900;
 }
 
 .text-lg {

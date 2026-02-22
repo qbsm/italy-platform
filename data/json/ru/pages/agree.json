@@ -8,7 +8,7 @@
     {
       "name": "promo",
       "data": {
-        "container": "container-narrow",
+        "container": "container-sm",
         "heading": {
           "tag": "h1",
           "class": "h1 heading heading-flex uppercase",
@@ -22,7 +22,7 @@
     {
       "name": "content-container",
       "data": {
-        "container": "container-narrow",
+        "container": "container-sm",
         "content": {
           "class": "content-agree",
           "items": [
