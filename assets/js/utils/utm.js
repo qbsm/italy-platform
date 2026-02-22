@@ -31,7 +31,7 @@
   if (hasUtm) {
     try {
       sessionStorage.setItem('utm_session', '1');
-    } catch (e) {
+    } catch {
       /* ignore */
     }
     UTM_KEYS.forEach(function (key) {
@@ -39,7 +39,7 @@
       if (val) {
         try {
           sessionStorage.setItem(key, val);
-        } catch (e) {
+        } catch {
           /* ignore */
         }
         setCookie(key, val, COOKIE_DAYS);

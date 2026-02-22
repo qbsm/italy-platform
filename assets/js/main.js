@@ -36,7 +36,7 @@ import './sections/us.js';
 // --- Components ---
 import './components/button.js';
 import './components/analytics.js';
-import './components/form-callback.js';
+import './components/form-callback/index.js';
 import './components/heading.js';
 import './components/accordion.js';
 import './components/spoiler.js';

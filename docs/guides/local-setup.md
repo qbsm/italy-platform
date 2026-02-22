@@ -4,7 +4,7 @@
 
 ## Требования
 
-- PHP 8.1+
+- PHP 8.5+
 - Composer
 - Node.js 18+ и npm
 - Для локального домена: Laravel Valet (macOS) или аналог (nginx/Apache с виртуальным хостом)

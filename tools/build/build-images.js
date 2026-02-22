@@ -14,8 +14,6 @@ const configPath = path.join(projectRoot, 'config/image-sizes.json');
 const imgDir = path.join(projectRoot, 'data/img');
 const manifestPath = path.join(imgDir, 'image-dimensions.json');
 
-const RASTER_EXT = /\.(jpg|jpeg|png|webp)$/i;
-
 function loadConfig() {
   const raw = fs.readFileSync(configPath, 'utf8');
   const data = JSON.parse(raw);

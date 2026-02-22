@@ -30,6 +30,7 @@
 {% set pictureStyle = picture_style|default('') %}
 {% set imageWidth = image.width|default(null) %}
 {% set imageHeight = image.height|default(null) %}
+{% set imageFetchpriority = imageLoading is defined and imageLoading == 'eager' ? 'high' : null %}
 
 {# Новый формат: horizontal/vertical #}
 {% if image.horizontal is defined or image.vertical is defined %}

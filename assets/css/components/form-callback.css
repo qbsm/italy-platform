@@ -2,6 +2,18 @@
   width: 100%;
 }
 
+.form-callback__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .form-callback__container {
   display: grid;
   gap: 1.25rem;
@@ -63,6 +75,14 @@
   border-bottom: 0.1rem solid var(--color-5);
   border-radius: 0;
   outline: none;
+}
+
+.form-callback input[type="text"]:focus-visible,
+.form-callback input[type="tel"]:focus-visible,
+.form-callback .form-callback__checkbox:focus-visible + .form-callback__checkmark,
+.form-callback button:focus-visible {
+  outline: 0.125rem solid var(--color-2);
+  outline-offset: 0.125rem;
 }
 
 .form-callback__custom-checkbox {
@@ -154,28 +174,28 @@
 /* Стили для сообщения об успешной отправке */
 .form-callback__success {
   text-align: center;
-  padding: 20px;
+  padding: 1.25rem;
 }
 
 .form-callback__success-icon {
-  width: 60px;
-  height: 60px;
-  line-height: 60px;
+  width: 3.75rem;
+  height: 3.75rem;
+  line-height: 3.75rem;
   background-color: #4CAF50;
   color: white;
   border-radius: 50%;
-  font-size: 30px;
-  margin: 0 auto 15px;
+  font-size: 1.875rem;
+  margin: 0 auto 0.9375rem;
 }
 
 .form-callback__success-title {
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: 600;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
 }
 
 .form-callback__success-text {
-  font-size: 16px;
+  font-size: 1rem;
   color: #666;
 }
 
@@ -214,4 +234,15 @@
   display: inline-block;
   vertical-align: middle;
   margin-right: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-callback *,
+  .form-callback *::before,
+  .form-callback *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

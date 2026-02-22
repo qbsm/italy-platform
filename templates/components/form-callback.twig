@@ -1,23 +1,28 @@
-<form class="form-callback">
+{% set form_uid = 'form-callback-' ~ random(1000000) %}
+<form class="form-callback" novalidate>
   <div class="form-callback__container">
     <div class="form-callback__item input-phone">
-      <input type="tel" class="phone required" name="phone" placeholder="{{ global['form-callback'].placeholder[lang_code].phone }}">
+      <label class="form-callback__sr-only" for="{{ form_uid }}-phone">{{ global['form-callback'].placeholder[lang_code].phone }}</label>
+      <input id="{{ form_uid }}-phone" type="tel" class="phone required" name="phone" inputmode="tel" autocomplete="tel" placeholder="{{ global['form-callback'].placeholder[lang_code].phone }}">
     </div>
     <div class="form-callback__item input-name">
-      <input type="text" name="name" placeholder="{{ global['form-callback'].placeholder[lang_code].name }}" class="required">
+      <label class="form-callback__sr-only" for="{{ form_uid }}-name">{{ global['form-callback'].placeholder[lang_code].name }}</label>
+      <input id="{{ form_uid }}-name" type="text" name="name" autocomplete="name" placeholder="{{ global['form-callback'].placeholder[lang_code].name }}" class="required">
     </div>
     <div class="form-callback__item input-square">
-      <input type="text" name="square" placeholder="{{ global['form-callback'].placeholder[lang_code].square }}" class="required">
+      <label class="form-callback__sr-only" for="{{ form_uid }}-square">{{ global['form-callback'].placeholder[lang_code].square }}</label>
+      <input id="{{ form_uid }}-square" type="text" name="square" placeholder="{{ global['form-callback'].placeholder[lang_code].square }}" class="required">
     </div>
     <div class="form-callback__item input-policy">
       <label class="form-callback__custom-checkbox">
-        <input type="checkbox" name="policy" class="form-callback__checkbox">
+        <input id="{{ form_uid }}-policy" type="checkbox" name="policy" class="form-callback__checkbox">
         <span class="form-callback__checkmark"></span>
         <span class="form-callback__placeholder uppercase">{{ global['form-callback'].label[lang_code].policy }}</span>
       </label>
     </div>
     <div class="form-callback__item input-hidden">
       <input type="hidden" name="current_url" value="">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token | default('') }}">
     </div>
     <div class="form-callback__item button-wrap">
       <button class="button button-sm button-outline-color-2 button-animated animation-shift uppercase link" type="submit">
@@ -32,7 +37,7 @@
       <span class="form-callback__rules">{{ global['form-callback'].rules[lang_code].policy | raw }}</span>
     </div>
     <div class="form-callback__item form-callback__error hidden">
-      <span class="form-callback__error">{{ global['form-callback'].error.title }}</span>
+      <span id="{{ form_uid }}-error" class="form-callback__error" role="alert" aria-live="assertive">{{ global['form-callback'].error.title }}</span>
     </div>
   </div>
 </form>

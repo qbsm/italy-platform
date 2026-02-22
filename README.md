@@ -16,7 +16,7 @@
 ## Технологический стек
 
 ### Backend
-- **PHP 8.1+** — серверная логика и маршрутизация
+- **PHP 8.5+** — серверная логика и маршрутизация
 - **Twig 3.x** — шаблонизатор с наследованием и компонентами
 - **Composer** — управление PHP-зависимостями (PSR-4 autoload)
 
@@ -335,7 +335,7 @@ project/
 ## Развертывание
 
 ### Требования к серверу
-- **PHP 8.1+** с модулями: json, mbstring
+- **PHP 8.5+** с модулями: json, mbstring
 - **Apache** с поддержкой mod_rewrite (или Nginx с эквивалентными правилами)
 - **Node.js 16+** для сборки ресурсов
 - **Composer** для PHP-зависимостей
@@ -381,7 +381,7 @@ server {
     location ~ \.php$ {
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+        fastcgi_pass unix:/run/php/php8.5-fpm.sock;
     }
 }
 ```
@@ -611,13 +611,13 @@ server {
 
 ### Безопасность и формы
 
-- [ ] CSRF-токены для форм (form-callback и др.): токен в форме + проверка на бэкенде
+"- [ ] CSRF-токены для форм (form-callback и др.): токен в форме + проверка на бэкенде"
 - [ ] Rate limiting для формы обратной связи и API
 - [ ] Валидация и санитизация на бэкенде для api/send; описать контракт в README/docs
 
 ### Производительность и мониторинг
 
-- [ ] Описать замер FCP/LCP/CLS/INP (Lighthouse, RUM, CI) и реакцию на деградацию
+- [x] Описать замер FCP/LCP/CLS/INP (Lighthouse, RUM, CI) и реакцию на деградацию — [docs/guides/metrics-goals.md](docs/guides/metrics-goals.md)
 - [ ] Health check endpoint (`/health` или `/ping`) для мониторинга
 - [ ] Структурированное логирование: зафиксировать поля (request_id, duration и т.д.) и способ поиска
 
