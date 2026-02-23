@@ -71,7 +71,7 @@
     "postcss-hash": "^3.0.0",
     "postcss-import": "^16.1.1",
     "postcss-loader": "^8.2.1",
-    "postcss-preset-env": "^11.1.3",
+    "postcss-preset-env": "^11.2.0",
     "postcss-url": "^10.1.3",
     "prettier": "^3.8.1",
     "sharp": "^0.34.5",
