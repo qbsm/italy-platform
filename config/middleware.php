@@ -7,6 +7,7 @@ use App\Handler\ServerErrorHandler;
 use App\Middleware\CorsMiddleware;
 use App\Middleware\CorrelationIdMiddleware;
 use App\Middleware\LanguageMiddleware;
+use App\Middleware\RateLimitMiddleware;
 use App\Middleware\RedirectMiddleware;
 use App\Middleware\SecurityHeadersMiddleware;
 use App\Middleware\TrailingSlashMiddleware;
@@ -22,6 +23,7 @@ return static function (App $app): void {
     $app->add(SecurityHeadersMiddleware::class);
     $app->add($container->get(CorsMiddleware::class));
     $app->addBodyParsingMiddleware();
+    $app->add($container->get(RateLimitMiddleware::class));
     $app->add(LanguageMiddleware::class);
     $app->add(RedirectMiddleware::class);
     $app->add(TrailingSlashMiddleware::class);

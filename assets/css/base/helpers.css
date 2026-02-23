@@ -244,3 +244,19 @@
 .no-zoom img {
   transform: scale(1);
 }
+
+/* Skip-link: скрыт до фокуса (доступность, WCAG) */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  background: var(--color-1, #000);
+  color: #fff;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  left: 0.5rem;
+  top: 0.5rem;
+}

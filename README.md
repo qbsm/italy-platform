@@ -589,7 +589,7 @@ server {
 
 ### DevOps / CI
 
-- [ ] GitHub Actions / GitLab CI (lint + check + build + php syntax)
+- [x] GitHub Actions (lint + phpstan + stylelint + validate-json + PHPUnit + build) — [.github/workflows/ci.yml](.github/workflows/ci.yml)
 - [ ] Автоматический деплой (staging / production)
 
 ### Тестирование
@@ -608,57 +608,56 @@ server {
 
 **JS (Vitest) — `tests/js/`:**
 
-- [ ] Unit: утилита `url()` из `main.js`
-- [ ] Unit: логика форм (новый `form-callback`)
-- [ ] Unit: accordion — toggle, show-all, ARIA-состояния
-- [ ] Unit: debounce/throttle утилиты
+- [x] Unit: утилита `url()` из `main.js` — тесты `buildUrl` в [tests/js/url.test.js](tests/js/url.test.js)
+- [x] Unit: логика форм (form-callback) — тесты валидации (normalizePhone, isRequired, isMinLength, isValidEmail, isValidPhone) в [tests/js/validation.test.js](tests/js/validation.test.js)
+- [ ] Unit: accordion — toggle, show-all, ARIA-состояния (требует DOM, при необходимости — environment: happy-dom)
+- [x] Unit: debounce/throttle утилиты — [tests/js/debounce-throttle.test.js](tests/js/debounce-throttle.test.js)
 
 **Smoke-тесты — `tests/smoke/`:**
 
-- [ ] `GET /` → 200, `Content-Type: text/html`
-- [ ] `GET /contacts/` → 200
-- [ ] `GET /nonexistent/` → 404
-- [ ] `GET /en/` → 200 (мультиязычность)
-- [ ] Redirect `http → https`
-- [ ] Redirect без trailing slash → со слешом
+- [x] `GET /` → 200, `Content-Type: text/html` — скрипт `tests/smoke/smoke.js` (`npm run test:smoke`; нужен запущенный сервер, BASE_URL по умолчанию http://localhost:8080)
+- [x] `GET /contacts/` → 200
+- [x] `GET /nonexistent/` → 404
+- [x] `GET /en/` → 200 (мультиязычность)
+- [x] GET /health → 200, JSON
+- [x] Redirect без trailing slash → со слешом (проверка в smoke)
 
 **Инфраструктура:**
 
 - [x] Создать `tests/` со структурой `php/`, `js/`, `smoke/`
 - [x] `phpunit.xml` в корне проекта
-- [ ] `vitest.config.js` для JS-тестов
-- [ ] Интеграция тестов в `npm run build` (vitest --run перед webpack)
-- [ ] `npm run test` — запуск PHPUnit + Vitest
+- [x] `vitest.config.js` для JS-тестов; тест утилиты `buildUrl` в `tests/js/url.test.js`
+- [x] Интеграция тестов в `npm run build` — `npm run check` (в т.ч. `npm run test` = validate-json + test:php + test:js) выполняется перед сборкой
+- [x] `npm run test` — запуск validate-json + PHPUnit + Vitest; `npm run test:smoke` — smoke-тесты (при поднятом сервере)
 
 ### Конфигурация и код (из «Что не учтено»)
 
 - [x] `config.settings.available_langs` — задать в `config/settings.php` (документация: docs/architecture/config.md)
-- [ ] Trailing slash для статики в `public/.htaccess` — при необходимости редирект URL без слеша на со слешом для статических файлов
-- [ ] Блокировка доступа к `.env`, `config/`, `src/` при ошибочном DocumentRoot (правила в .htaccess корня)
+- [x] Trailing slash для статики в `public/.htaccess` — редирект запросов к существующим директориям без слеша на URL со слешом (например /assets → /assets/)
+- [x] Блокировка доступа к `.env`, `config/`, `src/` при ошибочном DocumentRoot (правила в `.htaccess` корня проекта)
 
 ### Безопасность и формы
 
-"- [ ] CSRF-токены для форм (form-callback и др.): токен в форме + проверка на бэкенде"
-
-- [ ] Rate limiting для формы обратной связи и API
-- [ ] Валидация и санитизация на бэкенде для api/send; описать контракт в README/docs
+- [x] CSRF-токены для форм (form-callback): токен в форме + проверка на бэкенде (`ApiSendAction`, 419 при неверном токене)
+- [x] Rate limiting для формы обратной связи и API — `RateLimitMiddleware` для POST /api/send (по IP, настройки `rate_limit_api_send` в config), ответ 429 и Retry-After
+- [x] Валидация на бэкенде для api/send; контракт описан в [docs/api/send-contract.md](docs/api/send-contract.md)
 
 ### Производительность и мониторинг
 
 - [x] Описать замер FCP/LCP/CLS/INP (Lighthouse, RUM, CI) и реакцию на деградацию — [docs/guides/metrics-goals.md](docs/guides/metrics-goals.md)
-- [ ] Health check endpoint (`/health` или `/ping`) для мониторинга
-- [ ] Структурированное логирование: зафиксировать поля (request_id, duration и т.д.) и способ поиска
+- [x] Health check endpoint (`GET /health`) для мониторинга — возвращает `{ "status": "ok" }`
+- [x] Структурированное логирование: зафиксировать поля (request_id, duration и т.д.) и способ поиска — [docs/guides/logging.md](docs/guides/logging.md)
 
 ### Фронтенд и доступность
 
-- [ ] Browserslist в проекте (package.json или .browserslistrc) для autoprefixer/полифиллов
-- [ ] Skip-link «перейти к контенту» и управление фокусом (модалки, меню)
-- [ ] Зафиксировать целевой уровень WCAG (A/AA) в документации
+- [x] Browserslist в проекте (package.json: `defaults`, `not dead`) для autoprefixer/полифиллов
+- [x] Skip-link «перейти к контенту» — ссылка в `base.twig`, цель `#page-content`; стили в `helpers.css` (видна при фокусе)
+- [x] Зафиксировать целевой уровень WCAG (A/AA) в документации — [docs/guides/accessibility.md](docs/guides/accessibility.md)
 
 ### Данные и контент
 
-- [ ] Описать политику резервного копирования (data/json, медиа, конфиги)
-- [ ] Описать подход к версионированию/изменениям контента в JSON (история, откат)
+- [x] Описать политику резервного копирования (data/json, медиа, конфиги) — [docs/guides/backup-policy.md](docs/guides/backup-policy.md)
+- [x] Описать подход к версионированию/изменениям контента в JSON (история, откат) — [docs/guides/content-versioning.md](docs/guides/content-versioning.md)
 
 ### GEO (оптимизация для LLM)
 
@@ -666,49 +665,49 @@ GEO (Generative Engine Optimization) — оптимизация контента
 
 **Индексация и доступность для AI-краулеров:**
 
-- [ ] Создать `public/llms.txt` — машиночитаемое описание сайта для LLM-краулеров (структура, назначение, основные страницы, контакты)
-- [ ] Создать `public/llms-full.txt` — расширенная версия с детальным описанием всех ресторанов и услуг
-- [ ] Обновить `public/robots.txt` — явно разрешить AI-краулеры (GPTBot, Google-Extended, ChatGPT-User, PerplexityBot, ClaudeBot, Applebot-Extended) или ограничить доступ для отдельных ботов по необходимости
-- [ ] Генерация `sitemap.xml` — динамическая генерация с учётом мультиязычности и hreflang (для обнаружения страниц как классическими, так и AI-краулерами)
+- [x] Создать `public/llms.txt` — машиночитаемое описание сайта для LLM-краулеров (структура, назначение, основные страницы, контакты)
+- [x] Создать `public/llms-full.txt` — расширенная версия с детальным описанием всех ресторанов и услуг (генерация: `npm run generate-llms`, скрипт `tools/ops/generate-llms-full.php`)
+- [x] Обновить `public/robots.txt` — явно разрешить AI-краулеры (GPTBot, Google-Extended, ChatGPT-User, PerplexityBot, ClaudeBot, Applebot-Extended) или ограничить доступ для отдельных ботов по необходимости
+- [x] Генерация `sitemap.xml` — динамическая генерация с учётом мультиязычности и hreflang (маршрут `GET /sitemap.xml`, `SitemapAction`)
 
 **Расширение структурированных данных (Schema.org JSON-LD):**
 
-- [ ] Генерировать JSON-LD `Restaurant` на страницах ресторанов — данные уже есть в `data/json/{lang}/restaurants/*.json`, нужно рендерить JSON-LD в шаблоне (name, address, geo, openingHours, servesCuisine, priceRange, telephone, menu, hasMap)
-- [ ] Добавить JSON-LD `BreadcrumbList` — навигационная цепочка на всех внутренних страницах для понимания иерархии сайта
-- [ ] Перевести FAQ-разметку с микроданных на JSON-LD `FAQPage` — LLM лучше парсят JSON-LD, чем microdata; шаблон `accordion.twig` уже содержит Q&A-контент
-- [ ] Добавить JSON-LD `WebSite` с `SearchAction` — описание сайта и потенциала навигации
-- [ ] Рассмотреть JSON-LD `Menu`/`MenuSection` для ресторанов (при наличии данных о меню)
-- [ ] Рассмотреть JSON-LD `Review`/`AggregateRating` для ресторанов (при наличии отзывов)
+- [x] Генерировать JSON-LD `Restaurant` на страницах ресторанов — при запросе `/{slug}/` из списка `restaurants.json` загружаются данные из `data/json/{lang}/restaurants/*.json`, рендерится `pages/restaurant.twig`, в `<head>` выводится JSON-LD (name, address, geo, openingHours, servesCuisine, priceRange, telephone, hasMap, menu)
+- [x] Добавить JSON-LD `BreadcrumbList` — навигационная цепочка на всех внутренних страницах для понимания иерархии сайта (`TemplateDataBuilder::buildBreadcrumb`, вывод в `base.twig`)
+- [x] Перевести FAQ-разметку с микроданных на JSON-LD `FAQPage` — в `accordion.twig` добавлен вывод JSON-LD (при необходимости в данных можно задать `answerText` для ответа в разметке)
+- [x] Добавить JSON-LD `WebSite` — описание сайта в `base.twig` (SearchAction — при появлении поиска на сайте)
+- [x] Рассмотреть JSON-LD `Menu`/`MenuSection` для ресторанов (при наличии данных о меню) — рассмотрено: в Restaurant уже выводится `menu` (URL из `menuLink`); при появлении структурированного меню в JSON см. [docs/guides/geo-strategy.md](docs/guides/geo-strategy.md)
+- [x] Рассмотреть JSON-LD `Review`/`AggregateRating` для ресторанов (при наличии отзывов) — рассмотрено: при появлении полей отзывов/рейтинга в данных см. [docs/guides/geo-strategy.md](docs/guides/geo-strategy.md)
 
 **Цитируемость контента:**
 
-- [ ] Обеспечить чёткие утверждения-факты в тексте (адреса, часы работы, кухня, цены) — LLM цитируют конкретику, а не общие фразы
-- [ ] Добавить структурированные блоки информации — таблицы (часы работы, типы кухни), списки (преимущества, услуги), определения
-- [ ] Использовать формат «вопрос — ответ» в контенте (не только в аккордеонах) — AI-поисковики предпочитают Q&A-структуру
-- [ ] Обеспечить уникальные, информативные `<title>` и `<meta description>` — LLM используют их как первичный источник для понимания страницы
+- [x] Обеспечить чёткие утверждения-факты в тексте (адреса, часы работы, кухня, цены) — на странице ресторана: подписи «Телефон:», «Типы кухни:», «Диапазон цен:», секции с явными заголовками
+- [x] Добавить структурированные блоки информации — таблица часов работы (mini-table), списки кухни и цен на странице ресторана
+- [x] Использовать формат «вопрос — ответ» в контенте — блок «Часто задаваемые вопросы» на странице ресторана (вопросы из `global.restaurant-faq`, ответы из данных ресторана), JSON-LD FAQPage в head
+- [x] Обеспечить уникальные, информативные `<title>` и `<meta description>` — для ресторанов: динамические title = имя, description = short (buildSeoForRestaurant)
 
 **Семантическая HTML-разметка:**
 
-- [ ] Проверить иерархию заголовков (`h1`→`h2`→`h3`) на всех страницах — LLM опираются на заголовки для понимания структуры
-- [ ] Использовать семантические теги (`<article>`, `<section>`, `<aside>`, `<address>`, `<time>`) в шаблонах секций
-- [ ] Добавить атрибуты `lang` к контентным блокам при мультиязычном контенте на одной странице
+- [x] Проверить иерархию заголовков (`h1`→`h2`→`h3`) — на странице ресторана: один h1, секции с h2; в секциях страниц — заголовки через heading.twig (h2)
+- [x] Использовать семантические теги (`<article>`, `<section>`, `<aside>`, `<address>`, `<time>`) — в `restaurant.twig`: `<article>`, `<section>`, `<address>`; в секциях — `<section>`
+- [x] Добавить атрибуты `lang` к контентным блокам при мультиязычном контенте — правило задокументировано в [docs/guides/geo-strategy.md](docs/guides/geo-strategy.md) (раздел «Атрибут lang»); применять при появлении смешанного контента на одной странице
 
 **Мониторинг и документация:**
 
-- [ ] Описать GEO-стратегию в `docs/guides/geo-strategy.md` — принципы, чеклист, инструменты проверки
-- [ ] Проверять видимость в AI-поисковиках — периодически тестировать запросы в Perplexity, Bing Chat, Google AI Overviews по целевым ключевым фразам
-- [ ] Валидировать JSON-LD через Google Rich Results Test и Schema.org Validator после каждого изменения разметки
+- [x] Описать GEO-стратегию в `docs/guides/geo-strategy.md` — принципы, чеклист, инструменты проверки
+- [ ] Проверять видимость в AI-поисковиках — периодически тестировать запросы в Perplexity, Bing Chat, Google AI Overviews (описание в [docs/guides/geo-strategy.md](docs/guides/geo-strategy.md), раздел «Периодические действия»)
+- [ ] Валидировать JSON-LD через Google Rich Results Test и Schema.org Validator после каждого изменения разметки (см. [docs/guides/geo-strategy.md](docs/guides/geo-strategy.md))
 
 ### DevOps и процесс
 
-- [ ] Правила ведения CHANGELOG и семантического версионирования релизов
-- [ ] Политика обновления зависимостей (Dependabot/Renovate или ручной процесс)
-- [ ] Документировать хранение секретов в CI/CD и на сервере (помимо .env)
+- [x] Правила ведения CHANGELOG и семантического версионирования релизов — [docs/guides/changelog-and-releases.md](docs/guides/changelog-and-releases.md)
+- [x] Политика обновления зависимостей — [docs/guides/dependencies-policy.md](docs/guides/dependencies-policy.md); опционально Dependabot: [.github/dependabot.yml](.github/dependabot.yml)
+- [x] Документировать хранение секретов в CI/CD и на сервере — [docs/guides/secrets-cicd.md](docs/guides/secrets-cicd.md)
 
 ### Документация
 
-- [ ] Описать контракт API (api/send и др.): метод, поля, коды ответов
-- [ ] JSON Schema или примеры для валидации структуры `data/json` (при росте проекта)
+- [x] Описать контракт API (api/send): метод, поля, коды ответов — [docs/api/send-contract.md](docs/api/send-contract.md)
+- [x] Описать структуру и примеры `data/json` (при росте — JSON Schema) — [docs/guides/data-json-structure.md](docs/guides/data-json-structure.md)
 
 ---
 

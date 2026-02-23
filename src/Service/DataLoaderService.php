@@ -23,6 +23,24 @@ final class DataLoaderService
         return $this->loadJson($seoPath, $baseUrl);
     }
 
+    /** @return array<int, string>|null */
+    public function loadRestaurantSlugs(string $jsonBaseDir, string $langCode): ?array
+    {
+        $path = rtrim($jsonBaseDir, '/') . '/' . $langCode . '/pages/restaurants.json';
+        $data = $this->loadJson($path, '');
+        return isset($data['items']) && is_array($data['items']) ? $data['items'] : null;
+    }
+
+    public function loadRestaurant(string $jsonBaseDir, string $langCode, string $slug, string $baseUrl): ?array
+    {
+        $path = rtrim($jsonBaseDir, '/') . '/' . $langCode . '/restaurants/' . $slug . '.json';
+        $data = $this->loadJson($path, $baseUrl);
+        if ($data === null || empty($data['restaurant']) || (isset($data['visible']) && $data['visible'] === false)) {
+            return null;
+        }
+        return $data;
+    }
+
     public function loadJson(string $path, string $baseUrl): ?array
     {
         if (!is_file($path)) {

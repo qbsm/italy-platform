@@ -2,11 +2,14 @@
 
 declare(strict_types=1);
 
+use App\Action\HealthAction;
 use App\Action\PageAction;
+use App\Action\SitemapAction;
 use App\Handler\HttpErrorHandler;
 use App\Handler\ServerErrorHandler;
 use App\Middleware\CorsMiddleware;
 use App\Middleware\LanguageMiddleware;
+use App\Middleware\RateLimitMiddleware;
 use App\Middleware\RedirectMiddleware;
 use App\Middleware\SecurityHeadersMiddleware;
 use App\Service\DataLoaderService;
@@ -85,7 +88,9 @@ return static function (): ContainerInterface {
             ($c->get('settings')['env'] ?? 'development') === 'production'
         ),
 
+        HealthAction::class => \DI\autowire(),
         PageAction::class => \DI\autowire()->constructorParameter('settings', \DI\get('settings')),
+        SitemapAction::class => \DI\autowire()->constructorParameter('settings', \DI\get('settings')),
         ServerErrorHandler::class => \DI\autowire()->constructorParameter('displayErrorDetails', \DI\get('displayErrorDetails')),
         HttpErrorHandler::class => \DI\autowire()->constructorParameter('errorMap', \DI\get('errorMap')),
         RedirectMiddleware::class => \DI\autowire()->constructorParameter('settings', \DI\get('settings')),
@@ -94,6 +99,14 @@ return static function (): ContainerInterface {
             $c->get(ResponseFactoryInterface::class),
             $c->get('settings')['cors'] ?? []
         ),
+        RateLimitMiddleware::class => static function (ContainerInterface $c) {
+            $s = $c->get('settings');
+            return new RateLimitMiddleware(
+                $c->get(ResponseFactoryInterface::class),
+                $s['rate_limit_api_send'] ?? [],
+                $s['paths']['cache'] ?? ''
+            );
+        },
     ]);
 
     return $builder->build();

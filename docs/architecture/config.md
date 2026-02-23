@@ -11,16 +11,18 @@
 
 ## Ключевые настройки (config/settings.php)
 
-| Ключ | Описание | Источник |
-|------|----------|----------|
-| `env` | Окружение: `production` \| `development` | APP_ENV |
-| `debug` | Режим отладки (влияет на ErrorMiddleware) | APP_DEBUG или по умолчанию из env |
-| `default_lang` | Язык по умолчанию (без префикса в URL) | APP_DEFAULT_LANG или первый язык из `global.json` → lang |
-| `available_langs` | Список кодов языков для alternate и навигации | **Единый источник:** `data/json/global.json` → массив `lang` (поле `code`) |
-| `twig.cache` | Путь к кэшу Twig или `false` | При production — `cache/twig` |
-| `twig.debug` | Включить Twig debug (dump и т.д.) | APP_DEBUG / env |
-| `paths.*` | Пути к шаблонам, JSON, кэшу, логам | От `project_root` |
-| `image_sizes` | Ключи и ширины для адаптивных изображений (picture, сборка) | **Единый источник:** `config/image-sizes.json` (`keys`, `widths`) |
+| Ключ              | Описание                                                             | Источник                                                                   |
+| ----------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `env`             | Окружение: `production` \| `development`                             | APP_ENV                                                                    |
+| `debug`           | Режим отладки (влияет на ErrorMiddleware)                            | APP_DEBUG или по умолчанию из env                                          |
+| `default_lang`    | Язык по умолчанию (без префикса в URL)                               | APP_DEFAULT_LANG или первый язык из `global.json` → lang                   |
+| `available_langs` | Список кодов языков для alternate и навигации                        | **Единый источник:** `data/json/global.json` → массив `lang` (поле `code`) |
+| `twig.cache`      | Путь к кэшу Twig или `false`                                         | При production — `cache/twig`                                              |
+| `twig.debug`      | Включить Twig debug (dump и т.д.)                                    | APP_DEBUG / env                                                            |
+| `paths.*`         | Пути к шаблонам, JSON, кэшу, логам                                   | От `project_root`                                                          |
+| `image_sizes`     | Ключи и ширины для адаптивных изображений (picture, сборка)          | **Единый источник:** `config/image-sizes.json` (`keys`, `widths`)          |
+| `route_map`       | Соответствие slug в URL → page_id (файл в `data/json/{lang}/pages/`) | Задаётся под проект (универсальное ядро)                                   |
+| `sitemap_pages`   | Массив page_id страниц для включения в sitemap.xml                   | Задаётся под проект; без 404                                               |
 
 ## Доступ в шаблонах
 
@@ -40,3 +42,8 @@
 3. Создать каталоги `data/json/{lang}/pages/` и `data/json/{lang}/seo/` с контентом.
 
 Список `available_langs` и порядок языков в приложении берутся из `global.json` → `lang` при загрузке `config/settings.php`. Переменная `APP_DEFAULT_LANG` при необходимости переопределяет язык по умолчанию (иначе используется первый язык из `lang`).
+
+## GEO: sitemap и llms-full (универсальное ядро)
+
+- **sitemap.xml** — список страниц берётся из `config/settings.php` → `sitemap_pages`. URL формируются по `route_map` (slug => page_id) и `available_langs`.
+- **llms-full.txt** — конфиг в `config/llms-full.php`: массив коллекций (list_path, item_dir, name_key, fields и т.д.). Генератор не привязан к типу контента; под любой проект задаются свои коллекции.

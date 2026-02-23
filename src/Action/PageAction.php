@@ -61,28 +61,58 @@ final class PageAction
         $pageData = $this->dataLoader->loadPage($pageJsonDir, $pageId, $baseUrl);
 
         $status = 200;
+        $restaurant = null;
+        $restaurantBreadcrumb = null;
+
         if ($pageData === null) {
-            $status = 404;
-            $pageId = '404';
-            $pageData = $this->dataLoader->loadPage($pageJsonDir, '404', $baseUrl) ?? ['name' => '404', 'sections' => []];
+            $slug = (string) ($segments[0] ?? '');
+            $jsonBaseDir = (string) ($this->settings['paths']['json_base'] ?? '');
+            $slugs = $this->dataLoader->loadRestaurantSlugs($jsonBaseDir, $langCode);
+            if ($slug !== '' && $slugs !== null && in_array($slug, $slugs, true)) {
+                $restaurant = $this->dataLoader->loadRestaurant($jsonBaseDir, $langCode, $slug, $baseUrl);
+            }
+            if ($restaurant !== null) {
+                $pageId = $slug;
+                $routeParams = [];
+                $pageData = ['name' => $slug, 'sections' => []];
+            } else {
+                $status = 404;
+                $pageId = '404';
+                $pageData = $this->dataLoader->loadPage($pageJsonDir, '404', $baseUrl) ?? ['name' => '404', 'sections' => []];
+            }
         }
 
         $jsonBaseDir = (string) ($this->settings['paths']['json_base'] ?? '');
         $seoData = $this->dataLoader->loadSeo($jsonBaseDir, $langCode, $pageId, $baseUrl);
 
-        $twigEnv = $this->twig->getEnvironment();
-        $seoData = $this->seoService->processTemplates($seoData, [
-            'pageData' => $pageData,
-            'global' => $global,
-            'settings' => $this->settings,
-            'currentLang' => $currentLang,
-            'lang_code' => $langCode,
-            'route_params' => $routeParams,
-            'base_url' => $baseUrl,
-            'is_lang_in_url' => $isLangInUrl,
-        ], $twigEnv);
+        if ($restaurant !== null) {
+            $seoData = $this->buildSeoForRestaurant($restaurant, $baseUrl, $langCode, $global);
+            $restaurantBreadcrumb = $this->buildRestaurantBreadcrumb($global, $langCode, $restaurant);
+        }
 
-        $template = 'pages/page.twig';
+        if ($seoData !== null) {
+            $twigEnv = $this->twig->getEnvironment();
+            $seoData = $this->seoService->processTemplates($seoData, [
+                'pageData' => $pageData,
+                'global' => $global,
+                'settings' => $this->settings,
+                'currentLang' => $currentLang,
+                'lang_code' => $langCode,
+                'route_params' => $routeParams,
+                'base_url' => $baseUrl,
+                'is_lang_in_url' => $isLangInUrl,
+            ], $twigEnv);
+        } else {
+            $seoData = ['title' => '', 'meta' => [], 'json_ld' => null];
+        }
+
+        $template = $restaurant !== null ? 'pages/restaurant.twig' : 'pages/page.twig';
+
+        $extras = [];
+        if ($restaurant !== null) {
+            $extras['restaurant'] = $restaurant;
+            $extras['breadcrumb'] = $restaurantBreadcrumb;
+        }
 
         $data = $this->templateDataBuilder->build(
             $this->settings,
@@ -97,10 +127,164 @@ final class PageAction
                 'base_url' => $baseUrl,
                 'is_lang_in_url' => $isLangInUrl,
                 'csrf_token' => $csrfToken,
-            ]
+            ],
+            $extras
         );
 
         return $this->twig->render($response->withStatus($status), $template, $data);
+    }
+
+    /**
+     * @param array<string,mixed> $restaurant
+     * @param array<string,mixed> $global
+     */
+    private function buildSeoForRestaurant(array $restaurant, string $baseUrl, string $langCode, array $global): array
+    {
+        $r = $restaurant['restaurant'] ?? [];
+        $name = (string) ($r['name'] ?? $restaurant['slug'] ?? '');
+        $desc = (string) ($restaurant['desc']['short'] ?? $restaurant['desc']['full'] ?? '');
+
+        $jsonLd = $this->buildRestaurantJsonLd($restaurant);
+        $jsonLdFaq = $this->buildRestaurantFaqJsonLd($restaurant, $langCode, $global);
+        return [
+            'title' => $name,
+            'meta' => [
+                ['name' => 'description', 'content' => $desc],
+                ['property' => 'og:type', 'content' => 'website'],
+                ['property' => 'og:title', 'content' => $name],
+                ['property' => 'og:description', 'content' => $desc],
+            ],
+            'json_ld' => $jsonLd,
+            'json_ld_faq' => $jsonLdFaq,
+        ];
+    }
+
+    /** @param array<string,mixed> $restaurant */
+    private function buildRestaurantJsonLd(array $restaurant): string
+    {
+        $r = $restaurant['restaurant'] ?? [];
+        $ld = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Restaurant',
+            'name' => $r['name'] ?? null,
+            'telephone' => isset($r['telephone']['title']) ? $r['telephone']['title'] : null,
+            'address' => isset($r['address']) ? $r['address'] : null,
+            'geo' => $r['geo'] ?? null,
+            'url' => $r['url'] ?? null,
+            'priceRange' => $r['priceRange'] ?? null,
+            'hasMap' => $r['hasMap'] ?? null,
+            'menu' => $r['menuLink'] ?? null,
+        ];
+        if (!empty($r['openingHours']) && is_array($r['openingHours'])) {
+            $ld['openingHours'] = array_map(static function ($h) {
+                return trim(($h['days'] ?? '') . ' ' . ($h['hours'] ?? ''));
+            }, $r['openingHours']);
+        }
+        if (!empty($r['servesCuisine'])) {
+            $ld['servesCuisine'] = $r['servesCuisine'];
+        }
+        $ld = array_filter($ld, static fn ($v) => $v !== null && $v !== '');
+        return (string) json_encode($ld, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * @param array<string,mixed> $restaurant
+     * @param array<string,mixed> $global
+     */
+    private function buildRestaurantFaqJsonLd(array $restaurant, string $langCode, array $global): ?string
+    {
+        $r = $restaurant['restaurant'] ?? [];
+        $faq = $global['restaurant-faq'][$langCode] ?? $global['restaurant-faq']['ru'] ?? null;
+        if (!is_array($faq)) {
+            return null;
+        }
+        $mainEntity = [];
+        if (!empty($r['address'])) {
+            $addr = $r['address'];
+            $locality = isset($addr['addressLocality']) && (string) $addr['addressLocality'] !== '' ? ', ' . $addr['addressLocality'] : '';
+            $answer = trim(($addr['streetAddress'] ?? '') . $locality);
+            if ($answer !== '' && isset($faq['where'])) {
+                $mainEntity[] = [
+                    '@type' => 'Question',
+                    'name' => $faq['where'],
+                    'acceptedAnswer' => ['@type' => 'Answer', 'text' => $answer],
+                ];
+            }
+        }
+        if (!empty($r['openingHours']) && is_array($r['openingHours']) && isset($faq['hours'])) {
+            $parts = array_map(static function ($h) {
+                return trim(($h['days'] ?? '') . ' ' . ($h['hours'] ?? ''));
+            }, $r['openingHours']);
+            $answer = implode('; ', array_filter($parts));
+            if ($answer !== '') {
+                $mainEntity[] = [
+                    '@type' => 'Question',
+                    'name' => $faq['hours'],
+                    'acceptedAnswer' => ['@type' => 'Answer', 'text' => $answer],
+                ];
+            }
+        }
+        if (!empty($r['servesCuisine']) && is_array($r['servesCuisine']) && isset($faq['cuisine'])) {
+            $mainEntity[] = [
+                '@type' => 'Question',
+                'name' => $faq['cuisine'],
+                'acceptedAnswer' => ['@type' => 'Answer', 'text' => implode(', ', $r['servesCuisine'])],
+            ];
+        }
+        if (!empty($r['telephone']['title']) && isset($faq['contact'])) {
+            $mainEntity[] = [
+                '@type' => 'Question',
+                'name' => $faq['contact'],
+                'acceptedAnswer' => ['@type' => 'Answer', 'text' => $r['telephone']['title']],
+            ];
+        }
+        if (!empty($r['priceRange']) && isset($faq['price'])) {
+            $mainEntity[] = [
+                '@type' => 'Question',
+                'name' => $faq['price'],
+                'acceptedAnswer' => ['@type' => 'Answer', 'text' => (string) $r['priceRange']],
+            ];
+        }
+        if ($mainEntity === []) {
+            return null;
+        }
+        $ld = [
+            '@context' => 'https://schema.org',
+            '@type' => 'FAQPage',
+            'mainEntity' => $mainEntity,
+        ];
+        return (string) json_encode($ld, JSON_UNESCAPED_UNICODE);
+    }
+
+    /** @param array<string,mixed> $restaurant
+     * @return array<int, array{name: string, url: string}>
+     */
+    private function buildRestaurantBreadcrumb(array $global, string $langCode, array $restaurant): array
+    {
+        $r = $restaurant['restaurant'] ?? [];
+        $name = (string) ($r['name'] ?? $restaurant['slug'] ?? '');
+        $nav = $global['nav'][$langCode]['items'] ?? [];
+        $homeTitle = 'Главная';
+        $listTitle = 'Рестораны';
+        $listHref = '/restaurants/';
+        foreach ($nav as $item) {
+            if (!is_array($item)) {
+                continue;
+            }
+            $href = trim((string) ($item['href'] ?? ''), '/');
+            if ($href === '' || $href === '/') {
+                $homeTitle = (string) ($item['title'] ?? $homeTitle);
+            }
+            if ($href === 'restaurants') {
+                $listTitle = (string) ($item['title'] ?? $listTitle);
+                $listHref = '/' . $href . '/';
+            }
+        }
+        return [
+            ['name' => $homeTitle, 'url' => '/'],
+            ['name' => $listTitle, 'url' => $listHref],
+            ['name' => $name, 'url' => '/' . $restaurant['slug'] . '/'],
+        ];
     }
 
     private function ensureCsrfToken(): string

@@ -1,0 +1,114 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+<div id="page-content">
+  {% include 'sections/header.twig' with {'data': {}} %}
+  <main class="section restaurant-detail" role="main">
+    <div class="container">
+      {% set r = restaurant.restaurant %}
+      <article class="restaurant-detail__article">
+        <h1 class="restaurant-detail__title">{{ r.name }}</h1>
+        {% if restaurant.desc.short is defined and restaurant.desc.short %}
+          <p class="restaurant-detail__desc">{{ restaurant.desc.short }}</p>
+        {% endif %}
+        {% if restaurant.desc.full is defined and restaurant.desc.full %}
+          <div class="restaurant-detail__full">{{ restaurant.desc.full }}</div>
+        {% endif %}
+
+        {% if r.address is defined and r.address or r.telephone is defined and r.telephone.href is defined %}
+        <section class="restaurant-detail__section" aria-labelledby="restaurant-contact-heading">
+          <h2 id="restaurant-contact-heading" class="restaurant-detail__heading">Контакты и адрес</h2>
+          {% if r.address is defined and r.address %}
+            <address class="restaurant-detail__address">
+              {{ r.address.streetAddress|default('') }}{% if r.address.addressLocality %}, {{ r.address.addressLocality }}{% endif %}
+            </address>
+          {% endif %}
+          {% if r.telephone is defined and r.telephone.href is defined %}
+            <p class="restaurant-detail__tel">Телефон: <a href="{{ r.telephone.href }}">{{ r.telephone.title|default(r.telephone.href) }}</a></p>
+          {% endif %}
+        </section>
+        {% endif %}
+
+        {% if r.openingHours is defined and r.openingHours|length > 0 %}
+        <section class="restaurant-detail__section" aria-labelledby="restaurant-hours-heading">
+          <h2 id="restaurant-hours-heading" class="restaurant-detail__heading">Часы работы</h2>
+          <div class="mini-table" role="table" aria-label="Часы работы">
+            {% for h in r.openingHours %}
+            <div class="mini-table__item" role="row">
+              <span class="mini-table__title uppercase weight-400 color-2" role="cell">{{ h.days|default('') }}</span>
+              <span class="mini-table__value uppercase" role="cell">{{ h.hours|default('') }}</span>
+            </div>
+            {% endfor %}
+          </div>
+        </section>
+        {% endif %}
+
+        {% if r.servesCuisine is defined and r.servesCuisine|length > 0 or r.priceRange is defined and r.priceRange %}
+        <section class="restaurant-detail__section" aria-labelledby="restaurant-cuisine-heading">
+          <h2 id="restaurant-cuisine-heading" class="restaurant-detail__heading">Кухня и цены</h2>
+          {% if r.servesCuisine is defined and r.servesCuisine|length > 0 %}
+            <p class="restaurant-detail__cuisine">Типы кухни: <strong>{{ r.servesCuisine|join(', ') }}</strong></p>
+          {% endif %}
+          {% if r.priceRange is defined and r.priceRange %}
+            <p class="restaurant-detail__price">Диапазон цен: <strong>{{ r.priceRange }}</strong></p>
+          {% endif %}
+        </section>
+        {% endif %}
+
+        {% if r.hasMap is defined and r.hasMap or r.menuLink is defined and r.menuLink %}
+        <section class="restaurant-detail__section" aria-labelledby="restaurant-more-heading">
+          <h2 id="restaurant-more-heading" class="restaurant-detail__heading">Карта и меню</h2>
+          {% if r.hasMap is defined and r.hasMap %}
+            <p class="restaurant-detail__map"><a href="{{ r.hasMap }}" target="_blank" rel="noopener noreferrer">Показать на карте</a></p>
+          {% endif %}
+          {% if r.menuLink is defined and r.menuLink %}
+            <p class="restaurant-detail__menu"><a href="{{ r.menuLink }}" target="_blank" rel="noopener noreferrer">Меню</a></p>
+          {% endif %}
+        </section>
+        {% endif %}
+
+        {% set faq = global['restaurant-faq'][lang_code]|default(global['restaurant-faq'].ru) %}
+        {% set hasFaq = (r.address is defined and r.address) or (r.openingHours is defined and r.openingHours|length > 0) or (r.servesCuisine is defined and r.servesCuisine|length > 0) or (r.telephone is defined and r.telephone.href is defined) or (r.priceRange is defined and r.priceRange) %}
+        {% if hasFaq %}
+        <section class="restaurant-detail__section restaurant-detail__faq" aria-labelledby="restaurant-faq-heading">
+          <h2 id="restaurant-faq-heading" class="restaurant-detail__heading">{{ faq.heading }}</h2>
+          <dl class="restaurant-detail__faq-list">
+            {% if r.address is defined and r.address %}
+            <div class="restaurant-detail__faq-item">
+              <dt class="restaurant-detail__faq-question">{{ faq.where }}</dt>
+              <dd class="restaurant-detail__faq-answer">{{ r.address.streetAddress|default('') }}{% if r.address.addressLocality %}, {{ r.address.addressLocality }}{% endif %}</dd>
+            </div>
+            {% endif %}
+            {% if r.openingHours is defined and r.openingHours|length > 0 %}
+            <div class="restaurant-detail__faq-item">
+              <dt class="restaurant-detail__faq-question">{{ faq.hours }}</dt>
+              <dd class="restaurant-detail__faq-answer">{% for h in r.openingHours %}{{ h.days|default('') }} {{ h.hours|default('') }}{% if not loop.last %}; {% endif %}{% endfor %}</dd>
+            </div>
+            {% endif %}
+            {% if r.servesCuisine is defined and r.servesCuisine|length > 0 %}
+            <div class="restaurant-detail__faq-item">
+              <dt class="restaurant-detail__faq-question">{{ faq.cuisine }}</dt>
+              <dd class="restaurant-detail__faq-answer">{{ r.servesCuisine|join(', ') }}</dd>
+            </div>
+            {% endif %}
+            {% if r.telephone is defined and r.telephone.href is defined %}
+            <div class="restaurant-detail__faq-item">
+              <dt class="restaurant-detail__faq-question">{{ faq.contact }}</dt>
+              <dd class="restaurant-detail__faq-answer">{{ r.telephone.title|default(r.telephone.href) }}</dd>
+            </div>
+            {% endif %}
+            {% if r.priceRange is defined and r.priceRange %}
+            <div class="restaurant-detail__faq-item">
+              <dt class="restaurant-detail__faq-question">{{ faq.price }}</dt>
+              <dd class="restaurant-detail__faq-answer">{{ r.priceRange }}</dd>
+            </div>
+            {% endif %}
+          </dl>
+        </section>
+        {% endif %}
+      </article>
+    </div>
+  </main>
+  {% include 'sections/footer.twig' with {'data': {}} %}
+</div>
+{% endblock %}

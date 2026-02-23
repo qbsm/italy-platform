@@ -62,8 +62,22 @@ return [
     'default_lang' => $default_lang,
     'available_langs' => $available_langs,
     'yandex_metric_id' => (int) (getenv('YANDEX_METRIC_ID') ?: 0),
+    // slug в URL => page_id (файл в data/json/{lang}/pages/{page_id}.json)
     'route_map' => [
         'restaurants' => 'restaurants-list',
+    ],
+    // page_id страниц для sitemap.xml (без 404). Задаётся под проект.
+    'sitemap_pages' => [
+        'index',
+        'contacts',
+        'policy',
+        'agree',
+        'restaurants-list',
+    ],
+    // Rate limiting для POST /api/send (по IP, файловое хранилище в cache/rate_limit)
+    'rate_limit_api_send' => [
+        'max_requests' => 10,
+        'window_seconds' => 60,
     ],
     'cors' => [
         'allowed_origins' => [], // например ['https://example.com'] или ['*'] для любого

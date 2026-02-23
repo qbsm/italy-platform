@@ -25,22 +25,32 @@ final class TemplateDataBuilder
         $heroPreloadImage = $this->extractHeroPreloadImage($sections);
         $preloadFonts = $this->extractFontPathsFromCss((string) ($settings['project_root'] ?? ''));
 
+        $pageId = $ctx['page_id'] ?? null;
+        $pageTitle = $seo['title'] ?? ($pageData['title'] ?? '');
         $templateData = [
             'settings' => $settings,
             'config' => ['settings' => $settings],
             'global' => $global,
             'currentLang' => $ctx['current_lang'] ?? null,
             'lang_code' => $ctx['lang_code'] ?? null,
-            'page_id' => $ctx['page_id'] ?? null,
+            'page_id' => $pageId,
             'route_params' => $ctx['route_params'] ?? [],
             'base_url' => $ctx['base_url'] ?? '/',
             'is_lang_in_url' => $ctx['is_lang_in_url'] ?? false,
             'pageData' => $pageData,
             'pageSeoData' => $seo,
-            'pageTitle' => $seo['title'] ?? ($pageData['title'] ?? ''),
+            'pageTitle' => $pageTitle,
             'sections' => $sections,
             'hero_preload_image' => $heroPreloadImage,
             'preload_fonts' => $preloadFonts,
+            'breadcrumb' => $this->buildBreadcrumb(
+                $global,
+                (string) $pageId,
+                (string) ($ctx['lang_code'] ?? ''),
+                $pageTitle,
+                (array) ($ctx['route_params'] ?? []),
+                (array) ($settings['route_map'] ?? [])
+            ),
         ];
 
         foreach ($extras as $key => $value) {
@@ -94,7 +104,7 @@ final class TemplateDataBuilder
             return [];
         }
         $paths = [];
-        foreach ($matches[1] ?? [] as $path) {
+        foreach ($matches[1] as $path) {
             $path = trim($path, " \t\n\r\0\x0B'\"");
             if ($path === '') {
                 continue;
@@ -106,5 +116,55 @@ final class TemplateDataBuilder
             }
         }
         return array_values(array_unique($paths));
+    }
+
+    /**
+     * Строит цепочку хлебных крошек для JSON-LD BreadcrumbList.
+     *
+     * @param array<string,mixed> $global
+     * @param array<string,string> $routeMap slug => page_id
+     * @return array<int, array{name: string, url: string}>
+     */
+    private function buildBreadcrumb(
+        array $global,
+        string $pageId,
+        string $langCode,
+        string $pageTitle,
+        array $routeParams,
+        array $routeMap
+    ): array {
+        $reverseMap = array_flip($routeMap);
+        $homeName = 'Главная';
+        $homeUrl = '/';
+
+        if (isset($global['nav'][$langCode]['items']) && is_array($global['nav'][$langCode]['items'])) {
+            foreach ($global['nav'][$langCode]['items'] as $item) {
+                if (!is_array($item) || !isset($item['href'])) {
+                    continue;
+                }
+                $href = trim((string) $item['href'], '/');
+                if ($href === '' || $href === '/') {
+                    $homeName = isset($item['title']) ? (string) $item['title'] : $homeName;
+                    $homeUrl = '/';
+                    break;
+                }
+            }
+        }
+
+        $items = [['name' => $homeName, 'url' => $homeUrl]];
+
+        if ($pageId !== 'index' && $pageId !== '404') {
+            $pathSegment = (string) ($reverseMap[$pageId] ?? $pageId);
+            $path = $pathSegment;
+            if ($routeParams !== []) {
+                $path .= '/' . implode('/', $routeParams);
+            }
+            $items[] = [
+                'name' => $pageTitle !== '' ? $pageTitle : $pathSegment,
+                'url' => '/' . $path . '/',
+            ];
+        }
+
+        return $items;
     }
 }

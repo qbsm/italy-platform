@@ -163,14 +163,54 @@
   }
   </script>
 
+  {# Schema.org WebSite для GEO / LLM #}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "{{ site.name|default('Company') }}",
+    "url": "{{ _base_secure_domain_for_seo ~ '/' }}"
+  }
+  </script>
+
+  {% if breadcrumb is defined and breadcrumb is iterable and breadcrumb|length > 0 %}
+  {# Schema.org BreadcrumbList для GEO / LLM #}
+  {% set _breadcrumb_base = _base_secure_domain_for_seo %}
+  {% if is_lang_in_url and lang_code != config.settings.default_lang %}
+    {% set _breadcrumb_base = _breadcrumb_base ~ '/' ~ lang_code %}
+  {% endif %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {% for item in breadcrumb %}
+      {
+        "@type": "ListItem",
+        "position": {{ loop.index }},
+        "name": "{{ item.name|e('js') }}",
+        "item": "{{ _breadcrumb_base ~ (item.url == '/' ? '/' : item.url)|e('js') }}"
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+  </script>
+  {% endif %}
+
   {% if pageSeoData.json_ld is defined and pageSeoData.json_ld is not empty %}
   <script type="application/ld+json">
     {{ pageSeoData.json_ld | raw }}
   </script>
   {% endif %}
+  {% if pageSeoData.json_ld_faq is defined and pageSeoData.json_ld_faq is not empty %}
+  <script type="application/ld+json">
+    {{ pageSeoData.json_ld_faq | raw }}
+  </script>
+  {% endif %}
 </head>
 
 <body class="page-{{ pageData.name|default(page_id) }}">
+  <a href="#page-content" class="skip-link js-skip-link">{{ skip_link_text|default('Перейти к контенту') }}</a>
   {% block content %}{% endblock %}
   {# Глобальное подключение cookie-panel #}
   {% include 'sections/cookie-panel.twig' %}

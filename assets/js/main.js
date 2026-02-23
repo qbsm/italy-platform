@@ -1,18 +1,14 @@
 // assets/js/main.js
 
-/**
- * Генерирует полный URL на основе базового URL и относительного пути.
- * @param {string} path Относительный путь
- * @returns {string} Полный URL
- */
+import { buildUrl } from './base/url.js';
+
 function url(path) {
-  if (!window.appConfig || typeof window.appConfig.baseUrl === 'undefined') {
+  const baseUrl = window.appConfig?.baseUrl;
+  if (typeof baseUrl === 'undefined' || baseUrl === '') {
     console.error('window.appConfig.baseUrl не определен');
-    return '/' + (path.startsWith('/') ? path.substring(1) : path);
+    return buildUrl('/', path);
   }
-  const trimmedPath = path.startsWith('/') ? path.substring(1) : path;
-  const baseUrl = window.appConfig.baseUrl.endsWith('/') ? window.appConfig.baseUrl : window.appConfig.baseUrl + '/';
-  return baseUrl + trimmedPath;
+  return buildUrl(baseUrl, path);
 }
 window.url = url;
 

@@ -1,3 +1,4 @@
+# Общие правила для всех краулеров
 User-agent: *
 Allow: /
 Allow: /*.css
@@ -5,6 +6,8 @@ Allow: /*.js
 Allow: /*.jpg
 Allow: /*.png
 Allow: /*.gif
+Allow: /llms.txt
+Allow: /llms-full.txt
 Disallow: /src/
 Disallow: /config/
 Disallow: /tools/
@@ -20,3 +23,17 @@ Disallow: /data/json/
 Disallow: /.git/
 Disallow: *.php$
 Disallow: /.htaccess
+
+# AI / LLM-краулеры (GEO)
+# По умолчанию разрешаем индексацию для AI-поисковиков. Чтобы запретить бота — добавьте блок с Disallow: /
+# GPTBot (OpenAI), ChatGPT-User (браузерный доступ)
+# Google-Extended (Google AI)
+# PerplexityBot (Perplexity)
+# ClaudeBot (Anthropic)
+# Applebot-Extended (Apple Intelligence)
+# Cohere-AI (Cohere)
+# Все перечисленные боты наследуют правила User-agent: * выше. Специальные правила при необходимости:
+# User-agent: GPTBot
+# Allow: /
+# User-agent: Google-Extended
+# Allow: /
