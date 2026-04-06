@@ -1,10 +1,8 @@
 import { FormApi } from './api.js';
 import { FormValidator } from './validation.js';
-import { PhoneMask } from './mask.js';
 import { FormUI } from './ui.js';
 import { I18n, resolveLang } from './i18n.js';
-import { COUNTRY_CODES, DEFAULT_ERROR_TEXTS, DEFAULT_LANG } from './constants.js';
-import { normalizePhone } from './validation.js';
+import { DEFAULT_ERROR_TEXTS, DEFAULT_LANG } from './constants.js';
 
 export class CallbackForm {
   constructor(formElement, config = {}) {
@@ -15,7 +13,7 @@ export class CallbackForm {
     this.i18n = new I18n(config.messages || {}, this.lang);
     this.validator = new FormValidator(this.form, this.i18n);
     this.ui = new FormUI(formElement, this.i18n);
-    this.mask = new PhoneMask(formElement.querySelector('input[name="phone"]'), this.lang, COUNTRY_CODES);
+    this.mask = null;
     this.isSubmitting = false;
     this.abortController = null;
     this._boundHandleSubmit = this._handleSubmit.bind(this);
@@ -24,7 +22,6 @@ export class CallbackForm {
   }
 
   init() {
-    this.mask.init();
     this._setCurrentUrl();
     this.form.addEventListener('submit', this._boundHandleSubmit);
     this.form.addEventListener('input', this._boundHandleInput);
@@ -48,7 +45,6 @@ export class CallbackForm {
       this.abortController.abort();
       this.abortController = null;
     }
-    this.mask.destroy();
     delete this.form.dataset.callbackFormInitialized;
   }
 
@@ -116,7 +112,7 @@ export class CallbackForm {
     if (!(target instanceof HTMLElement)) {
       return;
     }
-    const field = target.closest('input[name="name"], input[name="phone"], input[name="square"], input[name="email"]');
+    const field = target.closest('input[name="email"], input[name="name"], input[name="city"]');
     if (field) {
       this.ui.clearFieldError(field);
     }
@@ -142,10 +138,6 @@ export class CallbackForm {
 
   _buildFormData() {
     const formData = new FormData(this.form);
-    const phoneField = this.form.querySelector('input[name="phone"]');
-    if (phoneField) {
-      formData.set('phone', normalizePhone(phoneField.value));
-    }
 
     const policyField = this.form.querySelector('input[name="policy"]');
     formData.set('policy', policyField && policyField.checked ? 'on' : 'off');
@@ -175,7 +167,6 @@ export class CallbackForm {
     );
 
     this.form.reset();
-    this.mask.reset();
     this.ui.clearErrors();
     this.ui.setSuccessState();
   }

@@ -4,7 +4,7 @@
   <div id="page-content">
   {% if sections is defined and sections|length > 0 %}
     {% for section in sections %}
-      {% if section.visible | default(true) %}
+      {% if section.visible is not defined or section.visible %}
         {% include 'sections/' ~ section.name ~ '.twig' ignore missing with {'data': section.data} %}
       {% endif %}
     {% endfor %}

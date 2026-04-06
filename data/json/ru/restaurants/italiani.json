@@ -48,24 +48,24 @@
   ],
   "covers": [
     {
+      "src": "data/img/restaurants/italiani/covers/raw/1.jpg",
+      "alt": "Italiani на Невском"
+    },
+    {
+      "src": "data/img/restaurants/italiani/covers/raw/2.jpg",
+      "alt": "Italiani на Невском"
+    },
+    {
+      "src": "data/img/restaurants/italiani/covers/raw/3.jpg",
+      "alt": "Italiani на Невском"
+    },
+    {
       "src": "data/img/restaurants/italiani/covers/raw/4.jpg",
-      "alt": "Italiani"
+      "alt": "Italiani на Невском"
     },
     {
       "src": "data/img/restaurants/italiani/covers/raw/5.jpg",
-      "alt": "Italiani"
-    },
-    {
-      "src": "data/img/restaurants/italiani/covers/raw/6.jpg",
-      "alt": "Italiani"
-    },
-    {
-      "src": "data/img/restaurants/italiani/covers/raw/7.jpg",
-      "alt": "Italiani"
-    },
-    {
-      "src": "data/img/restaurants/italiani/covers/raw/8.jpg",
-      "alt": "Italiani"
+      "alt": "Italiani на Невском"
     }
   ],
   "logos": [

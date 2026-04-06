@@ -1,11 +1,11 @@
 {% set formId = 'formCallback' ~ random(1000000) %}
 <form class="form-callback js-form-callback" novalidate method="post" action="" id="{{ formId }}">
   <div class="form-callback__container">
-    <div class="form-callback__item form-callback-item-phone">
-      <label class="form-callback__label" for="{{ formId }}Phone">
-        <span class="form-callback__label-text">{{ global['form-callback'].label[lang_code].phone }}</span><span class="form-callback__required" aria-hidden="true"> *</span>
+    <div class="form-callback__item form-callback-item-email">
+      <label class="form-callback__label" for="{{ formId }}Email">
+        <span class="form-callback__label-text">{{ global['form-callback'].label[lang_code].email }}</span><span class="form-callback__required" aria-hidden="true"> *</span>
       </label>
-      <input id="{{ formId }}Phone" type="tel" class="form-callback__input" name="phone" inputmode="tel" autocomplete="tel" placeholder="{{ global['form-callback'].placeholder[lang_code].phone }}" aria-required="true">
+      <input id="{{ formId }}Email" type="email" class="form-callback__input" name="email" inputmode="email" autocomplete="email" placeholder="{{ global['form-callback'].placeholder[lang_code].email }}" aria-required="true">
     </div>
     <div class="form-callback__item form-callback-item-name">
       <label class="form-callback__label" for="{{ formId }}Name">
@@ -13,11 +13,11 @@
       </label>
       <input id="{{ formId }}Name" type="text" class="form-callback__input" name="name" autocomplete="name" placeholder="{{ global['form-callback'].placeholder[lang_code].name }}" aria-required="true">
     </div>
-    <div class="form-callback__item form-callback-item-square">
-      <label class="form-callback__label" for="{{ formId }}Square">
-        <span class="form-callback__label-text">{{ global['form-callback'].label[lang_code].square }}</span><span class="form-callback__required" aria-hidden="true"> *</span>
+    <div class="form-callback__item form-callback-item-city">
+      <label class="form-callback__label" for="{{ formId }}City">
+        <span class="form-callback__label-text">{{ global['form-callback'].label[lang_code].city }}</span><span class="form-callback__required" aria-hidden="true"> *</span>
       </label>
-      <input id="{{ formId }}Square" type="text" class="form-callback__input" name="square" placeholder="{{ global['form-callback'].placeholder[lang_code].square }}" aria-required="true">
+      <input id="{{ formId }}City" type="text" class="form-callback__input" name="city" placeholder="{{ global['form-callback'].placeholder[lang_code].city }}" aria-required="true">
     </div>
     <div class="form-callback__item form-callback-item-policy">
       <label class="form-callback__custom-checkbox">

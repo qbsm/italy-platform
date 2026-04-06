@@ -64,22 +64,26 @@ final class PageAction
         $restaurant = null;
         $restaurantBreadcrumb = null;
 
-        if ($pageData === null) {
-            $slug = (string) ($segments[0] ?? '');
+        if ($pageData !== null && $pageId === 'restaurants-list' && !empty($routeParams)) {
+            $restaurantSlug = (string) $routeParams[0];
             $jsonBaseDir = (string) ($this->settings['paths']['json_base'] ?? '');
             $slugs = $this->dataLoader->loadRestaurantSlugs($jsonBaseDir, $langCode);
-            if ($slug !== '' && $slugs !== null && in_array($slug, $slugs, true)) {
-                $restaurant = $this->dataLoader->loadRestaurant($jsonBaseDir, $langCode, $slug, $baseUrl);
+            if ($slugs !== null && in_array($restaurantSlug, $slugs, true)) {
+                $restaurant = $this->dataLoader->loadRestaurant($jsonBaseDir, $langCode, $restaurantSlug, $baseUrl);
             }
             if ($restaurant !== null) {
-                $pageId = $slug;
+                $pageId = $restaurantSlug;
                 $routeParams = [];
-                $pageData = ['name' => $slug, 'sections' => []];
+                $pageData = ['name' => $restaurantSlug, 'sections' => []];
             } else {
                 $status = 404;
                 $pageId = '404';
                 $pageData = $this->dataLoader->loadPage($pageJsonDir, '404', $baseUrl) ?? ['name' => '404', 'sections' => []];
             }
+        } elseif ($pageData === null) {
+            $status = 404;
+            $pageId = '404';
+            $pageData = $this->dataLoader->loadPage($pageJsonDir, '404', $baseUrl) ?? ['name' => '404', 'sections' => []];
         }
 
         $jsonBaseDir = (string) ($this->settings['paths']['json_base'] ?? '');
@@ -283,7 +287,7 @@ final class PageAction
         return [
             ['name' => $homeTitle, 'url' => '/'],
             ['name' => $listTitle, 'url' => $listHref],
-            ['name' => $name, 'url' => '/' . $restaurant['slug'] . '/'],
+            ['name' => $name, 'url' => '/restaurants/' . $restaurant['slug'] . '/'],
         ];
     }
 

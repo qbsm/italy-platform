@@ -1,7 +1,7 @@
 {% set name = item.restaurant.name | default('') %}
 {% set icon = item.icons[0] | default(null) %}
 {% set logo = item.logos[0] | default(null) %}
-{% set href = item.slug is defined ? '/' ~ item.slug ~ '/' : null %}
+{% set href = item.slug is defined ? '/restaurants/' ~ item.slug ~ '/' : null %}
 
 {% if href %}
 <a href="{{ url(href) }}" class="card-restaurant {{ item.class | default('') }} link">

@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp \"/Users/danich/Downloads/главная/доставка.jpg\" /Users/danich/Sites/italy-platform/data/img/navigation/delivery.jpg)",
+      "Bash(cp \"/Users/danich/Downloads/главная/рестораны.jpg\" /Users/danich/Sites/italy-platform/data/img/navigation/rests.jpg)",
+      "Bash(cp \"/Users/danich/Downloads/главная/italy people.jpg\" /Users/danich/Sites/italy-platform/data/img/navigation/italy-people.jpg)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); [print\\(f'{k}: {v}'\\) for k,v in d.get\\('scripts',{}\\).items\\(\\)]\")",
+      "Bash(npm run:*)",
+      "Bash(ffprobe -v quiet -print_format json -show_streams \"/Users/danich/Downloads/видео сотрудников.mp4\")",
+      "Bash(python3 -c \"import sys,json;d=json.load\\(sys.stdin\\);s=[x for x in d['streams'] if x['codec_type']=='video'][0];print\\(f'codec: {s[\\\\\"codec_name\\\\\"]}, {s[\\\\\"width\\\\\"]}x{s[\\\\\"height\\\\\"]}, duration: {s.get\\(\\\\\"duration\\\\\",\\\\\"N/A\\\\\"\\)}'\\)\")",
+      "Bash(brew install:*)",
+      "Bash(ls:*)",
+      "Bash(python3 -c \"import sys,json;d=json.load\\(sys.stdin\\);s=[x for x in d['streams'] if x['codec_type']=='video'][0];print\\(f'codec: {s[\\\\\"codec_name\\\\\"]}, {s[\\\\\"width\\\\\"]}x{s[\\\\\"height\\\\\"]}, duration: {s.get\\(\\\\\"duration\\\\\",\\\\\"N/A\\\\\"\\)}s'\\)\")",
+      "Bash(brew --prefix ffmpeg)",
+      "Read(//Users/danich/Sites/italy-platform/$\\(brew --prefix ffmpeg\\)/**)",
+      "Read(//usr/local/opt/ffmpeg/**)",
+      "Read(//usr/local/Cellar/**)",
+      "Bash(brew list:*)",
+      "Read(//usr/local/bin/**)",
+      "Read(//opt/homebrew/bin/**)",
+      "Bash(python3:*)",
+      "Bash(bash:*)",
+      "Bash(curl -s \"http://italy-platform.test/restaurants/italy-bolshaya-morskaya/\")",
+      "Bash(curl -s \"http://italy-platform.test/assets/css/build/main.1bab0a03.css\")",
+      "Bash(curl -s \"http://italy-platform.test/\")"
+    ]
+  }
+}

@@ -93,27 +93,27 @@
   "form-callback": {
     "placeholder": {
       "ru": {
-        "phone": "+7 ( _ _ _ ) _ _ _ - _ _ - _ _",
+        "email": "your@email.com",
         "name": "Ваше имя",
-        "square": "Площадь, м²"
+        "city": "Ваш город"
       },
       "en": {
-        "phone": "+7 ( _ _ _ ) _ _ _ - _ _ - _ _",
+        "email": "your@email.com",
         "name": "Your name",
-        "square": "Area, m²"
+        "city": "Your city"
       }
     },
     "label": {
       "ru": {
-        "phone": "Телефон",
-        "name": "Ваше имя",
-        "square": "Площадь, м²",
+        "email": "Почта",
+        "name": "Имя",
+        "city": "Город",
         "policy": "Принять конфиденциальность"
       },
       "en": {
-        "phone": "Phone",
-        "name": "Your name",
-        "square": "Area, m²",
+        "email": "Email",
+        "name": "Name",
+        "city": "City",
         "policy": "Accept privacy policy"
       }
     },

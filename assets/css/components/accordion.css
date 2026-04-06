@@ -52,16 +52,16 @@
 }
 
 .accordion__title {
-  font-size: 0.8em;
-  font-weight: 500;
+  font-size: 1em;
+  font-weight: 400;
 }
 
 .accordion__item.active .accordion__title {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .accordion__icon-wrap {
-  width: 0.5rem;
+  width: 0.8rem;
   height: auto;
   transition: transform 0.3s ease-in-out;
   flex-shrink: 0;
@@ -76,7 +76,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding-bottom: 0.5rem;
+  padding-bottom: 1rem;
   transition: all 0.3s ease;
   max-height: 0;
   overflow: hidden;
@@ -84,27 +84,18 @@
 }
 
 .accordion__item.active .desc-wrap {
-  padding-top: 0.25rem;
+  padding-top: 0.5rem;
+  padding-bottom: 1.5rem;
   max-height: 1000px;
   opacity: 1;
 }
 
 .accordion__desc {
-  font-size: 0.9em;
+  font-size: 1em;
+  color: var(--color-muted);
+  line-height: 1.4;
 }
 
-/* Компенсируем уменьшенный размер шрифта внутри аккордеона */
-.accordion__desc .custom-list {
-  font-size: 1.111em;
-
-  /* 1 / 0.9 = 1.111 */
-
-  @media (--lg) {
-    font-size: 1em;
-
-    /* 0.9 / 0.9 = 1 */
-  }
-}
 
 /* Стили для кнопки "Показать все" */
 
@@ -123,6 +114,6 @@
 }
 
 .accordion__show-all {
-  font-size: 0.8em;
+  font-size: 0.9em;
   text-decoration: underline;
 }

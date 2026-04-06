@@ -10,6 +10,19 @@
                   {% include 'components/button-section.twig' with {'item': btn} %}
                 {% endfor %}
               </div>
+            {% elseif item.type == 'slider' %}
+              <div class="swiper-container card-slider {{ item.class|default('') }}" id="{{ item.slider.id|default('') }}" data-settings="{{ item.slider.settings|default({})|json_encode }}">
+                <div class="swiper-wrapper">
+                  {% for slide in item.slider.items %}
+                    <div class="swiper-slide">
+                      <div class="card-slider__cover" style="background-image: url('{{ url(slide.cover) }}');"></div>
+                    </div>
+                  {% endfor %}
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+              </div>
             {% elseif item.type == 'gradient' %}
               {% include 'components/card-gradient.twig' with {'item': item} %}
             {% elseif item.type == 'button' %}

@@ -16,7 +16,10 @@
       "addressCountry": "RU"
     },
     "openingHours": [
-      { "days": "Пн-Вс", "hours": "09:00–23:00" }
+      {
+        "days": "Пн-Вс",
+        "hours": "09:00–23:00"
+      }
     ],
     "geo": {
       "@type": "GeoCoordinates",
@@ -56,6 +59,10 @@
     },
     {
       "src": "data/img/restaurants/italy-bolshoy/covers/raw/4.jpg",
+      "alt": "Italy на Большом"
+    },
+    {
+      "src": "data/img/restaurants/italy-bolshoy/covers/raw/5.jpg",
       "alt": "Italy на Большом"
     }
   ],

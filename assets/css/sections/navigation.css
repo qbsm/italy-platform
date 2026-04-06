@@ -59,6 +59,58 @@
   height: 15rem;
 }
 
+.navigation .card-slider {
+  width: 100%;
+  height: 24rem;
+  border-radius: 2rem;
+  overflow: hidden;
+
+  @media (--lg) {
+    height: 46rem;
+    border-radius: 4rem;
+  }
+}
+
+.navigation .card-slider .swiper-slide {
+  width: 100%;
+  height: 100%;
+}
+
+.navigation .card-slider__cover {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.navigation .card-slider .swiper-pagination {
+  z-index: 3;
+  bottom: 2rem;
+}
+
+.navigation .card-slider .swiper-pagination-bullet {
+  background: var(--color-1) !important;
+}
+
+.navigation .card-slider .swiper-button-next,
+.navigation .card-slider .swiper-button-prev {
+  z-index: 3;
+  --swiper-navigation-color: var(--color-1);
+  opacity: 0;
+  transition: opacity 0.25s ease-out;
+}
+
+.navigation .card-slider:hover .swiper-button-next,
+.navigation .card-slider:hover .swiper-button-prev {
+  opacity: 0.5;
+}
+
+.navigation .card-slider:hover .swiper-button-next:hover,
+.navigation .card-slider:hover .swiper-button-prev:hover {
+  opacity: 1;
+}
+
 .navigation .buttons-wrap {
   display: flex;
   flex-wrap: wrap;

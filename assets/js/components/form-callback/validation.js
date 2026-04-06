@@ -65,18 +65,15 @@ export class FormValidator {
     const errors = {};
     let firstError = '';
 
-    const phoneField = this.form.querySelector('input[name="phone"]');
-    if (phoneField) {
-      const value = phoneField.value.trim();
-      const digits = normalizePhone(value);
-      const countryCodeDigits = normalizePhone(phoneField.getAttribute('data-country-code') || '');
-
-      if (!isRequired(value)) {
-        this._setError(errors, 'phone', this._text('phone_required'), (msg) => {
+    const emailField = this.form.querySelector('input[name="email"]');
+    if (emailField && isFieldVisible(emailField)) {
+      const email = emailField.value.trim();
+      if (!isRequired(email)) {
+        this._setError(errors, 'email', this._text('email_required'), (msg) => {
           firstError = firstError || msg;
         });
-      } else if (!isValidPhone(digits, countryCodeDigits)) {
-        this._setError(errors, 'phone', this._text('phone_invalid'), (msg) => {
+      } else if (!isValidEmail(email)) {
+        this._setError(errors, 'email', this._text('email_invalid'), (msg) => {
           firstError = firstError || msg;
         });
       }
@@ -96,16 +93,9 @@ export class FormValidator {
       }
     }
 
-    const squareField = this.form.querySelector('input[name="square"]');
-    if (squareField && isFieldVisible(squareField) && !isRequired(squareField.value)) {
-      this._setError(errors, 'square', this._text('square_required'), (msg) => {
-        firstError = firstError || msg;
-      });
-    }
-
-    const emailField = this.form.querySelector('input[name="email"]');
-    if (emailField && !isValidEmail(emailField.value.trim())) {
-      this._setError(errors, 'email', this._text('email_invalid'), (msg) => {
+    const cityField = this.form.querySelector('input[name="city"]');
+    if (cityField && isFieldVisible(cityField) && !isRequired(cityField.value)) {
+      this._setError(errors, 'city', this._text('city_required'), (msg) => {
         firstError = firstError || msg;
       });
     }

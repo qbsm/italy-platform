@@ -49,20 +49,20 @@ final class ApiSendAction
         }
 
         $errors = [];
-        $phoneRaw = isset($data['phone']) && is_string($data['phone']) ? $data['phone'] : '';
-        $phone = preg_replace('/\D+/', '', $phoneRaw) ?? '';
-        if ($phone === '' || strlen($phone) < 7 || strlen($phone) > 15) {
-            $errors['phone'] = 'Неверный телефон';
+
+        $email = isset($data['email']) && is_string($data['email']) ? trim($data['email']) : '';
+        if ($email === '' || filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+            $errors['email'] = 'Неверный E-mail';
+        }
+
+        $name = isset($data['name']) && is_string($data['name']) ? trim($data['name']) : '';
+        if ($name === '' || mb_strlen($name) < 2) {
+            $errors['name'] = 'Укажите имя';
         }
 
         $policy = isset($data['policy']) && is_string($data['policy']) ? $data['policy'] : 'off';
         if ($policy !== 'on') {
             $errors['policy'] = 'Согласитесь с политикой';
-        }
-
-        $email = isset($data['email']) && is_string($data['email']) ? trim($data['email']) : '';
-        if ($email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-            $errors['email'] = 'Неверный E-mail';
         }
 
         if ($errors !== []) {

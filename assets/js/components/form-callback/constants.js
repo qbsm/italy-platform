@@ -34,11 +34,11 @@ export const PHONE_MASKS = {
 
 export const DEFAULT_ERROR_TEXTS = {
   ru: {
-    phone_required: 'Укажите телефон',
-    phone_invalid: 'Неверный телефон',
+    email_required: 'Укажите почту',
+    email_invalid: 'Неверный E-mail',
     name_required: 'Укажите имя',
     name_min_length: 'Имя от 2 символов',
-    square_required: 'Укажите площадь',
+    city_required: 'Укажите город',
     policy_required: 'Согласитесь с политикой',
     email_invalid: 'Неверный E-mail',
     form_errors: 'Пожалуйста, исправьте ошибки в форме',
@@ -49,11 +49,11 @@ export const DEFAULT_ERROR_TEXTS = {
     success: 'Успешно отправлена',
   },
   en: {
-    phone_required: 'Please enter your phone number',
-    phone_invalid: 'Invalid phone number format',
+    email_required: 'Please enter your email',
+    email_invalid: 'Invalid email format',
     name_required: 'Please enter your name',
     name_min_length: 'Name should be at least 2 characters',
-    square_required: 'Please enter area',
+    city_required: 'Please enter your city',
     policy_required: 'You must agree to the privacy policy',
     email_invalid: 'Invalid E-mail',
     form_errors: 'Please correct the errors in the form',

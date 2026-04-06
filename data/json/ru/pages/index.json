@@ -101,6 +101,9 @@
         "cover": {
           "src": "data/img/us/video-cover.jpg"
         },
+        "video": {
+          "src": "data/img/us/video.mp4"
+        },
         "cards": [
           {
             "text": "Наши ценности — доверие, уникальность, самореализация, страсть, результат и удовольствие"
@@ -138,7 +141,7 @@
             "size": "half",
             "href": "#",
             "cover": {
-              "src": "data/img/navigation/delivery.png"
+              "src": "data/img/navigation/delivery.jpg"
             },
             "title": "Доставка",
             "class": "color-1"
@@ -146,22 +149,33 @@
           {
             "type": "card",
             "size": "half",
-            "href": "#",
+            "href": "/restaurants/",
             "cover": {
-              "src": "data/img/navigation/rests.png"
+              "src": "data/img/navigation/rests.jpg"
             },
             "title": "Рестораны",
             "class": "color-1"
           },
           {
-            "type": "card",
+            "type": "slider",
             "size": "full",
-            "href": "#",
-            "cover": {
-              "src": "data/img/navigation/lottery.png"
-            },
-            "title": "Розыгрыш",
-            "class": "color-1"
+            "class": "color-1",
+            "slider": {
+              "id": "lotterySlider",
+              "settings": {
+                "loop": true,
+                "autoplay": { "delay": 5000, "disableOnInteraction": false },
+                "pagination": { "enabled": true, "clickable": true },
+                "navigation": { "enabled": true },
+                "effect": "fade",
+                "speed": 800
+              },
+              "items": [
+                {
+                  "cover": "data/img/navigation/lottery.png"
+                }
+              ]
+            }
           },
           {
             "type": "gradient",
@@ -178,7 +192,7 @@
             "size": "full",
             "items": [
               {
-                "title": "Ресторанам",
+                "title": "Ресторанам Надо",
                 "href": "#",
                 "icon": {
                   "src": "data/img/ui/button-icons/1.svg",
@@ -234,8 +248,8 @@
             "cover": {
               "src": "data/img/navigation/italy-people.jpg"
             },
-            "title": "italy people",
-            "class": "color-1"
+            "title": "люди итали | italy people",
+            "class": "color-1 text-center"
           },
           {
             "type": "gradient",
@@ -244,7 +258,7 @@
             "cover": {
               "src": "data/img/navigation/bg-gradient2.png"
             },
-            "title": "italy run club",
+            "title": "беговой клуб | italy run club",
             "class": "color-1",
             "icon": {
               "src": "data/img/ui/button-icons/icon-telegram.svg"

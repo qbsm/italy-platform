@@ -3,112 +3,200 @@
 {% block content %}
 <div id="page-content">
   {% include 'sections/header.twig' with {'data': {}} %}
-  <main class="section restaurant-detail" role="main">
-    <div class="container">
-      {% set r = restaurant.restaurant %}
-      <article class="restaurant-detail__article">
-        <h1 class="restaurant-detail__title">{{ r.name }}</h1>
-        {% if restaurant.desc.short is defined and restaurant.desc.short %}
-          <p class="restaurant-detail__desc">{{ restaurant.desc.short }}</p>
-        {% endif %}
-        {% if restaurant.desc.full is defined and restaurant.desc.full %}
-          <div class="restaurant-detail__full">{{ restaurant.desc.full }}</div>
-        {% endif %}
+  <main class="restaurant-detail" role="main">
+    {% set r = restaurant.restaurant %}
 
-        {% if r.address is defined and r.address or r.telephone is defined and r.telephone.href is defined %}
-        <section class="restaurant-detail__section" aria-labelledby="restaurant-contact-heading">
-          <h2 id="restaurant-contact-heading" class="restaurant-detail__heading">Контакты и адрес</h2>
-          {% if r.address is defined and r.address %}
-            <address class="restaurant-detail__address">
-              {{ r.address.streetAddress|default('') }}{% if r.address.addressLocality %}, {{ r.address.addressLocality }}{% endif %}
-            </address>
-          {% endif %}
-          {% if r.telephone is defined and r.telephone.href is defined %}
-            <p class="restaurant-detail__tel">Телефон: <a href="{{ r.telephone.href }}">{{ r.telephone.title|default(r.telephone.href) }}</a></p>
-          {% endif %}
-        </section>
-        {% endif %}
-
-        {% if r.openingHours is defined and r.openingHours|length > 0 %}
-        <section class="restaurant-detail__section" aria-labelledby="restaurant-hours-heading">
-          <h2 id="restaurant-hours-heading" class="restaurant-detail__heading">Часы работы</h2>
-          <div class="mini-table" role="table" aria-label="Часы работы">
-            {% for h in r.openingHours %}
-            <div class="mini-table__item" role="row">
-              <span class="mini-table__title uppercase weight-400 color-2" role="cell">{{ h.days|default('') }}</span>
-              <span class="mini-table__value uppercase" role="cell">{{ h.hours|default('') }}</span>
-            </div>
+    {% if restaurant.covers is defined and restaurant.covers|length > 0 %}
+      <section class="restaurant-detail__item slider-wrap">
+        <div class="swiper-container" id="restaurantSlider" data-settings="{{ {
+          loop: true,
+          autoplay: { delay: 5000, disableOnInteraction: false },
+          pagination: { enabled: true, clickable: true },
+          navigation: { enabled: true },
+          effect: 'fade',
+          speed: 800
+        }|json_encode }}">
+          <div class="swiper-wrapper">
+            {% for cover in restaurant.covers %}
+              <div class="swiper-slide">
+                <img src="{{ url(cover.src) }}" alt="{{ cover.alt|default(r.name) }}" class="img-responsive" loading="{{ loop.first ? 'eager' : 'lazy' }}">
+              </div>
             {% endfor %}
           </div>
-        </section>
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+      </section>
+    {% endif %}
+
+    <div class="container-md">
+      {% if breadcrumb is defined and breadcrumb|length > 0 %}
+        <nav class="restaurant-detail__item breadcrumb-wrap" aria-label="Breadcrumb">
+          {% for crumb in breadcrumb %}
+            {% if not loop.last %}
+              <a href="{{ crumb.url }}" class="link">{{ crumb.name }}</a>
+              <span class="breadcrumb-sep">/</span>
+            {% else %}
+              <span>{{ crumb.name }}</span>
+            {% endif %}
+          {% endfor %}
+        </nav>
+      {% endif %}
+
+      <section class="restaurant-detail__item info-wrap section">
+        <div class="section__item heading-wrap">
+          {% if restaurant.logos[1] is defined %}
+            <div class="section__subitem logo-wrap">
+              <img src="{{ url(restaurant.logos[1].src) }}" alt="{{ restaurant.logos[1].alt|default(r.name) }}" class="img-responsive">
+            </div>
+          {% endif %}
+          <div class="section__subitem title-wrap">
+            <h1 class="heading font-1 weight-300 uppercase">{{ r.name }}</h1>
+            {% if restaurant.desc.short is defined %}
+              <p class="desc">{{ restaurant.desc.short }}</p>
+            {% endif %}
+          </div>
+        </div>
+
+        {% if restaurant.tags is defined and restaurant.tags|length > 0 %}
+          <div class="section__item tags-wrap">
+            {% for tag in restaurant.tags %}
+              <span class="button bg-color-6 button-tag button-sm button-rounded nowrap">{{ tag }}</span>
+            {% endfor %}
+          </div>
         {% endif %}
 
-        {% if r.servesCuisine is defined and r.servesCuisine|length > 0 or r.priceRange is defined and r.priceRange %}
-        <section class="restaurant-detail__section" aria-labelledby="restaurant-cuisine-heading">
-          <h2 id="restaurant-cuisine-heading" class="restaurant-detail__heading">Кухня и цены</h2>
-          {% if r.servesCuisine is defined and r.servesCuisine|length > 0 %}
-            <p class="restaurant-detail__cuisine">Типы кухни: <strong>{{ r.servesCuisine|join(', ') }}</strong></p>
-          {% endif %}
-          {% if r.priceRange is defined and r.priceRange %}
-            <p class="restaurant-detail__price">Диапазон цен: <strong>{{ r.priceRange }}</strong></p>
-          {% endif %}
-        </section>
+        {% if restaurant.desc.full is defined %}
+          <div class="section__item desc-wrap">
+            <p>{{ restaurant.desc.full }}</p>
+          </div>
         {% endif %}
+      </section>
+    </div>
 
-        {% if r.hasMap is defined and r.hasMap or r.menuLink is defined and r.menuLink %}
-        <section class="restaurant-detail__section" aria-labelledby="restaurant-more-heading">
-          <h2 id="restaurant-more-heading" class="restaurant-detail__heading">Карта и меню</h2>
-          {% if r.hasMap is defined and r.hasMap %}
-            <p class="restaurant-detail__map"><a href="{{ r.hasMap }}" target="_blank" rel="noopener noreferrer">Показать на карте</a></p>
+    <div class="container-md">
+      <section class="restaurant-detail__item details-wrap section">
+        <div class="section__item block-wrap">
+
+          {% if r.address is defined or r.telephone is defined %}
+            <div class="section__subitem col-wrap">
+              <h2 class="heading weight-400 uppercase">Контакты</h2>
+              <div class="mini-table" role="table" aria-label="Контакты">
+                {% if r.address is defined %}
+                  <div class="mini-table__item" role="row">
+                    <span class="mini-table__title uppercase weight-400 color-2" role="cell">Адрес</span>
+                    <span class="mini-table__value uppercase" role="cell">{{ r.address.streetAddress|default('') }}{% if r.address.addressLocality %}, {{ r.address.addressLocality }}{% endif %}</span>
+                  </div>
+                {% endif %}
+                {% if r.telephone is defined %}
+                  <div class="mini-table__item" role="row">
+                    <span class="mini-table__title uppercase weight-400 color-2" role="cell">Телефон</span>
+                    <span class="mini-table__value uppercase" role="cell"><a href="{{ r.telephone.href }}" class="link">{{ r.telephone.title|default(r.telephone.href) }}</a></span>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+
+          {% if r.openingHours is defined and r.openingHours|length > 0 %}
+            <div class="section__subitem col-wrap">
+              <h2 class="heading weight-400 uppercase">Часы работы</h2>
+              <div class="mini-table" role="table" aria-label="Часы работы">
+                {% for h in r.openingHours %}
+                  <div class="mini-table__item" role="row">
+                    <span class="mini-table__title uppercase weight-400 color-2" role="cell">{{ h.days|default('') }}</span>
+                    <span class="mini-table__value uppercase" role="cell">{{ h.hours|default('') }}</span>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+
+          {% if r.servesCuisine is defined or r.priceRange is defined %}
+            <div class="section__subitem col-wrap">
+              <h2 class="heading weight-400 uppercase">Кухня</h2>
+              <div class="mini-table" role="table" aria-label="Кухня">
+                {% if r.servesCuisine is defined %}
+                  <div class="mini-table__item" role="row">
+                    <span class="mini-table__title uppercase weight-400 color-2" role="cell">Тип</span>
+                    <span class="mini-table__value uppercase" role="cell">{{ r.servesCuisine|join(', ') }}</span>
+                  </div>
+                {% endif %}
+                {% if r.priceRange is defined %}
+                  <div class="mini-table__item" role="row">
+                    <span class="mini-table__title uppercase weight-400 color-2" role="cell">Цены</span>
+                    <span class="mini-table__value uppercase" role="cell">{{ r.priceRange }}</span>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+
+        </div>
+      </section>
+    </div>
+
+    {% if r.menuLink is defined or r.hasMap is defined or r.bookingLink is defined %}
+      <div class="container-md">
+        <div class="restaurant-detail__item buttons-wrap">
+          {% if r.bookingLink is defined and r.bookingLink %}
+            <a href="{{ r.bookingLink }}" target="_blank" rel="noopener noreferrer" class="button button-sm outline-color-2 button-animated animation-shift uppercase link">Забронировать</a>
           {% endif %}
           {% if r.menuLink is defined and r.menuLink %}
-            <p class="restaurant-detail__menu"><a href="{{ r.menuLink }}" target="_blank" rel="noopener noreferrer">Меню</a></p>
+            <a href="{{ r.menuLink }}" target="_blank" rel="noopener noreferrer" class="button button-sm outline-color-2 button-animated animation-shift uppercase link">Меню</a>
           {% endif %}
-        </section>
-        {% endif %}
+          {% if r.hasMap is defined and r.hasMap %}
+            <a href="{{ r.hasMap }}" target="_blank" rel="noopener noreferrer" class="button button-sm outline-color-2 button-animated animation-shift uppercase link">На карте</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
 
-        {% set faq = global['restaurant-faq'][lang_code]|default(global['restaurant-faq'].ru) %}
-        {% set hasFaq = (r.address is defined and r.address) or (r.openingHours is defined and r.openingHours|length > 0) or (r.servesCuisine is defined and r.servesCuisine|length > 0) or (r.telephone is defined and r.telephone.href is defined) or (r.priceRange is defined and r.priceRange) %}
-        {% if hasFaq %}
-        <section class="restaurant-detail__section restaurant-detail__faq" aria-labelledby="restaurant-faq-heading">
-          <h2 id="restaurant-faq-heading" class="restaurant-detail__heading">{{ faq.heading }}</h2>
-          <dl class="restaurant-detail__faq-list">
-            {% if r.address is defined and r.address %}
-            <div class="restaurant-detail__faq-item">
-              <dt class="restaurant-detail__faq-question">{{ faq.where }}</dt>
-              <dd class="restaurant-detail__faq-answer">{{ r.address.streetAddress|default('') }}{% if r.address.addressLocality %}, {{ r.address.addressLocality }}{% endif %}</dd>
+    {% set faq = global['restaurant-faq'][lang_code]|default(global['restaurant-faq']['ru']|default(null)) %}
+    {% if faq %}
+      {% set faqItems = [] %}
+      {% if r.address is defined and faq.where is defined %}
+        {% set addr = r.address.streetAddress|default('') ~ (r.address.addressLocality ? ', ' ~ r.address.addressLocality : '') %}
+        {% set faqItems = faqItems|merge([{ title: faq.where, desc: addr, answerText: addr, icon: { src: url('data/img/ui/icons/icon-arrow-down-color-2.svg') } }]) %}
+      {% endif %}
+      {% if r.openingHours is defined and r.openingHours|length > 0 and faq.hours is defined %}
+        {% set hoursText = [] %}
+        {% for h in r.openingHours %}
+          {% set hoursText = hoursText|merge([h.days|default('') ~ ' ' ~ h.hours|default('')]) %}
+        {% endfor %}
+        {% set hoursStr = hoursText|join('; ') %}
+        {% set faqItems = faqItems|merge([{ title: faq.hours, desc: hoursStr, answerText: hoursStr, icon: { src: url('data/img/ui/icons/icon-arrow-down-color-2.svg') } }]) %}
+      {% endif %}
+      {% if r.servesCuisine is defined and faq.cuisine is defined %}
+        {% set cuisineStr = r.servesCuisine|join(', ') %}
+        {% set faqItems = faqItems|merge([{ title: faq.cuisine, desc: cuisineStr, answerText: cuisineStr, icon: { src: url('data/img/ui/icons/icon-arrow-down-color-2.svg') } }]) %}
+      {% endif %}
+      {% if r.telephone is defined and faq.contact is defined %}
+        {% set telStr = r.telephone.title|default(r.telephone.href) %}
+        {% set faqItems = faqItems|merge([{ title: faq.contact, desc: telStr, answerText: telStr, icon: { src: url('data/img/ui/icons/icon-arrow-down-color-2.svg') } }]) %}
+      {% endif %}
+      {% if r.priceRange is defined and faq.price is defined %}
+        {% set faqItems = faqItems|merge([{ title: faq.price, desc: r.priceRange, answerText: r.priceRange, icon: { src: url('data/img/ui/icons/icon-arrow-down-color-2.svg') } }]) %}
+      {% endif %}
+      {% if faqItems|length > 0 %}
+        <div class="container-md">
+          <section class="restaurant-detail__item faq-wrap section">
+            <div class="section__item heading-wrap">
+              <h2 class="heading weight-400 uppercase">{{ faq.heading|default('FAQ') }}</h2>
             </div>
-            {% endif %}
-            {% if r.openingHours is defined and r.openingHours|length > 0 %}
-            <div class="restaurant-detail__faq-item">
-              <dt class="restaurant-detail__faq-question">{{ faq.hours }}</dt>
-              <dd class="restaurant-detail__faq-answer">{% for h in r.openingHours %}{{ h.days|default('') }} {{ h.hours|default('') }}{% if not loop.last %}; {% endif %}{% endfor %}</dd>
+            <div class="section__item accordion-wrap">
+              {% include 'components/accordion.twig' with { items: faqItems, accordion_id: 'restaurantFaq' } %}
             </div>
-            {% endif %}
-            {% if r.servesCuisine is defined and r.servesCuisine|length > 0 %}
-            <div class="restaurant-detail__faq-item">
-              <dt class="restaurant-detail__faq-question">{{ faq.cuisine }}</dt>
-              <dd class="restaurant-detail__faq-answer">{{ r.servesCuisine|join(', ') }}</dd>
-            </div>
-            {% endif %}
-            {% if r.telephone is defined and r.telephone.href is defined %}
-            <div class="restaurant-detail__faq-item">
-              <dt class="restaurant-detail__faq-question">{{ faq.contact }}</dt>
-              <dd class="restaurant-detail__faq-answer">{{ r.telephone.title|default(r.telephone.href) }}</dd>
-            </div>
-            {% endif %}
-            {% if r.priceRange is defined and r.priceRange %}
-            <div class="restaurant-detail__faq-item">
-              <dt class="restaurant-detail__faq-question">{{ faq.price }}</dt>
-              <dd class="restaurant-detail__faq-answer">{{ r.priceRange }}</dd>
-            </div>
-            {% endif %}
-          </dl>
-        </section>
-        {% endif %}
-      </article>
-    </div>
+          </section>
+        </div>
+      {% endif %}
+    {% endif %}
+
   </main>
-  {% include 'sections/footer.twig' with {'data': {}} %}
+  {% include 'sections/footer.twig' with {'data': {
+    'background': { 'src': 'data/img/ui/bg3.webp' },
+    'form': { 'heading': 'Получить консультацию' }
+  }} %}
 </div>
 {% endblock %}

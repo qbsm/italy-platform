@@ -55,6 +55,12 @@
   }
 }
 
+.card-nav.text-center .card__item.title-wrap {
+  @container card-nav (min-width: 75rem) {
+    text-align: center;
+  }
+}
+
 .card-nav .card__item.title-wrap .card__title {
   font-size: 2em;
 

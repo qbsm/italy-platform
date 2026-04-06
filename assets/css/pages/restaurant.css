@@ -1,0 +1,234 @@
+/* ============================================
+   Page: restaurant detail
+   ============================================ */
+
+.restaurant-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+
+  @media (--lg) {
+    gap: 6rem;
+  }
+}
+
+/* ---- Slider ---- */
+
+.restaurant-detail__item.slider-wrap .swiper-container {
+  width: 100%;
+  height: 36rem;
+  padding-bottom: 0;
+
+  @media (--lg) {
+    height: 65rem;
+  }
+}
+
+.restaurant-detail__item.slider-wrap .swiper-slide {
+  width: 100%;
+  height: 100%;
+}
+
+.restaurant-detail__item.slider-wrap .swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.restaurant-detail__item.slider-wrap .swiper-pagination {
+  bottom: 2rem;
+}
+
+/* override: swiper inline nav color + cancel padding offset */
+.restaurant-detail__item.slider-wrap .swiper-pagination-bullet {
+  background: var(--color-1) !important;
+}
+
+.restaurant-detail__item.slider-wrap .swiper-button-next,
+.restaurant-detail__item.slider-wrap .swiper-button-prev {
+  --swiper-navigation-color: var(--color-1);
+  margin-top: 0 !important;
+}
+
+/* ---- Breadcrumb ---- */
+
+.restaurant-detail__item.breadcrumb-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85em;
+  color: var(--color-muted);
+}
+
+.restaurant-detail__item.breadcrumb-wrap a {
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.restaurant-detail__item.breadcrumb-wrap a:hover {
+  color: var(--color-2);
+}
+
+.restaurant-detail__item.breadcrumb-wrap .breadcrumb-sep {
+  color: var(--color-6);
+}
+
+/* ---- Info ---- */
+
+.restaurant-detail__item.info-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.restaurant-detail .info-wrap .section__item.heading-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+
+  @media (--lg) {
+    flex-direction: row;
+    align-items: center;
+    gap: 3rem;
+  }
+}
+
+.restaurant-detail .info-wrap .section__subitem.logo-wrap {
+  width: 10rem;
+  flex-shrink: 0;
+
+  @media (--lg) {
+    width: 14rem;
+  }
+}
+
+.restaurant-detail .info-wrap .section__subitem.logo-wrap img {
+  width: 100%;
+  height: auto;
+}
+
+.restaurant-detail .info-wrap .section__subitem.title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.restaurant-detail .info-wrap .heading {
+  font-size: 2.4em;
+
+  @media (--lg) {
+    font-size: 4em;
+  }
+}
+
+.restaurant-detail .info-wrap .desc {
+  font-size: 1.15em;
+  line-height: 1.4;
+  color: var(--color-muted);
+  max-width: 60rem;
+
+  @media (--lg) {
+    font-size: 1.3em;
+  }
+}
+
+.restaurant-detail .info-wrap .section__item.tags-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.restaurant-detail .info-wrap .section__item.desc-wrap {
+  max-width: 80rem;
+  font-size: 1.05em;
+  line-height: 1.6;
+
+  @media (--lg) {
+    font-size: 1.15em;
+  }
+}
+
+/* ---- Details ---- */
+
+.restaurant-detail__item.details-wrap {
+  padding: 0;
+}
+
+.restaurant-detail .details-wrap .section__item.block-wrap {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding: 3rem 2rem;
+  background: var(--color-7);
+  color: var(--color-1);
+  border-radius: 2rem;
+
+  @media (--lg) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4rem;
+    padding: 4rem;
+    border-radius: 4rem;
+  }
+}
+
+.restaurant-detail .details-wrap .section__subitem.col-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.restaurant-detail .details-wrap .heading {
+  font-size: 1.1em;
+  margin-bottom: 0.5rem;
+
+  @media (--lg) {
+    font-size: 1.3em;
+  }
+}
+
+.restaurant-detail .details-wrap .mini-table__item {
+  border-bottom-color: hsl(0deg 0% 100% / 12%);
+}
+
+.restaurant-detail .details-wrap .mini-table__title {
+  color: var(--color-6);
+}
+
+.restaurant-detail .details-wrap .mini-table__value {
+  color: var(--color-1);
+}
+
+.restaurant-detail .details-wrap .mini-table__value a {
+  color: var(--color-1);
+  text-decoration: none;
+}
+
+.restaurant-detail .details-wrap .mini-table__value a:hover {
+  color: var(--color-6);
+}
+
+/* ---- Buttons ---- */
+
+.restaurant-detail__item.buttons-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* ---- FAQ ---- */
+
+.restaurant-detail__item.faq-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.restaurant-detail .faq-wrap .heading {
+  font-size: 1.3em;
+
+  @media (--lg) {
+    font-size: 1.6em;
+  }
+}

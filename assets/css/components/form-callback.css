@@ -20,25 +20,25 @@
   gap: 1.25rem;
   grid-template-columns: 1fr;
   grid-template-areas:
-    "phone"
+    "email"
     "name"
-    "square"
+    "city"
     "policy"
     "button"
     "rules"
     "error";
 }
 
-.form-callback__item.form-callback-item-phone {
-  grid-area: phone;
+.form-callback__item.form-callback-item-email {
+  grid-area: email;
 }
 
 .form-callback__item.form-callback-item-name {
   grid-area: name;
 }
 
-.form-callback__item.form-callback-item-square {
-  grid-area: square;
+.form-callback__item.form-callback-item-city {
+  grid-area: city;
 }
 
 .form-callback__item.form-callback-item-policy {
@@ -101,7 +101,7 @@
   color: var(--color-2);
   text-transform: uppercase;
   border: none;
-  border-bottom: 0.1rem solid var(--color-5);
+  border-bottom: 0.1rem solid var(--color-1);
   border-radius: 0;
   outline: none;
   transition: border-color var(--transition-1), background-color var(--transition-1);
@@ -145,7 +145,7 @@
   gap: 1rem;
   padding: 0 0 1.25rem;
   transition: border-color var(--transition-1), padding var(--transition-1);
-  border-bottom: 0.1rem solid var(--color-5);
+  border-bottom: 0.1rem solid var(--color-1);
   cursor: pointer;
   user-select: none;
 }
@@ -176,7 +176,7 @@
   flex-shrink: 0;
   background: transparent;
   border-radius: 0;
-  border: 0.1rem solid var(--color-5);
+  border: 0.1rem solid var(--color-1);
   transition: border-color var(--transition-1);
 }
 
