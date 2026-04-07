@@ -23,7 +23,7 @@
                 <div class="container">
                   <div class="section__subitem empty-wrap"></div>
                   <div class="section__subitem logo-wrap">
-                    {% include 'components/logo.twig' %}
+                    {% include 'components/logo.twig' with { src: 'data/img/ui/logos/logo-intro.svg' } %}
                   </div>
                   <div class="section__subitem heading-wrap">
                     {% if slide.heading is defined %}
@@ -42,7 +42,7 @@
             <div class="section__item logo-heading-wrap">
               <div class="container">
                 <div class="section__subitem logo-wrap">
-                  {% include 'components/logo.twig' %}
+                  {% include 'components/logo.twig' with { src: 'data/img/ui/logos/logo-intro.svg' } %}
                 </div>
                 <div class="section__subitem heading-wrap">
                   {% if data.heading is defined %}
