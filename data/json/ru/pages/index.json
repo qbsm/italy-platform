@@ -14,7 +14,18 @@
           "id": "introSlider",
           "items": [
             {
-              "cover": "data/img/intro/cover.jpg",
+              "image": {
+                "horizontal": {
+                  "800": "data/img/intro/800/desk-mirrors.webp",
+                  "1600": "data/img/intro/1600/desk-mirrors.webp",
+                  "raw": "data/img/intro/raw/desk-mirrors.webp"
+                },
+                "vertical": {
+                  "800": "data/img/intro/800/mob-mirrors.webp",
+                  "1600": "data/img/intro/1600/mob-mirrors.webp",
+                  "raw": "data/img/intro/raw/mob-mirrors.webp"
+                }
+              },
               "heading": {
                 "tag": "span",
                 "class": "heading heading-flex weight-500 uppercase",
@@ -22,7 +33,113 @@
               }
             },
             {
-              "cover": "data/img/intro/cover1.jpg",
+              "image": {
+                "horizontal": {
+                  "800": "data/img/intro/800/desk-lemons.webp",
+                  "1600": "data/img/intro/1600/desk-lemons.webp",
+                  "raw": "data/img/intro/raw/desk-lemons.webp"
+                },
+                "vertical": {
+                  "800": "data/img/intro/800/mob-lemons.webp",
+                  "1600": "data/img/intro/1600/mob-lemons.webp",
+                  "raw": "data/img/intro/raw/mob-lemons.webp"
+                }
+              },
+              "heading": {
+                "tag": "span",
+                "class": "heading heading-flex weight-500 uppercase",
+                "title": "<span>Места встреч, где каждый человек</span> <span>чувствует свою ценность</span>"
+              }
+            },
+            {
+              "image": {
+                "horizontal": {
+                  "800": "data/img/intro/800/desk-bar.webp",
+                  "1600": "data/img/intro/1600/desk-bar.webp",
+                  "raw": "data/img/intro/raw/desk-bar.webp"
+                },
+                "vertical": {
+                  "800": "data/img/intro/800/mob-bar.webp",
+                  "1600": "data/img/intro/1600/mob-bar.webp",
+                  "raw": "data/img/intro/raw/mob-bar.webp"
+                }
+              },
+              "heading": {
+                "tag": "span",
+                "class": "heading heading-flex weight-500 uppercase",
+                "title": "<span>Места встреч, где каждый человек</span> <span>чувствует свою ценность</span>"
+              }
+            },
+            {
+              "image": {
+                "horizontal": {
+                  "800": "data/img/intro/800/desk-food.webp",
+                  "1600": "data/img/intro/1600/desk-food.webp",
+                  "raw": "data/img/intro/raw/desk-food.webp"
+                },
+                "vertical": {
+                  "800": "data/img/intro/800/mob-food.webp",
+                  "1600": "data/img/intro/1600/mob-food.webp",
+                  "raw": "data/img/intro/raw/mob-food.webp"
+                }
+              },
+              "heading": {
+                "tag": "span",
+                "class": "heading heading-flex weight-500 uppercase",
+                "title": "<span>Места встреч, где каждый человек</span> <span>чувствует свою ценность</span>"
+              }
+            },
+            {
+              "image": {
+                "horizontal": {
+                  "800": "data/img/intro/800/desk-bull.webp",
+                  "1600": "data/img/intro/1600/desk-bull.webp",
+                  "raw": "data/img/intro/raw/desk-bull.webp"
+                },
+                "vertical": {
+                  "800": "data/img/intro/800/mob-bull.webp",
+                  "1600": "data/img/intro/1600/mob-bull.webp",
+                  "raw": "data/img/intro/raw/mob-bull.webp"
+                }
+              },
+              "heading": {
+                "tag": "span",
+                "class": "heading heading-flex weight-500 uppercase",
+                "title": "<span>Места встреч, где каждый человек</span> <span>чувствует свою ценность</span>"
+              }
+            },
+            {
+              "image": {
+                "horizontal": {
+                  "800": "data/img/intro/800/desk-lilies.webp",
+                  "1600": "data/img/intro/1600/desk-lilies.webp",
+                  "raw": "data/img/intro/raw/desk-lilies.webp"
+                },
+                "vertical": {
+                  "800": "data/img/intro/800/mob-lilies.webp",
+                  "1600": "data/img/intro/1600/mob-lilies.webp",
+                  "raw": "data/img/intro/raw/mob-lilies.webp"
+                }
+              },
+              "heading": {
+                "tag": "span",
+                "class": "heading heading-flex weight-500 uppercase",
+                "title": "<span>Места встреч, где каждый человек</span> <span>чувствует свою ценность</span>"
+              }
+            },
+            {
+              "image": {
+                "horizontal": {
+                  "800": "data/img/intro/800/desk-wine.webp",
+                  "1600": "data/img/intro/1600/desk-wine.webp",
+                  "raw": "data/img/intro/raw/desk-wine.webp"
+                },
+                "vertical": {
+                  "800": "data/img/intro/800/mob-wine.webp",
+                  "1600": "data/img/intro/1600/mob-wine.webp",
+                  "raw": "data/img/intro/raw/mob-wine.webp"
+                }
+              },
               "heading": {
                 "tag": "span",
                 "class": "heading heading-flex weight-500 uppercase",
