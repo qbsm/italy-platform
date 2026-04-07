@@ -60,6 +60,14 @@
   height: 15rem;
 }
 
+.navigation .section__subitem.item-wrap:has(.card-slider) {
+  margin-top: 1.6rem;
+
+  @media (--lg) {
+    margin-top: 0;
+  }
+}
+
 .navigation .card-slider {
   width: 100%;
   height: 24rem;
@@ -78,9 +86,12 @@
 
 /* lottery.png (4080×1380): пропорции как у картинки; без padding-bottom слайдера — иначе cover режет низ */
 .navigation [id="lotterySlider"].card-slider {
-  height: auto;
-  aspect-ratio: 4080 / 1380;
   padding-bottom: 0;
+
+  @media (--sm) {
+    height: auto;
+    aspect-ratio: 4080 / 1380;
+  }
 }
 
 /* Компенсация из components/slider.css (margin-top -2rem) рассчитана на padding-bottom — не нужна */
@@ -116,7 +127,7 @@
 
 .navigation .card-slider .swiper-pagination {
   z-index: 3;
-  bottom: 2rem;
+  bottom: 1rem;
 }
 
 .navigation .card-slider .swiper-pagination-bullet {
@@ -163,7 +174,7 @@
 }
 
 .navigation .buttons-wrap .button-section {
-  width: 100%;
+  width: calc(50% - 0.4rem);
 
   @media (--lg) {
     width: calc(33.333% - 1.334rem);

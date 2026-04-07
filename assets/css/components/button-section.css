@@ -8,13 +8,15 @@
   gap: 1rem;
   padding: 1.2rem 2rem;
   border-radius: 2rem;
-  background: var(--gradient-3);
-  color: var(--color-2);
+  background: linear-gradient(to left, #000, #000);
+  color: var(--color-1);
 
   @media (--lg) {
     height: 11rem;
     padding: 1.4rem 3rem;
     border-radius: 4rem;
+    background: var(--gradient-3);
+    color: var(--color-2);
   }
 }
 
@@ -64,6 +66,30 @@
 .button-section__item.icon-wrap img {
   width: 100%;
   height: 100%;
+}
+
+.button-section__item.icon-wrap.green {
+  background: #3A9550;
+
+  @media (--lg) {
+    background: var(--color-2);
+  }
+}
+
+.button-section__item.icon-wrap.blue {
+  background: #008ACF;
+
+  @media (--lg) {
+    background: var(--color-2);
+  }
+}
+
+.button-section__item.icon-wrap.red {
+  background: #C72229;
+
+  @media (--lg) {
+    background: var(--color-2);
+  }
 }
 
 .button-section:hover .button-section__item.icon-wrap.green {
