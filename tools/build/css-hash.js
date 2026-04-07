@@ -33,12 +33,13 @@ function getCurrentActiveFile() {
 // Удаляем старые файлы CSS, кроме текущего активного
 function cleanOldFiles(currentFile, newFile) {
   // Не удаляем текущий активный файл, пока не убедимся, что новый файл доступен
-  const cssFiles = fs.readdirSync(outputDir)
-    .filter(file => /^main\.[a-f0-9]+\.css$/.test(file))
-    .filter(file => file !== currentFile && file !== newFile)
-    .map(file => path.join(outputDir, file));
-  
-  cssFiles.forEach(file => {
+  const cssFiles = fs
+    .readdirSync(outputDir)
+    .filter((file) => /^main\.[a-f0-9]+\.css$/.test(file))
+    .filter((file) => file !== currentFile && file !== newFile)
+    .map((file) => path.join(outputDir, file));
+
+  cssFiles.forEach((file) => {
     fs.unlinkSync(file);
     console.log(`Удален старый CSS файл: ${path.basename(file)}`);
   });
@@ -54,28 +55,28 @@ async function processCss() {
   try {
     // Получаем текущий активный файл прежде чем удалить что-либо
     const currentActiveFile = getCurrentActiveFile();
-    
+
     // Читаем исходный CSS файл
     const css = fs.readFileSync(inputFile, 'utf8');
-    
+
     // Создаем экземпляр PostCSS с плагинами из конфига
     const processor = postcss(postcssConfig.plugins);
-    
+
     // Обрабатываем CSS (source maps только в development)
     const isProduction = process.env.NODE_ENV === 'production';
     const result = await processor.process(css, {
       from: inputFile,
       to: path.join(outputDir, 'main.css'),
-      map: isProduction ? false : { inline: true }
+      map: isProduction ? false : { inline: true },
     });
-    
+
     // Генерируем хеш обработанного CSS
     const hash = generateHash(result.css);
-    
+
     // Формируем имя файла с хешем
     const outputFileName = `main.${hash}.css`;
     const outputFilePath = path.join(outputDir, outputFileName);
-    
+
     // Проверяем, не существует ли уже файл с таким хешем (кэширование)
     if (fs.existsSync(outputFilePath)) {
       console.log(`Файл ${outputFileName} уже существует, используем его`);
@@ -84,25 +85,24 @@ async function processCss() {
       fs.writeFileSync(outputFilePath, result.css);
       console.log(`CSS обработан и сохранен: ${outputFilePath}`);
     }
-    
+
     // Проверяем, что файл доступен для чтения
     if (!fs.existsSync(outputFilePath)) {
       throw new Error(`Не удалось найти созданный файл: ${outputFileName}`);
     }
-    
+
     // Создаем манифест
     const manifest = {
-      'main.css': `assets/css/build/${outputFileName}`
+      'main.css': `assets/css/build/${outputFileName}`,
     };
-    
+
     // Записываем манифест в файл
     fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
     console.log(`Создан манифест: ${manifestPath}`);
     console.log('Содержимое манифеста:', manifest);
-    
+
     // Теперь безопасно удаляем старые файлы, но только после успешного обновления манифеста
     cleanOldFiles(currentActiveFile, outputFileName);
-    
   } catch (error) {
     console.error('Ошибка при обработке CSS:', error);
     process.exit(1);
@@ -110,4 +110,4 @@ async function processCss() {
 }
 
 // Запускаем обработку CSS
-processCss(); 
+processCss();

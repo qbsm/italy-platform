@@ -66,7 +66,9 @@ export class CallbackForm {
           this.ui.markFieldAsError(fieldToMark);
         }
       });
-      this.ui.showFormError(validation.firstError || this.i18n.get('error', 'form_errors', DEFAULT_ERROR_TEXTS[this.lang].form_errors));
+      this.ui.showFormError(
+        validation.firstError || this.i18n.get('error', 'form_errors', DEFAULT_ERROR_TEXTS[this.lang].form_errors)
+      );
       return;
     }
 

@@ -8,7 +8,9 @@ export class FormUI {
     this.errorContainer = this._resolveErrorContainer();
     this.errorMessageNode = this.errorContainer ? this.errorContainer.querySelector('span') : null;
     this.errorId = this.errorMessageNode ? this.errorMessageNode.id : '';
-    this.originalButtonNodes = this.submitButton ? Array.from(this.submitButton.childNodes).map((node) => node.cloneNode(true)) : [];
+    this.originalButtonNodes = this.submitButton
+      ? Array.from(this.submitButton.childNodes).map((node) => node.cloneNode(true))
+      : [];
     this.restoreTimer = null;
     const lang = i18n.lang || 'ru';
     this.defaults = DEFAULT_ERROR_TEXTS[lang] || DEFAULT_ERROR_TEXTS.ru;
@@ -65,7 +67,11 @@ export class FormUI {
     const container = field.closest('.form-callback__item') || field;
     container.classList.add('error');
 
-    if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement) {
+    if (
+      field instanceof HTMLInputElement ||
+      field instanceof HTMLTextAreaElement ||
+      field instanceof HTMLSelectElement
+    ) {
       field.setAttribute('aria-invalid', 'true');
       if (this.errorId) {
         field.setAttribute('aria-describedby', this.errorId);
@@ -77,7 +83,11 @@ export class FormUI {
     const container = field.closest('.form-callback__item') || field;
     container.classList.remove('error');
 
-    if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement) {
+    if (
+      field instanceof HTMLInputElement ||
+      field instanceof HTMLTextAreaElement ||
+      field instanceof HTMLSelectElement
+    ) {
       field.removeAttribute('aria-invalid');
       if (this.errorId && field.getAttribute('aria-describedby') === this.errorId) {
         field.removeAttribute('aria-describedby');

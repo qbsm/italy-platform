@@ -5,15 +5,9 @@
   padding-right: 2rem;
 
   @media (--lg) {
-    max-width: 120rem;
-    margin-left: calc((100vw - 120rem)/2);
-    margin-right: calc((100vw - 120rem)/2);
-  }
-
-  @media (--xl) {
-    max-width: 136rem;
-    margin-left: calc((100vw - 136rem)/2);
-    margin-right: calc((100vw - 136rem)/2);
+    max-width: 1700px;
+    margin-left: calc((100vw - 1700px) / 2);
+    margin-right: calc((100vw - 1700px) / 2);
   }
 }
 
@@ -54,14 +48,14 @@
   padding-left: 1rem;
 
   @media (--lg) {
-    width: calc(100vw - ((100vw - 120rem)/2));
-    margin-left: calc((100vw - 120rem)/2);
+    width: calc(100vw - ((100vw - 1700px) / 2));
+    margin-left: calc((100vw - 1700px) / 2);
   }
 
   @media (--xl) {
-    width: calc(100vw - ((100vw - 136rem)/2));
-    margin-left: calc((100vw - 136rem)/2);
-    margin-right: calc((100vw - 136rem)/2);
+    width: calc(100vw - ((100vw - 1700px) / 2));
+    margin-left: calc((100vw - 1700px) / 2);
+    margin-right: calc((100vw - 1700px) / 2);
   }
 }
 
@@ -71,14 +65,14 @@
   @media (--lg) {
     width: 100%;
     margin-left: 0;
-    padding-left: calc((100vw - 120rem)/2 + 2rem);
+    padding-left: calc((100vw - 1700px) / 2 + 2rem);
   }
 
   @media (--xl) {
     width: 100%;
     margin-left: 0;
     margin-right: 0;
-    padding-left: calc((100vw - 136rem)/2 + 2rem);
+    padding-left: calc((100vw - 1700px) / 2 + 2rem);
   }
 }
 

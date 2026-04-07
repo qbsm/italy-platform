@@ -4,7 +4,8 @@
 .navigation .section__item.items-wrap {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  column-gap: 1.6rem;
+  row-gap: 1.6rem;
 
   @media (--lg) {
     gap: 2rem;
@@ -48,7 +49,7 @@
 }
 
 .navigation .section__subitem.item-wrap.size-full .card-nav {
-  height: 24rem;
+  height: 15rem;
 
   @media (--lg) {
     height: 46rem;
@@ -65,10 +66,33 @@
   border-radius: 2rem;
   overflow: hidden;
 
+  @media (--sm) {
+    height: 50rem;
+  }
+
   @media (--lg) {
-    height: 46rem;
+    height: 50rem;
     border-radius: 4rem;
   }
+}
+
+/* lottery.png (4080×1380): пропорции как у картинки; без padding-bottom слайдера — иначе cover режет низ */
+.navigation [id="lotterySlider"].card-slider {
+  height: auto;
+  aspect-ratio: 4080 / 1380;
+  padding-bottom: 0;
+}
+
+/* Компенсация из components/slider.css (margin-top -2rem) рассчитана на padding-bottom — не нужна */
+.navigation [id="lotterySlider"].card-slider .swiper-button-next,
+.navigation [id="lotterySlider"].card-slider .swiper-button-prev {
+  margin-top: 0 !important;
+}
+
+/* Цепочка высоты под Swiper (локальный slider.css не задаёт slide height) */
+.navigation [id="lotterySlider"] .swiper-wrapper,
+.navigation [id="lotterySlider"] .swiper-slide {
+  height: 100%;
 }
 
 .navigation .card-slider .swiper-slide {
@@ -84,6 +108,12 @@
   background-repeat: no-repeat;
 }
 
+/* lotterySlider: заполнение как у остальных карточек (cover), без обрезки за счёт aspect-ratio */
+.navigation [id="lotterySlider"] .card-slider__cover {
+  background-size: cover;
+  background-position: center;
+}
+
 .navigation .card-slider .swiper-pagination {
   z-index: 3;
   bottom: 2rem;
@@ -96,7 +126,9 @@
 .navigation .card-slider .swiper-button-next,
 .navigation .card-slider .swiper-button-prev {
   z-index: 3;
+
   --swiper-navigation-color: var(--color-1);
+
   opacity: 0;
   transition: opacity 0.25s ease-out;
 }
@@ -111,10 +143,19 @@
   opacity: 1;
 }
 
+/* 4.8rem только до и после ряда кнопок: к row-gap/column-gap сетки добавляем недостающее */
+.navigation .section__subitem.item-wrap:has(.buttons-wrap) {
+  margin-block: calc(4.8rem - 1.6rem);
+
+  @media (--lg) {
+    margin-block: calc(4.8rem - 2rem);
+  }
+}
+
 .navigation .buttons-wrap {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.8rem;
 
   @media (--lg) {
     gap: 2rem;

@@ -5,7 +5,9 @@
 const callbacks = [];
 
 function run() {
-  callbacks.forEach((fn) => { fn(); });
+  callbacks.forEach((fn) => {
+    fn();
+  });
   callbacks.length = 0;
 }
 

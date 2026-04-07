@@ -213,7 +213,9 @@
   <a href="#page-content" class="skip-link js-skip-link">{{ skip_link_text|default('Перейти к контенту') }}</a>
   {% block content %}{% endblock %}
   {# Глобальное подключение cookie-panel #}
-  {% include 'sections/cookie-panel.twig' %}
+  {% if global['cookie-panel'] is defined and global['cookie-panel'].enabled|default(true) %}
+    {% include 'sections/cookie-panel.twig' %}
+  {% endif %}
 </body>
 
 </html>

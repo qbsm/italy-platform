@@ -89,6 +89,7 @@
 
 .card-restaurant-wrap .card__item.title-wrap {
   padding-top: 1rem;
+  text-align: center;
 }
 
 .card-restaurant-wrap .card__title {
@@ -101,6 +102,7 @@
 
 .card-restaurant-wrap .card__item.desc-wrap {
   padding-top: 0.5rem;
+  text-align: center;
 }
 
 .card-restaurant-wrap .card__desc {

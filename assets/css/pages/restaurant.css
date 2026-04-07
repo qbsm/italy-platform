@@ -47,6 +47,7 @@
 .restaurant-detail__item.slider-wrap .swiper-button-next,
 .restaurant-detail__item.slider-wrap .swiper-button-prev {
   --swiper-navigation-color: var(--color-1);
+
   margin-top: 0 !important;
 }
 

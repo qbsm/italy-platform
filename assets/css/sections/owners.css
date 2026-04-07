@@ -22,7 +22,13 @@
   }
 }
 
-.owners .section__subitem.heading-wrap {}
+.owners .section__subitem.heading-wrap {
+  @media (--lg) {
+    flex: 0 0 40%;
+    max-width: 40%;
+    text-align: center;
+  }
+}
 
 .owners .heading {
   font-size: 1.4em;
@@ -40,6 +46,7 @@
   flex-wrap: nowrap;
 
   @media (--lg) {
+    flex: 1;
     justify-content: space-around;
   }
 }

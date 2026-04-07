@@ -252,18 +252,24 @@
    Button — animations
    ============================================ */
 
-.button-animated.animation-shift::after {
+/* Стрелка через mask + currentColor — совпадает с color (важно для футера: белый текст на тёмном фоне) */
+.button-animated.animation-shift:not(.loading)::after {
     content: "";
     display: block;
+    flex-shrink: 0;
     right: 0;
     top: 0;
     width: 1.25rem;
     height: 1.25rem;
-    background: url("/data/img/ui/icons/icon-arrow-right-sm-color-2.svg") center no-repeat;
+    background-color: currentcolor;
+    mask-image: url("/data/img/ui/icons/icon-arrow-right-sm-color-2.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
     transition: transform 0.25s ease-out;
 }
 
-.button-animated.animation-shift:hover::after {
+.button-animated.animation-shift:not(.loading):hover::after {
     transform: translateX(0.5rem);
 }
 

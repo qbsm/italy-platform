@@ -93,7 +93,7 @@
   "form-callback": {
     "placeholder": {
       "ru": {
-        "email": "your@email.com",
+        "email": "ваша@почта.ru",
         "name": "Ваше имя",
         "city": "Ваш город"
       },
@@ -245,6 +245,7 @@
     }
   },
   "cookie-panel": {
+    "enabled": false,
     "ru": {
       "desc": "Наш сайт использует файлы cookie для улучшения работы сайта — <a href='/policy/' class='link color-2 weight-400'>подробнее</a>.",
       "button": {

@@ -173,6 +173,9 @@
               "items": [
                 {
                   "cover": "data/img/navigation/lottery.png"
+                },
+                {
+                  "cover": "data/img/navigation/lottery.png"
                 }
               ]
             }

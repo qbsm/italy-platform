@@ -20,7 +20,8 @@
   function setCookie(name, value, days) {
     const expires = new Date();
     expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-    document.cookie = name + '=' + encodeURIComponent(value) + ';path=/;expires=' + expires.toUTCString() + ';SameSite=Lax';
+    document.cookie =
+      name + '=' + encodeURIComponent(value) + ';path=/;expires=' + expires.toUTCString() + ';SameSite=Lax';
   }
 
   const params = new URLSearchParams(window.location.search);

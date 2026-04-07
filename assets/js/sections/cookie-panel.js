@@ -88,5 +88,4 @@ onReady(function () {
       /* ignore */
     }
   });
-
 });

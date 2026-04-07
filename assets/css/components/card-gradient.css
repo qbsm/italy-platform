@@ -34,6 +34,7 @@ a.card-gradient:hover {
 .card-gradient .card__item.title-wrap {
   position: relative;
   z-index: 1;
+  text-align: center;
 }
 
 .card-gradient .card__item.title-wrap .card__title {
