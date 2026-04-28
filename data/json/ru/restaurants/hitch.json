@@ -81,11 +81,13 @@
   "logos": [
     {
       "src": "data/img/restaurants/hitch/logos/logo-color-1.svg",
-      "alt": "HITCH белый лого"
+      "alt": "HITCH белый лого",
+      "height": "6.5rem"
     },
     {
       "src": "data/img/restaurants/hitch/logos/logo-color-2.svg",
-      "alt": "HITCH черный лого"
+      "alt": "HITCH черный лого",
+      "height": "6.5rem"
     }
   ],
   "icons": [

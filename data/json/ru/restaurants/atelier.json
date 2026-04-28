@@ -60,11 +60,13 @@
   "logos": [
     {
       "src": "data/img/restaurants/atelier/logos/logo-color-1.svg",
-      "alt": "Ателье tapas&bar белый лого"
+      "alt": "Ателье tapas&bar белый лого",
+      "height": "6.5rem"
     },
     {
       "src": "data/img/restaurants/atelier/logos/logo-color-2.svg",
-      "alt": "Ателье tapas&bar черный лого"
+      "alt": "Ателье tapas&bar черный лого",
+      "height": "6.5rem"
     }
   ],
   "icons": [

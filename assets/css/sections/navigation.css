@@ -180,3 +180,17 @@
     width: calc(33.333% - 1.334rem);
   }
 }
+
+/* Плавное затемнение карточек при нажатии */
+.navigation .card-nav {
+  transition: filter 0.6s ease-out;
+}
+
+.navigation .card-gradient {
+  transition: all 0.25s ease-out, filter 0.6s ease-out;
+}
+
+.navigation .card-nav:active,
+.navigation .card-gradient:active {
+  filter: brightness(0.9);
+}

@@ -79,37 +79,38 @@
       </section>
     {% endif %}
 
-    <div class="container-md">
-      <section class="restaurant-detail__item info-wrap section">
-        <div class="section__item heading-wrap">
-          {% if restaurant.logos[1] is defined %}
-            <div class="section__subitem logo-wrap">
-              <img src="{{ url(restaurant.logos[1].src) }}" alt="{{ restaurant.logos[1].alt|default(r.name) }}" class="img-responsive">
-            </div>
-          {% endif %}
-          <div class="section__subitem title-wrap">
-            <h1 class="heading font-1 weight-300 uppercase">{{ r.name }}</h1>
-            {% if restaurant.desc.short is defined %}
-              <p class="desc">{{ restaurant.desc.short }}</p>
+    {% if restaurant.desc is defined and restaurant.desc.full is defined %}
+      <section class="restaurant-detail__item about-wrap section">
+        <div class="container-md">
+          <div class="section__item heading-wrap">
+            <h2 class="heading font-1 weight-300">О ресторане</h2>
+          </div>
+          <div class="section__item desc-wrap">
+            {% if restaurant.desc.full is iterable %}
+              {% for para in restaurant.desc.full %}
+                <p class="restaurant-about__col">{{ para }}</p>
+              {% endfor %}
+            {% else %}
+              <p class="restaurant-about__col">{{ restaurant.desc.full }}</p>
             {% endif %}
           </div>
         </div>
+      </section>
+    {% endif %}
 
-        {% if restaurant.tags is defined and restaurant.tags|length > 0 %}
+    {% set hiddenTags = ['на каждый день', 'можно с животными'] %}
+    {% set visibleTags = restaurant.tags|default([])|filter(tag => tag not in hiddenTags)|values %}
+    {% if visibleTags|length > 0 %}
+      <div class="container-md">
+        <section class="restaurant-detail__item tags-wrap-section">
           <div class="section__item tags-wrap">
-            {% for tag in restaurant.tags %}
+            {% for tag in visibleTags %}
               <span class="button bg-color-6 button-tag button-sm button-rounded nowrap">{{ tag }}</span>
             {% endfor %}
           </div>
-        {% endif %}
-
-        {% if restaurant.desc.full is defined %}
-          <div class="section__item desc-wrap">
-            <p>{{ restaurant.desc.full }}</p>
-          </div>
-        {% endif %}
-      </section>
-    </div>
+        </section>
+      </div>
+    {% endif %}
 
     <div class="container-md">
       <section class="restaurant-detail__item details-wrap section">

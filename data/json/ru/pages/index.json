@@ -262,7 +262,7 @@
               "src": "data/img/navigation/delivery.jpg"
             },
             "title": "Доставка",
-            "class": "color-1"
+            "class": "color-1 animation-zoom"
           },
           {
             "type": "card",
@@ -272,7 +272,7 @@
               "src": "data/img/navigation/rests.jpg"
             },
             "title": "Рестораны",
-            "class": "color-1"
+            "class": "color-1 animation-zoom"
           },
           {
             "type": "slider",
@@ -376,7 +376,7 @@
               "src": "data/img/navigation/italy-people.jpg"
             },
             "title": "люди итали | italy people",
-            "class": "color-1 text-center"
+            "class": "color-1 text-center animation-zoom"
           },
           {
             "type": "gradient",
@@ -386,7 +386,7 @@
               "gradient": "gradient-sunset"
             },
             "title": "беговой клуб | italy run club",
-            "class": "color-1 animation-shift-down",
+            "class": "color-1 animation-parallax",
             "icon": {
               "src": "data/img/ui/button-icons/icon-telegram.svg"
             }

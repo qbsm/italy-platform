@@ -42,6 +42,11 @@
   background-size: cover;
   background-position: right center;
   background-repeat: no-repeat;
+  transition: transform 3s ease-out;
+}
+
+.card-nav.animation-zoom:hover .card__cover {
+  transform: scale(1.05);
 }
   
 .card-nav .card__item.title-wrap {

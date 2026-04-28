@@ -75,6 +75,17 @@
   transform: translateY(10%);
 }
 
+/* Параллакс фона за курсором (логика — в js/components/card-gradient-parallax.js) */
+.card-gradient.animation-parallax .card-gradient__cover {
+  inset: -8% -4%;
+  transition: transform 0.25s ease-out;
+}
+
+.card-gradient.animation-parallax.link:hover,
+.card-gradient.animation-parallax.link:active {
+  opacity: 1;
+}
+
 .card-gradient .card__item.title-wrap {
   position: relative;
   z-index: 1;

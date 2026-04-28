@@ -70,11 +70,13 @@
   "logos": [
     {
       "src": "data/img/restaurants/bear/logos/logo-color-1.svg",
-      "alt": "Бар «Медведь» белый лого"
+      "alt": "Бар «Медведь» белый лого",
+      "height": "6.5rem"
     },
     {
       "src": "data/img/restaurants/bear/logos/logo-color-2.svg",
-      "alt": "Бар «Медведь» черный лого"
+      "alt": "Бар «Медведь» черный лого",
+      "height": "6.5rem"
     }
   ],
   "icons": [

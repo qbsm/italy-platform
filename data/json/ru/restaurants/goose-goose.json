@@ -74,11 +74,13 @@
   "logos": [
     {
       "src": "data/img/restaurants/goose-goose/logos/logo-color-1.svg",
-      "alt": "Goose Goose белый лого"
+      "alt": "Goose Goose белый лого",
+      "height": "5.3rem"
     },
     {
       "src": "data/img/restaurants/goose-goose/logos/logo-color-2.svg",
-      "alt": "Goose Goose черный лого"
+      "alt": "Goose Goose черный лого",
+      "height": "5.3rem"
     }
   ],
   "icons": [

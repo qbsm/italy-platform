@@ -10,6 +10,8 @@
   border-radius: 2rem;
   background: linear-gradient(to left, #000, #000);
   color: var(--color-1);
+  overflow: hidden;
+  transition: color 0.4s ease-out;
 
   @media (--lg) {
     height: 11rem;
@@ -20,10 +22,30 @@
   }
 }
 
+.button-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  border-radius: inherit;
+  transition: opacity 0.4s ease-out;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.button-section:hover::before {
+  opacity: 1;
+}
+
 .button-section:hover {
-  background: linear-gradient(to left, #000, #000);
   color: var(--color-1);
   opacity: 1;
+}
+
+.button-section__item {
+  position: relative;
+  z-index: 1;
 }
 
 .button-section__item.title-wrap {

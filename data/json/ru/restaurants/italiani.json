@@ -71,11 +71,13 @@
   "logos": [
     {
       "src": "data/img/restaurants/italiani/logos/logo-color-1.svg",
-      "alt": "Italiani белый лого"
+      "alt": "Italiani белый лого",
+      "height": "5rem"
     },
     {
       "src": "data/img/restaurants/italiani/logos/logo-color-2.svg",
-      "alt": "Italiani черный лого"
+      "alt": "Italiani черный лого",
+      "height": "5rem"
     }
   ],
   "icons": [

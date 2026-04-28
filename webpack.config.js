@@ -69,7 +69,7 @@ module.exports = {
     extensions: ['.js', '.css'],
   },
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-  devtool: process.env.NODE_ENV === 'production' ? false : 'eval-cheap-module-source-map',
+  devtool: process.env.NODE_ENV === 'production' ? false : 'cheap-module-source-map',
   cache: {
     type: 'filesystem',
     cacheDirectory: path.resolve(__dirname, 'node_modules/.cache/webpack'),

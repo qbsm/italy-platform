@@ -14,25 +14,22 @@ function initLogolineSlider() {
   if (!el || el.swiperInstance) return;
 
   const swiper = new window.Swiper(el, {
-    slidesPerView: 5,
-    spaceBetween: 10,
+    slidesPerView: 'auto',
+    spaceBetween: 80,
     loop: true,
     loopedSlides: 17,
     speed: 5000,
-    allowTouchMove: false,
+    allowTouchMove: true,
+    grabCursor: true,
+    freeMode: {
+      enabled: true,
+      momentum: true,
+      momentumRatio: 0.5,
+    },
     autoplay: {
       delay: 1,
       disableOnInteraction: false,
-    },
-    breakpoints: {
-      768: {
-        slidesPerView: 8,
-        spaceBetween: 10,
-      },
-      1200: {
-        slidesPerView: 10,
-        spaceBetween: 10,
-      },
+      pauseOnMouseEnter: true,
     },
   });
 

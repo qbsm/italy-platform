@@ -82,11 +82,13 @@
   "logos": [
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/logos/logo-color-1.svg",
-      "alt": "Salone pasta&bar Moscow белый лого"
+      "alt": "Salone pasta&bar Moscow белый лого",
+      "height": "7.2rem"
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/logos/logo-color-2.svg",
-      "alt": "Salone pasta&bar Moscow черный лого"
+      "alt": "Salone pasta&bar Moscow черный лого",
+      "height": "7.2rem"
     }
   ],
   "icons": [

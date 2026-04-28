@@ -75,11 +75,13 @@
   "logos": [
     {
       "src": "data/img/restaurants/italy-vilenskiy/logos/logo-color-1.svg",
-      "alt": "Italy в Виленском белый лого"
+      "alt": "Italy в Виленском белый лого",
+      "height": "6.5rem"
     },
     {
       "src": "data/img/restaurants/italy-vilenskiy/logos/logo-color-2.svg",
-      "alt": "Italy в Виленском черный лого"
+      "alt": "Italy в Виленском черный лого",
+      "height": "6.5rem"
     }
   ],
   "icons": [

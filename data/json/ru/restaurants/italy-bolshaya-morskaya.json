@@ -72,11 +72,13 @@
   "logos": [
     {
       "src": "data/img/restaurants/italy-bolshaya-morskaya/logos/logo-color-1.svg",
-      "alt": "Italy на Большой Морской белый лого"
+      "alt": "Italy на Большой Морской белый лого",
+      "height": "6.5rem"
     },
     {
       "src": "data/img/restaurants/italy-bolshaya-morskaya/logos/logo-color-2.svg",
-      "alt": "Italy на Большой Морской черный лого"
+      "alt": "Italy на Большой Морской черный лого",
+      "height": "6.5rem"
     }
   ],
   "icons": [

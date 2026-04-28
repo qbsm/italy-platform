@@ -64,11 +64,13 @@
   "logos": [
     {
       "src": "data/img/restaurants/juan-cantina-espanola/logos/logo-color-1.svg",
-      "alt": "Juan Cantina Espanola белый лого"
+      "alt": "Juan Cantina Espanola белый лого",
+      "height": "6.5rem"
     },
     {
       "src": "data/img/restaurants/juan-cantina-espanola/logos/logo-color-2.svg",
-      "alt": "Juan Cantina Espanola черный лого"
+      "alt": "Juan Cantina Espanola черный лого",
+      "height": "6.5rem"
     }
   ],
   "icons": [

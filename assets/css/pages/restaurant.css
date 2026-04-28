@@ -6,9 +6,11 @@
   display: flex;
   flex-direction: column;
   gap: 4rem;
+  margin-top: -4rem;
 
   @media (--lg) {
     gap: 6rem;
+    margin-top: -6rem;
   }
 }
 
@@ -211,80 +213,65 @@
   color: var(--color-6);
 }
 
-/* ---- Info ---- */
+/* ---- About ---- */
 
-.restaurant-detail__item.info-wrap {
+.restaurant-detail__item.about-wrap {
+  background: var(--color-2);
+  color: var(--color-1);
+  padding-block: 5rem;
+  margin-top: -4rem;
+
+  @media (--lg) {
+    padding-block: 8rem;
+    margin-top: -6rem;
+  }
+}
+
+.restaurant-detail .about-wrap .container-md {
   display: flex;
   flex-direction: column;
+  gap: 3rem;
+
+  @media (--lg) {
+    gap: 5rem;
+  }
+}
+
+.restaurant-detail .about-wrap .section__item.heading-wrap .heading {
+  font-size: 3em;
+  line-height: 1.05;
+  margin: 0;
+
+  @media (--lg) {
+    font-size: 4.5em;
+  }
+}
+
+.restaurant-detail .about-wrap .section__item.desc-wrap {
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 2rem;
-}
-
-.restaurant-detail .info-wrap .section__item.heading-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2rem;
+  font-size: 1.4rem;
+  line-height: 1.5;
 
   @media (--lg) {
-    flex-direction: row;
-    align-items: center;
-    gap: 3rem;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 8rem;
+    row-gap: 2rem;
+    font-size: 1.6rem;
   }
 }
 
-.restaurant-detail .info-wrap .section__subitem.logo-wrap {
-  width: 10rem;
-  flex-shrink: 0;
-
-  @media (--lg) {
-    width: 14rem;
-  }
+.restaurant-detail .about-wrap .restaurant-about__col {
+  margin: 0;
 }
 
-.restaurant-detail .info-wrap .section__subitem.logo-wrap img {
-  width: 100%;
-  height: auto;
-}
+/* ---- Tags (standalone after about) ---- */
 
-.restaurant-detail .info-wrap .section__subitem.title-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.restaurant-detail .info-wrap .heading {
-  font-size: 2.4em;
-
-  @media (--lg) {
-    font-size: 4em;
-  }
-}
-
-.restaurant-detail .info-wrap .desc {
-  font-size: 1.15em;
-  line-height: 1.4;
-  color: var(--color-muted);
-  max-width: 60rem;
-
-  @media (--lg) {
-    font-size: 1.3em;
-  }
-}
-
-.restaurant-detail .info-wrap .section__item.tags-wrap {
+.restaurant-detail__item.tags-wrap-section .section__item.tags-wrap {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-}
-
-.restaurant-detail .info-wrap .section__item.desc-wrap {
-  max-width: 80rem;
-  font-size: 1.05em;
-  line-height: 1.6;
-
-  @media (--lg) {
-    font-size: 1.15em;
-  }
 }
 
 /* ---- Details ---- */

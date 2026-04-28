@@ -71,11 +71,13 @@
   "logos": [
     {
       "src": "data/img/restaurants/italy-moskovskiy/logos/logo-color-1.svg",
-      "alt": "Italy на Московском белый лого"
+      "alt": "Italy на Московском белый лого",
+      "height": "6.5rem"
     },
     {
       "src": "data/img/restaurants/italy-moskovskiy/logos/logo-color-2.svg",
-      "alt": "Italy на Московском черный лого"
+      "alt": "Italy на Московском черный лого",
+      "height": "6.5rem"
     }
   ],
   "icons": [

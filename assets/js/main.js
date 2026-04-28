@@ -43,6 +43,7 @@ import './components/blockquote.js';
 import './components/cover.js';
 import './components/features-list.js';
 import './components/card-number.js';
+import './components/card-gradient-parallax.js';
 import setupSliders from './components/slider.js';
 import './components/burger-icon.js';
 

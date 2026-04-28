@@ -70,11 +70,13 @@
   "logos": [
     {
       "src": "data/img/restaurants/joli-grand-bistrot/logos/logo-color-1.svg",
-      "alt": "Joli Grand Bistrot белый лого"
+      "alt": "Joli Grand Bistrot белый лого",
+      "height": "5.5rem"
     },
     {
       "src": "data/img/restaurants/joli-grand-bistrot/logos/logo-color-2.svg",
-      "alt": "Joli Grand Bistrot черный лого"
+      "alt": "Joli Grand Bistrot черный лого",
+      "height": "5.5rem"
     }
   ],
   "icons": [

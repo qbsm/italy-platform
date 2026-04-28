@@ -82,8 +82,9 @@
 }
 
 .card-restaurant .card__logo {
-  width: 100%;
-  height: auto;
+  width: auto;
+  max-width: 100%;
+  height: var(--logo-height, 7rem);
   object-fit: contain;
 }
 

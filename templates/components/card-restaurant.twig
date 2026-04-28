@@ -18,7 +18,12 @@
   </div>
   <div class="card__item logo-wrap">
     {% if logo %}
-      <img src="{{ logo.src }}" alt="{{ logo.alt | default(name) }}" class="card__logo img-responsive" loading="lazy">
+      <img
+        src="{{ url(logo.src) }}"
+        alt="{{ logo.alt | default(name) }}"
+        class="card__logo img-responsive"
+        loading="lazy"
+        {% if logo.height is defined %}style="--logo-height: {{ logo.height }};"{% endif %}>
     {% endif %}
   </div>
 {% if href %}
