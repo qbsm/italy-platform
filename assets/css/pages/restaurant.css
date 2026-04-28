@@ -280,7 +280,7 @@
 
 .restaurant-about__logo {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .restaurant-about__logo img {
