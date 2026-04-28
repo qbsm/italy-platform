@@ -7,7 +7,7 @@
     {% set r = restaurant.restaurant %}
 
     {% if restaurant.covers is defined and restaurant.covers|length > 0 %}
-      <section class="restaurant-detail__item slider-wrap">
+      <section class="restaurant-detail__item slider-wrap restaurant-intro">
         <div class="swiper-container" id="restaurantSlider" data-settings="{{ {
           loop: true,
           autoplay: { delay: 5000, disableOnInteraction: false },
@@ -27,23 +27,59 @@
           <div class="swiper-button-next"></div>
           <div class="swiper-button-prev"></div>
         </div>
+
+        <div class="restaurant-intro__overlay">
+          <div class="container">
+            <div class="restaurant-intro__content">
+              <h1 class="restaurant-intro__title heading font-1 weight-300 uppercase">{{ r.name }}</h1>
+
+              <div class="restaurant-intro__contacts">
+                {% if r.address is defined %}
+                  <p class="restaurant-intro__line">{{ r.address.addressLocality }}{% if r.address.streetAddress %}, {{ r.address.streetAddress }}{% endif %}</p>
+                {% endif %}
+                {% if r.telephone is defined %}
+                  <a href="{{ r.telephone.href }}" class="restaurant-intro__line link">{{ r.telephone.title|default(r.telephone.href) }}</a>
+                {% endif %}
+              </div>
+
+              {% if r.openingHours is defined and r.openingHours|length > 0 %}
+                <div class="restaurant-intro__hours">
+                  <div class="restaurant-intro__hours-title">
+                    <span class="restaurant-intro__hours-icon" aria-hidden="true"></span>
+                    <span>Часы работы:</span>
+                  </div>
+                  {% for h in r.openingHours %}
+                    <div class="restaurant-intro__hours-row">{{ h.days }}: {{ h.hours }}</div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+
+              {% if r.breakfastHours is defined and r.breakfastHours|length > 0 %}
+                <div class="restaurant-intro__hours">
+                  <div class="restaurant-intro__hours-title"><span>Завтрак:</span></div>
+                  {% for h in r.breakfastHours %}
+                    <div class="restaurant-intro__hours-row">{{ h.days }}: {{ h.hours }}</div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+
+              {% if r.bookingLink is defined or r.menuLink is defined %}
+                <div class="restaurant-intro__actions">
+                  {% if r.bookingLink is defined and r.bookingLink %}
+                    <a href="{{ r.bookingLink }}" target="_blank" rel="noopener noreferrer" class="button button-md button-rounded bg-color-1 color-2 uppercase link">Забронировать</a>
+                  {% endif %}
+                  {% if r.menuLink is defined and r.menuLink %}
+                    <a href="{{ r.menuLink }}" target="_blank" rel="noopener noreferrer" class="button button-md button-rounded outline-color-1 color-1 uppercase link">Меню</a>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
       </section>
     {% endif %}
 
     <div class="container-md">
-      {% if breadcrumb is defined and breadcrumb|length > 0 %}
-        <nav class="restaurant-detail__item breadcrumb-wrap" aria-label="Breadcrumb">
-          {% for crumb in breadcrumb %}
-            {% if not loop.last %}
-              <a href="{{ crumb.url }}" class="link">{{ crumb.name }}</a>
-              <span class="breadcrumb-sep">/</span>
-            {% else %}
-              <span>{{ crumb.name }}</span>
-            {% endif %}
-          {% endfor %}
-        </nav>
-      {% endif %}
-
       <section class="restaurant-detail__item info-wrap section">
         <div class="section__item heading-wrap">
           {% if restaurant.logos[1] is defined %}

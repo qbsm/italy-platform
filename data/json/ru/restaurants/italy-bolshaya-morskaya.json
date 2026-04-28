@@ -31,7 +31,8 @@
       "Итальянская кухня"
     ],
     "priceRange": "₽₽",
-    "menuLink": "https://italyrestaurants.ru/bmmenu"
+    "menuLink": "https://italyrestaurants.ru/bmmenu",
+    "bookingLink": "#"
   },
   "desc": {
     "short": "Камерная траттория в центре Петербурга с завтраками целый день",

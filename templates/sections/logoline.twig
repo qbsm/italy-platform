@@ -8,9 +8,9 @@
             {% if restaurant and restaurant.visible | default(false) %}
               {% set logo = restaurant.logos[1] | default(restaurant.logos[0] | default(null)) %}
               <div class="swiper-slide">
-                <a href="{{ url('/' ~ slug ~ '/') }}" class="logoline__item link">
+                <a href="{{ url('/restaurants/' ~ slug ~ '/') }}" class="logoline__item link">
                   {% if logo %}
-                    <img src="{{ logo.src }}" alt="{{ logo.alt | default(restaurant.restaurant.name | default(slug)) }}" class="logoline__logo" loading="lazy">
+                    <img src="{{ url(logo.src) }}" alt="{{ logo.alt | default(restaurant.restaurant.name | default(slug)) }}" class="logoline__logo" loading="lazy">
                   {% endif %}
                 </a>
               </div>
