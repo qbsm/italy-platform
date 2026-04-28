@@ -99,7 +99,7 @@
     {% endif %}
 
     {% set hiddenTags = global.filter[lang_code].hidden|default([]) %}
-    {% set visibleTags = restaurant.tags|default([])|filter(tag => tag not in hiddenTags)|values %}
+    {% set visibleTags = restaurant.tags|default([])|filter(tag => tag not in hiddenTags) %}
     {% if visibleTags|length > 0 %}
       <div class="container-md">
         <section class="restaurant-detail__item tags-wrap-section">
