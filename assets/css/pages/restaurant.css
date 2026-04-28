@@ -266,14 +266,6 @@
   margin: 0;
 }
 
-/* ---- Tags (standalone after about) ---- */
-
-.restaurant-detail__item.tags-wrap-section .section__item.tags-wrap {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
 /* ---- Details ---- */
 
 .restaurant-detail__item.details-wrap {

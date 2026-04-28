@@ -98,20 +98,6 @@
       </section>
     {% endif %}
 
-    {% set hiddenTags = global.filter[lang_code].hidden|default([]) %}
-    {% set visibleTags = restaurant.tags|default([])|filter(tag => tag not in hiddenTags) %}
-    {% if visibleTags|length > 0 %}
-      <div class="container-md">
-        <section class="restaurant-detail__item tags-wrap-section">
-          <div class="section__item tags-wrap">
-            {% for tag in visibleTags %}
-              <span class="button bg-color-6 button-tag button-sm button-rounded nowrap">{{ tag }}</span>
-            {% endfor %}
-          </div>
-        </section>
-      </div>
-    {% endif %}
-
     <div class="container-md">
       <section class="restaurant-detail__item details-wrap section">
         <div class="section__item block-wrap">
