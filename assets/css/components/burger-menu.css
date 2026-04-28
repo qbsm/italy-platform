@@ -5,7 +5,13 @@
   position: fixed;
   inset: 0;
   background-color: var(--color-2);
+  color: var(--color-1);
   z-index: var(--z-index-5);
+}
+
+.burger-menu__item,
+.burger-menu__title {
+  color: var(--color-1);
 }
 
 .burger-menu.active {
