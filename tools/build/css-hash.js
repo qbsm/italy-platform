@@ -5,9 +5,39 @@ const postcss = require('postcss');
 const postcssConfig = require('../../postcss.config');
 
 // Пути к файлам
-const inputFile = path.resolve(__dirname, '../../assets/css/main.css');
+const cssSrcDir = path.resolve(__dirname, '../../assets/css');
+const inputFile = path.resolve(cssSrcDir, 'main.css');
 const outputDir = path.resolve(__dirname, '../../assets/css/build');
 const manifestPath = path.resolve(outputDir, 'css-manifest.json');
+const inputHashPath = path.resolve(outputDir, '.input-hash');
+
+// Рекурсивный сбор всех .css файлов в src
+function collectCssFiles(dir, acc = []) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name === 'build') continue;
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      collectCssFiles(full, acc);
+    } else if (entry.isFile() && entry.name.endsWith('.css')) {
+      acc.push(full);
+    }
+  }
+  return acc;
+}
+
+// Хеш входных файлов (mtime+size) — быстрая проверка изменений
+function computeInputHash() {
+  const files = collectCssFiles(cssSrcDir).sort();
+  const fingerprint = files
+    .map((f) => {
+      const s = fs.statSync(f);
+      return `${path.relative(cssSrcDir, f)}:${s.size}:${s.mtimeMs}`;
+    })
+    .join('\n');
+  // Учитываем NODE_ENV — prod и dev дают разный output
+  const env = process.env.NODE_ENV || 'development';
+  return nodeCrypto.createHash('md5').update(`${env}\n${fingerprint}`).digest('hex');
+}
 
 // Создаем директорию, если не существует
 if (!fs.existsSync(outputDir)) {
@@ -56,6 +86,18 @@ async function processCss() {
     // Получаем текущий активный файл прежде чем удалить что-либо
     const currentActiveFile = getCurrentActiveFile();
 
+    // Short-circuit: если входные файлы не менялись и манифест/файл существуют — пропускаем PostCSS
+    const inputHash = computeInputHash();
+    if (
+      currentActiveFile &&
+      fs.existsSync(path.join(outputDir, currentActiveFile)) &&
+      fs.existsSync(inputHashPath) &&
+      fs.readFileSync(inputHashPath, 'utf8') === inputHash
+    ) {
+      console.log(`CSS не менялся, пропускаем сборку (${currentActiveFile})`);
+      return;
+    }
+
     // Читаем исходный CSS файл
     const css = fs.readFileSync(inputFile, 'utf8');
 
@@ -70,8 +112,22 @@ async function processCss() {
       map: isProduction ? false : { inline: true },
     });
 
+    let outputCss = result.css;
+
+    // В production минифицируем через lightningcss — на порядок быстрее cssnano
+    if (isProduction) {
+      const { transform: lightningTransform } = require('lightningcss');
+      const minified = lightningTransform({
+        filename: 'main.css',
+        code: Buffer.from(outputCss),
+        minify: true,
+        sourceMap: false,
+      });
+      outputCss = minified.code.toString('utf8');
+    }
+
     // Генерируем хеш обработанного CSS
-    const hash = generateHash(result.css);
+    const hash = generateHash(outputCss);
 
     // Формируем имя файла с хешем
     const outputFileName = `main.${hash}.css`;
@@ -82,7 +138,7 @@ async function processCss() {
       console.log(`Файл ${outputFileName} уже существует, используем его`);
     } else {
       // Записываем обработанный CSS в файл
-      fs.writeFileSync(outputFilePath, result.css);
+      fs.writeFileSync(outputFilePath, outputCss);
       console.log(`CSS обработан и сохранен: ${outputFilePath}`);
     }
 
@@ -100,6 +156,9 @@ async function processCss() {
     fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
     console.log(`Создан манифест: ${manifestPath}`);
     console.log('Содержимое манифеста:', manifest);
+
+    // Сохраняем хеш входов для следующего запуска
+    fs.writeFileSync(inputHashPath, inputHash);
 
     // Теперь безопасно удаляем старые файлы, но только после успешного обновления манифеста
     cleanOldFiles(currentActiveFile, outputFileName);
