@@ -10,7 +10,14 @@
   {% endif %}
   {% if item.title is defined %}
     <div class="card__item title-wrap">
-      <span class="card__title">{{ item.title | raw }}</span>
+      {% if '|' in item.title %}
+        {% set parts = item.title|split('|') %}
+        <span class="card__title">{{ parts[0]|trim|raw }}</span>
+        <span class="card__separator" aria-hidden="true">|</span>
+        <span class="card__title">{{ parts[1]|trim|raw }}</span>
+      {% else %}
+        <span class="card__title">{{ item.title|raw }}</span>
+      {% endif %}
     </div>
   {% endif %}
 {% if item.href is defined %}

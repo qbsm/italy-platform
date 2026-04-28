@@ -304,10 +304,10 @@
             "href": "https://italycommunity.online/loyaltyprogram",
             "target": "_blank",
             "cover": {
-              "src": "data/img/navigation/bg-gradient1.png"
+              "gradient": "gradient-red"
             },
             "title": "Программа лояльности",
-            "class": "color-1"
+            "class": "color-1 animation-zoom"
           },
           {
             "type": "buttons",
@@ -383,10 +383,10 @@
             "size": "full",
             "href": "#",
             "cover": {
-              "src": "data/img/navigation/bg-gradient2.png"
+              "gradient": "gradient-sunset"
             },
             "title": "беговой клуб | italy run club",
-            "class": "color-1",
+            "class": "color-1 animation-shift-down",
             "icon": {
               "src": "data/img/ui/button-icons/icon-telegram.svg"
             }

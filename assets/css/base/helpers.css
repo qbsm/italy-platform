@@ -241,6 +241,46 @@
     filter: grayscale(0%);
 }
 
+/* Затемнение: чёрный оверлей на hover, текст и иконки не закрывает */
+.animation-darken {
+    position: relative;
+}
+
+.animation-darken::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #000;
+    opacity: 0;
+    transition: opacity 0.25s ease-out;
+    pointer-events: none;
+}
+
+.animation-darken:hover::after {
+    opacity: 1;
+}
+
+/* Зум фона: помечает элемент. Реализация — рядом с конкретным компонентом
+   (например, .card-gradient.animation-zoom:hover .card-gradient__cover) */
+.animation-zoom {
+    position: relative;
+    overflow: hidden;
+}
+
+a.link.animation-zoom:hover {
+    opacity: 1;
+}
+
+/* Сдвиг фона вниз на hover (реализация — рядом с конкретным компонентом) */
+.animation-shift-down {
+    position: relative;
+    overflow: hidden;
+}
+
+a.link.animation-shift-down:hover {
+    opacity: 1;
+}
+
 .no-zoom img {
   transform: scale(1);
 }
