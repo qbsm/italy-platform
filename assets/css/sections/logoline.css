@@ -27,13 +27,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 1rem;
+  padding: 0.25rem 0.5rem;
+
+  @media (--lg) {
+    padding: 0.5rem 1rem;
+  }
 }
 
 .logoline__logo {
   display: block;
   width: auto;
-  height: var(--logo-height, 8.4rem);
+  height: calc(var(--logo-height, 8.4rem) * 0.7);
   opacity: 0.5;
   transition: var(--transition-1);
 
