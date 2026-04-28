@@ -98,7 +98,7 @@
       </section>
     {% endif %}
 
-    {% set hiddenTags = ['на каждый день', 'можно с животными'] %}
+    {% set hiddenTags = global.filter[lang_code].hidden|default([]) %}
     {% set visibleTags = restaurant.tags|default([])|filter(tag => tag not in hiddenTags)|values %}
     {% if visibleTags|length > 0 %}
       <div class="container-md">

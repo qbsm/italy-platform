@@ -185,6 +185,10 @@
         "завтраки",
         "на каждый день",
         "можно с животными"
+      ],
+      "hidden": [
+        "на каждый день",
+        "можно с животными"
       ]
     },
     "en": {
@@ -193,6 +197,10 @@
         "with a beautiful view",
         "italian cuisine",
         "breakfast",
+        "every day",
+        "pets friendly"
+      ],
+      "hidden": [
         "every day",
         "pets friendly"
       ]
