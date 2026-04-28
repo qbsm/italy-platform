@@ -170,6 +170,10 @@
     color: var(--color-1);
 }
 
+.button.bg-color-1.color-2:hover {
+    color: var(--color-2);
+}
+
 .button.bg-color-1.color-3:hover {
     color: var(--color-1);
 }
