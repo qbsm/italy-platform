@@ -54,15 +54,6 @@
                 </div>
               {% endif %}
 
-              {% if r.breakfastHours is defined and r.breakfastHours|length > 0 %}
-                <div class="restaurant-intro__hours">
-                  <div class="restaurant-intro__hours-title"><span>Завтрак:</span></div>
-                  {% for h in r.breakfastHours %}
-                    <div class="restaurant-intro__hours-row">{{ h.days }}: {{ h.hours }}</div>
-                  {% endfor %}
-                </div>
-              {% endif %}
-
               {% if r.bookingLink is defined or r.menuLink is defined %}
                 <div class="restaurant-intro__actions">
                   {% if r.bookingLink is defined and r.bookingLink %}
@@ -79,142 +70,58 @@
       </section>
     {% endif %}
 
-    {% if restaurant.desc is defined and restaurant.desc.full is defined %}
-      <section class="restaurant-detail__item about-wrap section">
-        <div class="container-md">
-          <div class="section__item heading-wrap">
-            <h2 class="heading font-1 weight-300">О ресторане</h2>
+    {# ---- О ресторане: лого + текст + CTA + галерея ---- #}
+    <section class="restaurant-detail__item about-wrap section">
+      <div class="container-md">
+        {% set aboutLogo = r.logos is defined ? (r.logos[0]|default(null)) : null %}
+        {% if aboutLogo and aboutLogo.src %}
+          <div class="section__item restaurant-about__logo">
+            <img src="{{ url(aboutLogo.src) }}" alt="{{ aboutLogo.alt|default(r.name) }}"
+                 style="height: {{ aboutLogo.height|default('6.5rem') }};" loading="lazy">
           </div>
+        {% endif %}
+
+        <div class="section__item heading-wrap">
+          <h2 class="heading font-1 weight-300 uppercase">О ресторане</h2>
+          {% if restaurant.desc.short is defined %}
+            <p class="restaurant-about__sub">{{ restaurant.desc.short }}</p>
+          {% endif %}
+        </div>
+
+        {% if restaurant.desc is defined and restaurant.desc.full is defined %}
+          {% set descParas = restaurant.desc.full is iterable ? restaurant.desc.full : [restaurant.desc.full] %}
           <div class="section__item desc-wrap">
-            {% if restaurant.desc.full is iterable %}
-              {% for para in restaurant.desc.full %}
-                <p class="restaurant-about__col">{{ para }}</p>
-              {% endfor %}
-            {% else %}
-              <p class="restaurant-about__col">{{ restaurant.desc.full }}</p>
+            {% for para in descParas %}
+              <p class="restaurant-about__col">{{ para }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if (r.menuLink is defined and r.menuLink) or (r.hasMap is defined and r.hasMap) %}
+          <div class="section__item restaurant-about__actions">
+            {% if r.menuLink is defined and r.menuLink %}
+              <a href="{{ r.menuLink }}" target="_blank" rel="noopener noreferrer"
+                 class="button button-md button-rounded bg-color-1 color-2 uppercase link">Меню</a>
+            {% endif %}
+            {% if r.hasMap is defined and r.hasMap %}
+              <a href="{{ r.hasMap }}" target="_blank" rel="noopener noreferrer"
+                 class="button button-md button-rounded outline-color-1 color-1 uppercase link">На карте</a>
             {% endif %}
           </div>
-        </div>
-      </section>
-    {% endif %}
+        {% endif %}
 
-    <div class="container-md">
-      <section class="restaurant-detail__item details-wrap section">
-        <div class="section__item block-wrap">
-
-          {% if r.address is defined or r.telephone is defined %}
-            <div class="section__subitem col-wrap">
-              <h2 class="heading weight-400 uppercase">Контакты</h2>
-              <div class="mini-table" role="table" aria-label="Контакты">
-                {% if r.address is defined %}
-                  <div class="mini-table__item" role="row">
-                    <span class="mini-table__title uppercase weight-400 color-2" role="cell">Адрес</span>
-                    <span class="mini-table__value uppercase" role="cell">{{ r.address.streetAddress|default('') }}{% if r.address.addressLocality %}, {{ r.address.addressLocality }}{% endif %}</span>
-                  </div>
-                {% endif %}
-                {% if r.telephone is defined %}
-                  <div class="mini-table__item" role="row">
-                    <span class="mini-table__title uppercase weight-400 color-2" role="cell">Телефон</span>
-                    <span class="mini-table__value uppercase" role="cell"><a href="{{ r.telephone.href }}" class="link">{{ r.telephone.title|default(r.telephone.href) }}</a></span>
-                  </div>
-                {% endif %}
-              </div>
-            </div>
-          {% endif %}
-
-          {% if r.openingHours is defined and r.openingHours|length > 0 %}
-            <div class="section__subitem col-wrap">
-              <h2 class="heading weight-400 uppercase">Часы работы</h2>
-              <div class="mini-table" role="table" aria-label="Часы работы">
-                {% for h in r.openingHours %}
-                  <div class="mini-table__item" role="row">
-                    <span class="mini-table__title uppercase weight-400 color-2" role="cell">{{ h.days|default('') }}</span>
-                    <span class="mini-table__value uppercase" role="cell">{{ h.hours|default('') }}</span>
-                  </div>
-                {% endfor %}
-              </div>
-            </div>
-          {% endif %}
-
-          {% if r.servesCuisine is defined or r.priceRange is defined %}
-            <div class="section__subitem col-wrap">
-              <h2 class="heading weight-400 uppercase">Кухня</h2>
-              <div class="mini-table" role="table" aria-label="Кухня">
-                {% if r.servesCuisine is defined %}
-                  <div class="mini-table__item" role="row">
-                    <span class="mini-table__title uppercase weight-400 color-2" role="cell">Тип</span>
-                    <span class="mini-table__value uppercase" role="cell">{{ r.servesCuisine|join(', ') }}</span>
-                  </div>
-                {% endif %}
-                {% if r.priceRange is defined %}
-                  <div class="mini-table__item" role="row">
-                    <span class="mini-table__title uppercase weight-400 color-2" role="cell">Цены</span>
-                    <span class="mini-table__value uppercase" role="cell">{{ r.priceRange }}</span>
-                  </div>
-                {% endif %}
-              </div>
-            </div>
-          {% endif %}
-
-        </div>
-      </section>
-    </div>
-
-    {% if r.menuLink is defined or r.hasMap is defined or r.bookingLink is defined %}
-      <div class="container-md">
-        <div class="restaurant-detail__item buttons-wrap">
-          {% if r.bookingLink is defined and r.bookingLink %}
-            <a href="{{ r.bookingLink }}" target="_blank" rel="noopener noreferrer" class="button button-sm outline-color-2 button-animated animation-shift uppercase link">Забронировать</a>
-          {% endif %}
-          {% if r.menuLink is defined and r.menuLink %}
-            <a href="{{ r.menuLink }}" target="_blank" rel="noopener noreferrer" class="button button-sm outline-color-2 button-animated animation-shift uppercase link">Меню</a>
-          {% endif %}
-          {% if r.hasMap is defined and r.hasMap %}
-            <a href="{{ r.hasMap }}" target="_blank" rel="noopener noreferrer" class="button button-sm outline-color-2 button-animated animation-shift uppercase link">На карте</a>
-          {% endif %}
-        </div>
+        {% set galleryItems = restaurant.gallery|default(restaurant.covers|default([])) %}
+        {% if galleryItems|length > 0 %}
+          <div class="section__item restaurant-about__gallery">
+            {% for img in galleryItems %}
+              <figure class="restaurant-about__photo">
+                <img src="{{ url(img.src) }}" alt="{{ img.alt|default(r.name) }}" loading="lazy">
+              </figure>
+            {% endfor %}
+          </div>
+        {% endif %}
       </div>
-    {% endif %}
-
-    {% set faq = global['restaurant-faq'][lang_code]|default(global['restaurant-faq']['ru']|default(null)) %}
-    {% if faq %}
-      {% set faqItems = [] %}
-      {% if r.address is defined and faq.where is defined %}
-        {% set addr = r.address.streetAddress|default('') ~ (r.address.addressLocality ? ', ' ~ r.address.addressLocality : '') %}
-        {% set faqItems = faqItems|merge([{ title: faq.where, desc: addr, answerText: addr, icon: { src: url('data/img/ui/icons/icon-arrow-down-color-2.svg') } }]) %}
-      {% endif %}
-      {% if r.openingHours is defined and r.openingHours|length > 0 and faq.hours is defined %}
-        {% set hoursText = [] %}
-        {% for h in r.openingHours %}
-          {% set hoursText = hoursText|merge([h.days|default('') ~ ' ' ~ h.hours|default('')]) %}
-        {% endfor %}
-        {% set hoursStr = hoursText|join('; ') %}
-        {% set faqItems = faqItems|merge([{ title: faq.hours, desc: hoursStr, answerText: hoursStr, icon: { src: url('data/img/ui/icons/icon-arrow-down-color-2.svg') } }]) %}
-      {% endif %}
-      {% if r.servesCuisine is defined and faq.cuisine is defined %}
-        {% set cuisineStr = r.servesCuisine|join(', ') %}
-        {% set faqItems = faqItems|merge([{ title: faq.cuisine, desc: cuisineStr, answerText: cuisineStr, icon: { src: url('data/img/ui/icons/icon-arrow-down-color-2.svg') } }]) %}
-      {% endif %}
-      {% if r.telephone is defined and faq.contact is defined %}
-        {% set telStr = r.telephone.title|default(r.telephone.href) %}
-        {% set faqItems = faqItems|merge([{ title: faq.contact, desc: telStr, answerText: telStr, icon: { src: url('data/img/ui/icons/icon-arrow-down-color-2.svg') } }]) %}
-      {% endif %}
-      {% if r.priceRange is defined and faq.price is defined %}
-        {% set faqItems = faqItems|merge([{ title: faq.price, desc: r.priceRange, answerText: r.priceRange, icon: { src: url('data/img/ui/icons/icon-arrow-down-color-2.svg') } }]) %}
-      {% endif %}
-      {% if faqItems|length > 0 %}
-        <div class="container-md">
-          <section class="restaurant-detail__item faq-wrap section">
-            <div class="section__item heading-wrap">
-              <h2 class="heading weight-400 uppercase">{{ faq.heading|default('FAQ') }}</h2>
-            </div>
-            <div class="section__item accordion-wrap">
-              {% include 'components/accordion.twig' with { items: faqItems, accordion_id: 'restaurantFaq' } %}
-            </div>
-          </section>
-        </div>
-      {% endif %}
-    {% endif %}
+    </section>
 
   </main>
   {% include 'sections/footer.twig' with {'data': {

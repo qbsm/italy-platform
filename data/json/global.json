@@ -226,24 +226,6 @@
       "en": "Close menu"
     }
   },
-  "restaurant-faq": {
-    "ru": {
-      "heading": "Часто задаваемые вопросы",
-      "where": "Где находится ресторан?",
-      "hours": "Какие часы работы?",
-      "cuisine": "Какой тип кухни?",
-      "contact": "Как связаться с рестораном?",
-      "price": "Какой диапазон цен?"
-    },
-    "en": {
-      "heading": "Frequently asked questions",
-      "where": "Where is the restaurant located?",
-      "hours": "What are the opening hours?",
-      "cuisine": "What type of cuisine?",
-      "contact": "How to contact the restaurant?",
-      "price": "What is the price range?"
-    }
-  },
   "cookie-panel": {
     "enabled": false,
     "ru": {
