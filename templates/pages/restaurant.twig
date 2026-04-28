@@ -73,7 +73,7 @@
     {# ---- О ресторане: лого + текст + CTA + галерея ---- #}
     <section class="restaurant-detail__item about-wrap section">
       <div class="container-md">
-        {% set aboutLogo = r.logos is defined ? (r.logos[0]|default(null)) : null %}
+        {% set aboutLogo = restaurant.logos is defined ? (restaurant.logos[0]|default(null)) : null %}
         {% if aboutLogo and aboutLogo.src %}
           <div class="section__item restaurant-about__logo">
             <img src="{{ url(aboutLogo.src) }}" alt="{{ aboutLogo.alt|default(r.name) }}"
