@@ -66,8 +66,8 @@
   margin-inline-start: auto;
 }
 
-.header .section__item.burger-menu-wrap {
-  @media (--lg) {
+@media (--lg) {
+  .header .section__item.burger-menu-wrap {
     display: none;
   }
 }
