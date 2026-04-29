@@ -8,6 +8,16 @@
   text-decoration: none;
   cursor: pointer;
   transition: opacity 0.3s ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.link:focus {
+  outline: none;
+}
+
+.link:focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: 2px;
 }
 
 .link:hover {

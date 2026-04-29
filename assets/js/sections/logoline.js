@@ -15,7 +15,12 @@ function initLogolineSlider() {
 
   const swiper = new window.Swiper(el, {
     slidesPerView: 'auto',
-    spaceBetween: 80,
+    spaceBetween: 40,
+    breakpoints: {
+      1200: {
+        spaceBetween: 80,
+      },
+    },
     loop: true,
     loopedSlides: 17,
     speed: 5000,
