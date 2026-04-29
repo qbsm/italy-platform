@@ -4,7 +4,7 @@
 
 ## О проекте
 
-Многоязычная веб-платформа. Контент и разделы задаются в конфигурации и data/json; список страниц для sitemap — в config/settings.php (sitemap_pages). Языки: из data/json/global.json (поле lang).
+Многоязычная веб-экосистема. Контент и разделы задаются в конфигурации и data/json; список страниц для sitemap — в config/settings.php (sitemap_pages). Языки: из data/json/global.json (поле lang).
 
 ## Основные страницы
 

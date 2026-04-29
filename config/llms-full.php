@@ -11,7 +11,7 @@ declare(strict_types=1);
  */
 return [
     'title' => 'iSmart Platform',
-    'intro' => 'Детальная информация о разделах и страницах платформы.',
+    'intro' => 'Детальная информация о разделах и страницах экосистемы.',
     'collections' => [
         [
             'list_path' => '{lang}/pages/restaurants.json',

@@ -1,6 +1,6 @@
 {
   "name": "restaurants",
-  "title": "Рестораны — Платформа italy",
+  "title": "Рестораны — Экосистема итали",
   "meta": [
     {
       "name": "description",
@@ -16,7 +16,7 @@
     },
     {
       "property": "og:title",
-      "content": "Рестораны — Платформа italy"
+      "content": "Рестораны — Экосистема итали"
     },
     {
       "property": "og:description",
@@ -24,7 +24,7 @@
     },
     {
       "property": "og:site_name",
-      "content": "Платформа italy"
+      "content": "Экосистема итали"
     },
     {
       "property": "og:image",
