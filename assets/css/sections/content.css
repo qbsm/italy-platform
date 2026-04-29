@@ -1,5 +1,5 @@
 .content {
-  /* Стили для контента */
+  background-color: var(--color-1);
 }
 
 .content .container {
