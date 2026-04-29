@@ -79,7 +79,6 @@
 .section {
   padding-top: 2rem;
   padding-bottom: 2rem;
-  background-color: var(--color-1);
 
   @media (--lg) {
     padding-top: 6rem;

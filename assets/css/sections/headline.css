@@ -1,6 +1,7 @@
 .headline {
   padding-top: 4rem;
   padding-bottom: 4rem;
+  background-color: var(--color-1);
 
   @media (--lg) {
     padding-top: 6rem;

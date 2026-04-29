@@ -1,4 +1,5 @@
 .navigation {
+  background-color: var(--color-1);
 }
 
 .navigation .section__item.items-wrap {

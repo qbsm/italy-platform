@@ -1,5 +1,6 @@
 .logoline {
   overflow: hidden;
+  background-color: var(--color-1);
 
   @media (--lg) {
     padding-top: 10rem;
