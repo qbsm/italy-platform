@@ -11,9 +11,14 @@
     <div class="section__item visual-wrap">
       <div class="section__subitem cover-wrap">
         {% if data.video is defined %}
-          <video autoplay muted loop playsinline preload="metadata" poster="{{ url(data.cover.src|default('')) }}">
-            <source src="{{ url(data.video.src) }}" type="video/mp4">
-          </video>
+          <video
+            autoplay muted loop playsinline preload="none"
+            poster="{{ url(data.cover.src|default('')) }}"
+            data-src-mobile-webm="{{ url('data/img/us/video-mobile.webm') }}"
+            data-src-mobile-mp4="{{ url('data/img/us/video-mobile.mp4') }}"
+            data-src-desktop-webm="{{ url('data/img/us/video-desktop.webm') }}"
+            data-src-desktop-mp4="{{ url('data/img/us/video-desktop.mp4') }}"
+          ></video>
         {% elseif data.cover.src is defined %}
           <img src="{{ url(data.cover.src) }}" alt="" class="img-responsive" loading="lazy">
         {% endif %}

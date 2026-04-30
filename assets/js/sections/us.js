@@ -4,6 +4,24 @@ onReady(() => {
   const section = document.querySelector('.us');
   if (!section) return;
 
+  const video = section.querySelector('.cover-wrap video');
+  if (video && video.dataset.srcMobileMp4) {
+    const desktopMq = window.matchMedia('(min-width: 1200px)');
+    const setSources = () => {
+      const tier = desktopMq.matches ? 'desktop' : 'mobile';
+      const webm = video.dataset[`src${tier === 'desktop' ? 'Desktop' : 'Mobile'}Webm`];
+      const mp4 = video.dataset[`src${tier === 'desktop' ? 'Desktop' : 'Mobile'}Mp4`];
+      if (video.dataset.tier === tier) return;
+      video.dataset.tier = tier;
+      video.innerHTML =
+        `<source src="${webm}" type="video/webm">` +
+        `<source src="${mp4}" type="video/mp4">`;
+      video.load();
+    };
+    setSources();
+    desktopMq.addEventListener('change', setSources);
+  }
+
   const bgTop = section.querySelector('.section__subitem.bg-top');
   const bgBottom = section.querySelector('.section__subitem.bg-bottom');
 
