@@ -6,8 +6,7 @@
 
   @media (--lg) {
     max-width: 1700px;
-    margin-left: calc((100vw - 1700px) / 2);
-    margin-right: calc((100vw - 1700px) / 2);
+    margin-inline: auto;
   }
 }
 

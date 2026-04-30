@@ -1,6 +1,6 @@
 .us {
   position: relative;
-  overflow: visible;
+  overflow-x: clip;
   display: flex;
   flex-direction: column;
   gap: 6rem;
