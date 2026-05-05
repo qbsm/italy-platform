@@ -113,18 +113,21 @@ function initLogolineMarquee() {
     dragStartPointerX = e.clientX;
     dragStartX = x;
     lastTs = 0;
-    el.classList.add('is-dragging');
-    try {
-      el.setPointerCapture(e.pointerId);
-    } catch {
-      /* noop */
-    }
   });
 
   el.addEventListener('pointermove', (e) => {
     if (!dragging || e.pointerId !== activePointerId) return;
     const dx = e.clientX - dragStartPointerX;
-    if (Math.abs(dx) > DRAG_THRESHOLD_PX) dragMoved = true;
+    if (!dragMoved && Math.abs(dx) > DRAG_THRESHOLD_PX) {
+      dragMoved = true;
+      el.classList.add('is-dragging');
+      try {
+        el.setPointerCapture(e.pointerId);
+      } catch {
+        /* noop */
+      }
+    }
+    if (!dragMoved) return;
     x = normalize(dragStartX + dx);
     apply();
   });
