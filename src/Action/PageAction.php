@@ -147,17 +147,39 @@ final class PageAction
         $r = $restaurant['restaurant'] ?? [];
         $name = (string) ($r['name'] ?? $restaurant['slug'] ?? '');
         $desc = (string) ($restaurant['desc']['short'] ?? $restaurant['desc']['full'] ?? '');
+        $slug = (string) ($restaurant['slug'] ?? '');
+
+        $prodBase = 'https://italycommunity.ru';
+        $url = $prodBase . '/restaurants/' . $slug . '/';
+        $siteName = 'Экосистема итали';
+
+        $coverSrc = null;
+        if (!empty($restaurant['covers']) && is_array($restaurant['covers'])) {
+            $first = $restaurant['covers'][0];
+            if (is_array($first) && !empty($first['src'])) {
+                $coverSrc = (string) $first['src'];
+            }
+        }
+        $ogImage = $coverSrc !== null
+            ? $prodBase . '/' . ltrim($coverSrc, '/')
+            : $prodBase . '/data/img/seo/og.webp?v=1';
+
+        $meta = [
+            ['name' => 'description', 'content' => $desc],
+            ['property' => 'og:url', 'content' => $url],
+            ['property' => 'og:type', 'content' => 'website'],
+            ['property' => 'og:title', 'content' => $name],
+            ['property' => 'og:description', 'content' => $desc],
+            ['property' => 'og:site_name', 'content' => $siteName],
+            ['property' => 'og:image', 'content' => $ogImage],
+            ['property' => 'og:image:secure_url', 'content' => $ogImage],
+        ];
 
         $jsonLd = $this->buildRestaurantJsonLd($restaurant);
         $jsonLdFaq = $this->buildRestaurantFaqJsonLd($restaurant, $langCode, $global);
         return [
             'title' => $name,
-            'meta' => [
-                ['name' => 'description', 'content' => $desc],
-                ['property' => 'og:type', 'content' => 'website'],
-                ['property' => 'og:title', 'content' => $name],
-                ['property' => 'og:description', 'content' => $desc],
-            ],
+            'meta' => $meta,
             'json_ld' => $jsonLd,
             'json_ld_faq' => $jsonLdFaq,
         ];
