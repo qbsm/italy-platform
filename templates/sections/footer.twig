@@ -32,6 +32,9 @@
             {% endif %}
           {% endfor %}
         {% endif %}
+        {% if global['social-channel'][lang_code] is defined %}
+          <a href="{{ global['social-channel'][lang_code].href }}" target="_blank" rel="noopener noreferrer" class="button button-sm outline-color-1 link footer__social-channel">{{ global['social-channel'][lang_code].title }}</a>
+        {% endif %}
       </div>
     </div>
     <div class="section__item bottom-wrap">

@@ -71,6 +71,16 @@
       "alt": "Logo"
     }
   },
+  "social-channel": {
+    "ru": {
+      "title": "@MS_italycommunity",
+      "href": "https://t.me/MS_italycommunity"
+    },
+    "en": {
+      "title": "@MS_italycommunity",
+      "href": "https://t.me/MS_italycommunity"
+    }
+  },
   "socials": [
     {
       "title": "Telegram",

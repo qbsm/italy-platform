@@ -129,6 +129,12 @@
   transition: filter var(--transition-1);
 }
 
+.footer__social-channel {
+  margin-left: auto;
+  color: var(--color-1);
+  border-radius: 4rem;
+}
+
 .footer .section__item.bottom-wrap {
   grid-area: bottom;
   display: flex;
