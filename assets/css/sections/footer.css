@@ -205,6 +205,10 @@
   background-image: url("/data/img/ui/icons/icon-triangle-down-color-1.svg");
 }
 
+.footer .form-callback .form-callback__select:invalid {
+  color: var(--color-placeholder);
+}
+
 .footer .form-callback .form-callback__select option {
   color: var(--color-2);
   background: var(--color-1);

@@ -17,7 +17,7 @@
       <label class="form-callback__label" for="{{ formId }}City">
         <span class="form-callback__label-text">{{ global['form-callback'].label[lang_code].city }}</span><span class="form-callback__required" aria-hidden="true"> *</span>
       </label>
-      <select id="{{ formId }}City" class="form-callback__input form-callback__select" name="city" aria-required="true">
+      <select id="{{ formId }}City" class="form-callback__input form-callback__select" name="city" required aria-required="true">
         <option value="" disabled selected>{{ global['form-callback'].placeholder[lang_code].city }}</option>
         <option value="Санкт-Петербург">Санкт-Петербург</option>
         <option value="Москва">Москва</option>
