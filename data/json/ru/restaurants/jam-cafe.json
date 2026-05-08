@@ -86,12 +86,12 @@
     {
       "src": "data/img/restaurants/jam-cafe/logos/logo-color-1.svg",
       "alt": "Jam Café белый лого",
-      "height": "4rem"
+      "height": "4.0rem"
     },
     {
       "src": "data/img/restaurants/jam-cafe/logos/logo-color-2.svg",
       "alt": "Jam Café черный лого",
-      "height": "4rem"
+      "height": "4.0rem"
     }
   ],
   "icons": [

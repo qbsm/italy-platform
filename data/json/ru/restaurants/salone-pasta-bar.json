@@ -72,12 +72,12 @@
     {
       "src": "data/img/restaurants/salone-pasta-bar/logos/logo-color-1.svg",
       "alt": "Salone pasta&bar белый лого",
-      "height": "6rem"
+      "height": "6.0rem"
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar/logos/logo-color-2.svg",
       "alt": "Salone pasta&bar черный лого",
-      "height": "6rem"
+      "height": "6.0rem"
     }
   ],
   "icons": [
