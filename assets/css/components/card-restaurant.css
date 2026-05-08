@@ -14,10 +14,14 @@
   overflow: hidden;
 }
 
-.card-restaurant .card-restaurant-slider,
+.card-restaurant .card-restaurant-slider {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 0;
+}
+
 .card-restaurant .card-restaurant-slider .swiper-wrapper,
 .card-restaurant .card-restaurant-slider .swiper-slide {
-  width: 100%;
   height: 100%;
 }
 
@@ -47,6 +51,29 @@
   @media (--lg) {
     bottom: 3rem;
     right: 3rem;
+  }
+}
+
+.card-restaurant .card__badge {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  width: 8.6rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 8.25rem;
+  background: var(--color-1);
+  color: var(--color-2);
+  z-index: 1;
+
+  @media (--lg) {
+    bottom: 3rem;
+    left: 3rem;
   }
 }
 

@@ -28,6 +28,9 @@
               loading="lazy"
               {% if logo.height is defined %}style="--logo-height: {{ logo.height }};"{% endif %}>
           {% endif %}
+          {% if item.loyalty %}
+            <span class="card__badge card__badge--loyalty">Loyalty</span>
+          {% endif %}
         </div>
 
         {% set descText = item.desc.full | default(item.desc.short | default(null)) %}
