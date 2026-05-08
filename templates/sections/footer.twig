@@ -36,6 +36,11 @@
           <a href="{{ global['social-channel'][lang_code].href }}" target="_blank" rel="noopener noreferrer" class="button button-sm outline-color-1 link footer__social-channel">{{ global['social-channel'][lang_code].title }}</a>
         {% endif %}
       </div>
+      <div class="section__subitem copyright-wrap">
+        {% if global.copyright[lang_code] is defined %}
+          <span class="footer__copyright">© 2020-{{ "now"|date("Y") }}. {{ global.copyright[lang_code] }}</span>
+        {% endif %}
+      </div>
     </div>
     <div class="section__item bottom-wrap">
       <div class="section__subitem disclaimer-wrap">
@@ -44,11 +49,6 @@
         {% endif %}
         {% if global.agree[lang_code] is defined %}
           <a href="{{ url(global.agree[lang_code].href) }}" class="link footer__disclaimer-link">{{ global.agree[lang_code].title }}</a>
-        {% endif %}
-      </div>
-      <div class="section__subitem copyright-wrap">
-        {% if global.copyright[lang_code] is defined %}
-          <span class="footer__copyright">© 2020-{{ "now"|date("Y") }}. {{ global.copyright[lang_code] }}</span>
         {% endif %}
       </div>
     </div>
