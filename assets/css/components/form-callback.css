@@ -157,9 +157,6 @@
   align-items: flex-start;
   justify-content: flex-start;
   gap: 1rem;
-  padding: 0 0 1.25rem;
-  transition: border-color var(--transition-1), padding var(--transition-1);
-  border-bottom: 0.1rem solid var(--color-1);
   cursor: pointer;
   user-select: none;
 }
