@@ -43,15 +43,6 @@
 {% endif %}
 {% if buttons is defined %}
   <div class="card__item buttons-wrap">
-    {% if buttons.booking is defined %}
-      <div class="card__subitem button-wrap">
-        {% include 'components/button.twig' with {'item': {
-          'class': buttons.booking.class,
-          'title': buttons.booking.title,
-          'href': item.restaurant.bookingLink | default(null)
-        }} %}
-      </div>
-    {% endif %}
     {% if buttons.menu is defined %}
       <div class="card__subitem button-wrap">
         {% include 'components/button.twig' with {'item': {
@@ -59,6 +50,15 @@
           'title': buttons.menu.title,
           'href': item.restaurant.menuLink | default(null),
           'icon': buttons.menu.icon | default(null)
+        }} %}
+      </div>
+    {% endif %}
+    {% if buttons.booking is defined %}
+      <div class="card__subitem button-wrap">
+        {% include 'components/button.twig' with {'item': {
+          'class': buttons.booking.class,
+          'title': buttons.booking.title,
+          'href': item.restaurant.bookingLink | default(null)
         }} %}
       </div>
     {% endif %}
