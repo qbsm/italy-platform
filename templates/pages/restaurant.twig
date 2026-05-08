@@ -56,11 +56,11 @@
 
               {% if r.bookingPoint is defined or r.menuLink is defined %}
                 <div class="restaurant-intro__actions">
-                  {% if r.bookingPoint is defined and r.bookingPoint %}
-                    <button type="button" class="button button-md button-rounded bg-color-1 color-2 uppercase link widget__point__{{ r.bookingPoint }}">Забронировать</button>
-                  {% endif %}
                   {% if r.menuLink is defined and r.menuLink %}
                     <a href="{{ r.menuLink }}" target="_blank" rel="noopener noreferrer" class="button button-md button-rounded outline-color-1 color-1 uppercase link">Меню</a>
+                  {% endif %}
+                  {% if r.bookingPoint is defined and r.bookingPoint %}
+                    <button type="button" class="button button-md button-rounded bg-color-1 color-2 uppercase link widget__point__{{ r.bookingPoint }}">Забронировать</button>
                   {% endif %}
                 </div>
               {% endif %}
