@@ -360,6 +360,7 @@
                 "title": "итали пипл",
                 "href": "https://italycommunity.online",
                 "target": "_blank",
+                "visible": false,
                 "icon": {
                   "src": "data/img/ui/button-icons/2.svg",
                   "class": "blue"

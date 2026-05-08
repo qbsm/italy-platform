@@ -8,20 +8,32 @@
     {
       "name": "promo",
       "data": {
-        "background": {
-          "src": "data/img/ui/bg1.webp"
-        }
+        "code": "404",
+        "heading": {
+          "tag": "h1",
+          "class": "heading font-1 weight-300 uppercase",
+          "title": "Страница не найдена"
+        },
+        "text": "Кажется, эта страница пропала со стола. Вернитесь на главную или загляните к нам в гости.",
+        "actions": [
+          {
+            "title": "На главную",
+            "href": "/",
+            "class": "button button-md button-rounded bg-color-1 color-2 uppercase link"
+          },
+          {
+            "title": "Рестораны",
+            "href": "/restaurants/",
+            "class": "button button-md button-rounded outline-color-1 color-1 uppercase link"
+          }
+        ]
       }
-    },
-    {
-      "name": "form-container",
-      "data": {}
     },
     {
       "name": "footer",
       "data": {
-        "background": {
-          "src": "data/img/ui/bg3.webp"
+        "form": {
+          "heading": "Будьте в курсе"
         }
       }
     }

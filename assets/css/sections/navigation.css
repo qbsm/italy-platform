@@ -167,6 +167,7 @@
 .navigation .buttons-wrap {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 0.8rem;
 
   @media (--lg) {

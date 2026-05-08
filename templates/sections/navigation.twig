@@ -8,7 +8,9 @@
             {% if item.type == 'buttons' %}
               <div class="buttons-wrap">
                 {% for btn in item.items %}
-                  {% include 'components/button-section.twig' with {'item': btn} %}
+                  {% if btn.visible is not defined or btn.visible %}
+                    {% include 'components/button-section.twig' with {'item': btn} %}
+                  {% endif %}
                 {% endfor %}
               </div>
             {% elseif item.type == 'slider' %}

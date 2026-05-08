@@ -1,0 +1,24 @@
+<section class="promo section">
+  <div class="container">
+    <div class="promo__content">
+      {% if data.code is defined %}
+        <span class="promo__code font-1 weight-300">{{ data.code }}</span>
+      {% endif %}
+      {% if data.heading is defined %}
+        <div class="promo__heading-wrap">
+          {% include 'components/heading.twig' with {'item': data.heading} %}
+        </div>
+      {% endif %}
+      {% if data.text is defined %}
+        <p class="promo__text">{{ data.text | raw }}</p>
+      {% endif %}
+      {% if data.actions is defined and data.actions|length > 0 %}
+        <div class="promo__actions">
+          {% for action in data.actions %}
+            <a href="{{ url(action.href) }}" class="{{ action.class | default('button button-md button-rounded bg-color-1 color-2 uppercase link') }}">{{ action.title }}</a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
