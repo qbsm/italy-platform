@@ -1,14 +1,14 @@
 {
   "name": "agree",
-  "title": "Пользовательское соглашение",
+  "title": "Пользовательское соглашение — Экосистема итали",
   "meta": [
     {
       "name": "description",
-      "content": "Пользовательское соглашение. Условия использования сайта, правила предоставления услуг."
+      "content": "Пользовательское соглашение сайта. Условия использования, правила предоставления услуг и взаимодействия с сервисом."
     },
     {
       "property": "og:url",
-      "content": "https://example.com/agree/"
+      "content": "https://italycommunity.ru/agree/"
     },
     {
       "property": "og:type",
@@ -16,23 +16,23 @@
     },
     {
       "property": "og:title",
-      "content": "Пользовательское соглашение"
+      "content": "Пользовательское соглашение — Экосистема итали"
     },
     {
       "property": "og:description",
-      "content": "Пользовательское соглашение. Условия использования сайта, правила предоставления услуг."
+      "content": "Пользовательское соглашение сайта. Условия использования, правила предоставления услуг и взаимодействия с сервисом."
     },
     {
       "property": "og:site_name",
-      "content": "Студия"
+      "content": "Экосистема итали"
     },
     {
       "property": "og:image",
-      "content": "https://example.com/data/img/seo/og.webp?v=1"
+      "content": "https://italycommunity.ru/data/img/seo/og.webp?v=1"
     },
     {
       "property": "og:image:secure_url",
-      "content": "https://example.com/data/img/seo/og.webp?v=1"
+      "content": "https://italycommunity.ru/data/img/seo/og.webp?v=1"
     }
   ]
 }

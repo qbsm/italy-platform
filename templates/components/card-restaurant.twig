@@ -48,7 +48,7 @@
         {% include 'components/button.twig' with {'item': {
           'class': buttons.menu.class,
           'title': buttons.menu.title,
-          'href': item.restaurant.menuLink | default(null),
+          'href': href,
           'icon': buttons.menu.icon | default(null)
         }} %}
       </div>

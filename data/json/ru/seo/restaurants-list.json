@@ -1,14 +1,14 @@
 {
-  "name": "restaurants",
-  "title": "Рестораны — Экосистема итали",
+  "name": "restaurants-list",
+  "title": "Рестораны итали — все рестораны экосистемы в одном месте",
   "meta": [
     {
       "name": "description",
-      "content": "Рестораны гастрономического сообщества italy — места встреч, где каждый человек чувствует свою ценность."
+      "content": "Все рестораны экосистемы итали в Петербурге и Москве: меню, бронирование, адреса и часы работы. Итали, Bist, Salone, ХИТЧ, Joli, Гус Гус, Италиани, Джем кафе, Juan, Ателье и другие."
     },
     {
       "property": "og:url",
-      "content": "https://example.com/restaurants/"
+      "content": "https://italycommunity.ru/restaurants/"
     },
     {
       "property": "og:type",
@@ -16,11 +16,11 @@
     },
     {
       "property": "og:title",
-      "content": "Рестораны — Экосистема итали"
+      "content": "Рестораны итали — все рестораны экосистемы в одном месте"
     },
     {
       "property": "og:description",
-      "content": "Рестораны гастрономического сообщества italy — места встреч, где каждый человек чувствует свою ценность."
+      "content": "Все рестораны экосистемы итали в Петербурге и Москве: меню, бронирование, адреса и часы работы. Итали, Bist, Salone, ХИТЧ, Joli, Гус Гус, Италиани, Джем кафе, Juan, Ателье и другие."
     },
     {
       "property": "og:site_name",
@@ -28,7 +28,11 @@
     },
     {
       "property": "og:image",
-      "content": "https://example.com/data/img/seo/og.webp?v=1"
+      "content": "https://italycommunity.ru/data/img/seo/og.webp?v=1"
+    },
+    {
+      "property": "og:image:secure_url",
+      "content": "https://italycommunity.ru/data/img/seo/og.webp?v=1"
     }
   ]
 }

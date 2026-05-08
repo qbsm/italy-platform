@@ -1,14 +1,14 @@
 {
   "name": "404",
-  "title": "Ошибка 404. Страница не найдена.",
+  "title": "Страница не найдена — Экосистема итали",
   "meta": [
     {
       "name": "description",
-      "content": "Страница не найдена. ➤ Попробуйте найти нужную страницу на сайте."
+      "content": "Запрашиваемая страница не найдена. Вернитесь на главную или загляните в раздел ресторанов."
     },
     {
       "property": "og:url",
-      "content": "https://example.com/404/"
+      "content": "https://italycommunity.ru/404/"
     },
     {
       "property": "og:type",
@@ -16,23 +16,23 @@
     },
     {
       "property": "og:title",
-      "content": "Ошибка 404. Страница не найдена."
+      "content": "Страница не найдена — Экосистема итали"
     },
     {
       "property": "og:description",
-      "content": "Страница не найдена. ➤ Попробуйте найти нужную страницу на сайте."
+      "content": "Запрашиваемая страница не найдена. Вернитесь на главную или загляните в раздел ресторанов."
     },
     {
       "property": "og:site_name",
-      "content": "Студия"
+      "content": "Экосистема итали"
     },
     {
       "property": "og:image",
-      "content": "https://example.com/data/img/seo/og.webp?v=1"
+      "content": "https://italycommunity.ru/data/img/seo/og.webp?v=1"
     },
     {
       "property": "og:image:secure_url",
-      "content": "https://example.com/data/img/seo/og.webp?v=1"
+      "content": "https://italycommunity.ru/data/img/seo/og.webp?v=1"
     }
   ]
 }

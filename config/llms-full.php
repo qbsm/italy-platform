@@ -10,8 +10,8 @@ declare(strict_types=1);
  * @return array{title: string, intro: string, collections: array<int, array{list_path: string, list_key: string, item_dir: string, name_key: string, desc_key?: string, visible_key?: string, fields: array<int, array{label: string, key: string}>}>}
  */
 return [
-    'title' => 'iSmart Platform',
-    'intro' => 'Детальная информация о разделах и страницах экосистемы.',
+    'title' => 'Экосистема итали',
+    'intro' => 'Детальная информация о ресторанах и страницах экосистемы итали в Санкт-Петербурге и Москве.',
     'collections' => [
         [
             'list_path' => '{lang}/pages/restaurants.json',

@@ -1,14 +1,14 @@
 {
   "name": "contacts",
-  "title": "Контакты",
+  "title": "Контакты — Экосистема итали",
   "meta": [
     {
       "name": "description",
-      "content": "Контакты студии. ➤ Свяжитесь с нами."
+      "content": "Контакты экосистемы итали: адреса ресторанов, телефоны, форма для связи. Сотрудничество, франшиза, проектирование, банкеты и кейтеринг."
     },
     {
       "property": "og:url",
-      "content": "https://example.com/contacts/"
+      "content": "https://italycommunity.ru/contacts/"
     },
     {
       "property": "og:type",
@@ -16,23 +16,23 @@
     },
     {
       "property": "og:title",
-      "content": "Контакты"
+      "content": "Контакты — Экосистема итали"
     },
     {
       "property": "og:description",
-      "content": "Контакты студии. ➤ Свяжитесь с нами."
+      "content": "Контакты экосистемы итали: адреса ресторанов, телефоны, форма для связи. Сотрудничество, франшиза, проектирование, банкеты и кейтеринг."
     },
     {
       "property": "og:site_name",
-      "content": "Студия"
+      "content": "Экосистема итали"
     },
     {
       "property": "og:image",
-      "content": "https://example.com/data/img/seo/og.webp?v=1"
+      "content": "https://italycommunity.ru/data/img/seo/og.webp?v=1"
     },
     {
       "property": "og:image:secure_url",
-      "content": "https://example.com/data/img/seo/og.webp?v=1"
+      "content": "https://italycommunity.ru/data/img/seo/og.webp?v=1"
     }
   ]
 }

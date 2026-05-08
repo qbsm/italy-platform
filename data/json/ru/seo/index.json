@@ -1,14 +1,14 @@
 {
   "name": "index",
-  "title": "Экосистема итали — Главная",
+  "title": "Экосистема итали — рестораны, сервис и проекты в Петербурге и Москве",
   "meta": [
     {
       "name": "description",
-      "content": "Экосистема сообщества итали — рестораны, сервис, гостепреимство, проекты, экспертиза, поддержка талантов."
+      "content": "Экосистема итали: 16 ресторанов в Петербурге и Москве, проекты, экспертиза, сервисы и поддержка талантов. Италиани, Bist, Salone pasta&bar, ХИТЧ, Joli, Гус Гус, Джем кафе и другие."
     },
     {
       "property": "og:url",
-      "content": "https://example.com/"
+      "content": "https://italycommunity.ru/"
     },
     {
       "property": "og:type",
@@ -16,23 +16,23 @@
     },
     {
       "property": "og:title",
-      "content": "Экосистема итали — Главная"
+      "content": "Экосистема итали — рестораны, сервис и проекты в Петербурге и Москве"
     },
     {
       "property": "og:description",
-      "content": "Экосистема сообщества итали — рестораны, сервис, гостепреимство, проекты, экспертиза, поддержка талантов."
+      "content": "Экосистема итали: 16 ресторанов в Петербурге и Москве, проекты, экспертиза, сервисы и поддержка талантов. Италиани, Bist, Salone pasta&bar, ХИТЧ, Joli, Гус Гус, Джем кафе и другие."
     },
     {
       "property": "og:site_name",
-      "content": "Студия"
+      "content": "Экосистема итали"
     },
     {
       "property": "og:image",
-      "content": "https://example.com/data/img/seo/og.webp?v=1"
+      "content": "https://italycommunity.ru/data/img/seo/og.webp?v=1"
     },
     {
       "property": "og:image:secure_url",
-      "content": "https://example.com/data/img/seo/og.webp?v=1"
+      "content": "https://italycommunity.ru/data/img/seo/og.webp?v=1"
     }
   ]
 }
