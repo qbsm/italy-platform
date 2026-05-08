@@ -328,7 +328,8 @@
 }
 
 .restaurant-staff__role {
-  color: var(--color-6);
+  color: var(--color-1);
+  opacity: 0.5;
 }
 
 .restaurant-staff__name {
