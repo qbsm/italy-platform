@@ -328,11 +328,11 @@
 }
 
 .restaurant-staff__role {
-  color: var(--color-placeholder);
+  color: var(--color-6);
 }
 
 .restaurant-staff__name {
-  color: var(--color-2);
+  color: var(--color-1);
 }
 
 .restaurant-about__gallery {

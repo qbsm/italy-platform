@@ -81,12 +81,11 @@
           </div>
         {% endif %}
 
-        <div class="section__item heading-wrap">
-          <h2 class="heading font-1 weight-300 uppercase">О ресторане</h2>
-          {% if restaurant.desc.short is defined %}
+        {% if restaurant.desc.short is defined %}
+          <div class="section__item heading-wrap">
             <p class="restaurant-about__sub">{{ restaurant.desc.short }}</p>
-          {% endif %}
-        </div>
+          </div>
+        {% endif %}
 
         {% if restaurant.desc is defined and restaurant.desc.full is defined %}
           {% set descParas = restaurant.desc.full is iterable ? restaurant.desc.full : [restaurant.desc.full] %}
