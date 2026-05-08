@@ -135,6 +135,12 @@
   border-radius: 4rem;
 }
 
+.footer__social-channel:hover {
+  background-color: var(--color-1);
+  color: var(--color-2);
+  border-color: var(--color-1);
+}
+
 .footer .section__item.bottom-wrap {
   grid-area: bottom;
   display: flex;
