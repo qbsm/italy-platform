@@ -232,6 +232,11 @@
     background: var(--color-6);
 }
 
+/* Иконка-картинка совпадала бы с фоном при ховере (оба color-2) — инвертируем в белый */
+.button.outline-color-2:hover .button__icon {
+    filter: invert(1);
+}
+
 .button.outline-color-3 {
     border-color: var(--color-3);
 }
