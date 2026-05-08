@@ -365,6 +365,12 @@
   display: block;
 }
 
+.restaurant-about__photo > a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .restaurant-about__gallery .restaurant-about__photo:nth-child(3n+1) {
   @media (--lg) {
     grid-column: span 2;
