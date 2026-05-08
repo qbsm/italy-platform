@@ -23,8 +23,8 @@
     "email"
     "name"
     "city"
-    "policy"
     "button"
+    "policy"
     "rules"
     "error";
 }
@@ -118,6 +118,20 @@
   border-bottom-color: var(--color-2);
 }
 
+.form-callback__select {
+  appearance: none;
+  cursor: pointer;
+  background-image: url("/data/img/ui/icons/icon-triangle-down-color-2.svg");
+  background-repeat: no-repeat;
+  background-position: right 0.25rem center;
+  background-size: 1rem 1rem;
+  padding-right: 1.75rem;
+}
+
+.form-callback__select::-ms-expand {
+  display: none;
+}
+
 .form-callback textarea.form-callback__input {
   min-height: 6rem;
   resize: vertical;
@@ -140,7 +154,7 @@
 .form-callback__custom-checkbox {
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
   gap: 1rem;
   padding: 0 0 1.25rem;
@@ -182,10 +196,10 @@
 
 .form-callback__placeholder {
   font-weight: 400;
-  text-transform: uppercase;
   color: var(--color-placeholder);
   font-size: 0.8em;
   margin: 0 1rem 0 0;
+  line-height: 1.3;
 }
 
 .form-callback__custom-checkbox .form-callback__checkbox {

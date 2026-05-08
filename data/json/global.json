@@ -119,10 +119,10 @@
     },
     "rules": {
       "ru": {
-        "policy": "Нажимая на кнопку, вы даете согласие на обработку персональных данных."
+        "policy": ""
       },
       "en": {
-        "policy": "By clicking the button, you agree to the processing of personal data."
+        "policy": ""
       }
     },
     "error": {

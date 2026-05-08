@@ -17,7 +17,11 @@
       <label class="form-callback__label" for="{{ formId }}City">
         <span class="form-callback__label-text">{{ global['form-callback'].label[lang_code].city }}</span><span class="form-callback__required" aria-hidden="true"> *</span>
       </label>
-      <input id="{{ formId }}City" type="text" class="form-callback__input" name="city" placeholder="{{ global['form-callback'].placeholder[lang_code].city }}" aria-required="true">
+      <select id="{{ formId }}City" class="form-callback__input form-callback__select" name="city" aria-required="true">
+        <option value="" disabled selected>{{ global['form-callback'].placeholder[lang_code].city }}</option>
+        <option value="Санкт-Петербург">Санкт-Петербург</option>
+        <option value="Москва">Москва</option>
+      </select>
     </div>
     <div class="form-callback__item form-callback-item-policy">
       <label class="form-callback__custom-checkbox">
@@ -31,7 +35,7 @@
       <input type="hidden" name="csrf_token" value="{{ csrf_token | default('') }}">
     </div>
     <div class="form-callback__item button-wrap">
-      <button class="button button-sm outline-color-2 button-animated animation-shift uppercase link" type="submit">
+      <button class="button button-sm bg-color-1 color-2 button-animated animation-shift uppercase link" type="submit">
         {% if data.button is defined and data.button.title is defined %}
           {{ data.button.title }}
         {% else %}
@@ -39,9 +43,11 @@
         {% endif %}
       </button>
     </div>
-    <div class="form-callback__item form-callback-item-rules rules-wrap">
-      <span class="form-callback__rules">{{ global['form-callback'].rules[lang_code].policy | raw }}</span>
-    </div>
+    {% if global['form-callback'].rules[lang_code].policy is defined and global['form-callback'].rules[lang_code].policy %}
+      <div class="form-callback__item form-callback-item-rules rules-wrap">
+        <span class="form-callback__rules">{{ global['form-callback'].rules[lang_code].policy | raw }}</span>
+      </div>
+    {% endif %}
     <div class="form-callback__item form-callback__error hidden" aria-live="polite" aria-atomic="true">
       <span id="{{ formId }}Error" class="form-callback__error-text" role="alert" aria-live="assertive">{{ global['form-callback'].error[lang_code].title }}</span>
     </div>
