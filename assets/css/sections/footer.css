@@ -189,7 +189,8 @@
 }
 
 .footer .form-callback .form-callback__input::placeholder {
-  color: var(--color-6);
+  color: var(--color-placeholder);
+  opacity: 1;
 }
 
 .footer .form-callback .form-callback__input:focus {
