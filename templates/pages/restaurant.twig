@@ -125,11 +125,11 @@
 
         {% set galleryItems = restaurant.gallery|default(restaurant.covers|default([])) %}
         {% if galleryItems|length > 0 %}
-          <div class="section__item restaurant-about__gallery">
+          <div class="section__item restaurant-about__gallery" id="restaurantGallery">
             {% for img in galleryItems %}
-              <figure class="restaurant-about__photo">
+              <a href="{{ url(img.src) }}" class="glightbox restaurant-about__photo" data-gallery="restaurant-gallery">
                 <img src="{{ url(img.src) }}" alt="{{ img.alt|default(r.name) }}" loading="lazy">
-              </figure>
+              </a>
             {% endfor %}
           </div>
         {% endif %}
