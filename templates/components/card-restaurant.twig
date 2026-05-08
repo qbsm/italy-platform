@@ -2,35 +2,79 @@
 {% set icon = item.icons[0] | default(null) %}
 {% set logo = item.logos[0] | default(null) %}
 {% set href = item.slug is defined ? '/restaurants/' ~ item.slug ~ '/' : null %}
+{% set r = item.restaurant | default({}) %}
+{% set covers = item.covers | default([]) %}
+{% set sliderId = 'cardSlider_' ~ (item.slug | default(random(100000))) %}
+{% set hasInfo = r.address is defined or r.openingHours is defined or r.telephone is defined %}
 
-{% if href %}
-<a href="{{ url(href) }}" class="card-restaurant {{ item.class | default('') }} link">
-{% else %}
 <div class="card-restaurant {{ item.class | default('') }}">
-{% endif %}
   <div class="card__item bg-wrap">
-    <img src="{{ url('data/img/restaurants-list/card-bg.png') }}" alt="" class="card__bg img-responsive" loading="lazy">
+    <div class="swiper-container card-restaurant-slider" id="{{ sliderId }}" data-settings="{{ {
+      navigation: { enabled: true },
+      loop: false,
+      speed: 400
+    } | json_encode }}">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide card-restaurant-slide card-restaurant-slide--cover">
+          <img src="{{ url('data/img/restaurants-list/card-bg.png') }}" alt="" class="card__bg img-responsive" loading="lazy">
+          {% if icon %}
+            <img src="{{ icon.src }}" alt="{{ icon.alt | default(name) }}" class="card__icon img-responsive" loading="lazy">
+          {% endif %}
+          {% if logo %}
+            <img
+              src="{{ url(logo.src) }}"
+              alt="{{ logo.alt | default(name) }}"
+              class="card__logo img-responsive"
+              loading="lazy"
+              {% if logo.height is defined %}style="--logo-height: {{ logo.height }};"{% endif %}>
+          {% endif %}
+        </div>
+
+        {% set descText = item.desc.full | default(item.desc.short | default(null)) %}
+        {% if descText %}
+          <div class="swiper-slide card-restaurant-slide card-restaurant-slide--desc">
+            {% if logo %}
+              <img src="{{ url(logo.src) }}" alt="{{ logo.alt | default(name) }}"
+                   class="card-restaurant-slide__logo" loading="lazy">
+            {% endif %}
+            <p class="card-restaurant-slide__text">{{ descText }}</p>
+          </div>
+        {% endif %}
+
+        {% if hasInfo %}
+          <div class="swiper-slide card-restaurant-slide card-restaurant-slide--info">
+            {% if logo %}
+              <img src="{{ url(logo.src) }}" alt="{{ logo.alt | default(name) }}"
+                   class="card-restaurant-slide__logo" loading="lazy">
+            {% endif %}
+            <div class="card-restaurant-slide__info">
+              {% if r.address is defined and r.address.streetAddress %}
+                <p class="card-restaurant-slide__line">{{ r.address.streetAddress }}</p>
+              {% endif %}
+              {% if r.openingHours is defined and r.openingHours|length > 0 %}
+                {% for h in r.openingHours %}
+                  <p class="card-restaurant-slide__line">{{ h.days }} {{ h.hours }}</p>
+                {% endfor %}
+              {% endif %}
+              {% if r.telephone is defined and r.telephone.title is defined %}
+                <p class="card-restaurant-slide__line">{{ r.telephone.title }}</p>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+
+        {% for cover in covers %}
+          <div class="swiper-slide card-restaurant-slide card-restaurant-slide--photo">
+            <img src="{{ url(cover.src) }}" alt="{{ cover.alt | default(name) }}"
+                 class="card-restaurant-slide__photo" loading="lazy">
+          </div>
+        {% endfor %}
+      </div>
+      <div class="swiper-button-prev" aria-label="Назад"></div>
+      <div class="swiper-button-next" aria-label="Вперёд"></div>
+    </div>
   </div>
-  <div class="card__item icon-wrap">
-    {% if icon %}
-      <img src="{{ icon.src }}" alt="{{ icon.alt | default(name) }}" class="card__icon img-responsive" loading="lazy">
-    {% endif %}
-  </div>
-  <div class="card__item logo-wrap">
-    {% if logo %}
-      <img
-        src="{{ url(logo.src) }}"
-        alt="{{ logo.alt | default(name) }}"
-        class="card__logo img-responsive"
-        loading="lazy"
-        {% if logo.height is defined %}style="--logo-height: {{ logo.height }};"{% endif %}>
-    {% endif %}
-  </div>
-{% if href %}
-</a>
-{% else %}
 </div>
-{% endif %}
 {% if name %}
   <div class="card__item title-wrap">
     <span class="card__title font-1 weight-500">{{ name }}</span>

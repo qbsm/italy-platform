@@ -96,18 +96,6 @@
           </div>
         {% endif %}
 
-        {% if (r.menuLink is defined and r.menuLink) or (r.hasMap is defined and r.hasMap) %}
-          <div class="section__item restaurant-about__actions">
-            {% if r.menuLink is defined and r.menuLink %}
-              <a href="{{ r.menuLink }}" target="_blank" rel="noopener noreferrer"
-                 class="button button-md button-rounded bg-color-1 color-2 uppercase link">Меню</a>
-            {% endif %}
-            {% if r.hasMap is defined and r.hasMap %}
-              <a href="{{ r.hasMap }}" target="_blank" rel="noopener noreferrer"
-                 class="button button-md button-rounded outline-color-1 color-1 uppercase link">На карте</a>
-            {% endif %}
-          </div>
-        {% endif %}
 
         {% if restaurant.staff is defined and restaurant.staff|length > 0 %}
           <div class="section__item restaurant-about__staff">

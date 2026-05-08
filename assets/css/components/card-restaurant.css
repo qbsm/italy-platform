@@ -1,56 +1,48 @@
 .card-restaurant {
   position: relative;
   width: 100%;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1.5rem;
   border-radius: 2rem;
   background: var(--color-7);
-  text-decoration: none;
   overflow: hidden;
   transition: var(--transition-1);
-
-  @media (--lg) {
-    padding: 3rem;
-    border-radius: 2rem;
-    gap: 2rem;
-  }
 }
 
 .card-restaurant .card__item.bg-wrap {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
 }
 
-.card-restaurant .card__bg {
+.card-restaurant .card-restaurant-slider,
+.card-restaurant .card-restaurant-slider .swiper-wrapper,
+.card-restaurant .card-restaurant-slider .swiper-slide {
+  width: 100%;
+  height: 100%;
+}
+
+.card-restaurant .card-restaurant-slide {
+  position: relative;
+  background: var(--color-2);
+  overflow: hidden;
+}
+
+.card-restaurant .card-restaurant-slide--cover .card__bg {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.card-restaurant .card__item.icon-wrap,
-.card-restaurant .card__item.logo-wrap {
-  position: relative;
-  z-index: 1;
-}
-
-.card-restaurant:hover {
-  background: var(--color-2);
-}
-
-.card-restaurant .card__item.icon-wrap {
+.card-restaurant .card-restaurant-slide--cover .card__icon {
   position: absolute;
   bottom: 2rem;
   right: 2rem;
-  z-index: 1;
   width: 18rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: auto;
+  object-fit: contain;
+  z-index: 1;
 
   @media (--lg) {
     bottom: 3rem;
@@ -58,34 +50,98 @@
   }
 }
 
-.card-restaurant .card__icon {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.card-restaurant .card__item.logo-wrap {
+.card-restaurant .card-restaurant-slide--cover .card__logo {
   position: absolute;
   top: 2rem;
   left: 2rem;
+  width: auto;
+  max-width: calc(100% - 4rem);
+  height: var(--logo-height, 7rem);
+  object-fit: contain;
   z-index: 1;
-  width: 15rem;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
 
   @media (--lg) {
     top: 3rem;
     left: 3rem;
-    width: 18.5rem;
+    max-width: calc(100% - 6rem);
   }
 }
 
-.card-restaurant .card__logo {
+.card-restaurant .card-restaurant-slide--desc,
+.card-restaurant .card-restaurant-slide--info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem;
+  color: var(--color-1);
+
+  @media (--lg) {
+    padding: 3rem;
+  }
+}
+
+.card-restaurant .card-restaurant-slide__logo {
   width: auto;
-  max-width: 100%;
-  height: var(--logo-height, 7rem);
+  max-width: 60%;
+  height: var(--logo-height, 5rem);
   object-fit: contain;
+  align-self: flex-start;
+}
+
+.card-restaurant .card-restaurant-slide__text {
+  margin: 0;
+  font-size: 0.95em;
+  line-height: 1.45;
+  color: var(--color-1);
+}
+
+.card-restaurant .card-restaurant-slide__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.card-restaurant .card-restaurant-slide__line {
+  margin: 0;
+  font-size: 0.95em;
+  line-height: 1.4;
+  color: var(--color-1);
+}
+
+.card-restaurant .card-restaurant-slide--photo .card-restaurant-slide__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-restaurant .card-restaurant-slider .swiper-button-prev,
+.card-restaurant .card-restaurant-slider .swiper-button-next {
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 45%);
+  color: var(--color-1);
+  margin-top: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: background 0.2s ease;
+}
+
+.card-restaurant .card-restaurant-slider .swiper-button-prev::after,
+.card-restaurant .card-restaurant-slider .swiper-button-next::after {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.card-restaurant .card-restaurant-slider .swiper-button-prev:hover,
+.card-restaurant .card-restaurant-slider .swiper-button-next:hover {
+  background: rgb(0 0 0 / 70%);
+}
+
+.card-restaurant .card-restaurant-slider .swiper-button-disabled {
+  opacity: 0.35;
+  pointer-events: none;
 }
 
 .card-restaurant-wrap .card__item.title-wrap {
