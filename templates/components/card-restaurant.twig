@@ -7,7 +7,7 @@
 {% set sliderId = 'cardSlider_' ~ (item.slug | default(random(100000))) %}
 {% set hasInfo = r.address is defined or r.openingHours is defined or r.telephone is defined %}
 
-<div class="card-restaurant {{ item.class | default('') }}">
+<div class="card-restaurant {{ item.class | default('') }}"{% if logo and logo.height is defined %} style="--logo-height: {{ logo.height }};"{% endif %}>
   <div class="card__item bg-wrap">
     <div class="swiper-container card-restaurant-slider no-pagination" id="{{ sliderId }}" data-settings="{{ {
       navigation: { enabled: true },
@@ -27,8 +27,7 @@
               src="{{ url(logo.src) }}"
               alt="{{ logo.alt | default(name) }}"
               class="card__logo img-responsive"
-              loading="lazy"
-              {% if logo.height is defined %}style="--logo-height: {{ logo.height }};"{% endif %}>
+              loading="lazy">
           {% endif %}
           {% if item.loyalty %}
             <span class="card__badge card__badge--loyalty">Loyalty</span>
@@ -40,7 +39,7 @@
           <div class="swiper-slide card-restaurant-slide card-restaurant-slide--desc">
             {% if logo %}
               <img src="{{ url(logo.src) }}" alt="{{ logo.alt | default(name) }}"
-                   class="card-restaurant-slide__logo" loading="lazy">
+                   class="card__logo img-responsive" loading="lazy">
             {% endif %}
             <p class="card-restaurant-slide__text">{{ descText }}</p>
           </div>
@@ -50,7 +49,7 @@
           <div class="swiper-slide card-restaurant-slide card-restaurant-slide--info">
             {% if logo %}
               <img src="{{ url(logo.src) }}" alt="{{ logo.alt | default(name) }}"
-                   class="card-restaurant-slide__logo" loading="lazy">
+                   class="card__logo img-responsive" loading="lazy">
             {% endif %}
             <div class="card-restaurant-slide__info">
               {% if r.address is defined and r.address.streetAddress %}

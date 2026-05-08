@@ -82,7 +82,7 @@
   }
 }
 
-.card-restaurant .card-restaurant-slide--cover .card__logo {
+.card-restaurant .card-restaurant-slide .card__logo {
   position: absolute;
   top: 2rem;
   left: 2rem;
@@ -103,21 +103,15 @@
 .card-restaurant .card-restaurant-slide--info {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 2rem;
+  padding-top: calc(2rem + var(--logo-height, 7rem) + 1rem);
   color: var(--color-1);
 
   @media (--lg) {
     padding: 3rem;
+    padding-top: calc(3rem + var(--logo-height, 7rem) + 1rem);
   }
-}
-
-.card-restaurant .card-restaurant-slide__logo {
-  width: auto;
-  max-width: 60%;
-  height: var(--logo-height, 5rem);
-  object-fit: contain;
-  align-self: flex-start;
 }
 
 .card-restaurant .card-restaurant-slide__text {
