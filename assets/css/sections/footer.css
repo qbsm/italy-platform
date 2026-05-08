@@ -159,11 +159,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-
-  @media (--md) {
-    flex-direction: row;
-    gap: 2rem;
-  }
 }
 
 .footer__disclaimer-link {
