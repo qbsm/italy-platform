@@ -3,7 +3,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
-    "name": "Bist meat & pasta bar",
+    "name": "Bist",
     "telephone": {
       "title": "+7 (931) 994-75-15",
       "href": "tel:+79319947515"
@@ -88,7 +88,7 @@
     },
     {
       "src": "data/img/restaurants/bist/logos/logo-color-2.svg",
-      "alt": "Bist черный лого",
+      "alt": "Bist чёрный лого",
       "height": "5.8rem"
     }
   ],
@@ -99,7 +99,25 @@
     },
     {
       "src": "data/img/restaurants/bist/icons/icon-color-2.svg",
-      "alt": "Bist черная иконка"
+      "alt": "Bist чёрная иконка"
+    }
+  ],
+  "staff": [
+    {
+      "role": "Управляющий",
+      "name": "Татьяна Мазунина"
+    },
+    {
+      "role": "Бренд-шеф",
+      "name": "Денис Лукьяненко"
+    },
+    {
+      "role": "Шеф-кондитер",
+      "name": "Иван Бобров"
+    },
+    {
+      "role": "Шеф-повар",
+      "name": "Владимир Полторацкий"
     }
   ]
 }

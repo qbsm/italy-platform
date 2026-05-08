@@ -3,7 +3,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
-    "name": "Italiani на Невском",
+    "name": "«Италиани»",
     "telephone": {
       "title": "+7 (931) 396-76-05",
       "href": "tel:+79313967605"
@@ -71,23 +71,37 @@
   "logos": [
     {
       "src": "data/img/restaurants/italiani/logos/logo-color-1.svg",
-      "alt": "Italiani белый лого",
+      "alt": "«Италиани» белый лого",
       "height": "5.4rem"
     },
     {
       "src": "data/img/restaurants/italiani/logos/logo-color-2.svg",
-      "alt": "Italiani черный лого",
+      "alt": "«Италиани» чёрный лого",
       "height": "5.4rem"
     }
   ],
   "icons": [
     {
       "src": "data/img/restaurants/italiani/icons/icon-color-1.svg",
-      "alt": "Italiani белая иконка"
+      "alt": "«Италиани» белая иконка"
     },
     {
       "src": "data/img/restaurants/italiani/icons/icon-color-2.svg",
-      "alt": "Italiani черная иконка"
+      "alt": "«Италиани» чёрная иконка"
+    }
+  ],
+  "staff": [
+    {
+      "role": "Управляющий",
+      "name": "Ксения Рощенко"
+    },
+    {
+      "role": "Бренд-шеф",
+      "name": "Илья Седов"
+    },
+    {
+      "role": "Шеф-повар",
+      "name": "Дмитрий Ходин"
     }
   ]
 }

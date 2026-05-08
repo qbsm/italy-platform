@@ -3,7 +3,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
-    "name": "Italy в Виленском",
+    "name": "«Итали» в Виленском",
     "telephone": {
       "title": "+7 (812) 906-65-58",
       "href": "tel:+78129066558"
@@ -75,23 +75,41 @@
   "logos": [
     {
       "src": "data/img/restaurants/italy-vilenskiy/logos/logo-color-1.svg",
-      "alt": "Italy в Виленском белый лого",
+      "alt": "«Итали» в Виленском белый лого",
       "height": "5.1rem"
     },
     {
       "src": "data/img/restaurants/italy-vilenskiy/logos/logo-color-2.svg",
-      "alt": "Italy в Виленском черный лого",
+      "alt": "«Итали» в Виленском чёрный лого",
       "height": "5.1rem"
     }
   ],
   "icons": [
     {
       "src": "data/img/restaurants/italy-vilenskiy/icons/icon-color-1.svg",
-      "alt": "Italy в Виленском белая иконка"
+      "alt": "«Итали» в Виленском белая иконка"
     },
     {
       "src": "data/img/restaurants/italy-vilenskiy/icons/icon-color-2.svg",
-      "alt": "Italy в Виленском черная иконка"
+      "alt": "«Итали» в Виленском чёрная иконка"
+    }
+  ],
+  "staff": [
+    {
+      "role": "Управляющий",
+      "name": "Юлия Яковлева"
+    },
+    {
+      "role": "Бренд-шеф",
+      "name": "Илья Седов"
+    },
+    {
+      "role": "Бренд-кондитер",
+      "name": "Андрей Сокольников"
+    },
+    {
+      "role": "Шеф-повар",
+      "name": "Александр Смирнов"
     }
   ]
 }

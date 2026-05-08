@@ -3,7 +3,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
-    "name": "Joli Grand Bistrot",
+    "name": "Joli СПб",
     "telephone": {
       "title": "+7 (931) 380-22-06",
       "href": "tel:+79313802206"
@@ -70,23 +70,41 @@
   "logos": [
     {
       "src": "data/img/restaurants/joli-grand-bistrot/logos/logo-color-1.svg",
-      "alt": "Joli Grand Bistrot белый лого",
+      "alt": "Joli СПб белый лого",
       "height": "5.5rem"
     },
     {
       "src": "data/img/restaurants/joli-grand-bistrot/logos/logo-color-2.svg",
-      "alt": "Joli Grand Bistrot черный лого",
+      "alt": "Joli СПб чёрный лого",
       "height": "5.5rem"
     }
   ],
   "icons": [
     {
       "src": "data/img/restaurants/joli-grand-bistrot/icons/icon-color-1.svg",
-      "alt": "Joli Grand Bistrot белая иконка"
+      "alt": "Joli СПб белая иконка"
     },
     {
       "src": "data/img/restaurants/joli-grand-bistrot/icons/icon-color-2.svg",
-      "alt": "Joli Grand Bistrot черная иконка"
+      "alt": "Joli СПб чёрная иконка"
+    }
+  ],
+  "staff": [
+    {
+      "role": "Управляющий",
+      "name": "Екатерина Лукина"
+    },
+    {
+      "role": "Бренд-шеф",
+      "name": "Виктор Кислинский"
+    },
+    {
+      "role": "Бренд-кондитер",
+      "name": "Андрей Сокольников"
+    },
+    {
+      "role": "Шеф-повар",
+      "name": "Павел Скворцов"
     }
   ]
 }

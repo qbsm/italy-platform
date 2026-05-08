@@ -1,0 +1,33 @@
+{
+  "slug": "joli-moscow",
+  "visible": false,
+  "restaurant": {
+    "@type": "Restaurant",
+    "name": "Joli Москва",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Москва",
+      "addressRegion": "Москва",
+      "addressCountry": "RU"
+    }
+  },
+  "desc": {
+    "short": "",
+    "full": ""
+  },
+  "loyalty": false,
+  "tags": [],
+  "covers": [],
+  "logos": [],
+  "icons": [],
+  "staff": [
+    {
+      "role": "Управляющий",
+      "name": "Артур Лебедев"
+    },
+    {
+      "role": "Бренд-шеф",
+      "name": "Виктор Кислинский"
+    }
+  ]
+}

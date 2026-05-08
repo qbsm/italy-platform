@@ -3,7 +3,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
-    "name": "Goose Goose",
+    "name": "Goosegoose",
     "telephone": {
       "title": "+7 (911) 928-37-27",
       "href": "tel:+79119283727"
@@ -74,23 +74,37 @@
   "logos": [
     {
       "src": "data/img/restaurants/goose-goose/logos/logo-color-1.svg",
-      "alt": "Goose Goose белый лого",
+      "alt": "Goosegoose белый лого",
       "height": "4.7rem"
     },
     {
       "src": "data/img/restaurants/goose-goose/logos/logo-color-2.svg",
-      "alt": "Goose Goose черный лого",
+      "alt": "Goosegoose чёрный лого",
       "height": "4.7rem"
     }
   ],
   "icons": [
     {
       "src": "data/img/restaurants/goose-goose/icons/icon-color-1.svg",
-      "alt": "Goose Goose белая иконка"
+      "alt": "Goosegoose белая иконка"
     },
     {
       "src": "data/img/restaurants/goose-goose/icons/icon-color-2.svg",
-      "alt": "Goose Goose черная иконка"
+      "alt": "Goosegoose чёрная иконка"
+    }
+  ],
+  "staff": [
+    {
+      "role": "Управляющий",
+      "name": "Анна Полторацкая"
+    },
+    {
+      "role": "Бренд-шеф",
+      "name": "Виктор Кислинский"
+    },
+    {
+      "role": "Шеф-повар",
+      "name": "Василий Окулов"
     }
   ]
 }

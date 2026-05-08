@@ -3,7 +3,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
-    "name": "Ателье tapas&bar",
+    "name": "«Ателье тапас и бар»",
     "telephone": {
       "title": "+7 (812) 904-08-55",
       "href": "tel:+78129040855"
@@ -60,23 +60,37 @@
   "logos": [
     {
       "src": "data/img/restaurants/atelier/logos/logo-color-1.svg",
-      "alt": "Ателье tapas&bar белый лого",
+      "alt": "«Ателье тапас и бар» белый лого",
       "height": "4.0rem"
     },
     {
       "src": "data/img/restaurants/atelier/logos/logo-color-2.svg",
-      "alt": "Ателье tapas&bar черный лого",
+      "alt": "«Ателье тапас и бар» чёрный лого",
       "height": "4.0rem"
     }
   ],
   "icons": [
     {
       "src": "data/img/restaurants/atelier/icons/icon-color-1.svg",
-      "alt": "Ателье tapas&bar белая иконка"
+      "alt": "«Ателье тапас и бар» белая иконка"
     },
     {
       "src": "data/img/restaurants/atelier/icons/icon-color-2.svg",
-      "alt": "Ателье tapas&bar черная иконка"
+      "alt": "«Ателье тапас и бар» чёрная иконка"
+    }
+  ],
+  "staff": [
+    {
+      "role": "Управляющий",
+      "name": "Наталья Мамлеева"
+    },
+    {
+      "role": "Бренд-шеф",
+      "name": "Сергей Гальцев"
+    },
+    {
+      "role": "Шеф-повар",
+      "name": "Владимир Воргулев"
     }
   ]
 }

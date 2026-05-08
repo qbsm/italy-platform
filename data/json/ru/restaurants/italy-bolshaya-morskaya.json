@@ -3,7 +3,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
-    "name": "Italy на Большой Морской",
+    "name": "«Итали» на Морской",
     "telephone": {
       "title": "+7 (921) 944-03-00",
       "href": "tel:+79219440300"
@@ -72,23 +72,41 @@
   "logos": [
     {
       "src": "data/img/restaurants/italy-bolshaya-morskaya/logos/logo-color-1.svg",
-      "alt": "Italy на Большой Морской белый лого",
+      "alt": "«Итали» на Морской белый лого",
       "height": "5.2rem"
     },
     {
       "src": "data/img/restaurants/italy-bolshaya-morskaya/logos/logo-color-2.svg",
-      "alt": "Italy на Большой Морской черный лого",
+      "alt": "«Итали» на Морской чёрный лого",
       "height": "5.2rem"
     }
   ],
   "icons": [
     {
       "src": "data/img/restaurants/italy-bolshaya-morskaya/icons/icon-color-1.svg",
-      "alt": "Italy на Большой Морской белая иконка"
+      "alt": "«Итали» на Морской белая иконка"
     },
     {
       "src": "data/img/restaurants/italy-bolshaya-morskaya/icons/icon-color-2.svg",
-      "alt": "Italy на Большой Морской черная иконка"
+      "alt": "«Итали» на Морской чёрная иконка"
+    }
+  ],
+  "staff": [
+    {
+      "role": "Управляющий",
+      "name": "Антон Мустонен"
+    },
+    {
+      "role": "Бренд-шеф",
+      "name": "Илья Седов"
+    },
+    {
+      "role": "Бренд-кондитер",
+      "name": "Андрей Сокольников"
+    },
+    {
+      "role": "Шеф-повар",
+      "name": "Николай Шелявин"
     }
   ]
 }

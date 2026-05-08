@@ -3,7 +3,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
-    "name": "Italy на Московском",
+    "name": "«Итали» на Московском",
     "telephone": {
       "title": "+7 (931) 954-61-97",
       "href": "tel:+79319546197"
@@ -71,23 +71,41 @@
   "logos": [
     {
       "src": "data/img/restaurants/italy-moskovskiy/logos/logo-color-1.svg",
-      "alt": "Italy на Московском белый лого",
+      "alt": "«Итали» на Московском белый лого",
       "height": "5.1rem"
     },
     {
       "src": "data/img/restaurants/italy-moskovskiy/logos/logo-color-2.svg",
-      "alt": "Italy на Московском черный лого",
+      "alt": "«Итали» на Московском чёрный лого",
       "height": "5.1rem"
     }
   ],
   "icons": [
     {
       "src": "data/img/restaurants/italy-moskovskiy/icons/icon-color-1.svg",
-      "alt": "Italy на Московском белая иконка"
+      "alt": "«Итали» на Московском белая иконка"
     },
     {
       "src": "data/img/restaurants/italy-moskovskiy/icons/icon-color-2.svg",
-      "alt": "Italy на Московском черная иконка"
+      "alt": "«Итали» на Московском чёрная иконка"
+    }
+  ],
+  "staff": [
+    {
+      "role": "Управляющий",
+      "name": "Александра Куборская"
+    },
+    {
+      "role": "Бренд-шеф",
+      "name": "Илья Седов"
+    },
+    {
+      "role": "Бренд-кондитер",
+      "name": "Андрей Сокольников"
+    },
+    {
+      "role": "Шеф-повар",
+      "name": "Дмитрий Цветков"
     }
   ]
 }

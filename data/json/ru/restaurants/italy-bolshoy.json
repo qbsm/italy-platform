@@ -3,7 +3,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
-    "name": "Italy на Большом",
+    "name": "«Итали» на Большом",
     "telephone": {
       "title": "+7 (812) 900-63-33",
       "href": "tel:+78129006333"
@@ -71,23 +71,41 @@
   "logos": [
     {
       "src": "data/img/restaurants/italy-bolshoy/logos/logo-color-1.svg",
-      "alt": "Italy Большой белый лого",
+      "alt": "«Итали» на Большом белый лого",
       "height": "5.1rem"
     },
     {
       "src": "data/img/restaurants/italy-bolshoy/logos/logo-color-2.svg",
-      "alt": "Italy Большой черный лого",
+      "alt": "«Итали» на Большом чёрный лого",
       "height": "5.1rem"
     }
   ],
   "icons": [
     {
       "src": "data/img/restaurants/italy-bolshoy/icons/icon-color-1.svg",
-      "alt": "Italy Большой белая иконка"
+      "alt": "«Итали» на Большом белая иконка"
     },
     {
       "src": "data/img/restaurants/italy-bolshoy/icons/icon-color-2.svg",
-      "alt": "Italy Большой черная иконка"
+      "alt": "«Итали» на Большом чёрная иконка"
+    }
+  ],
+  "staff": [
+    {
+      "role": "Управляющий",
+      "name": "Игорь Бражник"
+    },
+    {
+      "role": "Бренд-шеф",
+      "name": "Илья Седов"
+    },
+    {
+      "role": "Бренд-кондитер",
+      "name": "Андрей Сокольников"
+    },
+    {
+      "role": "Шеф-повар",
+      "name": "Артём Мизинов"
     }
   ]
 }

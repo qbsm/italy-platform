@@ -3,7 +3,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
-    "name": "HITCH на Московском",
+    "name": "«ХИТЧ»",
     "telephone": {
       "title": "+7 (921) 919-01-79",
       "href": "tel:+79219190179"
@@ -81,23 +81,41 @@
   "logos": [
     {
       "src": "data/img/restaurants/hitch/logos/logo-color-1.svg",
-      "alt": "HITCH белый лого",
+      "alt": "«ХИТЧ» белый лого",
       "height": "4.9rem"
     },
     {
       "src": "data/img/restaurants/hitch/logos/logo-color-2.svg",
-      "alt": "HITCH черный лого",
+      "alt": "«ХИТЧ» чёрный лого",
       "height": "4.9rem"
     }
   ],
   "icons": [
     {
       "src": "data/img/restaurants/hitch/icons/icon-color-1.svg",
-      "alt": "HITCH белая иконка"
+      "alt": "«ХИТЧ» белая иконка"
     },
     {
       "src": "data/img/restaurants/hitch/icons/icon-color-2.svg",
-      "alt": "HITCH черная иконка"
+      "alt": "«ХИТЧ» чёрная иконка"
+    }
+  ],
+  "staff": [
+    {
+      "role": "Управляющий",
+      "name": "Семён Дмитриев"
+    },
+    {
+      "role": "Бренд-шеф",
+      "name": "Виктор Кислинский"
+    },
+    {
+      "role": "Шеф-кондитер",
+      "name": "Иван Бобров"
+    },
+    {
+      "role": "Шеф-повар",
+      "name": "Василий Голощапов"
     }
   ]
 }

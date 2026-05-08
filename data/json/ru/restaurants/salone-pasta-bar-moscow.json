@@ -3,7 +3,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
-    "name": "Salone pasta&bar Moscow",
+    "name": "Salone pasta&bar Мск",
     "telephone": {
       "title": "+7 (929) 926-11-99",
       "href": "tel:+79299261199"
@@ -82,23 +82,37 @@
   "logos": [
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/logos/logo-color-1.svg",
-      "alt": "Salone pasta&bar Moscow белый лого",
+      "alt": "Salone pasta&bar Мск белый лого",
       "height": "7.2rem"
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/logos/logo-color-2.svg",
-      "alt": "Salone pasta&bar Moscow черный лого",
+      "alt": "Salone pasta&bar Мск чёрный лого",
       "height": "7.2rem"
     }
   ],
   "icons": [
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/icons/icon-color-1.svg",
-      "alt": "Salone pasta&bar Moscow белая иконка"
+      "alt": "Salone pasta&bar Мск белая иконка"
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/icons/icon-color-2.svg",
-      "alt": "Salone pasta&bar Moscow черная иконка"
+      "alt": "Salone pasta&bar Мск чёрная иконка"
+    }
+  ],
+  "staff": [
+    {
+      "role": "Управляющий",
+      "name": "Маргарита Васильева"
+    },
+    {
+      "role": "Бренд-шеф",
+      "name": "Денис Лукьяненко"
+    },
+    {
+      "role": "Шеф-повар",
+      "name": "Андрей Полищук"
     }
   ]
 }
