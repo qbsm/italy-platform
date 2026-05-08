@@ -7,18 +7,18 @@
             {% set restaurant = load_json('data/json/' ~ lang_code ~ '/restaurants/' ~ slug ~ '.json') %}
             {% if restaurant and restaurant.visible | default(false) %}
               {% set logo = restaurant.logos[1] | default(restaurant.logos[0] | default(null)) %}
-              <div class="swiper-slide">
-                <a href="{{ url('/restaurants/' ~ slug ~ '/') }}" class="logoline__item link">
-                  {% if logo %}
+              {% if logo and logo.src is defined and logo.src %}
+                <div class="swiper-slide">
+                  <a href="{{ url('/restaurants/' ~ slug ~ '/') }}" class="logoline__item link">
                     <img
                       src="{{ url(logo.src) }}"
                       alt="{{ logo.alt | default(restaurant.restaurant.name | default(slug)) }}"
                       class="logoline__logo"
                       loading="lazy"
                       {% if logo.height is defined %}style="--logo-height: {{ logo.height }};"{% endif %}>
-                  {% endif %}
-                </a>
-              </div>
+                  </a>
+                </div>
+              {% endif %}
             {% endif %}
           {% endfor %}
         {% endif %}

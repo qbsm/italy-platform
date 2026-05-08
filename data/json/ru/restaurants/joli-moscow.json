@@ -18,7 +18,18 @@
   "loyalty": false,
   "tags": [],
   "covers": [],
-  "logos": [],
+  "logos": [
+    {
+      "src": "data/img/restaurants/joli-moscow/logos/logo-color-1.svg",
+      "alt": "Joli Москва белый лого",
+      "height": "7.2rem"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/logos/logo-color-2.svg",
+      "alt": "Joli Москва чёрный лого",
+      "height": "7.2rem"
+    }
+  ],
   "icons": [],
   "staff": [
     {
