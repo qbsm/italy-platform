@@ -160,9 +160,13 @@ final class PageAction
                 $coverSrc = (string) $first['src'];
             }
         }
-        $ogImage = $coverSrc !== null
-            ? $prodBase . '/' . ltrim($coverSrc, '/')
-            : $prodBase . '/data/img/seo/og.webp?v=1';
+        if ($coverSrc !== null) {
+            $pos = strpos($coverSrc, '/data/');
+            $relPath = $pos !== false ? substr($coverSrc, $pos) : '/' . ltrim($coverSrc, '/');
+            $ogImage = $prodBase . $relPath;
+        } else {
+            $ogImage = $prodBase . '/data/img/seo/og.webp?v=1';
+        }
 
         $meta = [
             ['name' => 'description', 'content' => $desc],
