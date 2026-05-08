@@ -38,15 +38,17 @@
   {# Логика формирования current_url, canonical и alternate #}
   {% set _base_url_trimmed = base_url|trim('/') %} {# base_url без слешей по краям #}
 
-  {% if page_id == 'index' %}
+  {% if restaurant is defined and restaurant.slug is defined %}
+    {% set _path_segment = 'restaurants/' ~ restaurant.slug %}
+  {% elseif page_id == 'index' %}
     {% set _path_segment = '' %}
   {% else %}
     {% set _path_segment = page_id %}
   {% endif %}
 
-  {% if route_params|length > 0 and _path_segment != '' %}
+  {% if restaurant is not defined and route_params|length > 0 and _path_segment != '' %}
     {% set _path_segment = _path_segment ~ '/' ~ route_params|join('/') %}
-  {% elseif route_params|length > 0 and _path_segment == '' %}
+  {% elseif restaurant is not defined and route_params|length > 0 and _path_segment == '' %}
      {% set _path_segment = route_params|join('/') %}
   {% endif %}
 
@@ -121,42 +123,68 @@
   
   {% include 'components/scripts.twig' %}
   
+  {% set _site_name = site.name|default('Экосистема итали') %}
+  {% set _logo_src = (global.logo.black.src|default('')) %}
+  {% if _logo_src starts with 'http://' or _logo_src starts with 'https://' %}
+    {% set _logo_url = _logo_src %}
+  {% elseif _logo_src %}
+    {% set _logo_url = _base_secure_domain_for_seo ~ '/' ~ _logo_src|trim('/') %}
+  {% else %}
+    {% set _logo_url = '' %}
+  {% endif %}
+  {% set _email_value = global.email.title|default('')|replace({'<span>': '', '</span>': ''}) %}
+  {% set _phones_filtered = [] %}
+  {% if global.phones is defined and global.phones|length > 0 %}
+    {% for phone in global.phones %}
+      {% set _ptitle = phone.title|default('')|replace({'<span>': '', '</span>': ''}) %}
+      {% if _ptitle and _ptitle is not same as('+7 (000) 000-00-00') %}
+        {% set _phones_filtered = _phones_filtered|merge([_ptitle]) %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  {% set _socials_filtered = [] %}
+  {% if global.socials is defined and global.socials|length > 0 %}
+    {% for social in global.socials %}
+      {% if (social.visible is not defined or social.visible) and social.href is defined and social.href and social.href != '#' and social.href starts with 'http' %}
+        {% set _socials_filtered = _socials_filtered|merge([social.href]) %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+
   {# Микроразметка Schema.org Organization #}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "{{ site.name|default('Company') }}",
-    {% if global.logo.black is defined %}
-    "logo": "{{ _base_secure_domain_for_seo ~ '/' ~ global.logo.black.src }}",
+    "name": "{{ _site_name }}",
+    {% if _logo_url %}
+    "logo": "{{ _logo_url }}",
     {% endif %}
-    "url": "{{ _base_secure_domain_for_seo }}",
-    {% if global.email is defined %}
-    "email": "{{ global.email.title|replace({'<span>': '', '</span>': ''})|raw }}",
+    "url": "{{ _base_secure_domain_for_seo }}"
+    {% if _email_value and _email_value is not same as('info@example.com') %}
+    ,"email": "{{ _email_value|raw }}"
     {% endif %}
-    {% if global.phones is defined and global.phones|length > 0 %}
-    "telephone": [
-      {% for phone in global.phones %}
-      "{{ phone.title|replace({'<span>': '', '</span>': ''})|raw }}"{% if not loop.last %},{% endif %}
+    {% if _phones_filtered|length > 0 %}
+    ,"telephone": [
+      {% for t in _phones_filtered %}
+      "{{ t|raw }}"{% if not loop.last %},{% endif %}
       {% endfor %}
-    ],
+    ]
     {% endif %}
     {% if global.address[lang_code] is defined and global.address[lang_code]|length > 0 %}
-    "address": [
+    ,"address": [
       {% for address in global.address[lang_code] %}
       {
         "@type": "PostalAddress",
         "streetAddress": "{{ address.title|replace({'<span>': '', '</span>': ''})|raw }}"
       }{% if not loop.last %},{% endif %}
       {% endfor %}
-    ],
+    ]
     {% endif %}
-    {% if global.socials is defined and global.socials|length > 0 %}
-    "sameAs": [
-      {% for social in global.socials %}
-      {% if social.visible %}
-      "{{ social.href }}"{% if not loop.last %},{% endif %}
-      {% endif %}
+    {% if _socials_filtered|length > 0 %}
+    ,"sameAs": [
+      {% for href in _socials_filtered %}
+      "{{ href }}"{% if not loop.last %},{% endif %}
       {% endfor %}
     ]
     {% endif %}
@@ -168,7 +196,7 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "{{ site.name|default('Company') }}",
+    "name": "{{ _site_name }}",
     "url": "{{ _base_secure_domain_for_seo ~ '/' }}"
   }
   </script>
