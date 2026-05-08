@@ -67,10 +67,8 @@
     {% set _url_prefix_for_seo = _base_secure_domain_for_seo %}
   {% endif %}
   
-  {% set _canonical_parts = [_url_prefix_for_seo|trim('/'), _url_path_for_seo|trim('/')] %}
-  {% set final_canonical_url = _canonical_parts|filter(v => v is not empty and v is not null)|join('/') %}
-  {% if not final_canonical_url ends with '/' %}{% set final_canonical_url = final_canonical_url ~ '/' %}{% endif %}
-  {% if not final_canonical_url starts with 'https://' %}{% set final_canonical_url = _base_secure_domain_for_seo ~ '/' ~ final_canonical_url %}{% endif %}
+  {% set _path_for_canonical = _url_path_for_seo|trim('/') %}
+  {% set final_canonical_url = _url_prefix_for_seo|trim('/') ~ '/' ~ (_path_for_canonical != '' ? _path_for_canonical ~ '/' : '') %}
 
 
   <link rel="canonical" href="{{ final_canonical_url }}" />
@@ -84,11 +82,8 @@
         {% set _alt_url_base_for_seo = _base_secure_domain_for_seo ~ '/' ~ lang_loop_code %}
       {% endif %}
 
-      {% set _alt_url_parts = [_alt_url_base_for_seo|trim('/'), _url_path_for_seo|trim('/')] %}
-      {% set final_alt_url = _alt_url_parts|filter(v => v is not empty and v is not null)|join('/') %}
-      {% if not final_alt_url ends with '/' and _url_path_for_seo != '' %}{% set final_alt_url = final_alt_url ~ '/' %}{% endif %}
-      {% if _url_path_for_seo == '' and not final_alt_url ends with '/' %}{% set final_alt_url = final_alt_url ~ '/' %}{% endif %}
-      {% if not final_alt_url starts with 'https://' %}{% set final_alt_url = _base_secure_domain_for_seo ~ '/' ~ final_alt_url|trim('/') %}{% endif %}
+      {% set _path_for_alt = _url_path_for_seo|trim('/') %}
+      {% set final_alt_url = _alt_url_base_for_seo|trim('/') ~ '/' ~ (_path_for_alt != '' ? _path_for_alt ~ '/' : '') %}
 
       <link rel="alternate" href="{{ final_alt_url }}" hreflang="{{ lang_loop_code }}" />
     {% endif %}
