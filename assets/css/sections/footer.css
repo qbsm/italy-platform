@@ -104,9 +104,29 @@
   align-items: center;
 }
 
+.footer .social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  border: 0.1rem solid var(--color-1);
+  border-radius: 50%;
+  transition: background-color var(--transition-1), border-color var(--transition-1);
+}
+
+.footer .social-link:hover {
+  background-color: var(--color-1);
+}
+
+.footer .social-link:hover .icon-sm {
+  filter: invert(1);
+}
+
 .footer .social-link .icon-sm {
   width: 2rem;
   height: 2rem;
+  transition: filter var(--transition-1);
 }
 
 .footer .section__item.bottom-wrap {
