@@ -12,7 +12,9 @@
     <div class="swiper-container card-restaurant-slider" id="{{ sliderId }}" data-settings="{{ {
       navigation: { enabled: true },
       loop: false,
-      speed: 400
+      effect: 'fade',
+      fadeEffect: { crossFade: true },
+      speed: 500
     } | json_encode }}">
       <div class="swiper-wrapper">
         <div class="swiper-slide card-restaurant-slide card-restaurant-slide--cover">
