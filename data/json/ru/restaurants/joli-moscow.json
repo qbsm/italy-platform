@@ -30,7 +30,16 @@
       "height": "7.2rem"
     }
   ],
-  "icons": [],
+  "icons": [
+    {
+      "src": "data/img/restaurants/joli-moscow/icons/icon-color-1.svg",
+      "alt": "Joli Москва белая иконка"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/icons/icon-color-2.svg",
+      "alt": "Joli Москва чёрная иконка"
+    }
+  ],
   "staff": [
     {
       "role": "Управляющий",
