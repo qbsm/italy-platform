@@ -295,6 +295,50 @@
   }
 }
 
+.restaurant-about__staff {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.restaurant-staff__heading {
+  font-size: 1em;
+  font-weight: 500;
+  margin: 0;
+}
+
+.restaurant-staff__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem 2rem;
+  grid-template-columns: 1fr;
+
+  @media (--md) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.restaurant-staff__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.5rem 0;
+  border-bottom: 0.1rem solid var(--color-6);
+}
+
+.restaurant-staff__role {
+  font-size: 0.8em;
+  color: var(--color-placeholder);
+  text-transform: uppercase;
+}
+
+.restaurant-staff__name {
+  font-size: 1em;
+  color: var(--color-2);
+}
+
 .restaurant-about__gallery {
   display: grid;
   grid-template-columns: 1fr;

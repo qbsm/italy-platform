@@ -110,6 +110,20 @@
           </div>
         {% endif %}
 
+        {% if restaurant.staff is defined and restaurant.staff|length > 0 %}
+          <div class="section__item restaurant-about__staff">
+            <h3 class="restaurant-staff__heading uppercase">Команда</h3>
+            <ul class="restaurant-staff__list">
+              {% for member in restaurant.staff %}
+                <li class="restaurant-staff__item">
+                  <span class="restaurant-staff__role">{{ member.role }}</span>
+                  <span class="restaurant-staff__name">{{ member.name }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
         {% set galleryItems = restaurant.gallery|default(restaurant.covers|default([])) %}
         {% if galleryItems|length > 0 %}
           <div class="section__item restaurant-about__gallery">
@@ -126,7 +140,7 @@
   </main>
   {% include 'sections/footer.twig' with {'data': {
     'background': { 'src': 'data/img/ui/bg3.webp' },
-    'form': { 'heading': 'Получить консультацию' }
+    'form': { 'heading': 'Будьте в курсе' }
   }} %}
 </div>
 {% endblock %}
