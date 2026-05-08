@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Action\ApiSendAction;
 use App\Action\HealthAction;
 use App\Action\PageAction;
 use App\Action\SitemapAction;
@@ -11,19 +12,28 @@ use App\Middleware\CorsMiddleware;
 use App\Middleware\LanguageMiddleware;
 use App\Middleware\RateLimitMiddleware;
 use App\Middleware\RedirectMiddleware;
+use App\Middleware\RequestDurationMiddleware;
 use App\Middleware\SecurityHeadersMiddleware;
 use App\Service\DataLoaderService;
+use App\Service\MailService;
+use App\Service\RestaurantSeoBuilder;
 use App\Twig\AssetExtension;
 use App\Twig\DataExtension;
 use App\Twig\UrlExtension;
 use DI\ContainerBuilder;
-use Monolog\Handler\StreamHandler;
+use League\Event\EventDispatcher;
+use Monolog\Formatter\JsonFormatter;
+use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Slim\Psr7\Factory\ResponseFactory;
 use Slim\Views\Twig;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Transport;
 use Twig\Extension\DebugExtension;
 use Twig\Extension\StringLoaderExtension;
 
@@ -47,19 +57,31 @@ return static function (): ContainerInterface {
             $logger = new Logger('app');
             $logFile = rtrim($logDir, '/') . '/app.log';
             $level = ($settings['env'] ?? 'development') === 'production' ? Logger::WARNING : Logger::DEBUG;
-            $logger->pushHandler(new StreamHandler($logFile, $level));
+            $handler = new RotatingFileHandler($logFile, 14, $level);
+            $handler->setFormatter(new JsonFormatter());
+            $logger->pushHandler($handler);
             return $logger;
+        },
+
+        EventDispatcherInterface::class => static function (): EventDispatcherInterface {
+            return new EventDispatcher();
         },
 
         Twig::class => static function (ContainerInterface $container) use ($settings): Twig {
             $baseDir = (string) $settings['project_root'];
             $baseUrl = rtrim((string) ($_ENV['APP_BASE_URL'] ?? $_SERVER['APP_BASE_URL'] ?? getenv('APP_BASE_URL') ?: ''), '/');
             if ($baseUrl === '') {
-                $https = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
+                // За прокси схема приходит в X-Forwarded-Proto; иначе HTTPS-флаг или http
+                $proto = (string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '');
+                $https = ($proto === 'https' || (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')) ? 'https://' : 'http://';
                 $host = (string) ($_SERVER['HTTP_HOST'] ?? 'localhost');
-                $scriptDir = dirname((string) ($_SERVER['SCRIPT_NAME'] ?? '/'));
+                $scriptDir = str_replace('\\', '/', dirname((string) ($_SERVER['SCRIPT_NAME'] ?? '/')));
                 $basePath = $scriptDir === '/' || $scriptDir === '.' ? '' : rtrim($scriptDir, '/');
                 $baseUrl = $https . $host . $basePath;
+            }
+            // В production всегда https (иначе mixed content / CSP блокирует ассеты)
+            if (($settings['env'] ?? '') === 'production' && str_starts_with($baseUrl, 'http://')) {
+                $baseUrl = 'https://' . substr($baseUrl, 7);
             }
             $baseUrl .= '/';
 
@@ -88,8 +110,12 @@ return static function (): ContainerInterface {
             ($c->get('settings')['env'] ?? 'development') === 'production'
         ),
 
+        RequestDurationMiddleware::class => \DI\autowire(),
+
         HealthAction::class => \DI\autowire(),
-        PageAction::class => \DI\autowire()->constructorParameter('settings', \DI\get('settings')),
+        PageAction::class => \DI\autowire()
+            ->constructorParameter('settings', \DI\get('settings'))
+            ->constructorParameter('dispatcher', \DI\get(EventDispatcherInterface::class)),
         SitemapAction::class => \DI\autowire()->constructorParameter('settings', \DI\get('settings')),
         ServerErrorHandler::class => \DI\autowire()->constructorParameter('displayErrorDetails', \DI\get('displayErrorDetails')),
         HttpErrorHandler::class => \DI\autowire()->constructorParameter('errorMap', \DI\get('errorMap')),
@@ -107,6 +133,22 @@ return static function (): ContainerInterface {
                 $s['paths']['cache'] ?? ''
             );
         },
+
+        MailerInterface::class => static function (ContainerInterface $c): MailerInterface {
+            $dsn = (string) ($c->get('settings')['mail']['dsn'] ?? 'sendmail://default');
+            return new Mailer(Transport::fromDsn($dsn));
+        },
+
+        MailService::class => static function (ContainerInterface $c): MailService {
+            return new MailService(
+                $c->get(MailerInterface::class),
+                $c->get(LoggerInterface::class),
+                $c->get('settings')['mail'] ?? [],
+            );
+        },
+
+        ApiSendAction::class => \DI\autowire(),
+        RestaurantSeoBuilder::class => \DI\autowire(),
     ]);
 
     return $builder->build();

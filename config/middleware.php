@@ -9,6 +9,7 @@ use App\Middleware\CorrelationIdMiddleware;
 use App\Middleware\LanguageMiddleware;
 use App\Middleware\RateLimitMiddleware;
 use App\Middleware\RedirectMiddleware;
+use App\Middleware\RequestDurationMiddleware;
 use App\Middleware\SecurityHeadersMiddleware;
 use App\Middleware\TrailingSlashMiddleware;
 use Slim\App;
@@ -19,6 +20,7 @@ return static function (App $app): void {
     $displayErrorDetails = (bool) ($settings['twig']['debug'] ?? false);
     $container = $app->getContainer();
 
+    $app->add(RequestDurationMiddleware::class);
     $app->add(CorrelationIdMiddleware::class);
     $app->add(SecurityHeadersMiddleware::class);
     $app->add($container->get(CorsMiddleware::class));

@@ -2,40 +2,35 @@
 
 namespace App\Action;
 
+use App\Event\EntityResolved;
+use App\Event\PageLoaded;
+use App\Event\SeoBuilt;
 use App\Service\DataLoaderService;
+use App\Service\SeoBuilderInterface;
 use App\Service\SeoService;
 use App\Service\TemplateDataBuilder;
+use Psr\Container\ContainerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
-use Twig\Environment;
 
 final class PageAction
 {
     /** @var array<string,mixed> */
     private array $settings;
 
-    /**
-     * @param array<string,mixed> $settings
-     */
     public function __construct(
-        Twig $twig,
-        DataLoaderService $dataLoader,
-        SeoService $seoService,
-        TemplateDataBuilder $templateDataBuilder,
-        array $settings
+        private Twig $twig,
+        private DataLoaderService $dataLoader,
+        private SeoService $seoService,
+        private TemplateDataBuilder $templateDataBuilder,
+        private ContainerInterface $container,
+        array $settings,
+        private ?EventDispatcherInterface $dispatcher = null,
     ) {
-        $this->twig = $twig;
-        $this->dataLoader = $dataLoader;
-        $this->seoService = $seoService;
-        $this->templateDataBuilder = $templateDataBuilder;
         $this->settings = $settings;
     }
-
-    private Twig $twig;
-    private DataLoaderService $dataLoader;
-    private SeoService $seoService;
-    private TemplateDataBuilder $templateDataBuilder;
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
@@ -60,38 +55,84 @@ final class PageAction
         $pageJsonDir = str_replace('{lang}', $langCode, $pageDirTemplate);
         $pageData = $this->dataLoader->loadPage($pageJsonDir, $pageId, $baseUrl);
 
-        $status = 200;
-        $restaurant = null;
-        $restaurantBreadcrumb = null;
+        $collections = (array) ($this->settings['collections'] ?? []);
+        $jsonBaseDir = (string) ($this->settings['paths']['json_base'] ?? '');
 
-        if ($pageData !== null && $pageId === 'restaurants-list' && !empty($routeParams)) {
-            $restaurantSlug = (string) $routeParams[0];
-            $jsonBaseDir = (string) ($this->settings['paths']['json_base'] ?? '');
-            $slugs = $this->dataLoader->loadRestaurantSlugs($jsonBaseDir, $langCode);
-            if ($slugs !== null && in_array($restaurantSlug, $slugs, true)) {
-                $restaurant = $this->dataLoader->loadRestaurant($jsonBaseDir, $langCode, $restaurantSlug, $baseUrl);
+        $status = 200;
+        $entity = null;
+        $entityType = '';
+        $entityConfig = [];
+
+        // Кейс A: pageData не найден — пробуем segments[0] как direct entity slug
+        if ($pageData === null) {
+            $directSlug = (string) ($segments[0] ?? '');
+            if ($directSlug !== '') {
+                foreach ($collections as $collKey => $collConfig) {
+                    $collConfig = (array) $collConfig;
+                    $slugs = $this->dataLoader->loadEntitySlugs($jsonBaseDir, $langCode, $collConfig);
+                    if ($slugs !== null && in_array($directSlug, $slugs, true)) {
+                        $loaded = $this->dataLoader->loadEntity($jsonBaseDir, $langCode, $directSlug, $baseUrl, $collConfig);
+                        if ($loaded !== null) {
+                            $entity = $loaded;
+                            $entityType = (string) $collKey;
+                            $entityConfig = $collConfig;
+                            break;
+                        }
+                    }
+                }
             }
-            if ($restaurant !== null) {
-                $pageId = $restaurantSlug;
+
+            if ($entity !== null) {
+                $pageId = $entity['slug'];
                 $routeParams = [];
-                $pageData = ['name' => $restaurantSlug, 'sections' => []];
+                $pageData = ['name' => $pageId, 'sections' => []];
+                $this->dispatch(new EntityResolved($entityType, $pageId, $entity, $entityConfig));
             } else {
                 $status = 404;
                 $pageId = '404';
                 $pageData = $this->dataLoader->loadPage($pageJsonDir, '404', $baseUrl) ?? ['name' => '404', 'sections' => []];
             }
-        } elseif ($pageData === null) {
-            $status = 404;
-            $pageId = '404';
-            $pageData = $this->dataLoader->loadPage($pageJsonDir, '404', $baseUrl) ?? ['name' => '404', 'sections' => []];
         }
 
-        $jsonBaseDir = (string) ($this->settings['paths']['json_base'] ?? '');
+        // Кейс B: попали на list_page_id — либо отдаём список, либо резолвим вложенный entity slug
+        if ($entity === null) {
+            foreach ($collections as $collKey => $collConfig) {
+                $collConfig = (array) $collConfig;
+                $listPageId = (string) ($collConfig['list_page_id'] ?? '');
+                if ($pageId !== $listPageId) {
+                    continue;
+                }
+
+                if (count($routeParams) === 1) {
+                    $subSlug = (string) $routeParams[0];
+                    $slugs = $this->dataLoader->loadEntitySlugs($jsonBaseDir, $langCode, $collConfig);
+                    if ($slugs !== null && in_array($subSlug, $slugs, true)) {
+                        $loaded = $this->dataLoader->loadEntity($jsonBaseDir, $langCode, $subSlug, $baseUrl, $collConfig);
+                        if ($loaded !== null) {
+                            $entity = $loaded;
+                            $entityType = (string) $collKey;
+                            $entityConfig = $collConfig;
+                            $pageId = $subSlug;
+                            $pageData = ['name' => $subSlug, 'sections' => []];
+                            $this->dispatch(new EntityResolved($entityType, $subSlug, $entity, $entityConfig));
+                        }
+                    }
+                    if ($entity === null) {
+                        $status = 404;
+                        $pageId = '404';
+                        $pageData = $this->dataLoader->loadPage($pageJsonDir, '404', $baseUrl) ?? ['name' => '404', 'sections' => []];
+                    }
+                }
+                break;
+            }
+        }
+
+        $this->dispatch(new PageLoaded($pageId, $langCode, $pageData, $status));
+
         $seoData = $this->dataLoader->loadSeo($jsonBaseDir, $langCode, $pageId, $baseUrl);
 
-        if ($restaurant !== null) {
-            $seoData = $this->buildSeoForRestaurant($restaurant, $baseUrl, $langCode, $global);
-            $restaurantBreadcrumb = $this->buildRestaurantBreadcrumb($global, $langCode, $restaurant);
+        if ($entity !== null) {
+            $seoData = $this->buildSeoForEntity($entity, $baseUrl, $langCode, $entityConfig, is_array($global) ? $global : []);
         }
 
         if ($seoData !== null) {
@@ -110,12 +151,18 @@ final class PageAction
             $seoData = ['title' => '', 'meta' => [], 'json_ld' => null];
         }
 
-        $template = $restaurant !== null ? 'pages/restaurant.twig' : 'pages/page.twig';
+        $this->dispatch(new SeoBuilt($pageId, $seoData, $entity !== null));
 
+        $template = 'pages/page.twig';
         $extras = [];
-        if ($restaurant !== null) {
-            $extras['restaurant'] = $restaurant;
-            $extras['breadcrumb'] = $restaurantBreadcrumb;
+        if ($entity !== null) {
+            $template = (string) ($entityConfig['template'] ?? 'pages/page.twig');
+            $extrasKey = (string) ($entityConfig['extras_key'] ?? $entityType);
+            if ($extrasKey !== '') {
+                $extras[$extrasKey] = $entity;
+            }
+            $extras['entity'] = $entity;
+            $extras['breadcrumb'] = $this->buildEntityBreadcrumb(is_array($global) ? $global : [], $langCode, $entity, $entityConfig);
         }
 
         $data = $this->templateDataBuilder->build(
@@ -139,182 +186,88 @@ final class PageAction
     }
 
     /**
-     * @param array<string,mixed> $restaurant
+     * @param array<string,mixed> $entity
+     * @param array<string,mixed> $config
      * @param array<string,mixed> $global
+     * @return array<string,mixed>
      */
-    private function buildSeoForRestaurant(array $restaurant, string $baseUrl, string $langCode, array $global): array
+    private function buildSeoForEntity(array $entity, string $baseUrl, string $langCode, array $config, array $global): array
     {
-        $r = $restaurant['restaurant'] ?? [];
-        $name = (string) ($r['name'] ?? $restaurant['slug'] ?? '');
-        $desc = (string) ($restaurant['desc']['short'] ?? $restaurant['desc']['full'] ?? '');
-        $slug = (string) ($restaurant['slug'] ?? '');
-
-        $prodBase = 'https://italycommunity.ru';
-        $url = $prodBase . '/restaurants/' . $slug . '/';
-        $siteName = 'Экосистема итали';
-
-        $coverSrc = null;
-        if (!empty($restaurant['covers']) && is_array($restaurant['covers'])) {
-            $first = $restaurant['covers'][0];
-            if (is_array($first) && !empty($first['src'])) {
-                $coverSrc = (string) $first['src'];
+        $builderClass = (string) ($config['seo_builder'] ?? '');
+        if ($builderClass !== '' && $this->container->has($builderClass)) {
+            $builder = $this->container->get($builderClass);
+            if ($builder instanceof SeoBuilderInterface) {
+                return $builder->build($entity, $baseUrl, $langCode, $config, $global);
             }
         }
-        if ($coverSrc !== null) {
-            $pos = strpos($coverSrc, '/data/');
-            $relPath = $pos !== false ? substr($coverSrc, $pos) : '/' . ltrim($coverSrc, '/');
-            $ogImage = $prodBase . $relPath;
-        } else {
-            $ogImage = $prodBase . '/data/img/seo/og.webp?v=1';
-        }
 
-        $meta = [
-            ['name' => 'description', 'content' => $desc],
-            ['property' => 'og:url', 'content' => $url],
-            ['property' => 'og:type', 'content' => 'website'],
-            ['property' => 'og:title', 'content' => $name],
-            ['property' => 'og:description', 'content' => $desc],
-            ['property' => 'og:site_name', 'content' => $siteName],
-            ['property' => 'og:image', 'content' => $ogImage],
-            ['property' => 'og:image:secure_url', 'content' => $ogImage],
-        ];
+        // Дефолтный generic-вариант
+        $itemKey = (string) ($config['item_key'] ?? '');
+        $ogType = (string) ($config['og_type'] ?? 'website');
 
-        $jsonLd = $this->buildRestaurantJsonLd($restaurant);
-        $jsonLdFaq = $this->buildRestaurantFaqJsonLd($restaurant, $langCode, $global);
+        $inner = $itemKey !== '' ? ($entity[$itemKey] ?? []) : $entity;
+        $name = (string) ($inner['name'] ?? $inner['title'] ?? $entity['slug'] ?? '');
+        $desc = (string) ($entity['desc']['short'] ?? $entity['desc']['full'] ?? $inner['desc'] ?? $inner['lead'] ?? '');
+
         return [
             'title' => $name,
-            'meta' => $meta,
-            'json_ld' => $jsonLd,
-            'json_ld_faq' => $jsonLdFaq,
+            'meta' => [
+                ['name' => 'description', 'content' => $desc],
+                ['property' => 'og:type', 'content' => $ogType],
+                ['property' => 'og:title', 'content' => $name],
+                ['property' => 'og:description', 'content' => $desc],
+            ],
+            'json_ld' => null,
+            'json_ld_faq' => null,
         ];
-    }
-
-    /** @param array<string,mixed> $restaurant */
-    private function buildRestaurantJsonLd(array $restaurant): string
-    {
-        $r = $restaurant['restaurant'] ?? [];
-        $ld = [
-            '@context' => 'https://schema.org',
-            '@type' => 'Restaurant',
-            'name' => $r['name'] ?? null,
-            'telephone' => isset($r['telephone']['title']) ? $r['telephone']['title'] : null,
-            'address' => isset($r['address']) ? $r['address'] : null,
-            'geo' => $r['geo'] ?? null,
-            'url' => $r['url'] ?? null,
-            'priceRange' => $r['priceRange'] ?? null,
-            'hasMap' => $r['hasMap'] ?? null,
-            'menu' => $r['menuLink'] ?? null,
-        ];
-        if (!empty($r['openingHours']) && is_array($r['openingHours'])) {
-            $ld['openingHours'] = array_map(static function ($h) {
-                return trim(($h['days'] ?? '') . ' ' . ($h['hours'] ?? ''));
-            }, $r['openingHours']);
-        }
-        if (!empty($r['servesCuisine'])) {
-            $ld['servesCuisine'] = $r['servesCuisine'];
-        }
-        $ld = array_filter($ld, static fn ($v) => $v !== null && $v !== '');
-        return (string) json_encode($ld, JSON_UNESCAPED_UNICODE);
     }
 
     /**
-     * @param array<string,mixed> $restaurant
      * @param array<string,mixed> $global
-     */
-    private function buildRestaurantFaqJsonLd(array $restaurant, string $langCode, array $global): ?string
-    {
-        $r = $restaurant['restaurant'] ?? [];
-        $faq = $global['restaurant-faq'][$langCode] ?? $global['restaurant-faq']['ru'] ?? null;
-        if (!is_array($faq)) {
-            return null;
-        }
-        $mainEntity = [];
-        if (!empty($r['address'])) {
-            $addr = $r['address'];
-            $locality = isset($addr['addressLocality']) && (string) $addr['addressLocality'] !== '' ? ', ' . $addr['addressLocality'] : '';
-            $answer = trim(($addr['streetAddress'] ?? '') . $locality);
-            if ($answer !== '' && isset($faq['where'])) {
-                $mainEntity[] = [
-                    '@type' => 'Question',
-                    'name' => $faq['where'],
-                    'acceptedAnswer' => ['@type' => 'Answer', 'text' => $answer],
-                ];
-            }
-        }
-        if (!empty($r['openingHours']) && is_array($r['openingHours']) && isset($faq['hours'])) {
-            $parts = array_map(static function ($h) {
-                return trim(($h['days'] ?? '') . ' ' . ($h['hours'] ?? ''));
-            }, $r['openingHours']);
-            $answer = implode('; ', array_filter($parts));
-            if ($answer !== '') {
-                $mainEntity[] = [
-                    '@type' => 'Question',
-                    'name' => $faq['hours'],
-                    'acceptedAnswer' => ['@type' => 'Answer', 'text' => $answer],
-                ];
-            }
-        }
-        if (!empty($r['servesCuisine']) && is_array($r['servesCuisine']) && isset($faq['cuisine'])) {
-            $mainEntity[] = [
-                '@type' => 'Question',
-                'name' => $faq['cuisine'],
-                'acceptedAnswer' => ['@type' => 'Answer', 'text' => implode(', ', $r['servesCuisine'])],
-            ];
-        }
-        if (!empty($r['telephone']['title']) && isset($faq['contact'])) {
-            $mainEntity[] = [
-                '@type' => 'Question',
-                'name' => $faq['contact'],
-                'acceptedAnswer' => ['@type' => 'Answer', 'text' => $r['telephone']['title']],
-            ];
-        }
-        if (!empty($r['priceRange']) && isset($faq['price'])) {
-            $mainEntity[] = [
-                '@type' => 'Question',
-                'name' => $faq['price'],
-                'acceptedAnswer' => ['@type' => 'Answer', 'text' => (string) $r['priceRange']],
-            ];
-        }
-        if ($mainEntity === []) {
-            return null;
-        }
-        $ld = [
-            '@context' => 'https://schema.org',
-            '@type' => 'FAQPage',
-            'mainEntity' => $mainEntity,
-        ];
-        return (string) json_encode($ld, JSON_UNESCAPED_UNICODE);
-    }
-
-    /** @param array<string,mixed> $restaurant
+     * @param array<string,mixed> $entity
+     * @param array<string,mixed> $config
      * @return array<int, array{name: string, url: string}>
      */
-    private function buildRestaurantBreadcrumb(array $global, string $langCode, array $restaurant): array
+    private function buildEntityBreadcrumb(array $global, string $langCode, array $entity, array $config): array
     {
-        $r = $restaurant['restaurant'] ?? [];
-        $name = (string) ($r['name'] ?? $restaurant['slug'] ?? '');
+        $itemKey = (string) ($config['item_key'] ?? '');
+        $navSlug = (string) ($config['nav_slug'] ?? '');
+        $urlPattern = (string) ($config['entity_url_pattern'] ?? ('/' . $navSlug . '/{slug}/'));
+
+        $inner = $itemKey !== '' ? ($entity[$itemKey] ?? []) : $entity;
+        $name = (string) ($inner['name'] ?? $inner['title'] ?? $entity['slug'] ?? '');
+        $slug = (string) ($entity['slug'] ?? '');
+
         $nav = $global['nav'][$langCode]['items'] ?? [];
         $homeTitle = 'Главная';
-        $listTitle = 'Рестораны';
-        $listHref = '/restaurants/';
-        foreach ($nav as $item) {
-            if (!is_array($item)) {
-                continue;
-            }
-            $href = trim((string) ($item['href'] ?? ''), '/');
-            if ($href === '' || $href === '/') {
-                $homeTitle = (string) ($item['title'] ?? $homeTitle);
-            }
-            if ($href === 'restaurants') {
-                $listTitle = (string) ($item['title'] ?? $listTitle);
-                $listHref = '/' . $href . '/';
+        $listTitle = (string) ($config['list_title'] ?? ucfirst($navSlug));
+        $listHref = '/' . trim($navSlug, '/') . '/';
+        if (is_array($nav)) {
+            foreach ($nav as $navItem) {
+                if (!is_array($navItem)) {
+                    continue;
+                }
+                $href = trim((string) ($navItem['href'] ?? ''), '/');
+                if ($href === '' || $href === '/') {
+                    $homeTitle = (string) ($navItem['title'] ?? $homeTitle);
+                }
+                if ($href === $navSlug) {
+                    $listTitle = (string) ($navItem['title'] ?? $listTitle);
+                    $listHref = '/' . $href . '/';
+                }
             }
         }
+
         return [
             ['name' => $homeTitle, 'url' => '/'],
             ['name' => $listTitle, 'url' => $listHref],
-            ['name' => $name, 'url' => '/restaurants/' . $restaurant['slug'] . '/'],
+            ['name' => $name, 'url' => str_replace('{slug}', $slug, $urlPattern)],
         ];
+    }
+
+    private function dispatch(object $event): void
+    {
+        $this->dispatcher?->dispatch($event);
     }
 
     private function ensureCsrfToken(): string

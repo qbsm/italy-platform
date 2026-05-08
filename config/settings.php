@@ -66,6 +66,26 @@ return [
     'route_map' => [
         'restaurants' => 'restaurants-list',
     ],
+    // Конфигурация коллекций — generic loader (loadEntity/loadEntitySlugs)
+    // и per-collection SEO (seo_builder реализует SeoBuilderInterface)
+    'collections' => [
+        'restaurants' => [
+            'data_dir' => 'restaurants',          // data/json/{lang}/restaurants/{slug}.json
+            'item_key' => 'restaurant',           // ключ внутри entity (валидируется на existence)
+            'nav_slug' => 'restaurants',          // префикс URL и breadcrumb
+            'list_page_id' => 'restaurants-list', // pages/restaurants-list.json
+            'slugs_source' => 'items',
+            'template' => 'pages/restaurant.twig',
+            'extras_key' => 'restaurant',         // ключ в template ($restaurant)
+            'og_type' => 'website',
+            'entity_url_pattern' => '/restaurants/{slug}/',
+            'seo_builder' => \App\Service\RestaurantSeoBuilder::class,
+            'site_name' => 'Экосистема итали',
+            'prod_base_url' => 'https://italycommunity.ru',
+            'fallback_og_image' => '/data/img/seo/og.webp?v=1',
+            'list_title' => 'Рестораны',
+        ],
+    ],
     // page_id страниц для sitemap.xml (без 404). Задаётся под проект.
     'sitemap_pages' => [
         'index',
@@ -84,6 +104,13 @@ return [
         'allowed_methods' => ['GET', 'POST', 'OPTIONS', 'PUT', 'PATCH', 'DELETE'],
         'allowed_headers' => ['Content-Type', 'Accept', 'Authorization', 'X-Requested-With'],
         'allow_credentials' => false,
+    ],
+    'mail' => [
+        'dsn' => (string) (getenv('MAILER_DSN') ?: 'sendmail://default'),
+        'to' => (string) (getenv('MAIL_TO') ?: ''),
+        'from' => (string) (getenv('MAIL_FROM') ?: 'noreply@localhost'),
+        'from_name' => (string) (getenv('MAIL_FROM_NAME') ?: ''),
+        'subject_prefix' => (string) (getenv('MAIL_SUBJECT_PREFIX') ?: ''),
     ],
     'errors' => require __DIR__ . '/errors.php',
     'twig' => [
