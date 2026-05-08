@@ -2,6 +2,10 @@
    Page: restaurant detail
    ============================================ */
 
+body:has(.restaurant-detail) {
+  background: var(--color-2);
+}
+
 .restaurant-detail {
   display: flex;
   flex-direction: column;
