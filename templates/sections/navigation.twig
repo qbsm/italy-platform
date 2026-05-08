@@ -3,6 +3,7 @@
     {% if data.items is defined and data.items is not empty %}
       <div class="section__item items-wrap">
         {% for item in data.items %}
+          {% if item.visible is not defined or item.visible %}
           <div class="section__subitem item-wrap size-{{ item.size|default('half') }}">
             {% if item.type == 'buttons' %}
               <div class="buttons-wrap">
@@ -31,6 +32,7 @@
               {% include 'components/card-nav.twig' with {'item': item} %}
             {% endif %}
           </div>
+          {% endif %}
         {% endfor %}
       </div>
     {% endif %}

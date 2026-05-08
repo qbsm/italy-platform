@@ -382,6 +382,7 @@
             "type": "gradient",
             "size": "full",
             "href": "#",
+            "visible": false,
             "cover": {
               "gradient": "gradient-sunset"
             },
