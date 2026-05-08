@@ -6,10 +6,9 @@ use App\Event\EntityResolved;
 use App\Event\PageLoaded;
 use App\Event\SeoBuilt;
 use App\Service\DataLoaderService;
-use App\Service\SeoBuilderInterface;
+use App\Service\SeoBuilderRegistry;
 use App\Service\SeoService;
 use App\Service\TemplateDataBuilder;
-use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -25,7 +24,7 @@ final class PageAction
         private DataLoaderService $dataLoader,
         private SeoService $seoService,
         private TemplateDataBuilder $templateDataBuilder,
-        private ContainerInterface $container,
+        private SeoBuilderRegistry $seoRegistry,
         array $settings,
         private ?EventDispatcherInterface $dispatcher = null,
     ) {
@@ -136,7 +135,7 @@ final class PageAction
         $seoData = $this->dataLoader->loadSeo($jsonBaseDir, $langCode, $pageId, $baseUrl);
 
         if ($entity !== null) {
-            $seoData = $this->buildSeoForEntity($entity, $baseUrl, $langCode, $entityConfig, is_array($global) ? $global : []);
+            $seoData = $this->buildSeoForEntity($entity, $baseUrl, $langCode, $entityType, $entityConfig, is_array($global) ? $global : []);
         }
 
         if ($seoData !== null) {
@@ -195,14 +194,11 @@ final class PageAction
      * @param array<string,mixed> $global
      * @return array<string,mixed>
      */
-    private function buildSeoForEntity(array $entity, string $baseUrl, string $langCode, array $config, array $global): array
+    private function buildSeoForEntity(array $entity, string $baseUrl, string $langCode, string $entityType, array $config, array $global): array
     {
-        $builderClass = (string) ($config['seo_builder'] ?? '');
-        if ($builderClass !== '' && $this->container->has($builderClass)) {
-            $builder = $this->container->get($builderClass);
-            if ($builder instanceof SeoBuilderInterface) {
-                return $builder->build($entity, $baseUrl, $langCode, $config, $global);
-            }
+        $builder = $this->seoRegistry->get($entityType);
+        if ($builder !== null) {
+            return $builder->build($entity, $baseUrl, $langCode, $config, $global);
         }
 
         // Дефолтный generic-вариант

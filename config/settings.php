@@ -79,7 +79,6 @@ return [
             'extras_key' => 'restaurant',         // ключ в template ($restaurant)
             'og_type' => 'website',
             'entity_url_pattern' => '/restaurants/{slug}/',
-            'seo_builder' => \App\Service\RestaurantSeoBuilder::class,
             'site_name' => 'Экосистема итали',
             'prod_base_url' => 'https://italycommunity.ru',
             'fallback_og_image' => '/data/img/seo/og.webp?v=1',
