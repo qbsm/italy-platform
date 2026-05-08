@@ -71,7 +71,24 @@
       "alt": "Logo"
     }
   },
-  "socials": [],
+  "socials": [
+    {
+      "title": "Telegram",
+      "href": "#",
+      "icon": {
+        "src": "data/img/ui/icons/icon-telegram-color-1.svg",
+        "alt": "Telegram"
+      }
+    },
+    {
+      "title": "VK",
+      "href": "#",
+      "icon": {
+        "src": "data/img/ui/icons/icon-vk-color-1.svg",
+        "alt": "VK"
+      }
+    }
+  ],
   "socials-headings": {
     "ru": "Подписывайтесь на нас",
     "en": "Follow us"
