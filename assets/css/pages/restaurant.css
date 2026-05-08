@@ -223,11 +223,7 @@
 .restaurant-detail .about-wrap .container-md {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
-
-  @media (--lg) {
-    gap: 6rem;
-  }
+  gap: 4rem;
 }
 
 .restaurant-detail .about-wrap .section__item.heading-wrap {
