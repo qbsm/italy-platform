@@ -11,8 +11,8 @@
         {% set nav_path = nav_path ~ '/' %}
       {% endif %}
 
-      <a href="{{ url(nav_path) }}" class="burger-menu__item link">
-        <span class="burger-menu__title uppercase">{{ item.title }}</span>
+      <a href="{{ url(nav_path) }}"{% if item.target is defined %} target="{{ item.target }}"{% endif %} class="burger-menu__item link">
+        <span class="burger-menu__title">{{ item.title }}</span>
       </a>
     {% endfor %}
   </div>

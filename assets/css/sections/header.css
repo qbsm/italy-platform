@@ -44,6 +44,14 @@
   opacity: 1;
 }
 
+.header:has(.burger-icon.active) {
+  background: var(--color-2);
+}
+
+.header:has(.burger-icon.active) .section__item.logo-wrap {
+  opacity: 1;
+}
+
 .header .section__item.logo-wrap a {
   display: flex;
   width: 9.4rem;
