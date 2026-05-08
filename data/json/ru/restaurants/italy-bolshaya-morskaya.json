@@ -32,7 +32,8 @@
     ],
     "priceRange": "₽₽",
     "menuLink": "https://italyrestaurants.ru/bmmenu",
-    "bookingLink": "#"
+    "bookingLink": "#",
+    "bookingPoint": "910006"
   },
   "desc": {
     "short": "Камерная траттория в центре Петербурга с завтраками целый день",

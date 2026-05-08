@@ -54,10 +54,10 @@
                 </div>
               {% endif %}
 
-              {% if r.bookingLink is defined or r.menuLink is defined %}
+              {% if r.bookingPoint is defined or r.menuLink is defined %}
                 <div class="restaurant-intro__actions">
-                  {% if r.bookingLink is defined and r.bookingLink %}
-                    <a href="{{ r.bookingLink }}" target="_blank" rel="noopener noreferrer" class="button button-md button-rounded bg-color-1 color-2 uppercase link">Забронировать</a>
+                  {% if r.bookingPoint is defined and r.bookingPoint %}
+                    <button type="button" class="button button-md button-rounded bg-color-1 color-2 uppercase link widget__point__{{ r.bookingPoint }}">Забронировать</button>
                   {% endif %}
                   {% if r.menuLink is defined and r.menuLink %}
                     <a href="{{ r.menuLink }}" target="_blank" rel="noopener noreferrer" class="button button-md button-rounded outline-color-1 color-1 uppercase link">Меню</a>
@@ -142,4 +142,37 @@
     'form': { 'heading': 'Будьте в курсе' }
   }} %}
 </div>
+
+{% if r.bookingPoint is defined and r.bookingPoint %}
+  <link rel="stylesheet" href="https://remarked.ru/widget/new/css/{{ r.bookingPoint }}.css">
+  <script src="https://remarked.ru/widget/new/js/newidget-v2.js" defer></script>
+  <script defer>
+    window.addEventListener('DOMContentLoaded', () => {
+      if (typeof widgetArea !== 'function') return;
+      const points = [
+        { name: 'Итали на Большом', phone: '+7 (812) 900-63-33', point: 600901 },
+        { name: 'Итали в Виленском', phone: '+7 (812) 906-65-58', point: 910001 },
+        { name: 'Итали на Московском', phone: '+7 (931) 954-61-97', point: 910005 },
+        { name: 'Итали на Большой Морской', phone: '+7 (921) 944-03-00', point: 910006 },
+        { name: 'ХИТЧ', phone: '+7 (921) 919-01-79', point: 910004 },
+        { name: 'Гус Гус', phone: '+7 (911) 928-37-27', point: 910002 },
+        { name: 'Bist', phone: '+7 (931) 994-75-15', point: 910007 }
+      ];
+      const current = points.find(p => p.point == {{ r.bookingPoint }});
+      if (!current) return;
+      const sortPoints = [current, ...points.filter(p => p.point !== current.point)];
+      widgetArea({
+        booking: sortPoints,
+        button: '.widget__point__{{ r.bookingPoint }}',
+        linkPolicy: '/policy/',
+        newSlotsTime: true,
+        requiredSelect: true,
+        children: true,
+        childrenQtyInput: true,
+        childrenQtyMin: '0',
+        childrenQtyMax: 10
+      });
+    });
+  </script>
+{% endif %}
 {% endblock %}
