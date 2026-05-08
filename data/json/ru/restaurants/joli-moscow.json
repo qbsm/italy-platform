@@ -1,6 +1,6 @@
 {
   "slug": "joli-moscow",
-  "visible": false,
+  "visible": true,
   "restaurant": {
     "@type": "Restaurant",
     "name": "Joli Москва",
