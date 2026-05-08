@@ -13,7 +13,7 @@
         {% if global.nav[lang_code].items is defined %}
           {% for link in global.nav[lang_code].items %}
             <div class="footer__link-wrap">
-              <a href="{{ url(link.href) }}" class="link footer__link">{{ link.title }}</a>
+              <a href="{{ url(link.href) }}"{% if link.target is defined %} target="{{ link.target }}" rel="noopener noreferrer"{% endif %} class="link footer__link">{{ link.title }}</a>
             </div>
           {% endfor %}
         {% endif %}

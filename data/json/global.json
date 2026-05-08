@@ -21,24 +21,34 @@
     "ru": {
       "items": [
         {
-          "title": "Главная",
-          "href": "/"
+          "title": "люди итали | italy people",
+          "href": "https://italycommunity.online",
+          "target": "_blank"
         },
         {
-          "title": "Рестораны",
-          "href": "/restaurants/"
+          "title": "Программа лояльности",
+          "href": "#"
+        },
+        {
+          "title": "Работай с нами",
+          "href": "#"
         }
       ]
     },
     "en": {
       "items": [
         {
-          "title": "Home",
-          "href": "/"
+          "title": "люди итали | italy people",
+          "href": "https://italycommunity.online",
+          "target": "_blank"
         },
         {
-          "title": "Restaurants",
-          "href": "/restaurants/"
+          "title": "Loyalty program",
+          "href": "#"
+        },
+        {
+          "title": "Work with us",
+          "href": "#"
         }
       ]
     }
