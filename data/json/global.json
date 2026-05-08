@@ -108,13 +108,13 @@
         "email": "Почта",
         "name": "Имя",
         "city": "Город",
-        "policy": "Принять конфиденциальность"
+        "policy": "Согласен(-сна) на обработку персональных данных и с пользовательским соглашением."
       },
       "en": {
         "email": "Email",
         "name": "Name",
         "city": "City",
-        "policy": "Accept privacy policy"
+        "policy": "I agree to the processing of personal data and the user agreement."
       }
     },
     "rules": {
