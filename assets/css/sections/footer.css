@@ -182,19 +182,17 @@
   color: var(--color-6);
 }
 
-.footer .form-callback input[type="text"],
-.footer .form-callback input[type="tel"] {
+.footer .form-callback .form-callback__input {
   color: var(--color-1);
+  caret-color: var(--color-1);
   border-bottom-color: var(--color-1);
 }
 
-.footer .form-callback input[type="text"]::placeholder,
-.footer .form-callback input[type="tel"]::placeholder {
+.footer .form-callback .form-callback__input::placeholder {
   color: var(--color-6);
 }
 
-.footer .form-callback input[type="text"]:focus,
-.footer .form-callback input[type="tel"]:focus {
+.footer .form-callback .form-callback__input:focus {
   border-bottom-color: var(--color-1);
 }
 
