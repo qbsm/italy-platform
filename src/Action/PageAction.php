@@ -232,7 +232,7 @@ final class PageAction
     {
         $itemKey = (string) ($config['item_key'] ?? '');
         $navSlug = (string) ($config['nav_slug'] ?? '');
-        $urlPattern = (string) ($config['entity_url_pattern'] ?? ('/' . $navSlug . '/{slug}/'));
+        $urlPattern = (string) ($config['entity_url_pattern'] ?? ('/' . $navSlug . '/{slug}'));
 
         $inner = $itemKey !== '' ? ($entity[$itemKey] ?? []) : $entity;
         $name = (string) ($inner['name'] ?? $inner['title'] ?? $entity['slug'] ?? '');

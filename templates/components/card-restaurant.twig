@@ -1,7 +1,7 @@
 {% set name = item.restaurant.name | default('') %}
 {% set icon = item.icons[0] | default(null) %}
 {% set logo = item.logos[0] | default(null) %}
-{% set href = item.slug is defined ? '/restaurants/' ~ item.slug ~ '/' : null %}
+{% set href = item.slug is defined ? '/restaurants/' ~ item.slug : null %}
 {% set r = item.restaurant | default({}) %}
 {% set covers = item.covers | default([]) %}
 {% set sliderId = 'cardSlider_' ~ (item.slug | default(random(100000))) %}

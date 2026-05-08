@@ -20,7 +20,7 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
         $slug = (string) ($entity['slug'] ?? '');
 
         $prodBase = (string) ($config['prod_base_url'] ?? rtrim($baseUrl, '/'));
-        $urlPattern = (string) ($config['entity_url_pattern'] ?? '/{slug}/');
+        $urlPattern = (string) ($config['entity_url_pattern'] ?? '/{slug}');
         $url = $prodBase . str_replace('{slug}', $slug, $urlPattern);
 
         $siteName = (string) ($config['site_name'] ?? 'Site');

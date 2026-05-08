@@ -38,12 +38,20 @@
   {# Логика формирования current_url, canonical и alternate #}
   {% set _base_url_trimmed = base_url|trim('/') %} {# base_url без слешей по краям #}
 
+  {# reverse route_map: page_id ('restaurants-list') → URL slug ('restaurants') #}
+  {% set _url_slug = page_id %}
+  {% for url_part, mapped_id in config.settings.route_map | default({}) %}
+    {% if mapped_id == page_id %}
+      {% set _url_slug = url_part %}
+    {% endif %}
+  {% endfor %}
+
   {% if restaurant is defined and restaurant.slug is defined %}
     {% set _path_segment = 'restaurants/' ~ restaurant.slug %}
   {% elseif page_id == 'index' %}
     {% set _path_segment = '' %}
   {% else %}
-    {% set _path_segment = page_id %}
+    {% set _path_segment = _url_slug %}
   {% endif %}
 
   {% if restaurant is not defined and route_params|length > 0 and _path_segment != '' %}
@@ -52,7 +60,7 @@
      {% set _path_segment = route_params|join('/') %}
   {% endif %}
 
-  {% set _final_path_for_current_url = (_path_segment != '') ? '/' ~ _path_segment ~ '/' : '/' %}
+  {% set _final_path_for_current_url = (_path_segment != '') ? '/' ~ _path_segment : '/' %}
   {% set current_url = _base_url_trimmed ~ _final_path_for_current_url %}
 
 
@@ -68,7 +76,7 @@
   {% endif %}
   
   {% set _path_for_canonical = _url_path_for_seo|trim('/') %}
-  {% set final_canonical_url = _url_prefix_for_seo|trim('/') ~ '/' ~ (_path_for_canonical != '' ? _path_for_canonical ~ '/' : '') %}
+  {% set final_canonical_url = _url_prefix_for_seo|trim('/') ~ (_path_for_canonical != '' ? '/' ~ _path_for_canonical : '/') %}
 
 
   <link rel="canonical" href="{{ final_canonical_url }}" />
@@ -83,7 +91,7 @@
       {% endif %}
 
       {% set _path_for_alt = _url_path_for_seo|trim('/') %}
-      {% set final_alt_url = _alt_url_base_for_seo|trim('/') ~ '/' ~ (_path_for_alt != '' ? _path_for_alt ~ '/' : '') %}
+      {% set final_alt_url = _alt_url_base_for_seo|trim('/') ~ (_path_for_alt != '' ? '/' ~ _path_for_alt : '/') %}
 
       <link rel="alternate" href="{{ final_alt_url }}" hreflang="{{ lang_loop_code }}" />
     {% endif %}

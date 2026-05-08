@@ -23,7 +23,7 @@
           },
           {
             "title": "Рестораны",
-            "href": "/restaurants/",
+            "href": "/restaurants",
             "class": "button button-md button-rounded outline-color-1 color-1 uppercase link"
           }
         ]

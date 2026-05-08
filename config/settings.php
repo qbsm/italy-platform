@@ -78,7 +78,7 @@ return [
             'template' => 'pages/restaurant.twig',
             'extras_key' => 'restaurant',         // ключ в template ($restaurant)
             'og_type' => 'website',
-            'entity_url_pattern' => '/restaurants/{slug}/',
+            'entity_url_pattern' => '/restaurants/{slug}',
             'site_name' => 'Экосистема итали',
             'prod_base_url' => 'https://italycommunity.ru',
             'fallback_og_image' => '/data/img/seo/og.webp?v=1',

@@ -19,8 +19,10 @@ final class TrailingSlashMiddleware implements MiddlewareInterface
         $uri = $request->getUri();
         $path = $uri->getPath();
 
-        if ($path !== '/' && !str_ends_with($path, '/') && strpos((string) basename($path), '.') === false) {
-            $target = (string) $uri->withPath($path . '/');
+        // Best practice: без trailing slash для всех ресурсов кроме корня.
+        // Со слеша → 301 без слеша (если это не корень).
+        if ($path !== '/' && str_ends_with($path, '/')) {
+            $target = (string) $uri->withPath(rtrim($path, '/'));
             $response = $this->responseFactory->createResponse(301);
             return $response->withHeader('Location', $target);
         }

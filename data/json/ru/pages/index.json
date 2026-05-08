@@ -267,7 +267,7 @@
           {
             "type": "card",
             "size": "half",
-            "href": "/restaurants/",
+            "href": "/restaurants",
             "cover": {
               "src": "data/img/navigation/rests.jpg"
             },
@@ -282,9 +282,17 @@
               "id": "lotterySlider",
               "settings": {
                 "loop": true,
-                "autoplay": { "delay": 5000, "disableOnInteraction": false },
-                "pagination": { "enabled": true, "clickable": true },
-                "navigation": { "enabled": true },
+                "autoplay": {
+                  "delay": 5000,
+                  "disableOnInteraction": false
+                },
+                "pagination": {
+                  "enabled": true,
+                  "clickable": true
+                },
+                "navigation": {
+                  "enabled": true
+                },
                 "effect": "fade",
                 "speed": 800
               },

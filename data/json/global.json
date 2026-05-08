@@ -108,21 +108,21 @@
   "policy": {
     "ru": {
       "title": "Политика в отношении обработки персональных данных",
-      "href": "/policy/"
+      "href": "/policy"
     },
     "en": {
       "title": "Privacy Policy",
-      "href": "/policy/"
+      "href": "/policy"
     }
   },
   "agree": {
     "ru": {
       "title": "Пользовательское соглашение",
-      "href": "/agree/"
+      "href": "/agree"
     },
     "en": {
       "title": "User Agreement",
-      "href": "/agree/"
+      "href": "/agree"
     }
   },
   "copyright": {
