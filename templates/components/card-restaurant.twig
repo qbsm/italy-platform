@@ -35,13 +35,16 @@
         </div>
 
         {% set descText = item.desc.full | default(item.desc.short | default(null)) %}
-        {% if descText %}
+        {% set descParagraphs = descText is iterable ? descText : (descText ? [descText] : []) %}
+        {% if descParagraphs|length > 0 %}
           <div class="swiper-slide card-restaurant-slide card-restaurant-slide--desc">
             {% if logo %}
               <img src="{{ url(logo.src) }}" alt="{{ logo.alt | default(name) }}"
                    class="card__logo img-responsive" loading="lazy">
             {% endif %}
-            <p class="card-restaurant-slide__text">{{ descText }}</p>
+            {% for paragraph in descParagraphs %}
+              <p class="card-restaurant-slide__text">{{ paragraph }}</p>
+            {% endfor %}
           </div>
         {% endif %}
 

@@ -121,6 +121,10 @@
   color: var(--color-1);
 }
 
+.card-restaurant .card-restaurant-slide__text + .card-restaurant-slide__text {
+  margin-top: 0.8rem;
+}
+
 .card-restaurant .card-restaurant-slide__info {
   display: flex;
   flex-direction: column;
@@ -166,8 +170,13 @@
   pointer-events: none;
 }
 
+.card-restaurant-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .card-restaurant-wrap .card__item.title-wrap {
-  padding-top: 1rem;
   text-align: left;
 }
 
@@ -180,7 +189,7 @@
 }
 
 .card-restaurant-wrap .card__item.desc-wrap {
-  padding-top: 0.5rem;
+  flex: 1;
   text-align: left;
 }
 
@@ -191,5 +200,5 @@
 .card-restaurant-wrap .card__item.buttons-wrap {
   display: flex;
   gap: 1rem;
-  padding-top: 1rem;
+  margin-top: auto;
 }
