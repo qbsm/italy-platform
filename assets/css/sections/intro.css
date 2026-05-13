@@ -1,8 +1,8 @@
 .intro {
-  margin-top: -7.2rem;
+  margin-top: -11.2rem;
 
   @media (--lg) {
-    margin-top: -10.4rem;
+    margin-top: -12rem;
   }
 }
 

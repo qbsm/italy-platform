@@ -265,6 +265,27 @@
       "en": "Close menu"
     }
   },
+  "booking": {
+    "ru": {
+      "title": "Забронировать"
+    },
+    "en": {
+      "title": "Book"
+    }
+  },
+  "app": {
+    "href": "https://redirect.appmetrica.yandex.com/serve/966450630770056189",
+    "ru": {
+      "title": "Приложение",
+      "brand": "italy touch",
+      "button": "Скачать"
+    },
+    "en": {
+      "title": "Application",
+      "brand": "italy touch",
+      "button": "Download"
+    }
+  },
   "cookie-panel": {
     "enabled": false,
     "ru": {
