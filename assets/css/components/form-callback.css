@@ -62,25 +62,6 @@
   grid-area: error;
 }
 
-/* Подпись над полем */
-.form-callback__label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: 0.85em;
-  font-weight: 400;
-  color: var(--color-2);
-  cursor: pointer;
-  transition: color var(--transition-1);
-}
-
-.form-callback__label-text {
-  text-transform: uppercase;
-}
-
-.form-callback__required {
-  color: var(--color-error);
-}
-
 .form-callback__caption {
   display: block;
   margin-top: 0.35rem;
@@ -99,7 +80,6 @@
   font-size: 1em;
   background: none;
   color: var(--color-2);
-  text-transform: uppercase;
   border: none;
   border-bottom: 0.1rem solid var(--color-1);
   border-radius: 0;
@@ -110,7 +90,6 @@
 .form-callback__input::placeholder,
 .form-callback textarea.form-callback__input::placeholder {
   color: var(--color-placeholder);
-  text-transform: uppercase;
 }
 
 .form-callback__input:focus,
