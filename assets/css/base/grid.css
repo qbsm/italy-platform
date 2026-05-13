@@ -64,14 +64,14 @@
   @media (--lg) {
     width: 100%;
     margin-left: 0;
-    padding-left: calc((100vw - 1700px) / 2 + 2rem);
+    padding-left: max(2rem, calc((100vw - 1700px) / 2 + 2rem));
   }
 
   @media (--xl) {
     width: 100%;
     margin-left: 0;
     margin-right: 0;
-    padding-left: calc((100vw - 1700px) / 2 + 2rem);
+    padding-left: max(2rem, calc((100vw - 1700px) / 2 + 2rem));
   }
 }
 
