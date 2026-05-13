@@ -57,7 +57,7 @@
 
 .restaurants .section__subitem.card-restaurant-wrap .card-restaurant {
   min-width: 0;
-  height: 18rem;
+  height: 24rem;
 
   @media (--lg) {
     height: 26rem;
