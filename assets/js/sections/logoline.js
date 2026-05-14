@@ -156,6 +156,6 @@ function initLogolineMarquee() {
         dragMoved = false;
       }
     },
-    true,
+    true
   );
 }

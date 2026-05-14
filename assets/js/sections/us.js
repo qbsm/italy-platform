@@ -13,9 +13,7 @@ onReady(() => {
       const mp4 = video.dataset[`src${tier === 'desktop' ? 'Desktop' : 'Mobile'}Mp4`];
       if (video.dataset.tier === tier) return;
       video.dataset.tier = tier;
-      video.innerHTML =
-        `<source src="${webm}" type="video/webm">` +
-        `<source src="${mp4}" type="video/mp4">`;
+      video.innerHTML = `<source src="${webm}" type="video/webm">` + `<source src="${mp4}" type="video/mp4">`;
       video.load();
     };
     setSources();
