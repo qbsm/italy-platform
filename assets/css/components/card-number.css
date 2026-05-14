@@ -17,6 +17,7 @@
   font-weight: 500;
   font-size: 6em;
   line-height: 0.9;
+  font-variant-numeric: tabular-nums;
 
   @media (--lg) {
     font-size: 8em;

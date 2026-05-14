@@ -162,3 +162,10 @@
     justify-content: space-between;
   }
 }
+
+.us .section__subitem.card-number-wrap {
+  @media (--lg) {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
