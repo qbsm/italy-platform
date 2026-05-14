@@ -98,15 +98,3 @@
   text-align: right;
 }
 
-/* expressive hovers — booking (red → bright orange) */
-.header .section__item.actions-wrap .button.bg-color-3:hover {
-  background: var(--color-4);
-  color: var(--color-1);
-}
-
-/* expressive hovers — download (light gray → brand red) */
-.header .section__item.actions-wrap .button.bg-color-6:hover {
-  background: var(--color-3);
-  color: var(--color-1);
-}
-

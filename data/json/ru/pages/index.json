@@ -298,10 +298,16 @@
               },
               "items": [
                 {
-                  "cover": "data/img/navigation/lottery.png"
+                  "cover": "data/img/navigation/banners/banner-1.jpg",
+                  "href": "#"
                 },
                 {
-                  "cover": "data/img/navigation/lottery.png"
+                  "cover": "data/img/navigation/banners/banner-2.jpg",
+                  "href": "#"
+                },
+                {
+                  "cover": "data/img/navigation/banners/banner-3.jpg",
+                  "href": "#"
                 }
               ]
             }

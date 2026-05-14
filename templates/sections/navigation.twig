@@ -18,7 +18,13 @@
                 <div class="swiper-wrapper">
                   {% for slide in item.slider.items %}
                     <div class="swiper-slide">
-                      <div class="card-slider__cover" style="background-image: url('{{ url(slide.cover) }}');"></div>
+                      {% if slide.href is defined %}
+                        <a href="{{ slide.href }}"{% if slide.target is defined %} target="{{ slide.target }}" rel="noopener noreferrer"{% endif %} class="card-slider__link">
+                          <div class="card-slider__cover" style="background-image: url('{{ url(slide.cover) }}');"></div>
+                        </a>
+                      {% else %}
+                        <div class="card-slider__cover" style="background-image: url('{{ url(slide.cover) }}');"></div>
+                      {% endif %}
                     </div>
                   {% endfor %}
                 </div>

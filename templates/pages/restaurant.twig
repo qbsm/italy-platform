@@ -57,10 +57,10 @@
               {% if r.bookingPoint is defined or r.menuLink is defined %}
                 <div class="restaurant-intro__actions">
                   {% if r.menuLink is defined and r.menuLink %}
-                    <a href="{{ r.menuLink }}" target="_blank" rel="noopener noreferrer" class="button button-md button-rounded outline-color-1 color-1 uppercase link">Меню</a>
+                    <a href="{{ r.menuLink }}" target="_blank" rel="noopener noreferrer" class="button button-md outline-color-1 color-1 uppercase link">Меню</a>
                   {% endif %}
                   {% if r.bookingPoint is defined and r.bookingPoint %}
-                    <button type="button" class="button button-md button-rounded bg-color-1 color-2 uppercase link widget__point__{{ r.bookingPoint }}">Забронировать</button>
+                    <button type="button" class="button button-md bg-color-1 color-2 uppercase link widget__point__{{ r.bookingPoint }}">Забронировать</button>
                   {% endif %}
                 </div>
               {% endif %}
@@ -114,7 +114,7 @@
         {% set galleryItems = restaurant.gallery|default(restaurant.covers|default([])) %}
         {% if galleryItems|length > 0 %}
           <div class="section__item restaurant-about__gallery" id="restaurantGallery">
-            {% for img in galleryItems %}
+            {% for img in galleryItems|slice(0, 4) %}
               <figure class="restaurant-about__photo">
                 <a href="{{ url(img.src) }}" class="glightbox link" data-gallery="restaurant-gallery">
                   <img src="{{ url(img.src) }}" alt="{{ img.alt|default(r.name) }}" loading="lazy">

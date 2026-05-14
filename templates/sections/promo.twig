@@ -15,7 +15,7 @@
       {% if data.actions is defined and data.actions|length > 0 %}
         <div class="promo__actions">
           {% for action in data.actions %}
-            <a href="{{ url(action.href) }}" class="{{ action.class | default('button button-md button-rounded bg-color-1 color-2 uppercase link') }}">{{ action.title }}</a>
+            <a href="{{ url(action.href) }}" class="{{ action.class | default('button button-md bg-color-1 color-2 uppercase link') }}">{{ action.title }}</a>
           {% endfor %}
         </div>
       {% endif %}

@@ -19,12 +19,12 @@
           {
             "title": "На главную",
             "href": "/",
-            "class": "button button-md button-rounded bg-color-1 color-2 uppercase link"
+            "class": "button button-md bg-color-1 color-2 uppercase link"
           },
           {
             "title": "Рестораны",
             "href": "/restaurants",
-            "class": "button button-md button-rounded outline-color-1 color-1 uppercase link"
+            "class": "button button-md outline-color-1 color-1 uppercase link"
           }
         ]
       }

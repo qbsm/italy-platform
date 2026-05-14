@@ -54,16 +54,12 @@
           "href": "#"
         },
         {
-          "title": "italy studios",
-          "href": "#"
-        },
-        {
           "title": "Работай с нами",
           "href": "https://spb.hh.ru/employer/983791?tab=DESCRIPTION",
           "target": "_blank"
         },
         {
-          "title": "italy people",
+          "title": "люди итали",
           "href": "https://italycommunity.online",
           "target": "_blank"
         }
@@ -102,10 +98,6 @@
         },
         {
           "title": "Franchise",
-          "href": "#"
-        },
-        {
-          "title": "italy studios",
           "href": "#"
         },
         {
@@ -152,7 +144,7 @@
   "socials": [
     {
       "title": "VK",
-      "href": "#",
+      "href": "https://vk.com/italy.community",
       "icon": {
         "src": "data/img/ui/icons/icon-vk-color-1.svg",
         "alt": "VK"
@@ -160,7 +152,7 @@
     },
     {
       "title": "Telegram",
-      "href": "#",
+      "href": "https://t.me/MS_italycommunity",
       "icon": {
         "src": "data/img/ui/icons/icon-telegram-color-1.svg",
         "alt": "Telegram"
