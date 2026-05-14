@@ -13,6 +13,7 @@
 }
 
 .card-number__title {
+  display: inline-block;
   font-family: var(--font-1-extended);
   font-weight: 500;
   font-size: 6em;
@@ -22,6 +23,13 @@
   @media (--lg) {
     font-size: 8em;
   }
+}
+
+.card-number__title::before {
+  content: attr(data-final);
+  display: block;
+  height: 0;
+  visibility: hidden;
 }
 
 .card-number__plus {
