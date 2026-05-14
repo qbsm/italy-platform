@@ -236,12 +236,12 @@
             "time": "1"
           },
           {
-            "title": "20+",
+            "title": "20<span class=\"card-number__plus\">+</span>",
             "label": "проектов",
             "time": "1"
           },
           {
-            "title": "1000+",
+            "title": "1000<span class=\"card-number__plus\">+</span>",
             "label": "сотрудников",
             "time": "1"
           }
