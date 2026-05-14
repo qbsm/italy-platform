@@ -5,13 +5,23 @@
         <img src="{{ url('data/img/ui/logos/logo-intro-color.svg') }}" alt="Logo" class="img-responsive">
       </a>
     </div>
-    <div class="section__item burger-icon-wrap">
-      {% include 'components/burger-icon.twig' %}
-    </div>
-    <div class="section__item burger-menu-wrap">
-      {% include 'components/burger-menu.twig' with {
-        items: global.nav[lang_code].items
-      } %}
+    <div class="section__item actions-wrap">
+      <div class="section__subitem actions-wrap__row top-row">
+        <button type="button" class="button button-sm button-rounded bg-color-3 color-1 js-button-booking">{{ global.booking[lang_code].title }}</button>
+        {% include 'components/burger-icon.twig' %}
+      </div>
+      <div class="section__subitem actions-wrap__row bottom-row">
+        <span class="section__inner text-wrap">
+          <span>{{ global.app[lang_code].title }}</span>
+          <span>{{ global.app[lang_code].brand }}</span>
+        </span>
+        <a href="{{ global.app.href }}" target="_blank" rel="noopener" class="button button-sm button-rounded bg-color-6 color-2 button-download">
+          <span>{{ global.app[lang_code].button }}</span>
+        </a>
+      </div>
     </div>
   </div>
+  {% include 'components/burger-menu.twig' with {
+    items: global.nav[lang_code].items
+  } %}
 </header>

@@ -1,13 +1,13 @@
 .header {
   position: relative;
-  height: 7.2rem;
+  padding-block: 1.2rem;
   z-index: var(--z-index-4);
   background: var(--gradient-2);
   box-shadow: 0 2px 5px transparent;
   transition: background 0.25s ease-out, box-shadow 0.25s ease-out;
 
   @media (--lg) {
-    height: 10.4rem;
+    padding-block: 1.6rem;
   }
 }
 
@@ -24,7 +24,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 100%;
   gap: 1rem;
 }
 
@@ -63,8 +62,51 @@
   }
 }
 
-.header .section__item.burger-icon-wrap {
+.header .section__item.actions-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   flex-shrink: 0;
+  gap: 0.8rem;
   margin-inline-start: auto;
+}
+
+.header .section__item.actions-wrap .section__subitem.actions-wrap__row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header .section__item.actions-wrap .button {
+  font-size: 0.85em;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.header .section__item.actions-wrap .bottom-row {
+  display: flex;
+}
+
+.header .section__item.actions-wrap .section__inner.text-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 0.85em;
+  line-height: 1.15;
+  color: var(--color-1);
+  text-align: right;
+}
+
+/* expressive hovers — booking (red → bright orange) */
+.header .section__item.actions-wrap .button.bg-color-3:hover {
+  background: var(--color-4);
+  color: var(--color-1);
+}
+
+/* expressive hovers — download (light gray → brand red) */
+.header .section__item.actions-wrap .button.bg-color-6:hover {
+  background: var(--color-3);
+  color: var(--color-1);
 }
 

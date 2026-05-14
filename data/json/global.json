@@ -21,9 +21,13 @@
     "ru": {
       "items": [
         {
-          "title": "люди итали | italy people",
-          "href": "https://italycommunity.online",
+          "title": "Доставка",
+          "href": "https://italytouch.ru",
           "target": "_blank"
+        },
+        {
+          "title": "Рестораны",
+          "href": "/restaurants"
         },
         {
           "title": "Программа лояльности",
@@ -31,17 +35,50 @@
           "target": "_blank"
         },
         {
-          "title": "Работай с нами",
+          "title": "Ресторанам Надо",
+          "href": "https://restoranamnado.ru",
+          "target": "_blank"
+        },
+        {
+          "title": "Банкеты и кейтеринг",
+          "href": "https://italyco.tilda.ws/banket",
+          "target": "_blank"
+        },
+        {
+          "title": "Ресторанный консалтинг",
+          "href": "https://italycommunity.ru/experts",
+          "target": "_blank"
+        },
+        {
+          "title": "Франшиза",
           "href": "#"
+        },
+        {
+          "title": "italy studios",
+          "href": "#"
+        },
+        {
+          "title": "Работай с нами",
+          "href": "https://spb.hh.ru/employer/983791?tab=DESCRIPTION",
+          "target": "_blank"
+        },
+        {
+          "title": "italy people",
+          "href": "https://italycommunity.online",
+          "target": "_blank"
         }
       ]
     },
     "en": {
       "items": [
         {
-          "title": "люди итали | italy people",
-          "href": "https://italycommunity.online",
+          "title": "Delivery",
+          "href": "https://italytouch.ru",
           "target": "_blank"
+        },
+        {
+          "title": "Restaurants",
+          "href": "/restaurants"
         },
         {
           "title": "Loyalty program",
@@ -49,8 +86,37 @@
           "target": "_blank"
         },
         {
-          "title": "Work with us",
+          "title": "Restaurants Nado",
+          "href": "https://restoranamnado.ru",
+          "target": "_blank"
+        },
+        {
+          "title": "Banquets & catering",
+          "href": "https://italyco.tilda.ws/banket",
+          "target": "_blank"
+        },
+        {
+          "title": "Restaurant consulting",
+          "href": "https://italycommunity.ru/experts",
+          "target": "_blank"
+        },
+        {
+          "title": "Franchise",
           "href": "#"
+        },
+        {
+          "title": "italy studios",
+          "href": "#"
+        },
+        {
+          "title": "Work with us",
+          "href": "https://spb.hh.ru/employer/983791?tab=DESCRIPTION",
+          "target": "_blank"
+        },
+        {
+          "title": "italy people",
+          "href": "https://italycommunity.online",
+          "target": "_blank"
         }
       ]
     }
@@ -85,19 +151,19 @@
   },
   "socials": [
     {
-      "title": "Telegram",
-      "href": "#",
-      "icon": {
-        "src": "data/img/ui/icons/icon-telegram-color-1.svg",
-        "alt": "Telegram"
-      }
-    },
-    {
       "title": "VK",
       "href": "#",
       "icon": {
         "src": "data/img/ui/icons/icon-vk-color-1.svg",
         "alt": "VK"
+      }
+    },
+    {
+      "title": "Telegram",
+      "href": "#",
+      "icon": {
+        "src": "data/img/ui/icons/icon-telegram-color-1.svg",
+        "alt": "Telegram"
       }
     }
   ],
@@ -263,6 +329,27 @@
     "aria_close": {
       "ru": "Закрыть меню",
       "en": "Close menu"
+    }
+  },
+  "booking": {
+    "ru": {
+      "title": "Забронировать"
+    },
+    "en": {
+      "title": "Book"
+    }
+  },
+  "app": {
+    "href": "https://redirect.appmetrica.yandex.com/serve/966450630770056189",
+    "ru": {
+      "title": "Приложение",
+      "brand": "italy touch",
+      "button": "Скачать"
+    },
+    "en": {
+      "title": "Application",
+      "brand": "italy touch",
+      "button": "Download"
     }
   },
   "cookie-panel": {
