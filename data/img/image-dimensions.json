@@ -599,65 +599,53 @@
     "width": 890,
     "height": 522
   },
-  "restaurants/hitch/covers/800/5.webp": {
-    "width": 800,
-    "height": 469
-  },
-  "restaurants/hitch/covers/1600/5.webp": {
-    "width": 890,
-    "height": 522
-  },
-  "restaurants/hitch/covers/raw/5.webp": {
-    "width": 890,
-    "height": 522
-  },
   "restaurants/hitch/covers/800/4.webp": {
     "width": 800,
-    "height": 469
+    "height": 571
   },
   "restaurants/hitch/covers/1600/4.webp": {
-    "width": 890,
-    "height": 522
+    "width": 1484,
+    "height": 1060
   },
   "restaurants/hitch/covers/raw/4.webp": {
-    "width": 890,
-    "height": 522
+    "width": 1484,
+    "height": 1060
   },
   "restaurants/hitch/covers/800/3.webp": {
     "width": 800,
-    "height": 469
+    "height": 532
   },
   "restaurants/hitch/covers/1600/3.webp": {
-    "width": 890,
-    "height": 522
+    "width": 1537,
+    "height": 1023
   },
   "restaurants/hitch/covers/raw/3.webp": {
-    "width": 890,
-    "height": 522
+    "width": 1537,
+    "height": 1023
   },
   "restaurants/hitch/covers/800/2.webp": {
     "width": 800,
-    "height": 469
+    "height": 572
   },
   "restaurants/hitch/covers/1600/2.webp": {
-    "width": 890,
-    "height": 522
+    "width": 1268,
+    "height": 906
   },
   "restaurants/hitch/covers/raw/2.webp": {
-    "width": 890,
-    "height": 522
+    "width": 1268,
+    "height": 906
   },
   "restaurants/hitch/covers/800/1.webp": {
     "width": 800,
-    "height": 469
+    "height": 571
   },
   "restaurants/hitch/covers/1600/1.webp": {
-    "width": 890,
-    "height": 522
+    "width": 1484,
+    "height": 1060
   },
   "restaurants/hitch/covers/raw/1.webp": {
-    "width": 890,
-    "height": 522
+    "width": 1484,
+    "height": 1060
   },
   "restaurants/goose-goose/covers/800/5.webp": {
     "width": 800,
@@ -958,6 +946,42 @@
   "navigation/raw/bg-gradient1.webp": {
     "width": 1360,
     "height": 158
+  },
+  "navigation/800/banner-3.webp": {
+    "width": 800,
+    "height": 269
+  },
+  "navigation/1600/banner-3.webp": {
+    "width": 1600,
+    "height": 537
+  },
+  "navigation/raw/banner-3.webp": {
+    "width": 2800,
+    "height": 940
+  },
+  "navigation/800/banner-2.webp": {
+    "width": 800,
+    "height": 269
+  },
+  "navigation/1600/banner-2.webp": {
+    "width": 1600,
+    "height": 537
+  },
+  "navigation/raw/banner-2.webp": {
+    "width": 2800,
+    "height": 940
+  },
+  "navigation/800/banner-1.webp": {
+    "width": 800,
+    "height": 269
+  },
+  "navigation/1600/banner-1.webp": {
+    "width": 1600,
+    "height": 537
+  },
+  "navigation/raw/banner-1.webp": {
+    "width": 2800,
+    "height": 940
   },
   "intro/800/mob-wine.webp": {
     "width": 780,
