@@ -36,7 +36,7 @@
       "Мексиканская кухня"
     ],
     "priceRange": "₽₽",
-    "menuLink": "https://atelierfamily.ru/juan"
+    "menuLink": "https://atelierfamily.ru/menu-juan"
   },
   "desc": {
     "short": "Испано-мексиканская кантина, визуализация наших воспоминаний о солнечных днях",
@@ -58,6 +58,14 @@
     },
     {
       "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/3.jpg",
+      "alt": "Juan Cantina Espanola"
+    },
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/4.jpg",
+      "alt": "Juan Cantina Espanola"
+    },
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/5.jpg",
       "alt": "Juan Cantina Espanola"
     }
   ],
