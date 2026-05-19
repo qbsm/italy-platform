@@ -85,63 +85,63 @@
   },
   "restaurants/salone-pasta-bar/covers/800/5.webp": {
     "width": 800,
-    "height": 469
+    "height": 450
   },
   "restaurants/salone-pasta-bar/covers/1600/5.webp": {
-    "width": 890,
-    "height": 522
+    "width": 1600,
+    "height": 900
   },
   "restaurants/salone-pasta-bar/covers/raw/5.webp": {
-    "width": 890,
-    "height": 522
+    "width": 2400,
+    "height": 1350
   },
   "restaurants/salone-pasta-bar/covers/800/4.webp": {
     "width": 800,
-    "height": 469
+    "height": 450
   },
   "restaurants/salone-pasta-bar/covers/1600/4.webp": {
-    "width": 890,
-    "height": 522
+    "width": 1600,
+    "height": 900
   },
   "restaurants/salone-pasta-bar/covers/raw/4.webp": {
-    "width": 890,
-    "height": 522
+    "width": 2400,
+    "height": 1350
   },
   "restaurants/salone-pasta-bar/covers/800/3.webp": {
     "width": 800,
-    "height": 469
+    "height": 450
   },
   "restaurants/salone-pasta-bar/covers/1600/3.webp": {
-    "width": 890,
-    "height": 522
+    "width": 1600,
+    "height": 900
   },
   "restaurants/salone-pasta-bar/covers/raw/3.webp": {
-    "width": 890,
-    "height": 522
+    "width": 2400,
+    "height": 1350
   },
   "restaurants/salone-pasta-bar/covers/800/2.webp": {
     "width": 800,
-    "height": 469
+    "height": 450
   },
   "restaurants/salone-pasta-bar/covers/1600/2.webp": {
-    "width": 890,
-    "height": 522
+    "width": 1600,
+    "height": 900
   },
   "restaurants/salone-pasta-bar/covers/raw/2.webp": {
-    "width": 890,
-    "height": 522
+    "width": 2400,
+    "height": 1350
   },
   "restaurants/salone-pasta-bar/covers/800/1.webp": {
     "width": 800,
-    "height": 469
+    "height": 450
   },
   "restaurants/salone-pasta-bar/covers/1600/1.webp": {
-    "width": 890,
-    "height": 522
+    "width": 1600,
+    "height": 900
   },
   "restaurants/salone-pasta-bar/covers/raw/1.webp": {
-    "width": 890,
-    "height": 522
+    "width": 2400,
+    "height": 1350
   },
   "restaurants/juan-cantina-espanola/covers/800/3.webp": {
     "width": 800,
@@ -827,29 +827,65 @@
     "width": 890,
     "height": 522
   },
+  "restaurants/atelier/covers/800/5.webp": {
+    "width": 800,
+    "height": 450
+  },
+  "restaurants/atelier/covers/1600/5.webp": {
+    "width": 1600,
+    "height": 900
+  },
+  "restaurants/atelier/covers/raw/5.webp": {
+    "width": 2400,
+    "height": 1350
+  },
+  "restaurants/atelier/covers/800/4.webp": {
+    "width": 800,
+    "height": 450
+  },
+  "restaurants/atelier/covers/1600/4.webp": {
+    "width": 1600,
+    "height": 900
+  },
+  "restaurants/atelier/covers/raw/4.webp": {
+    "width": 2400,
+    "height": 1350
+  },
+  "restaurants/atelier/covers/800/3.webp": {
+    "width": 800,
+    "height": 450
+  },
+  "restaurants/atelier/covers/1600/3.webp": {
+    "width": 1600,
+    "height": 900
+  },
+  "restaurants/atelier/covers/raw/3.webp": {
+    "width": 2400,
+    "height": 1350
+  },
   "restaurants/atelier/covers/800/2.webp": {
     "width": 800,
-    "height": 469
+    "height": 450
   },
   "restaurants/atelier/covers/1600/2.webp": {
-    "width": 890,
-    "height": 522
+    "width": 1600,
+    "height": 900
   },
   "restaurants/atelier/covers/raw/2.webp": {
-    "width": 890,
-    "height": 522
+    "width": 2400,
+    "height": 1350
   },
   "restaurants/atelier/covers/800/1.webp": {
     "width": 800,
-    "height": 469
+    "height": 450
   },
   "restaurants/atelier/covers/1600/1.webp": {
-    "width": 890,
-    "height": 522
+    "width": 1600,
+    "height": 900
   },
   "restaurants/atelier/covers/raw/1.webp": {
-    "width": 890,
-    "height": 522
+    "width": 2400,
+    "height": 1350
   },
   "owners/800/timur-dmitriev.webp": {
     "width": 504,

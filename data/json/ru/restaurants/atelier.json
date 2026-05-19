@@ -55,6 +55,18 @@
     {
       "src": "data/img/restaurants/atelier/covers/raw/2.jpg",
       "alt": "Ателье tapas&bar"
+    },
+    {
+      "src": "data/img/restaurants/atelier/covers/raw/3.jpg",
+      "alt": "Ателье tapas&bar"
+    },
+    {
+      "src": "data/img/restaurants/atelier/covers/raw/4.jpg",
+      "alt": "Ателье tapas&bar"
+    },
+    {
+      "src": "data/img/restaurants/atelier/covers/raw/5.jpg",
+      "alt": "Ателье tapas&bar"
     }
   ],
   "logos": [
@@ -81,7 +93,7 @@
   ],
   "staff": [
     {
-      "role": "Управляющий",
+      "role": "Управляющая",
       "name": "Наталья Мамлеева"
     },
     {
