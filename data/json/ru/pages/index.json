@@ -364,7 +364,8 @@
               },
               {
                 "title": "Работай с нами",
-                "href": "#",
+                "href": "https://spb.hh.ru/employer/983791?tab=DESCRIPTION",
+                "target": "_blank",
                 "icon": {
                   "src": "data/img/ui/button-icons/3.svg",
                   "class": "red"
