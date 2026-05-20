@@ -5,8 +5,14 @@ namespace App\Service;
 final class LanguageService
 {
     /**
-     * @param string[] $segments
-     * @param array<string, array<string, mixed>> $supportedLanguages
+     * Определяет язык из первого сегмента URL.
+     *
+     * Если первый сегмент совпадает с кодом поддерживаемого языка,
+     * он извлекается из сегментов и устанавливается как текущий язык.
+     *
+     * @param string[]                             $segments           Сегменты URL
+     * @param array<string, array<string, mixed>>  $supportedLanguages Языки: code => {code, title, direction}
+     * @param string                               $defaultCode        Код языка по умолчанию
      * @return array{lang_code:string,current_lang:array<string,mixed>,is_lang_in_url:bool,segments:array<int,string>}
      */
     public function detect(array $segments, array $supportedLanguages, string $defaultCode): array

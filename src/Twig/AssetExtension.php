@@ -2,6 +2,7 @@
 
 namespace App\Twig;
 
+use App\Support\Json;
 use RuntimeException;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -30,7 +31,22 @@ class AssetExtension extends AbstractExtension
             new TwigFunction('assetUrl', [$this, 'getAssetUrl']),
             new TwigFunction('asset_manifest', [$this, 'getAssetManifest']),
             new TwigFunction('css_manifest', [$this, 'getCssManifest']),
+            new TwigFunction('inlineCss', [$this, 'getInlineCss']),
         ];
+    }
+
+    /**
+     * Читает содержимое CSS-файла из build-директории для inline-вставки в <style>.
+     * Используется для critical CSS.
+     */
+    public function getInlineCss(string $filename): ?string
+    {
+        $filePath = $this->baseDir . '/assets/css/build/' . $filename;
+        if (!is_readable($filePath)) {
+            return null;
+        }
+        $content = @file_get_contents($filePath);
+        return $content !== false ? $content : null;
     }
 
     public function getAssetUrl(string $assetName, string $manifestType = 'js', bool $safe = false): ?string
@@ -80,24 +96,7 @@ class AssetExtension extends AbstractExtension
             return $this->manifestCache;
         }
 
-        if (!file_exists($this->manifestPath)) {
-            $this->manifestCache = null;
-            return null;
-        }
-
-        $manifestJson = @file_get_contents($this->manifestPath);
-        if ($manifestJson === false) {
-            $this->manifestCache = null;
-            return null;
-        }
-
-        $manifest = json_decode($manifestJson, true);
-        if (!is_array($manifest)) {
-            $this->manifestCache = null;
-            return null;
-        }
-
-        $this->manifestCache = $manifest;
+        $this->manifestCache = Json::load($this->manifestPath);
         return $this->manifestCache;
     }
 
@@ -107,24 +106,7 @@ class AssetExtension extends AbstractExtension
             return $this->cssManifestCache;
         }
 
-        if (!file_exists($this->cssManifestPath)) {
-            $this->cssManifestCache = null;
-            return null;
-        }
-
-        $manifestJson = @file_get_contents($this->cssManifestPath);
-        if ($manifestJson === false) {
-            $this->cssManifestCache = null;
-            return null;
-        }
-
-        $manifest = json_decode($manifestJson, true);
-        if (!is_array($manifest)) {
-            $this->cssManifestCache = null;
-            return null;
-        }
-
-        $this->cssManifestCache = $manifest;
+        $this->cssManifestCache = Json::load($this->cssManifestPath);
         return $this->cssManifestCache;
     }
 

@@ -5,13 +5,19 @@ namespace App\Service;
 final class TemplateDataBuilder
 {
     /**
-     * @param array<string,mixed> $settings
-     * @param array<string,mixed> $global
-     * @param array<string,mixed>|null $pageData
-     * @param array<string,mixed>|null $seo
-     * @param array<string,mixed> $ctx
-     * @param array<string,mixed> $extras
-     * @return array<string,mixed>
+     * Собирает финальный массив данных для Twig-шаблона.
+     *
+     * Объединяет настройки, глобальные данные, данные страницы, SEO,
+     * контекст запроса (язык, base_url, csrf) и дополнительные данные (entity, breadcrumb).
+     * Извлекает hero-изображение для preload и пути шрифтов из fonts.css.
+     *
+     * @param array<string,mixed>      $settings Конфигурация приложения
+     * @param array<string,mixed>      $global   Глобальные данные (навигация, контакты)
+     * @param array<string,mixed>|null $pageData Данные страницы (sections, items)
+     * @param array<string,mixed>|null $seo      SEO-данные (title, meta, json_ld)
+     * @param array<string,mixed>      $ctx      Контекст запроса (lang_code, page_id, base_url, csrf_token)
+     * @param array<string,mixed>      $extras   Дополнительные данные (entity, breadcrumb, tire, news и т.д.)
+     * @return array<string,mixed> Готовые данные для передачи в Twig
      */
     public function build(
         array $settings,
@@ -62,9 +68,15 @@ final class TemplateDataBuilder
     }
 
     /**
+     * Извлекает hero-изображение для responsive preload (imagesrcset + type).
+     *
+     * Возвращает объект с ключами размеров (400, 800, ...) и src для fallback,
+     * либо строку (обратная совместимость), либо null.
+     *
      * @param array<int,array<string,mixed>> $sections
+     * @return array<string,string>|string|null
      */
-    private function extractHeroPreloadImage(array $sections): ?string
+    private function extractHeroPreloadImage(array $sections): array|string|null
     {
         foreach ($sections as $section) {
             if (isset($section['name']) && $section['name'] !== 'intro') {
@@ -75,48 +87,85 @@ final class TemplateDataBuilder
                 return null;
             }
             $first = $items[0];
+
+            // cover — одиночный URL
             if (isset($first['cover']) && is_string($first['cover'])) {
                 return $first['cover'];
             }
-            if (isset($first['image']['raw']) && is_string($first['image']['raw'])) {
-                return $first['image']['raw'];
+
+            // image с числовыми ключами (адаптивные размеры)
+            if (isset($first['image']) && is_array($first['image'])) {
+                $image = $first['image'];
+                $sizeKeys = ['400', '800', '1280', '1600', '1920', '2560'];
+                $hasAdaptive = false;
+                foreach ($sizeKeys as $key) {
+                    if (isset($image[$key]) && is_string($image[$key]) && $image[$key] !== '#') {
+                        $hasAdaptive = true;
+                        break;
+                    }
+                }
+                if ($hasAdaptive) {
+                    /** @var array<string,string> $result */
+                    $result = [];
+                    foreach ($sizeKeys as $key) {
+                        if (isset($image[$key]) && is_string($image[$key]) && $image[$key] !== '#') {
+                            $result[$key] = $image[$key];
+                        }
+                    }
+                    // horizontal для art-direction
+                    if (isset($image['horizontal']) && is_array($image['horizontal'])) {
+                        foreach ($sizeKeys as $key) {
+                            if (isset($image['horizontal'][$key]) && is_string($image['horizontal'][$key]) && $image['horizontal'][$key] !== '#') {
+                                $result[$key] = $image['horizontal'][$key];
+                            }
+                        }
+                    }
+                    if ($result !== []) {
+                        return $result;
+                    }
+                }
+
+                // Fallback: raw/src
+                if (isset($image['raw']) && is_string($image['raw'])) {
+                    return $image['raw'];
+                }
+                if (isset($image['src']) && is_string($image['src'])) {
+                    return $image['src'];
+                }
             }
-            if (isset($first['image']['src']) && is_string($first['image']['src'])) {
-                return $first['image']['src'];
-            }
+
             return null;
         }
         return null;
     }
 
     /**
-     * Извлекает пути шрифтов из fonts.css для preload (один источник правды — fonts.css).
+     * Извлекает пути основных шрифтов из fonts.css для preload.
+     *
+     * Preload ограничен 3 шрифтами — только те, что нужны для первого экрана:
+     * Source Sans 3 (основной текст), TT Norms Pro Expanded Regular и Bold (заголовки).
+     * Остальные шрифты загружаются через font-display: swap без preload.
      *
      * @return array<int,string>
      */
     private function extractFontPathsFromCss(string $projectRoot): array
     {
-        $fontsCss = $projectRoot . '/assets/css/base/fonts.css';
-        if (!is_readable($fontsCss)) {
-            return [];
-        }
-        $content = (string) file_get_contents($fontsCss);
-        if (preg_match_all("/url\s*\(\s*['\"]?(.+?)['\"]?\s*\)/", $content, $matches) === 0) {
-            return [];
-        }
+        // Только критические шрифты для первого экрана (above-the-fold)
+        $criticalFonts = [
+            'assets/fonts/source-sans-3/SourceSans3VF-Upright.ttf.woff2',
+            'assets/fonts/manrope/ManropeVariable.woff2',
+            'assets/fonts/tt-norms-pro-variable/TTNormsProVariable.woff2',
+        ];
+
         $paths = [];
-        foreach ($matches[1] as $path) {
-            $path = trim($path, " \t\n\r\0\x0B'\"");
-            if ($path === '') {
-                continue;
-            }
-            // В fonts.css пути вида ../../fonts/...; собранный CSS лежит в assets/css/build/ → ../../ = assets/
-            $preloadPath = preg_replace('#^\.\./\.\./#', 'assets/', $path);
-            if ($preloadPath !== $path || str_contains($path, 'fonts/')) {
-                $paths[] = $preloadPath;
+        foreach ($criticalFonts as $font) {
+            $fullPath = $projectRoot . '/' . $font;
+            if (is_readable($fullPath)) {
+                $paths[] = $font;
             }
         }
-        return array_values(array_unique($paths));
+
+        return $paths;
     }
 
     /**

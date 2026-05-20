@@ -9,7 +9,8 @@ final class BaseUrlResolver
     public function resolve(ServerRequestInterface $request): string
     {
         $uri = $request->getUri();
-        $scheme = $uri->getScheme() !== '' ? $uri->getScheme() : 'http';
+        $forwarded = $request->getHeaderLine('X-Forwarded-Proto');
+        $scheme = $forwarded !== '' ? $forwarded : ($uri->getScheme() !== '' ? $uri->getScheme() : 'http');
         $host = $uri->getHost() !== '' ? $uri->getHost() : 'localhost';
         $port = $uri->getPort();
 
@@ -19,7 +20,7 @@ final class BaseUrlResolver
         }
 
         $scriptName = (string) ($_SERVER['SCRIPT_NAME'] ?? '/');
-        $scriptDir = dirname($scriptName);
+        $scriptDir = str_replace('\\', '/', dirname($scriptName));
         $basePath = $scriptDir === '/' || $scriptDir === '.' ? '' : rtrim($scriptDir, '/');
 
         return $scheme . '://' . $authority . $basePath . '/';
