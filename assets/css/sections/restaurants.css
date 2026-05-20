@@ -58,4 +58,8 @@
 .restaurants .section__subitem.card-restaurant-wrap .card-restaurant {
   min-width: 0;
   height: 26rem;
+
+  @media (--lg) {
+    height: 30rem;
+  }
 }
