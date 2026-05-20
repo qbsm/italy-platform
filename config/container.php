@@ -15,6 +15,7 @@ use App\Middleware\RedirectMiddleware;
 use App\Middleware\RequestDurationMiddleware;
 use App\Middleware\SecurityHeadersMiddleware;
 use App\Service\DataLoaderService;
+use App\Service\DefaultSeoBuilder;
 use App\Service\MailService;
 use App\Service\RestaurantSeoBuilder;
 use App\Service\SeoBuilderRegistry;
@@ -150,9 +151,11 @@ return static function (): ContainerInterface {
 
         ApiSendAction::class => \DI\autowire(),
         RestaurantSeoBuilder::class => \DI\autowire(),
-        SeoBuilderRegistry::class => static fn(ContainerInterface $c) => new SeoBuilderRegistry([
-            'restaurants' => $c->get(RestaurantSeoBuilder::class),
-        ]),
+        DefaultSeoBuilder::class => \DI\autowire(),
+        SeoBuilderRegistry::class => static fn(ContainerInterface $c) => new SeoBuilderRegistry(
+            ['restaurants' => $c->get(RestaurantSeoBuilder::class)],
+            $c->get(DefaultSeoBuilder::class),
+        ),
     ]);
 
     return $builder->build();
