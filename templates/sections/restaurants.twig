@@ -6,7 +6,7 @@
       </div>
     {% endif %}
   </div>
-  <div class="container-left offset">
+  <div class="restaurants__scroll">
     {% set tags = global.filter[lang_code].items | default([]) %}
     {% if tags is not empty %}
       <div class="section__item tags-wrap">
