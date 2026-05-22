@@ -2,9 +2,9 @@
   "$schema": "https://ismart.pro/schemas/distill-state-v1.json",
   "platform_repo": "github:qbsm/ismart-platform",
   "platform_version": "1.0.0",
-  "platform_commit": "eed1119",
+  "platform_commit": "2457054",
   "platform_branch": "distill/initial-baseline",
-  "last_sync": "2026-05-22T23:34:34.170Z",
+  "last_sync": "2026-05-22T23:45:10.308Z",
   "overrides": {
     "src/Service/SeoBuilderInterface.php": {
       "reason": "Strategy pattern для расширяемого SEO (отсутствует в baseline — кандидат на унификацию во всех проектах)",
