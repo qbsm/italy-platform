@@ -38,6 +38,10 @@ if ($envDefaultLang !== false && $envDefaultLang !== '') {
 }
 
 // Ключи и ширины для адаптивных изображений (picture.twig, tools/build) — единый источник
+// Проектная конфигурация (route_map, collections, sitemap_pages, integrations)
+$projectConfigPath = __DIR__ . '/project.php';
+$projectConfig = is_file($projectConfigPath) ? (array) require $projectConfigPath : [];
+
 $imageSizesPath = __DIR__ . '/image-sizes.json';
 $image_sizes = [
     'keys' => ['800', '1600', 'raw'],
@@ -62,37 +66,14 @@ return [
     'default_lang' => $default_lang,
     'available_langs' => $available_langs,
     'yandex_metric_id' => (int) (getenv('YANDEX_METRIC_ID') ?: 0),
-    // slug в URL => page_id (файл в data/json/{lang}/pages/{page_id}.json)
-    'route_map' => [
-        'restaurants' => 'restaurants-list',
-    ],
-    // Конфигурация коллекций — generic loader (loadEntity/loadEntitySlugs)
-    // и per-collection SEO (seo_builder реализует SeoBuilderInterface)
-    'collections' => [
-        'restaurants' => [
-            'data_dir' => 'restaurants',          // data/json/{lang}/restaurants/{slug}.json
-            'item_key' => 'restaurant',           // ключ внутри entity (валидируется на existence)
-            'nav_slug' => 'restaurants',          // префикс URL и breadcrumb
-            'list_page_id' => 'restaurants-list', // pages/restaurants-list.json
-            'slugs_source' => 'items',
-            'template' => 'pages/restaurant.twig',
-            'extras_key' => 'restaurant',         // ключ в template ($restaurant)
-            'og_type' => 'website',
-            'entity_url_pattern' => '/restaurants/{slug}',
-            'site_name' => 'Экосистема итали',
-            'prod_base_url' => 'https://italycommunity.ru',
-            'fallback_og_image' => '/data/img/seo/og.webp?v=1',
-            'list_title' => 'Рестораны',
-        ],
-    ],
-    // page_id страниц для sitemap.xml (без 404). Задаётся под проект.
-    'sitemap_pages' => [
-        'index',
-        'contacts',
-        'policy',
-        'agree',
-        'restaurants-list',
-    ],
+    // slug в URL => page_id (из project.php)
+    'route_map' => (array) ($projectConfig['route_map'] ?? []),
+    // Конфигурация коллекций (из project.php)
+    'collections' => (array) ($projectConfig['collections'] ?? []),
+    // page_id страниц для sitemap.xml (из project.php)
+    'sitemap_pages' => (array) ($projectConfig['sitemap_pages'] ?? ['index']),
+    // Динамические подпути для sitemap (из project.php): page => {data_page, list_key, value_key, slugger}
+    'sitemap_dynamic_pages' => (array) ($projectConfig['sitemap_dynamic_pages'] ?? []),
     // Rate limiting для POST /api/send (по IP, файловое хранилище в cache/rate_limit)
     'rate_limit_api_send' => [
         'max_requests' => 10,
@@ -111,6 +92,25 @@ return [
         'from_name' => (string) (getenv('MAIL_FROM_NAME') ?: ''),
         'subject_prefix' => (string) (getenv('MAIL_SUBJECT_PREFIX') ?: ''),
     ],
+    'calltouch' => [
+        'enable' => filter_var((string) (getenv('CT_ENABLE') ?: 'false'), FILTER_VALIDATE_BOOLEAN),
+        'route_key' => (string) (getenv('CT_ROUTE_KEY') ?: ''),
+        'token' => (string) (getenv('CT_TOKEN') ?: ''),
+        'timeout' => (int) (getenv('CT_TIMEOUT') ?: 10),
+    ],
+    'telegram' => [
+        'enable' => filter_var((string) (getenv('TG_ENABLE') ?: 'false'), FILTER_VALIDATE_BOOLEAN),
+        'bot_token' => (string) (getenv('TG_BOT_TOKEN') ?: ''),
+        'chat_id' => (string) (getenv('TG_CHAT_ID') ?: ''),
+        'timeout' => (int) (getenv('TG_TIMEOUT') ?: 10),
+    ],
+    'google_sheets' => [
+        'enable' => filter_var((string) (getenv('GS_ENABLE') ?: 'false'), FILTER_VALIDATE_BOOLEAN),
+        'spreadsheet_id' => (string) (getenv('GS_SPREADSHEET_ID') ?: ''),
+        'sheet_name' => (string) (getenv('GS_SHEET_NAME') ?: 'Заявки'),
+        'credentials_path' => (string) (getenv('GS_CREDENTIALS_PATH') ?: 'config/secrets/google-service-account.json'),
+        'timeout' => (int) (getenv('GS_TIMEOUT') ?: 10),
+    ],
     'errors' => require __DIR__ . '/errors.php',
     'twig' => [
         'cache' => $isProduction ? $cacheDir . '/twig' : false,
@@ -127,4 +127,8 @@ return [
         'logs' => $projectRoot . '/logs',
     ],
     'image_sizes' => $image_sizes,
+    'resource_hints' => [
+        ['rel' => 'preconnect', 'href' => 'https://mc.yandex.ru', 'crossorigin' => false],
+        ['rel' => 'preconnect', 'href' => 'https://yastatic.net', 'crossorigin' => false],
+    ],
 ];

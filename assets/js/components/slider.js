@@ -10,7 +10,7 @@ export default function setupSliders() {
 }
 
 function initializeSliders() {
-  const sliders = document.querySelectorAll('.swiper-container');
+  const sliders = document.querySelectorAll('.swiper');
   if (!sliders.length) return;
 
   // Инициализация каждого слайдера

@@ -9,6 +9,7 @@
 @import "base/helpers.css";
 @import "base/animations.css";
 @import "base/mq.css";
+@import "base/performance.css";
 
 /* Sections */
 @import "sections/header.css";
@@ -18,13 +19,21 @@
 @import "sections/content.css";
 @import "sections/cookie-panel.css";
 @import "sections/intro.css";
+@import "sections/hero.css";
+@import "sections/trust.css";
+@import "sections/partners.css";
+@import "sections/frame.css";
 @import "sections/headline.css";
+@import "sections/actions.css";
 @import "sections/owners.css";
 @import "sections/us.css";
 @import "sections/navigation.css";
-@import "sections/restaurants.css";
+@import "sections/tires.css";
+@import "sections/dealers.css";
+@import "sections/news.css";
 
 /* Components */
+@import "components/accordion.css";
 @import "components/analytics.css";
 @import "components/blockquote.css";
 @import "components/burger-icon.css";
@@ -37,6 +46,7 @@
 @import "components/form-callback.css";
 @import "components/glightbox-custom.css";
 @import "components/heading.css";
+@import "components/mini-table.css";
 @import "components/numbered-list.css";
 @import "components/slider.css";
 @import "components/spoiler.css";
@@ -44,14 +54,18 @@
 @import "components/card-nav.css";
 @import "components/button-section.css";
 @import "components/card-gradient.css";
+@import "components/card-action.css";
 @import "components/card-number.css";
-@import "components/card-restaurant.css";
+@import "components/card-tire.css";
+@import "components/card-dealer.css";
+@import "components/card-news.css";
+@import "components/card-doc.css";
+@import "components/filter.css";
 
 /* Pages */
 @import "pages/404.css";
 @import "pages/contacts.css";
 @import "pages/index.css";
 @import "sections/logoline.css";
-@import "sections/promo.css";
-@import "pages/restaurants.css";
-@import "pages/restaurant.css";
+@import "pages/tires.css";
+@import "pages/news.css";

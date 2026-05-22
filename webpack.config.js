@@ -19,10 +19,7 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: [
-          isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
-          'css-loader',
-        ],
+        use: [isProduction ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader'],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif|webp)$/i,
@@ -69,16 +66,10 @@ module.exports = {
     extensions: ['.js', '.css'],
   },
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-  devtool: process.env.NODE_ENV === 'production' ? false : 'cheap-module-source-map',
-  cache: {
-    type: 'filesystem',
-    cacheDirectory: path.resolve(__dirname, 'node_modules/.cache/webpack'),
-    buildDependencies: {
-      config: [__filename],
-    },
-  },
+  devtool: process.env.NODE_ENV === 'production' ? false : 'source-map',
   watchOptions: {
     ignored: /node_modules/,
+    poll: 1000,
   },
   plugins: [
     new WebpackManifestPlugin({

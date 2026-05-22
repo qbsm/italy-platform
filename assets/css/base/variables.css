@@ -4,12 +4,15 @@
     --color-2: #000;
 
     /* Фирменные */
-    --color-3: #E65901;
-    --color-4: #E24E2A;
-    --color-5: #EEC479;
-    --color-6: #D4D2D2;
-    --color-7: #151515;
-    --color-8: #EBEBEB;
+    --color-3: #ef0010;
+    --color-4: #d6d6d6;
+    --color-5: #6e6e6e;
+    --color-6: #4a4a49;
+    --color-7: #b4b7b9;
+    --color-8: #4c4c4e;
+
+    /* Карточка новости: маркер даты */
+    --color-news-hex: #CCD7E0;
 
     /* Служебные: ошибки, статусы, подписи */
     --color-error: #f44336;
@@ -24,9 +27,9 @@
 }
 
 :root {
-    /* Семейство шрифтов TT Norms Pro (вариативный) */
-    --font-1: "TT Norms Pro", sans-serif;
-    --font-1-extended: "TT Norms Pro Expanded", "TT Norms Pro", sans-serif;
+    /* font-1: основной текст; font-2: заголовки */
+    --font-1: "Source Sans 3", sans-serif;
+    --font-2: "Manrope", sans-serif;
 }
 
 :root {

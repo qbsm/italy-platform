@@ -2,9 +2,9 @@
   "$schema": "https://ismart.pro/schemas/distill-state-v1.json",
   "platform_repo": "github:qbsm/ismart-platform",
   "platform_version": "1.0.0",
-  "platform_commit": "9715645bd375d4c8768a7900130b62113d1f8a18",
+  "platform_commit": "eb54d7f7c915afc25122038519cab29211a45e0f",
   "platform_branch": "distill/initial-baseline",
-  "last_sync": "2026-05-20T00:00:00Z",
+  "last_sync": "2026-05-22T03:18:04.533Z",
   "overrides": {
     "src/Service/SeoBuilderInterface.php": {
       "reason": "Strategy pattern для расширяемого SEO (отсутствует в baseline — кандидат на унификацию во всех проектах)",
@@ -34,16 +34,6 @@
     }
   },
   "drift": {
-    "src/Action/PageAction.php": {
-      "status": "unreviewed",
-      "note": "italy ушёл от kumho-варианта по PageAction — нужно понять что именно и куда канонизировать",
-      "first_seen": "2026-05-20"
-    },
-    "src/Service/SeoService.php": {
-      "status": "unreviewed",
-      "note": "italy использует Strategy через SeoBuilderRegistry, baseline пока с kumho-inline вариантом — кандидат на унификацию baseline'а",
-      "first_seen": "2026-05-20"
-    },
     "src/Service/LanguageService.php": {
       "status": "unreviewed",
       "note": "italy многоязычный (ru/en?), возможно расхождение по deserialization настроек",
@@ -58,10 +48,6 @@
       "status": "ready-to-sync",
       "note": "baseline: font-src 'self' data: https:; italy всё ещё с font-src 'self'. Уже исправлено в italy ветке refactor/backend-slim-events (commit 8b7daa9) — после мерджа уйдёт.",
       "first_seen": "2026-05-20"
-    },
-    "src/Action/ApiSendAction.php": {
-      "status": "ready-to-sync",
-      "note": "baseline: extractString -> Arr::str"
     },
     "src/Action/SitemapAction.php": {
       "status": "ready-to-sync",
@@ -86,10 +72,6 @@
     "src/Middleware/TrailingSlashMiddleware.php": {
       "status": "unreviewed",
       "note": "italy расходится с baseline — проверить логику"
-    },
-    "src/Service/DataLoaderService.php": {
-      "status": "ready-to-sync",
-      "note": "baseline: Json::load"
     },
     "src/Service/MailService.php": {
       "status": "ready-to-sync",

@@ -14,10 +14,14 @@ use App\Middleware\RateLimitMiddleware;
 use App\Middleware\RedirectMiddleware;
 use App\Middleware\RequestDurationMiddleware;
 use App\Middleware\SecurityHeadersMiddleware;
+use App\Notification\Channel\CallTouchChannel;
+use App\Notification\Channel\GoogleSheetsChannel;
+use App\Notification\Channel\MailChannel;
+use App\Notification\Channel\TelegramChannel;
+use App\Notification\NotificationDispatcher;
 use App\Service\DataLoaderService;
 use App\Service\DefaultSeoBuilder;
 use App\Service\MailService;
-use App\Service\RestaurantSeoBuilder;
 use App\Service\SeoBuilderRegistry;
 use App\Twig\AssetExtension;
 use App\Twig\DataExtension;
@@ -36,6 +40,8 @@ use Slim\Views\Twig;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Twig\Extension\DebugExtension;
 use Twig\Extension\StringLoaderExtension;
 
@@ -73,7 +79,7 @@ return static function (): ContainerInterface {
             $baseDir = (string) $settings['project_root'];
             $baseUrl = rtrim((string) ($_ENV['APP_BASE_URL'] ?? $_SERVER['APP_BASE_URL'] ?? getenv('APP_BASE_URL') ?: ''), '/');
             if ($baseUrl === '') {
-                // За прокси схема приходит в X-Forwarded-Proto; иначе HTTPS-флаг или http
+                // За прокси схема приходит в X-Forwarded-Proto; иначе HTTPS
                 $proto = (string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '');
                 $https = ($proto === 'https' || (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')) ? 'https://' : 'http://';
                 $host = (string) ($_SERVER['HTTP_HOST'] ?? 'localhost');
@@ -81,7 +87,7 @@ return static function (): ContainerInterface {
                 $basePath = $scriptDir === '/' || $scriptDir === '.' ? '' : rtrim($scriptDir, '/');
                 $baseUrl = $https . $host . $basePath;
             }
-            // В production всегда https (иначе mixed content / CSP блокирует ассеты)
+            // В production всегда https для baseUrl (иначе mixed content и CSP блокирует CSS/JS)
             if (($settings['env'] ?? '') === 'production' && str_starts_with($baseUrl, 'http://')) {
                 $baseUrl = 'https://' . substr($baseUrl, 7);
             }
@@ -115,9 +121,23 @@ return static function (): ContainerInterface {
         RequestDurationMiddleware::class => \DI\autowire(),
 
         HealthAction::class => \DI\autowire(),
+
+        // SEO Strategy: реестр builder'ов по типу коллекции + DefaultSeoBuilder как fallback.
+        // Deployments расширяют через config-override этого binding'а, добавляя свои Builder'ы:
+        //   SeoBuilderRegistry::class => static fn(ContainerInterface $c) => new SeoBuilderRegistry(
+        //       ['restaurants' => $c->get(RestaurantSeoBuilder::class)],
+        //       $c->get(DefaultSeoBuilder::class),
+        //   ),
+        DefaultSeoBuilder::class => \DI\autowire(),
+        SeoBuilderRegistry::class => static fn(ContainerInterface $c) => new SeoBuilderRegistry(
+            [],
+            $c->get(DefaultSeoBuilder::class),
+        ),
+
         PageAction::class => \DI\autowire()
             ->constructorParameter('settings', \DI\get('settings'))
-            ->constructorParameter('dispatcher', \DI\get(EventDispatcherInterface::class)),
+            ->constructorParameter('dispatcher', \DI\get(EventDispatcherInterface::class))
+            ->constructorParameter('seoBuilderRegistry', \DI\get(SeoBuilderRegistry::class)),
         SitemapAction::class => \DI\autowire()->constructorParameter('settings', \DI\get('settings')),
         ServerErrorHandler::class => \DI\autowire()->constructorParameter('displayErrorDetails', \DI\get('displayErrorDetails')),
         HttpErrorHandler::class => \DI\autowire()->constructorParameter('errorMap', \DI\get('errorMap')),
@@ -149,13 +169,43 @@ return static function (): ContainerInterface {
             );
         },
 
-        ApiSendAction::class => \DI\autowire(),
-        RestaurantSeoBuilder::class => \DI\autowire(),
-        DefaultSeoBuilder::class => \DI\autowire(),
-        SeoBuilderRegistry::class => static fn(ContainerInterface $c) => new SeoBuilderRegistry(
-            ['restaurants' => $c->get(RestaurantSeoBuilder::class)],
-            $c->get(DefaultSeoBuilder::class),
+        HttpClientInterface::class => static fn () => HttpClient::create(),
+
+        MailChannel::class => static fn (ContainerInterface $c) => new MailChannel(
+            $c->get(MailService::class),
+            $c->get('settings')['mail'] ?? [],
         ),
+
+        CallTouchChannel::class => static fn (ContainerInterface $c) => new CallTouchChannel(
+            $c->get(HttpClientInterface::class),
+            $c->get(LoggerInterface::class),
+            $c->get('settings')['calltouch'] ?? [],
+        ),
+
+        TelegramChannel::class => static fn (ContainerInterface $c) => new TelegramChannel(
+            $c->get(HttpClientInterface::class),
+            $c->get(LoggerInterface::class),
+            $c->get('settings')['telegram'] ?? [],
+        ),
+
+        GoogleSheetsChannel::class => static fn (ContainerInterface $c) => new GoogleSheetsChannel(
+            $c->get(HttpClientInterface::class),
+            $c->get(LoggerInterface::class),
+            $c->get('settings')['google_sheets'] ?? [],
+            (string) ($c->get('settings')['project_root'] ?? ''),
+        ),
+
+        NotificationDispatcher::class => static fn (ContainerInterface $c) => new NotificationDispatcher(
+            [
+                $c->get(MailChannel::class),
+                $c->get(CallTouchChannel::class),
+                $c->get(TelegramChannel::class),
+                $c->get(GoogleSheetsChannel::class),
+            ],
+            $c->get(LoggerInterface::class),
+        ),
+
+        ApiSendAction::class => \DI\autowire(),
     ]);
 
     return $builder->build();

@@ -22,10 +22,19 @@ yarn-error.log*
 .env.*
 !.env.example
 
+# Service-account credentials (см. config/secrets/README.md)
+config/secrets/*.json
+
 # Системные файлы
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Локальные настройки Claude Code
+.claude/
+
+# Личный gitconfig (email, имя)
+.gitconfig
 
 # Файлы IDE и редакторов
 .idea/
@@ -65,6 +74,13 @@ assets/js/build/*
 *.bundle.css
 *.[0-9a-f]*.css
 *.[0-9a-f]*.js
+# Исключения: корневые конфиги (паттерн выше ловит их из-за hex-символов c/d/e/f в имени)
+!webpack.config.js
+!postcss.config.js
+!eslint.config.js
+!eslint.config.mjs
+!stylelint.config.mjs
+!vitest.config.js
 
 # Файлы манифестов сборки
 *-manifest.json
@@ -96,3 +112,11 @@ logs/
 public/assets
 public/data
 public/robots.txt
+
+# Архивная копия master
+kumho-tires.ru-master/
+
+# Крупные медиа-файлы, не коммитим в репозиторий
+data/img/tires/
+data/img/restaurants/
+data/img/restaurants-list/
