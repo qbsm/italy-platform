@@ -2,9 +2,9 @@
   "$schema": "https://ismart.pro/schemas/distill-state-v1.json",
   "platform_repo": "github:qbsm/ismart-platform",
   "platform_version": "1.0.0",
-  "platform_commit": "eb54d7f7c915afc25122038519cab29211a45e0f",
+  "platform_commit": "aa96a567e57eb8eb9239896611dd16e4c26025e6",
   "platform_branch": "distill/initial-baseline",
-  "last_sync": "2026-05-22T03:18:04.533Z",
+  "last_sync": "2026-05-22T12:34:56.416Z",
   "overrides": {
     "src/Service/SeoBuilderInterface.php": {
       "reason": "Strategy pattern для расширяемого SEO (отсутствует в baseline — кандидат на унификацию во всех проектах)",
@@ -44,38 +44,13 @@
       "note": "extractHeroPreloadImage в baseline сложнее (62 строки adaptive images), в italy — упрощённый. Принять решение по канон-варианту.",
       "first_seen": "2026-05-20"
     },
-    "src/Middleware/SecurityHeadersMiddleware.php": {
-      "status": "ready-to-sync",
-      "note": "baseline: font-src 'self' data: https:; italy всё ещё с font-src 'self'. Уже исправлено в italy ветке refactor/backend-slim-events (commit 8b7daa9) — после мерджа уйдёт.",
-      "first_seen": "2026-05-20"
-    },
     "src/Action/SitemapAction.php": {
       "status": "ready-to-sync",
       "note": "baseline: inline settings -> PlatformSettings + Json::loadKey"
     },
-    "src/Handler/HttpErrorHandler.php": {
-      "status": "ready-to-sync",
-      "note": "baseline: RespondsToContent trait"
-    },
-    "src/Handler/ServerErrorHandler.php": {
-      "status": "ready-to-sync",
-      "note": "baseline: RespondsToContent trait"
-    },
-    "src/Middleware/RateLimitMiddleware.php": {
-      "status": "ready-to-sync",
-      "note": "baseline: Json::load"
-    },
     "src/Middleware/RedirectMiddleware.php": {
       "status": "ready-to-sync",
       "note": "baseline: Json::load"
-    },
-    "src/Middleware/TrailingSlashMiddleware.php": {
-      "status": "unreviewed",
-      "note": "italy расходится с baseline — проверить логику"
-    },
-    "src/Service/MailService.php": {
-      "status": "ready-to-sync",
-      "note": "baseline: extractString -> Arr::str"
     },
     "src/Support/BaseUrlResolver.php": {
       "status": "unreviewed",
