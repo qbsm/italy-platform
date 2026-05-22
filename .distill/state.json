@@ -2,9 +2,9 @@
   "$schema": "https://ismart.pro/schemas/distill-state-v1.json",
   "platform_repo": "github:qbsm/ismart-platform",
   "platform_version": "1.0.0",
-  "platform_commit": "aa96a567e57eb8eb9239896611dd16e4c26025e6",
+  "platform_commit": "cedc8159f740e5e844a529c7a2595e75b3788369",
   "platform_branch": "distill/initial-baseline",
-  "last_sync": "2026-05-22T12:34:56.416Z",
+  "last_sync": "2026-05-22T15:33:53.015Z",
   "overrides": {
     "src/Service/SeoBuilderInterface.php": {
       "reason": "Strategy pattern для расширяемого SEO (отсутствует в baseline — кандидат на унификацию во всех проектах)",
@@ -57,10 +57,6 @@
       "note": "проверить разницу с baseline"
     },
     "src/Twig/AssetExtension.php": {
-      "status": "ready-to-sync",
-      "note": "baseline: 2x json_decode -> Json::load"
-    },
-    "src/Twig/DataExtension.php": {
       "status": "ready-to-sync",
       "note": "baseline: 2x json_decode -> Json::load"
     }
