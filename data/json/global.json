@@ -256,28 +256,6 @@
         "connection_error": "Server connection error"
       }
     },
-    "fields": [
-      {
-        "name": "csrf_token",
-        "type": "hidden"
-      },
-      {
-        "name": "current_url",
-        "type": "hidden"
-      },
-      {
-        "name": "email",
-        "type": "email",
-        "inputmode": "email",
-        "autocomplete": "email",
-        "validation": { "required": true, "maxLength": 254 }
-      },
-      {
-        "name": "policy",
-        "type": "checkbox",
-        "validation": { "required": true }
-      }
-    ],
     "button": {
       "ru": {
         "title": "Подписаться"

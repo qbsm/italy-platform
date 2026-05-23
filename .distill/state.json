@@ -43,6 +43,24 @@
       "accepted_drift": true,
       "first_seen": "2026-05-23",
       "last_review": "2026-05-23"
+    },
+    "src/Action/ApiSendAction.php": {
+      "reason": "italy-specific validation: email/name/city (без phone); baseline ApiSendAction hardcoded под phone-форму. См. proposal 0007 (data-driven validation)",
+      "accepted_drift": true,
+      "first_seen": "2026-05-23",
+      "last_review": "2026-05-23"
+    },
+    "templates/components/form-callback.twig": {
+      "reason": "italy-specific markup: 4 поля (email/name/city/policy) static; baseline рендерит {% for field in fields %} что не соответствует italy form",
+      "accepted_drift": true,
+      "first_seen": "2026-05-23",
+      "last_review": "2026-05-23"
+    },
+    "data/json/global.json": {
+      "reason": "italy global config: i18n form-callback structure (placeholder/label/.../button по ru,en); baseline использует fields[] array",
+      "accepted_drift": true,
+      "first_seen": "2026-05-23",
+      "last_review": "2026-05-23"
     }
   },
   "drift": {

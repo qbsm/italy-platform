@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Action;
 
 use App\Middleware\CorrelationIdMiddleware;
-use App\Notification\ChannelResult;
-use App\Notification\NotificationDispatcher;
-use App\Support\Arr;
+use App\Service\MailService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
@@ -15,9 +13,10 @@ use Psr\Log\LoggerInterface;
 final class ApiSendAction
 {
     public function __construct(
-        private readonly NotificationDispatcher $dispatcher,
+        private readonly MailService $mailService,
         private readonly LoggerInterface $logger,
-    ) {}
+    ) {
+    }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
@@ -30,10 +29,10 @@ final class ApiSendAction
         $requestId = (string) $request->getAttribute(CorrelationIdMiddleware::REQUEST_ATTRIBUTE, '');
         $parsed = $request->getParsedBody();
         $data = is_array($parsed) ? $parsed : [];
-        $idempotencyKey = Arr::str($data, 'idempotency_key');
+        $idempotencyKey = $this->extractString($data, 'idempotency_key');
 
         // CSRF
-        $csrfToken = Arr::str($data, 'csrf_token');
+        $csrfToken = $this->extractString($data, 'csrf_token');
         $sessionToken = isset($_SESSION['csrf_token']) && is_string($_SESSION['csrf_token']) ? $_SESSION['csrf_token'] : '';
 
         if ($csrfToken === '' || $sessionToken === '' || !hash_equals($sessionToken, $csrfToken)) {
@@ -67,45 +66,21 @@ final class ApiSendAction
             return $this->json($response, 422, $payload);
         }
 
-        // Параллельная (независимая) отправка по всем каналам
+        // Отправка email
         $uploadedFiles = $request->getUploadedFiles();
-        $data['_user_agent'] = (string) ($request->getHeaderLine('User-Agent') ?: '');
-        $data['_ip'] = $this->clientIp($request);
+        $mailSent = $this->mailService->sendFormSubmission($data, $uploadedFiles, $requestId);
 
-        $results = $this->dispatcher->dispatch($data, $uploadedFiles, $requestId);
-        $channels = [];
-        foreach ($results as $result) {
-            $channels[$result->channel] = $result->status;
-            if ($result->status === ChannelResult::STATUS_FAILED) {
-                $this->logger->warning('Канал не доставил', [
-                    'channel' => $result->channel,
-                    'message' => $result->message,
-                    'request_id' => $requestId,
-                ]);
-            }
+        if (!$mailSent) {
+            $this->logger->warning('Форма принята, но письмо не отправлено', ['request_id' => $requestId]);
         }
 
         $payload = [
             'success' => true,
             'message' => 'Заявка успешно отправлена',
-            'channels' => $channels,
             'request_id' => $requestId,
         ];
         $this->cacheResponse($idempotencyKey, 200, $payload);
         return $this->json($response, 200, $payload);
-    }
-
-    private function clientIp(ServerRequestInterface $request): string
-    {
-        $forwarded = $request->getHeaderLine('X-Forwarded-For');
-        if ($forwarded !== '') {
-            $first = trim(explode(',', $forwarded)[0]);
-            if ($first !== '') {
-                return $first;
-            }
-        }
-        $serverParams = $request->getServerParams();
-        return (string) ($serverParams['REMOTE_ADDR'] ?? '');
     }
 
     /**
@@ -116,23 +91,30 @@ final class ApiSendAction
     {
         $errors = [];
 
-        $phoneRaw = Arr::str($data, 'phone');
-        $phone = preg_replace('/\D+/', '', $phoneRaw) ?? '';
-        if ($phone === '' || strlen($phone) < 7 || strlen($phone) > 15) {
-            $errors['phone'] = 'Неверный телефон';
+        $email = $this->extractString($data, 'email');
+        if ($email === '' || filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+            $errors['email'] = 'Неверный E-mail';
         }
 
-        $policy = Arr::str($data, 'policy');
+        $name = $this->extractString($data, 'name');
+        if ($name === '' || mb_strlen($name) < 2) {
+            $errors['name'] = 'Укажите имя';
+        }
+
+        $policy = $this->extractString($data, 'policy');
         if ($policy !== 'on') {
             $errors['policy'] = 'Согласитесь с политикой';
         }
 
-        $email = Arr::str($data, 'email');
-        if ($email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-            $errors['email'] = 'Неверный E-mail';
-        }
-
         return $errors;
+    }
+
+    /**
+     * @param array<string,mixed> $data
+     */
+    private function extractString(array $data, string $key): string
+    {
+        return isset($data[$key]) && is_string($data[$key]) ? trim($data[$key]) : '';
     }
 
     /**
