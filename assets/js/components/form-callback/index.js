@@ -1,10 +1,8 @@
 import { FormApi } from './api.js';
 import { FormValidator } from './validation.js';
-import { PhoneMask } from './mask.js';
 import { FormUI } from './ui.js';
 import { I18n, resolveLang } from './i18n.js';
-import { COUNTRY_CODES, DEFAULT_ERROR_TEXTS, DEFAULT_LANG } from './constants.js';
-import { normalizePhone } from './validation.js';
+import { DEFAULT_ERROR_TEXTS, DEFAULT_LANG } from './constants.js';
 
 export class CallbackForm {
   constructor(formElement, config = {}) {
@@ -15,17 +13,15 @@ export class CallbackForm {
     this.i18n = new I18n(config.messages || {}, this.lang);
     this.validator = new FormValidator(this.form, this.i18n);
     this.ui = new FormUI(formElement, this.i18n);
-    this.mask = new PhoneMask(formElement.querySelector('input[name="phone"]'), this.lang, COUNTRY_CODES);
+    this.mask = null;
     this.isSubmitting = false;
     this.abortController = null;
     this._boundHandleSubmit = this._handleSubmit.bind(this);
     this._boundHandleInput = this._handleInput.bind(this);
     this._boundHandlePolicyChange = this._handlePolicyChange.bind(this);
-    this._boundHandleFileChange = this._handleFileChange.bind(this);
   }
 
   init() {
-    this.mask.init();
     this._setCurrentUrl();
     this.form.addEventListener('submit', this._boundHandleSubmit);
     this.form.addEventListener('input', this._boundHandleInput);
@@ -35,11 +31,6 @@ export class CallbackForm {
       policyField.addEventListener('change', this._boundHandlePolicyChange);
     }
 
-    // Обработка file-инпутов
-    this.form.querySelectorAll('.form-callback__file-input').forEach((fileInput) => {
-      fileInput.addEventListener('change', this._boundHandleFileChange);
-    });
-
     this.form.dataset.callbackFormInitialized = '1';
   }
 
@@ -48,16 +39,12 @@ export class CallbackForm {
     if (policyField) {
       policyField.removeEventListener('change', this._boundHandlePolicyChange);
     }
-    this.form.querySelectorAll('.form-callback__file-input').forEach((fileInput) => {
-      fileInput.removeEventListener('change', this._boundHandleFileChange);
-    });
     this.form.removeEventListener('submit', this._boundHandleSubmit);
     this.form.removeEventListener('input', this._boundHandleInput);
     if (this.abortController) {
       this.abortController.abort();
       this.abortController = null;
     }
-    this.mask.destroy();
     delete this.form.dataset.callbackFormInitialized;
   }
 
@@ -75,7 +62,7 @@ export class CallbackForm {
       Object.keys(validation.errors).forEach((fieldName) => {
         const field = this.form.querySelector(`[name="${fieldName}"]`);
         if (field) {
-          const fieldToMark = fieldName === 'policy' ? field.closest('.form-callback__field') || field : field;
+          const fieldToMark = fieldName === 'policy' ? field.closest('.form-callback__item') || field : field;
           this.ui.markFieldAsError(fieldToMark);
         }
       });
@@ -127,9 +114,7 @@ export class CallbackForm {
     if (!(target instanceof HTMLElement)) {
       return;
     }
-    const field = target.closest(
-      '.form-callback__control, .form-callback__file-input, .form-callback__checkbox-input, .form-callback__radio-input'
-    );
+    const field = target.closest('input[name="email"], input[name="name"], input[name="city"]');
     if (field) {
       this.ui.clearFieldError(field);
     }
@@ -141,40 +126,9 @@ export class CallbackForm {
       return;
     }
     if (target.checked) {
-      const container = target.closest('.form-callback__field') || target;
+      const container = target.closest('.form-callback__item') || target;
       this.ui.clearFieldError(container);
     }
-  }
-
-  _handleFileChange(event) {
-    const input = event.target;
-    if (!(input instanceof HTMLInputElement) || input.type !== 'file') {
-      return;
-    }
-
-    // Очищаем ошибку поля
-    this.ui.clearFieldError(input);
-
-    // Обновляем список файлов
-    const fieldContainer = input.closest('.form-callback__field');
-    const fileList = fieldContainer ? fieldContainer.querySelector('.js-file-list') : null;
-    if (!fileList) {
-      return;
-    }
-
-    fileList.textContent = '';
-
-    if (!input.files || input.files.length === 0) {
-      return;
-    }
-
-    Array.from(input.files).forEach((file) => {
-      const item = document.createElement('span');
-      item.className = 'form-callback__file-item';
-      const sizeMb = (file.size / 1024 / 1024).toFixed(1);
-      item.textContent = `${file.name} (${sizeMb} МБ)`;
-      fileList.appendChild(item);
-    });
   }
 
   _setCurrentUrl() {
@@ -186,10 +140,6 @@ export class CallbackForm {
 
   _buildFormData() {
     const formData = new FormData(this.form);
-    const phoneField = this.form.querySelector('input[name="phone"]');
-    if (phoneField) {
-      formData.set('phone', normalizePhone(phoneField.value));
-    }
 
     const policyField = this.form.querySelector('input[name="policy"]');
     formData.set('policy', policyField && policyField.checked ? 'on' : 'off');
@@ -219,7 +169,6 @@ export class CallbackForm {
     );
 
     this.form.reset();
-    this.mask.reset();
     this.ui.clearErrors();
     this.ui.setSuccessState();
   }
@@ -234,7 +183,7 @@ export class CallbackForm {
       Object.entries(error.errors).forEach(([fieldName]) => {
         const field = this.form.querySelector(`[name="${fieldName}"]`);
         if (field) {
-          const fieldToMark = fieldName === 'policy' ? field.closest('.form-callback__field') || field : field;
+          const fieldToMark = fieldName === 'policy' ? field.closest('.form-callback__item') || field : field;
           this.ui.markFieldAsError(fieldToMark);
         }
       });

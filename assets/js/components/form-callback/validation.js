@@ -34,7 +34,7 @@ export function isFieldVisible(field) {
     return false;
   }
 
-  const fieldItem = field.closest('.form-callback__field');
+  const fieldItem = field.closest('.form-callback__item');
   if (!fieldItem) {
     return true;
   }
@@ -65,91 +65,47 @@ export class FormValidator {
     const errors = {};
     let firstError = '';
 
-    const setError = (fieldName, message) => {
-      errors[fieldName] = message;
-      if (!firstError) {
-        firstError = message;
+    const emailField = this.form.querySelector('input[name="email"]');
+    if (emailField && isFieldVisible(emailField)) {
+      const email = emailField.value.trim();
+      if (!isRequired(email)) {
+        this._setError(errors, 'email', this._text('email_required'), (msg) => {
+          firstError = firstError || msg;
+        });
+      } else if (!isValidEmail(email)) {
+        this._setError(errors, 'email', this._text('email_invalid'), (msg) => {
+          firstError = firstError || msg;
+        });
       }
-    };
+    }
 
-    // Собираем все видимые поля формы (кроме hidden, submit, csrf_token, current_url)
-    const skipNames = new Set(['csrf_token', 'current_url']);
-    const fields = this.form.querySelectorAll('input, select, textarea');
-
-    fields.forEach((field) => {
-      const name = field.name;
-      if (!name || skipNames.has(name) || field.type === 'hidden' || field.type === 'submit') {
-        return;
+    const nameField = this.form.querySelector('input[name="name"]');
+    if (nameField && isFieldVisible(nameField)) {
+      const name = nameField.value.trim();
+      if (!isRequired(name)) {
+        this._setError(errors, 'name', this._text('name_required'), (msg) => {
+          firstError = firstError || msg;
+        });
+      } else if (!isMinLength(name, 2)) {
+        this._setError(errors, 'name', this._text('name_min_length'), (msg) => {
+          firstError = firstError || msg;
+        });
       }
-      if (!isFieldVisible(field)) {
-        return;
-      }
+    }
 
-      const isReq = field.getAttribute('aria-required') === 'true';
+    const cityField = this.form.querySelector('input[name="city"]');
+    if (cityField && isFieldVisible(cityField) && !isRequired(cityField.value)) {
+      this._setError(errors, 'city', this._text('city_required'), (msg) => {
+        firstError = firstError || msg;
+      });
+    }
 
-      // --- Телефон ---
-      if (field.type === 'tel') {
-        const value = field.value.trim();
-        const digits = normalizePhone(value);
-        const countryCodeDigits = normalizePhone(field.getAttribute('data-country-code') || '');
-
-        if (isReq && !isRequired(value)) {
-          setError(name, this._text('phone_required'));
-        } else if (isRequired(value) && !isValidPhone(digits, countryCodeDigits)) {
-          setError(name, this._text('phone_invalid'));
-        }
-        return;
-      }
-
-      // --- Email ---
-      if (field.type === 'email') {
-        const value = field.value.trim();
-        if (isReq && !isRequired(value)) {
-          setError(name, this._text('email_required'));
-        } else if (isRequired(value) && !isValidEmail(value)) {
-          setError(name, this._text('email_invalid'));
-        }
-        return;
-      }
-
-      // --- Чекбокс ---
-      if (field.type === 'checkbox') {
-        if (isReq && !field.checked) {
-          setError(name, this._text(name + '_required'));
-        }
-        return;
-      }
-
-      // --- Файл ---
-      if (field.type === 'file') {
-        if (isReq && (!field.files || field.files.length === 0)) {
-          setError(name, this._text(name + '_required'));
-        }
-        return;
-      }
-
-      // --- Текстовые поля, select, textarea ---
-      const value = field.value.trim();
-
-      if (isReq && !isRequired(value)) {
-        setError(name, this._text(name + '_required'));
-        return;
-      }
-
-      // minLength (по атрибуту или по имени поля name → 2 символа)
-      if (isRequired(value)) {
-        const minLen = field.getAttribute('minlength');
-        if (minLen && !isMinLength(value, parseInt(minLen, 10))) {
-          setError(name, this._text(name + '_min_length'));
-          return;
-        }
-        // Имя — всегда минимум 2 символа
-        if (name === 'name' && !isMinLength(value, 2)) {
-          setError(name, this._text('name_min_length'));
-          return;
-        }
-      }
-    });
+    const policyField = this.form.querySelector('input[name="policy"]');
+    if (policyField && isFieldVisible(policyField) && !policyField.checked) {
+      this._setError(errors, 'policy', this._text('policy_required'), (msg) => {
+        firstError = firstError || msg;
+      });
+    }
 
     return {
       isValid: Object.keys(errors).length === 0,
@@ -160,5 +116,10 @@ export class FormValidator {
 
   _text(key) {
     return this.i18n.get('error', key, this.defaults[key] || '');
+  }
+
+  _setError(errors, fieldName, message, setFirstError) {
+    errors[fieldName] = message;
+    setFirstError(message);
   }
 }

@@ -4,7 +4,7 @@ window.$ = window.jQuery = jQuery;
 
 // Import Swiper core и необходимые модули
 import Swiper from 'swiper';
-import { Navigation, Pagination, Scrollbar, EffectFade, Autoplay } from 'swiper/modules';
+import { Navigation, Pagination, Scrollbar, EffectFade, Autoplay, FreeMode } from 'swiper/modules';
 
 // Import styles
 import 'swiper/css';
@@ -27,10 +27,11 @@ window.SwiperModules = {
   Scrollbar,
   EffectFade,
   Autoplay,
+  FreeMode,
 };
 
 // Регистрируем модули Swiper
-Swiper.use([Navigation, Pagination, Scrollbar, EffectFade, Autoplay]);
+Swiper.use([Navigation, Pagination, Scrollbar, EffectFade, Autoplay, FreeMode]);
 
 // Make libraries available globally
 window.GLightbox = GLightbox;
