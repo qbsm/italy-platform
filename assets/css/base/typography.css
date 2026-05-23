@@ -12,7 +12,7 @@ select,
 textarea {
     font-size: 1.4rem;
     font-family: var(--font-1);
-    font-weight: 350;
+    font-weight: 300;
     line-height: 1.2;
 
     @media (--lg) {
@@ -27,68 +27,61 @@ h4,
 h5,
 h6 {
   margin-block: 0;
-  font-family: var(--font-2);
   font-weight: 600;
-  line-height: 1.25;
-}
-
-.heading,
-.title {
-  font-family: var(--font-2);
-  line-height: 1.25;
+  line-height: 1.1;
 }
 
 .h1 {
-  font-size: 1.2em;
+  font-size: 1.8em;
 
   @media (--lg) {
-    font-size: 2.1em;
+    font-size: 3.2em;
   }
 }
 
 .h2 {
-  font-size: 1.05em;
+  font-size: 1.6em;
 
   @media (--lg) {
-    font-size: 1.75em;
+    font-size: 2.8em;
   }
 }
 
 .h3 {
-  font-size: 0.95em;
+  font-size: 1.4em;
 
   @media (--lg) {
-    font-size: 1.5em;
+    font-size: 2.4em;
   }
 }
 
 .h4 {
-  font-size: 0.9em;
+  font-size: 1.2em;
 
   @media (--lg) {
-    font-size: 1.25em;
+    font-size: 2.0em;
   }
 }
 
 .h5 {
-  font-size: 0.85em;
+  font-size: 1em;
 
   @media (--lg) {
-    font-size: 1.1em;
+    font-size: 1.6em;
   }
 }
 
 .h6 {
-  font-size: 0.8em;
+  font-size: 0.9em;
 
   @media (--lg) {
-    font-size: 1em;
+    font-size: 1.2em;
   }
 }
 
 b,
 strong {
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .weight-100 {
@@ -131,10 +124,6 @@ strong {
   font-family: var(--font-1);
 }
 
-.font-2 {
-  font-family: var(--font-2);
-}
-
 .text-lg {
   font-size: 1.8em;
   line-height: 1.1em;
@@ -158,5 +147,5 @@ strong {
 }
 
 .longread {
-  font-size: 1em;
+  font-size: 0.8em;
 }

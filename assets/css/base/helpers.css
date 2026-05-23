@@ -22,6 +22,10 @@
   color: var(--color-6);
 }
 
+.color-8 {
+  color: var(--color-8);
+}
+
 .bg-color-1 {
   background: var(--color-1);
 }
@@ -206,27 +210,6 @@
   text-align: right;
 }
 
-/* Выравнивание flex — вешать в разметке, не в CSS секций/компонентов */
-.items-start {
-  align-items: flex-start;
-}
-
-.items-center {
-  align-items: center;
-}
-
-.items-stretch {
-  align-items: stretch;
-}
-
-.self-start {
-  align-self: flex-start;
-}
-
-.justify-center {
-  justify-content: center;
-}
-
 .uppercase {
   text-transform: uppercase;
 }
@@ -264,6 +247,46 @@
 
 .animation-bw-color:hover {
     filter: grayscale(0%);
+}
+
+/* Затемнение: чёрный оверлей на hover, текст и иконки не закрывает */
+.animation-darken {
+    position: relative;
+}
+
+.animation-darken::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #000;
+    opacity: 0;
+    transition: opacity 0.25s ease-out;
+    pointer-events: none;
+}
+
+.animation-darken:hover::after {
+    opacity: 1;
+}
+
+/* Зум фона: помечает элемент. Реализация — рядом с конкретным компонентом
+   (например, .card-gradient.animation-zoom:hover .card-gradient__cover) */
+.animation-zoom {
+    position: relative;
+    overflow: hidden;
+}
+
+a.link.animation-zoom:hover {
+    opacity: 1;
+}
+
+/* Сдвиг фона вниз на hover (реализация — рядом с конкретным компонентом) */
+.animation-shift-down {
+    position: relative;
+    overflow: hidden;
+}
+
+a.link.animation-shift-down:hover {
+    opacity: 1;
 }
 
 .no-zoom img {

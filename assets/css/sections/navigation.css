@@ -5,7 +5,8 @@
 .navigation .section__item.items-wrap {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.6rem;
+  column-gap: 1.6rem;
+  row-gap: 1.6rem;
 
   @media (--lg) {
     gap: 2rem;
