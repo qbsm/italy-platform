@@ -31,6 +31,18 @@
       "reason": "deployment-specific: route_map, collections (restaurants), sitemap_pages",
       "accepted_drift": true,
       "first_seen": "2026-05-20"
+    },
+    "assets/css/main.css": {
+      "reason": "italy-specific imports (sections/intro, navigation, restaurants etc); baseline main.css содержит kumho-секции",
+      "accepted_drift": true,
+      "first_seen": "2026-05-23",
+      "last_review": "2026-05-23"
+    },
+    "assets/js/main.js": {
+      "reason": "italy-specific imports (sections/intro.js, restaurants.js etc); baseline main.js содержит kumho components",
+      "accepted_drift": true,
+      "first_seen": "2026-05-23",
+      "last_review": "2026-05-23"
     }
   },
   "drift": {
