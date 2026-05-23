@@ -71,8 +71,13 @@
         {% endif %}
 
         {% for cover in covers %}
+          {# raw-source (ADR-0007): cover.src — data/img/.../raw/X.jpg.
+             image_fallback резолвит к сгенерированному webp (400-ключ).
+             Если cover.src уже direct path (legacy без /raw/) — image_fallback
+             вернёт '', через ?: падаем на cover.src. #}
+          {% set _coverSrc = image_fallback(cover.src) ?: cover.src %}
           <div class="swiper-slide card-restaurant-slide card-restaurant-slide--photo">
-            <img src="{{ url(cover.src) }}" alt="{{ cover.alt | default(name) }}"
+            <img src="{{ url(_coverSrc) }}" alt="{{ cover.alt | default(name) }}"
                  class="card-restaurant-slide__photo" loading="lazy">
           </div>
         {% endfor %}
