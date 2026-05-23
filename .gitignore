@@ -125,4 +125,6 @@ kumho-tires.ru-master/
 # Крупные медиа-файлы, не коммитим в репозиторий
 data/img/tires/
 data/img/restaurants/
-data/img/restaurants-list/
+data/img/restaurants-list/*
+!data/img/restaurants-list/card-bg.png
+
