@@ -81,9 +81,15 @@
           </div>
         {% endif %}
 
-        {% if restaurant.desc.short is defined %}
+        {% if restaurant.desc.short is defined and restaurant.desc.short %}
           <div class="section__item heading-wrap">
             <p class="restaurant-about__sub">{{ restaurant.desc.short }}</p>
+          </div>
+        {% endif %}
+
+        {% if restaurant.desc.heading is defined and restaurant.desc.heading %}
+          <div class="section__item heading-wrap">
+            <h2 class="restaurant-about__sub">{{ restaurant.desc.heading }}</h2>
           </div>
         {% endif %}
 
