@@ -87,9 +87,10 @@
     <span class="card__title font-1 weight-500">{{ name }}</span>
   </div>
 {% endif %}
-{% if item.desc.short is defined and item.desc.short %}
+{% set cardDesc = item.desc.heading | default(item.desc.short | default(null)) %}
+{% if cardDesc %}
   <div class="card__item desc-wrap">
-    <span class="card__desc">{{ item.desc.short }}</span>
+    <span class="card__desc">{{ cardDesc }}</span>
   </div>
 {% endif %}
 {% if buttons is defined %}
