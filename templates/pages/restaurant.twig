@@ -31,7 +31,7 @@
         <div class="restaurant-intro__overlay">
           <div class="container">
             <div class="restaurant-intro__content">
-              <h1 class="restaurant-intro__title heading font-1 weight-300 uppercase">{{ r.name }}</h1>
+              <h1 class="restaurant-intro__title heading font-1 weight-300 uppercase">{{ r.nameHtml is defined and r.nameHtml ? r.nameHtml|raw : r.name }}</h1>
 
               <div class="restaurant-intro__contacts">
                 {% if r.address is defined %}

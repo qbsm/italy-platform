@@ -4,6 +4,7 @@
   "restaurant": {
     "@type": "Restaurant",
     "name": "Salone pasta&bar Санкт-Петербург",
+    "nameHtml": "Salone pasta&amp;bar<br>Санкт-Петербург",
     "telephone": {
       "title": "+7 (921) 777-06-23",
       "href": "tel:+79217770623"
