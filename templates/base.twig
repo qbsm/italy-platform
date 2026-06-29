@@ -101,13 +101,16 @@
     <link rel="alternate" href="{{ _base_secure_domain_for_seo ~ '/' }}" hreflang="x-default" />
   {% endif %}
 
-  {% if preload_fonts is defined and preload_fonts is iterable and preload_fonts|length > 0 %}
-  {% for path in preload_fonts %}
-  <link rel="preload" href="{{ url(path) }}" as="font" type="font/ttf" crossorigin>
-  {% endfor %}
-  {% endif %}
+  {# Шрифты НЕ preload'им: при image-LCP высокоприоритетный preload шрифтов крадёт канал у hero-картинки.
+     woff2 мелкие и грузятся из render-blocking CSS, font-display:swap; измеренный CLS остаётся ~0.01.
+     (preload_fonts по-прежнему вычисляется в TemplateDataBuilder, но не рендерится.) #}
   {% if hero_preload_image is defined and hero_preload_image %}
-  <link rel="preload" href="{{ url(hero_preload_image) }}" as="image">
+  {% if hero_preload_image.mobile is defined %}
+  <link rel="preload" href="{{ url(hero_preload_image.mobile) }}" as="image" fetchpriority="high" media="(max-width: 767px)">
+  <link rel="preload" href="{{ url(hero_preload_image.desktop) }}" as="image" fetchpriority="high" media="(min-width: 768px)">
+  {% else %}
+  <link rel="preload" href="{{ url(hero_preload_image) }}" as="image" fetchpriority="high">
+  {% endif %}
   {% endif %}
 
   <script>
