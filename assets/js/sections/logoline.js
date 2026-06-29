@@ -20,6 +20,11 @@ function initLogolineMarquee() {
   slides.forEach((slide) => {
     const clone = slide.cloneNode(true);
     clone.setAttribute('aria-hidden', 'true');
+    // Клоны — визуальные дубли для бесконечной ленты: убираем из таб-порядка,
+    // иначе фокусируемые ссылки внутри aria-hidden дают a11y-нарушение.
+    clone.querySelectorAll('a, button, [tabindex], input, select, textarea').forEach((node) => {
+      node.setAttribute('tabindex', '-1');
+    });
     wrapper.appendChild(clone);
   });
 

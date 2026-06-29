@@ -19,7 +19,7 @@
                   {% for slide in item.slider.items %}
                     <div class="swiper-slide">
                       {% if slide.href is defined %}
-                        <a href="{{ slide.href }}"{% if slide.target is defined %} target="{{ slide.target }}" rel="noopener noreferrer"{% endif %} class="card-slider__link">
+                        <a href="{{ slide.href }}"{% if slide.target is defined %} target="{{ slide.target }}" rel="noopener noreferrer"{% endif %}{% if slide.title is defined and slide.title %} aria-label="{{ slide.title }}"{% endif %} class="card-slider__link">
                           <div class="card-slider__cover" style="background-image: url('{{ url(slide.cover) }}');"></div>
                         </a>
                       {% else %}

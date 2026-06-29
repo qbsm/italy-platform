@@ -16,8 +16,25 @@ onReady(() => {
       video.innerHTML = `<source src="${webm}" type="video/webm">` + `<source src="${mp4}" type="video/mp4">`;
       video.load();
     };
-    setSources();
-    desktopMq.addEventListener('change', setSources);
+    const startVideo = () => {
+      setSources();
+      desktopMq.addEventListener('change', setSources);
+    };
+    // Грузим видео (~889 КБ) только при подходе секции к вьюпорту — экономим канал на первом экране.
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries, obs) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            obs.disconnect();
+            startVideo();
+          }
+        },
+        { rootMargin: '600px 0px' }
+      );
+      io.observe(section);
+    } else {
+      startVideo();
+    }
   }
 
   const bgTop = section.querySelector('.section__subitem.bg-top');

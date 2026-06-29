@@ -298,16 +298,19 @@
               },
               "items": [
                 {
+                  "title": "Баланс",
                   "cover": "data/img/navigation/banners/banner-1.webp",
                   "href": "https://italycommunity.online/balance?utm_source=mainsite&utm_medium=banner_balance&utm_campaign=balancemenu&utm_content=link&utm_term=promo",
                   "target": "_blank"
                 },
                 {
+                  "title": "Приветственные бонусы",
                   "cover": "data/img/navigation/banners/banner-2.webp",
                   "href": "https://app.italydomoy.ru/app?utm_source=mainsite&utm_medium=banner_plwelcomebon&utm_campaign=apptouch&utm_content=link&utm_term=promo",
                   "target": "_blank"
                 },
                 {
+                  "title": "Сертификат",
                   "cover": "data/img/navigation/banners/banner-3.webp",
                   "href": "https://app.italydomoy.ru/app?utm_source=mainsite&utm_medium=banner_certificate&utm_campaign=apptouch&utm_content=link&utm_term=promo",
                   "target": "_blank"
