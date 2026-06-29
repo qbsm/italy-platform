@@ -53,7 +53,7 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
         ];
 
         return [
-            'title' => $name,
+            'title' => $name !== '' ? $name . ' — ' . $siteName : $siteName,
             'meta' => $meta,
             'json_ld' => $this->buildRestaurantJsonLd($entity),
             'json_ld_faq' => $this->buildRestaurantFaqJsonLd($entity, $langCode, $global),

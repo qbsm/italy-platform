@@ -1,4 +1,6 @@
 # Общие правила для всех краулеров
+Sitemap: https://italycommunity.ru/sitemap.xml
+
 User-agent: *
 Allow: /
 Allow: /*.css
