@@ -1282,5 +1282,125 @@
   "favicons/raw/apple-touch-icon.webp": {
     "width": 180,
     "height": 180
+  },
+  "restaurants/joli-moscow/covers/800/1.webp": {
+    "width": 800,
+    "height": 1200
+  },
+  "restaurants/joli-moscow/covers/1600/1.webp": {
+    "width": 1440,
+    "height": 2160
+  },
+  "restaurants/joli-moscow/covers/raw/1.webp": {
+    "width": 1440,
+    "height": 2160
+  },
+  "restaurants/joli-moscow/covers/800/2.webp": {
+    "width": 800,
+    "height": 1200
+  },
+  "restaurants/joli-moscow/covers/1600/2.webp": {
+    "width": 1440,
+    "height": 2160
+  },
+  "restaurants/joli-moscow/covers/raw/2.webp": {
+    "width": 1440,
+    "height": 2160
+  },
+  "restaurants/joli-moscow/covers/800/3.webp": {
+    "width": 800,
+    "height": 1200
+  },
+  "restaurants/joli-moscow/covers/1600/3.webp": {
+    "width": 853,
+    "height": 1280
+  },
+  "restaurants/joli-moscow/covers/raw/3.webp": {
+    "width": 853,
+    "height": 1280
+  },
+  "restaurants/joli-moscow/covers/800/4.webp": {
+    "width": 800,
+    "height": 1200
+  },
+  "restaurants/joli-moscow/covers/1600/4.webp": {
+    "width": 853,
+    "height": 1280
+  },
+  "restaurants/joli-moscow/covers/raw/4.webp": {
+    "width": 853,
+    "height": 1280
+  },
+  "restaurants/joli-moscow/covers/800/5.webp": {
+    "width": 800,
+    "height": 1200
+  },
+  "restaurants/joli-moscow/covers/1600/5.webp": {
+    "width": 1440,
+    "height": 2160
+  },
+  "restaurants/joli-moscow/covers/raw/5.webp": {
+    "width": 1440,
+    "height": 2160
+  },
+  "restaurants/joli-moscow/covers/800/6.webp": {
+    "width": 800,
+    "height": 1200
+  },
+  "restaurants/joli-moscow/covers/1600/6.webp": {
+    "width": 853,
+    "height": 1280
+  },
+  "restaurants/joli-moscow/covers/raw/6.webp": {
+    "width": 853,
+    "height": 1280
+  },
+  "restaurants/joli-moscow/covers/800/7.webp": {
+    "width": 800,
+    "height": 1200
+  },
+  "restaurants/joli-moscow/covers/1600/7.webp": {
+    "width": 853,
+    "height": 1280
+  },
+  "restaurants/joli-moscow/covers/raw/7.webp": {
+    "width": 853,
+    "height": 1280
+  },
+  "restaurants/joli-moscow/covers/800/8.webp": {
+    "width": 800,
+    "height": 1200
+  },
+  "restaurants/joli-moscow/covers/1600/8.webp": {
+    "width": 853,
+    "height": 1280
+  },
+  "restaurants/joli-moscow/covers/raw/8.webp": {
+    "width": 853,
+    "height": 1280
+  },
+  "restaurants/joli-moscow/covers/800/9.webp": {
+    "width": 800,
+    "height": 1200
+  },
+  "restaurants/joli-moscow/covers/1600/9.webp": {
+    "width": 853,
+    "height": 1280
+  },
+  "restaurants/joli-moscow/covers/raw/9.webp": {
+    "width": 853,
+    "height": 1280
+  },
+  "restaurants/joli-moscow/covers/800/10.webp": {
+    "width": 800,
+    "height": 1200
+  },
+  "restaurants/joli-moscow/covers/1600/10.webp": {
+    "width": 853,
+    "height": 1280
+  },
+  "restaurants/joli-moscow/covers/raw/10.webp": {
+    "width": 853,
+    "height": 1280
   }
 }
