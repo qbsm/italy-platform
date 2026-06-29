@@ -23,11 +23,14 @@
         {% if meta.property == 'og:url' %}{% set _og_url = meta.content %}{% endif %}
       {% endif %}
     {% endfor %}
+    <meta property="og:locale" content="ru_RU">
+    {% if _og_image %}<meta property="og:image:alt" content="{{ _og_title|raw }}">{% endif %}
     {# Twitter Card (дублируем OG для соцсетей) #}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ _og_title|raw }}">
     {% if _og_description %}<meta name="twitter:description" content="{{ _og_description|raw }}">{% endif %}
-    {% if _og_image %}<meta name="twitter:image" content="{{ _og_image|raw }}">{% endif %}
+    {% if _og_image %}<meta name="twitter:image" content="{{ _og_image|raw }}">
+    <meta name="twitter:image:alt" content="{{ _og_title|raw }}">{% endif %}
     {% if _og_url %}<meta name="twitter:url" content="{{ _og_url|raw }}">{% endif %}
   {% else %}
     {# Минимальные Twitter Card при отсутствии SEO meta #}
@@ -240,6 +243,38 @@
   <script type="application/ld+json">
     {{ pageSeoData.json_ld_faq | raw }}
   </script>
+  {% endif %}
+
+  {# Schema.org ItemList — страница-список ресторанов (для понимания коллекции поисковиками) #}
+  {% if page_id == 'restaurants-list' %}
+    {% set _rlist = load_json('data/json/' ~ lang_code ~ '/pages/restaurants.json') %}
+    {% if _rlist and _rlist.items is not empty %}
+      {% set _ritems = [] %}
+      {% for slug in _rlist.items %}
+        {% set _r = load_json('data/json/' ~ lang_code ~ '/restaurants/' ~ slug ~ '.json') %}
+        {% if _r and (_r.visible is not defined or _r.visible) and _r.restaurant.name is defined and _r.restaurant.name %}
+          {% set _ritems = _ritems|merge([{'name': _r.restaurant.name, 'slug': slug}]) %}
+        {% endif %}
+      {% endfor %}
+      {% if _ritems|length > 0 %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      {% for it in _ritems %}
+      {
+        "@type": "ListItem",
+        "position": {{ loop.index }},
+        "name": "{{ it.name|e('js') }}",
+        "url": "{{ _base_secure_domain_for_seo }}/restaurants/{{ it.slug|e('js') }}"
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+  </script>
+      {% endif %}
+    {% endif %}
   {% endif %}
 </head>
 
