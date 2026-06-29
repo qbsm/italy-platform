@@ -1,12 +1,17 @@
-{% if config.settings.yandex_metric_id is defined and config.settings.yandex_metric_id %}
-{% set _ym_id = config.settings.yandex_metric_id %}
-{# Yandex.Metrika — отложенная загрузка (первое взаимодействие или таймер), чтобы не конкурировать с LCP #}
+{# Трекинг перенесён со старого сайта (КРОМЕ Google Analytics — старый UA-71423170-9 отключён Google в 2023).
+   Рендерится только на боевом хосте (не на *.ismart.pro), чтобы стейдж/тесты не лили данные в счётчики клиента.
+   Отложенная загрузка (первое взаимодействие или таймер) — чтобы не конкурировать с LCP. #}
+{% if base_url is defined and base_url and 'ismart.pro' not in base_url %}
+{% set _ym_id = config.settings.yandex_metric_id|default(0) %}
 <script type="text/javascript">
   (function () {
     var loaded = false;
-    function loadYm() {
+    function loadAnalytics() {
       if (loaded) { return; }
       loaded = true;
+
+      {% if _ym_id %}
+      /* Яндекс.Метрика */
       (function (m, e, t, r, i, k, a) {
         m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
         m[i].l = 1 * new Date();
@@ -15,12 +20,36 @@
         a.parentNode.insertBefore(k, a);
       })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
       ym({{ _ym_id }}, "init", { clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: true });
+      {% endif %}
+
+      /* VK Retargeting (пиксель) */
+      var vk = document.createElement("script");
+      vk.type = "text/javascript"; vk.async = true; vk.src = "https://vk.com/js/api/openapi.js?169";
+      vk.onload = function () { try { VK.Retargeting.Init("VK-RTRG-1561150-6I7NQ"); VK.Retargeting.Hit(); } catch (e) {} };
+      document.head.appendChild(vk);
+
+      /* MindBox */
+      window.mindbox = window.mindbox || function () { mindbox.queue.push(arguments); };
+      mindbox.queue = mindbox.queue || [];
+      mindbox("create");
+      var mb = document.createElement("script");
+      mb.async = true; mb.src = "https://api.mindbox.ru/scripts/v1/tracker.js";
+      document.head.appendChild(mb);
     }
+
     ['scroll', 'mousemove', 'touchstart', 'keydown', 'pointerdown'].forEach(function (ev) {
-      window.addEventListener(ev, loadYm, { once: true, passive: true });
+      window.addEventListener(ev, loadAnalytics, { once: true, passive: true });
     });
-    setTimeout(loadYm, 3500);
+    setTimeout(loadAnalytics, 3500);
+
+    {% if _ym_id %}
+    /* Цель Метрики на успешную отправку формы (перенос старого form_booking; form-callback шлёт это событие) */
+    document.addEventListener('formSubmissionSuccess', function () {
+      if (typeof window.ym === 'function') { window.ym({{ _ym_id }}, 'reachGoal', 'form_booking'); }
+    });
+    {% endif %}
   })();
 </script>
-<noscript><div><img src="https://mc.yandex.ru/watch/{{ _ym_id }}" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+{% if _ym_id %}<noscript><div><img src="https://mc.yandex.ru/watch/{{ _ym_id }}" style="position:absolute; left:-9999px;" alt="" /></div></noscript>{% endif %}
+<noscript><img src="https://vk.com/rtrg?p=VK-RTRG-1561150-6I7NQ" style="position:fixed; left:-999px;" alt=""/></noscript>
 {% endif %}
