@@ -51,7 +51,8 @@
         },
         {
           "title": "Франшиза",
-          "href": "#"
+          "href": "#",
+          "visible": false
         },
         {
           "title": "Работай с нами",
@@ -98,7 +99,8 @@
         },
         {
           "title": "Franchise",
-          "href": "#"
+          "href": "#",
+          "visible": false
         },
         {
           "title": "Work with us",

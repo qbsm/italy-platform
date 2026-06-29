@@ -360,6 +360,7 @@
               {
                 "title": "Франшиза",
                 "href": "#",
+                "visible": false,
                 "icon": {
                   "src": "data/img/ui/button-icons/1.svg",
                   "class": "green"
