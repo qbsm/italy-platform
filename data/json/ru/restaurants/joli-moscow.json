@@ -6,10 +6,17 @@
     "name": "Joli Москва",
     "address": {
       "@type": "PostalAddress",
+      "streetAddress": "ЖК Lucky, 2-я Звенигородская, 12с21",
       "addressLocality": "Москва",
       "addressRegion": "Москва",
       "addressCountry": "RU"
-    }
+    },
+    "openingHours": [
+      {
+        "days": "Пн-Вс",
+        "hours": "12:00–00:00"
+      }
+    ]
   },
   "desc": {
     "short": "Ресторан с пекарней, цветочной лавкой и яблоневым садом",
