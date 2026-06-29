@@ -16,7 +16,7 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
     {
         $r = $entity['restaurant'] ?? [];
         $name = (string) ($r['name'] ?? $entity['slug'] ?? '');
-        $desc = (string) ($entity['desc']['short'] ?? $entity['desc']['full'] ?? '');
+        $desc = $this->resolveDescription($entity);
         $slug = (string) ($entity['slug'] ?? '');
 
         $prodBase = (string) ($config['prod_base_url'] ?? rtrim($baseUrl, '/'));
@@ -55,23 +55,51 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
         return [
             'title' => $name !== '' ? $name . ' — ' . $siteName : $siteName,
             'meta' => $meta,
-            'json_ld' => $this->buildRestaurantJsonLd($entity),
+            'json_ld' => $this->buildRestaurantJsonLd($entity, $desc, $ogImage, $url),
             'json_ld_faq' => $this->buildRestaurantFaqJsonLd($entity, $langCode, $global),
         ];
     }
 
+    /**
+     * Источник meta description: явное seo-поле metaDescription, иначе короткое, иначе полное описание.
+     * desc.full может быть массивом абзацев — склеиваем. Не зависит от текста на странице.
+     *
+     * @param array<string,mixed> $entity
+     */
+    private function resolveDescription(array $entity): string
+    {
+        $metaDescription = trim((string) ($entity['metaDescription'] ?? ''));
+        if ($metaDescription !== '') {
+            return $metaDescription;
+        }
+
+        $short = trim((string) ($entity['desc']['short'] ?? ''));
+        if ($short !== '') {
+            return $short;
+        }
+
+        $full = $entity['desc']['full'] ?? '';
+        if (is_array($full)) {
+            $full = implode(' ', array_map('strval', $full));
+        }
+
+        return trim((string) $full);
+    }
+
     /** @param array<string,mixed> $entity */
-    private function buildRestaurantJsonLd(array $entity): string
+    private function buildRestaurantJsonLd(array $entity, string $description = '', string $image = '', string $url = ''): string
     {
         $r = $entity['restaurant'] ?? [];
         $ld = [
             '@context' => 'https://schema.org',
             '@type' => 'Restaurant',
             'name' => $r['name'] ?? null,
+            'description' => $description !== '' ? $description : null,
+            'image' => $image !== '' ? $image : null,
             'telephone' => isset($r['telephone']['title']) ? $r['telephone']['title'] : null,
             'address' => isset($r['address']) ? $r['address'] : null,
             'geo' => $r['geo'] ?? null,
-            'url' => $r['url'] ?? null,
+            'url' => $r['url'] ?? ($url !== '' ? $url : null),
             'priceRange' => $r['priceRange'] ?? null,
             'hasMap' => $r['hasMap'] ?? null,
             'menu' => $r['menuLink'] ?? null,
