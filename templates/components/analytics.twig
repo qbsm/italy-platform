@@ -1,0 +1,26 @@
+{% if config.settings.yandex_metric_id is defined and config.settings.yandex_metric_id %}
+{% set _ym_id = config.settings.yandex_metric_id %}
+{# Yandex.Metrika — отложенная загрузка (первое взаимодействие или таймер), чтобы не конкурировать с LCP #}
+<script type="text/javascript">
+  (function () {
+    var loaded = false;
+    function loadYm() {
+      if (loaded) { return; }
+      loaded = true;
+      (function (m, e, t, r, i, k, a) {
+        m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
+        m[i].l = 1 * new Date();
+        for (var j = 0; j < e.scripts.length; j++) { if (e.scripts[j].src === r) { return; } }
+        k = e.createElement(t); a = e.getElementsByTagName(t)[0]; k.async = 1; k.src = r;
+        a.parentNode.insertBefore(k, a);
+      })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+      ym({{ _ym_id }}, "init", { clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: true });
+    }
+    ['scroll', 'mousemove', 'touchstart', 'keydown', 'pointerdown'].forEach(function (ev) {
+      window.addEventListener(ev, loadYm, { once: true, passive: true });
+    });
+    setTimeout(loadYm, 3500);
+  })();
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/{{ _ym_id }}" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+{% endif %}
