@@ -96,6 +96,7 @@
 
 .footer__link {
   font-size: 1em;
+  padding-block: 0.5rem; /* тап-зона ≥24px (a11y target-size) */
 }
 
 .footer .section__subitem.social-wrap {
@@ -167,6 +168,7 @@
 
 .footer__disclaimer-link {
   font-size: 0.8em;
+  padding-block: 0.7rem; /* тап-зона ≥24px (a11y target-size) */
 }
 
 .footer__copyright {
