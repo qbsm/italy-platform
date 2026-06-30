@@ -14,9 +14,9 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 final class SecurityHeadersMiddleware implements MiddlewareInterface
 {
-    /** Базовая CSP: default self, скрипты/стили с self + unsafe-inline, картинки self/data/https, шрифты self.
-     *  remarked.ru — внешний виджет онлайн-бронирования столов. */
-    private const DEFAULT_CSP = "default-src 'self'; script-src 'self' 'unsafe-inline' https://remarked.ru https://*.remarked.ru; style-src 'self' 'unsafe-inline' https://remarked.ru https://*.remarked.ru; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https://remarked.ru https://*.remarked.ru; frame-src https://remarked.ru https://*.remarked.ru; base-uri 'self'; form-action 'self' https://remarked.ru https://*.remarked.ru; frame-ancestors 'self'";
+    /** CSP: разрешаем нужные сторонние сервисы по https (Яндекс.Метрика+вебвизор, VK, MindBox, виджет
+     *  бронирования remarked.ru). Сохраняем default-src/base-uri/frame-ancestors='self' от кликджекинга. */
+    private const DEFAULT_CSP = "default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https: wss:; frame-src 'self' https:; base-uri 'self'; form-action 'self' https:; frame-ancestors 'self'";
 
     public function __construct(
         private readonly bool $addHsts = true,
