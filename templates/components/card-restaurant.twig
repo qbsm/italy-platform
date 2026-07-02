@@ -106,11 +106,14 @@
       </div>
     {% endif %}
     {% if buttons.booking is defined %}
+      {# bookingPoint ресторана превращает кнопку в виджет Remarked (assets/js/sections/booking.js);
+         без точки — прежнее поведение (bookingLink или неактивная кнопка) #}
+      {% set cardBookingPoint = r.bookingPoint | default(null) %}
       <div class="card__subitem button-wrap">
         {% include 'components/button.twig' with {'item': {
-          'class': buttons.booking.class,
+          'class': buttons.booking.class ~ (cardBookingPoint ? ' widget__point__' ~ cardBookingPoint : ''),
           'title': buttons.booking.title,
-          'href': item.restaurant.bookingLink | default(null)
+          'href': cardBookingPoint ? null : (item.restaurant.bookingLink | default(null))
         }} %}
       </div>
     {% endif %}
