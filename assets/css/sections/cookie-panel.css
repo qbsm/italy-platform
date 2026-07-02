@@ -50,6 +50,12 @@
   flex-shrink: 0;
 }
 
+/* Тот же размер текста, что у кнопок шапки (.header .actions-wrap .button) —
+   без override кнопка получала базовый 1em и выглядела крупнее остальных */
+.cookie-panel .button {
+  font-size: 0.85em;
+}
+
 /* Адаптация для мобильных устройств */
 @media (width <= 768px) {
   .cookie-panel {
