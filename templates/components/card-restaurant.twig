@@ -1,7 +1,7 @@
 {% set name = item.restaurant.name | default('') %}
 {% set icon = item.icons[0] | default(null) %}
 {% set logo = item.logos[0] | default(null) %}
-{% set href = item.slug is defined ? '/restaurants/' ~ item.slug ~ '/' : null %}
+{% set href = item.slug is defined ? '/restaurants/' ~ item.slug : null %}
 {% set r = item.restaurant | default({}) %}
 {% set covers = item.covers | default([]) %}
 {% set sliderId = 'cardSlider_' ~ (item.slug | default(random(100000))) %}
@@ -35,13 +35,16 @@
         </div>
 
         {% set descText = item.desc.full | default(item.desc.short | default(null)) %}
-        {% if descText %}
+        {% set descParagraphs = descText is iterable ? descText : (descText ? [descText] : []) %}
+        {% if descParagraphs|length > 0 %}
           <div class="swiper-slide card-restaurant-slide card-restaurant-slide--desc">
             {% if logo %}
               <img src="{{ url(logo.src) }}" alt="{{ logo.alt | default(name) }}"
                    class="card__logo img-responsive" loading="lazy">
             {% endif %}
-            <p class="card-restaurant-slide__text">{{ descText }}</p>
+            {% for paragraph in descParagraphs %}
+              <p class="card-restaurant-slide__text">{{ paragraph }}</p>
+            {% endfor %}
           </div>
         {% endif %}
 
@@ -84,9 +87,10 @@
     <span class="card__title font-1 weight-500">{{ name }}</span>
   </div>
 {% endif %}
-{% if item.desc.short is defined and item.desc.short %}
+{% set cardDesc = item.desc.heading | default(item.desc.short | default(null)) %}
+{% if cardDesc %}
   <div class="card__item desc-wrap">
-    <span class="card__desc">{{ item.desc.short }}</span>
+    <span class="card__desc">{{ cardDesc }}</span>
   </div>
 {% endif %}
 {% if buttons is defined %}

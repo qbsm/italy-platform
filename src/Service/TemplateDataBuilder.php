@@ -37,6 +37,7 @@ final class TemplateDataBuilder
             'route_params' => $ctx['route_params'] ?? [],
             'base_url' => $ctx['base_url'] ?? '/',
             'is_lang_in_url' => $ctx['is_lang_in_url'] ?? false,
+            'csrf_token' => $ctx['csrf_token'] ?? '',
             'pageData' => $pageData,
             'pageSeoData' => $seo,
             'pageTitle' => $pageTitle,
@@ -63,8 +64,20 @@ final class TemplateDataBuilder
     /**
      * @param array<int,array<string,mixed>> $sections
      */
-    private function extractHeroPreloadImage(array $sections): ?string
+    private function extractHeroPreloadImage(array $sections): ?array
     {
+        $pick = static function ($node): ?string {
+            if (!is_array($node)) {
+                return null;
+            }
+            foreach (['800', '1600', 'raw'] as $key) {
+                if (isset($node[$key]) && is_string($node[$key]) && $node[$key] !== '') {
+                    return $node[$key];
+                }
+            }
+            return null;
+        };
+
         foreach ($sections as $section) {
             if (isset($section['name']) && $section['name'] !== 'intro') {
                 continue;
@@ -74,14 +87,24 @@ final class TemplateDataBuilder
                 return null;
             }
             $first = $items[0];
-            if (isset($first['cover']) && is_string($first['cover'])) {
-                return $first['cover'];
+            $img = $first['image'] ?? null;
+
+            if (is_array($img)) {
+                $vertical = $pick($img['vertical'] ?? null);
+                $horizontal = $pick($img['horizontal'] ?? null);
+                $mobile = $vertical ?? $horizontal;
+                $desktop = $horizontal ?? $vertical;
+                if ($mobile !== null && $desktop !== null) {
+                    return ['mobile' => $mobile, 'desktop' => $desktop];
+                }
+                foreach (['raw', 'src'] as $key) {
+                    if (isset($img[$key]) && is_string($img[$key]) && $img[$key] !== '') {
+                        return ['mobile' => $img[$key], 'desktop' => $img[$key]];
+                    }
+                }
             }
-            if (isset($first['image']['raw']) && is_string($first['image']['raw'])) {
-                return $first['image']['raw'];
-            }
-            if (isset($first['image']['src']) && is_string($first['image']['src'])) {
-                return $first['image']['src'];
+            if (isset($first['cover']) && is_string($first['cover']) && $first['cover'] !== '') {
+                return ['mobile' => $first['cover'], 'desktop' => $first['cover']];
             }
             return null;
         }

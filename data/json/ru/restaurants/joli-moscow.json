@@ -1,4 +1,5 @@
 {
+  "metaDescription": "Joli Москва в ЖК Lucky (2-я Звенигородская, 12с21) — французский Grand Bistrot с пекарней, цветочной лавкой и яблоневым садом Jardin de Joli.",
   "slug": "joli-moscow",
   "visible": true,
   "restaurant": {
@@ -6,18 +7,67 @@
     "name": "Joli Москва",
     "address": {
       "@type": "PostalAddress",
+      "streetAddress": "ЖК Lucky, 2-я Звенигородская, 12с21",
       "addressLocality": "Москва",
       "addressRegion": "Москва",
       "addressCountry": "RU"
-    }
+    },
+    "openingHours": [
+      {
+        "days": "Пн-Вс",
+        "hours": "12:00–00:00"
+      }
+    ],
+    "bookingPoint": "910029"
   },
   "desc": {
-    "short": "",
-    "full": ""
+    "short": "Ресторан с пекарней, цветочной лавкой и яблоневым садом",
+    "full": "Светлый ресторан с атмосферой теплой ностальгии открылся в Москве. Перенесли все то, что вы полюбили в Санкт-Петербурге: Grand Bistrot с простой гастрономией и культурным кодом французского шика, пекарню со свежей выпечкой и цветочную лавку. А еще — посадили яблоневый сад Jardin de Joli, где в летнее время работает веранда."
   },
   "loyalty": false,
   "tags": [],
-  "covers": [],
+  "covers": [
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/1.jpg",
+      "alt": "Joli Москва — зал ресторана"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/2.jpg",
+      "alt": "Joli Москва — интерьер"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/3.jpg",
+      "alt": "Joli Москва — яблоневый сад Jardin de Joli"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/4.jpg",
+      "alt": "Joli Москва — гастрономия"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/5.jpg",
+      "alt": "Joli Москва — сервировка стола"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/6.jpg",
+      "alt": "Joli Москва — яблоневый сад"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/7.jpg",
+      "alt": "Joli Москва — гастрономия"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/8.jpg",
+      "alt": "Joli Москва — интерьер"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/9.jpg",
+      "alt": "Joli Москва — пекарня"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/10.jpg",
+      "alt": "Joli Москва — пекарня"
+    }
+  ],
   "logos": [
     {
       "src": "data/img/restaurants/joli-moscow/logos/logo-color-1.svg",

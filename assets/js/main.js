@@ -24,6 +24,7 @@ import './sections/intro.js';
 import './sections/footer.js';
 import './sections/burger-menu.js';
 import './sections/header.js';
+import './sections/booking.js';
 import './sections/cookie-panel.js';
 import './sections/contacts.js';
 import './sections/headline.js';

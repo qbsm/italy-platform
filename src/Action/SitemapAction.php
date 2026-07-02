@@ -4,22 +4,28 @@ declare(strict_types=1);
 
 namespace App\Action;
 
+use App\Service\DataLoaderService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Генерация sitemap.xml с учётом мультиязычности и hreflang.
- * Список страниц берётся из config: settings['sitemap_pages'] (массив page_id).
+ * Статические страницы берутся из settings['sitemap_pages'] (массив page_id),
+ * страницы коллекций (рестораны) — из settings['collections'] через DataLoaderService.
+ * URL без хвостового слеша — под canonical (TrailingSlashMiddleware режет слеш).
  */
 final class SitemapAction
 {
     /** @var array<string, mixed> */
     private array $settings;
 
+    private DataLoaderService $dataLoader;
+
     /** @param array<string, mixed> $settings */
-    public function __construct(array $settings)
+    public function __construct(array $settings, DataLoaderService $dataLoader)
     {
         $this->settings = $settings;
+        $this->dataLoader = $dataLoader;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -38,6 +44,12 @@ final class SitemapAction
 
         $sitemapPages = (array) ($this->settings['sitemap_pages'] ?? []);
         $urls = $this->buildUrls($base, $langs, $defaultLang, $routeMap, $sitemapPages);
+
+        $collections = (array) ($this->settings['collections'] ?? []);
+        $jsonBase = (string) ($this->settings['paths']['json_base'] ?? '');
+        if ($collections !== [] && $jsonBase !== '') {
+            $urls = array_merge($urls, $this->buildCollectionUrls($base, $langs, $defaultLang, $jsonBase, $collections));
+        }
 
         $xml = $this->renderSitemap($base, $urls);
 
@@ -61,32 +73,82 @@ final class SitemapAction
 
         foreach ($sitemapPages as $pageId) {
             $pathSegment = $this->pageIdToPathSegment($pageId, $reverseMap);
-
-            foreach ($langs as $lang) {
-                if ($lang === $defaultLang) {
-                    $path = $pathSegment === '' ? '/' : '/' . $pathSegment . '/';
-                } else {
-                    $path = $pathSegment === '' ? '/' . $lang . '/' : '/' . $lang . '/' . $pathSegment . '/';
-                }
-                $loc = $base . $path;
-
-                $alternates = [];
-                foreach ($langs as $altLang) {
-                    if ($altLang === $defaultLang) {
-                        $altPath = $pathSegment === '' ? '/' : '/' . $pathSegment . '/';
-                    } else {
-                        $altPath = $pathSegment === '' ? '/' . $altLang . '/' : '/' . $altLang . '/' . $pathSegment . '/';
-                    }
-                    $alternates[$altLang] = $base . $altPath;
-                }
-
-                $urls[] = ['loc' => $loc, 'alternates' => $alternates];
+            foreach ($this->urlsForSegment($base, $langs, $defaultLang, $pathSegment) as $u) {
+                $urls[] = $u;
             }
         }
 
         return $urls;
     }
 
+    /**
+     * Страницы коллекций (рестораны): slug'и берутся из страницы-списка через DataLoaderService.
+     *
+     * @param array<int, string> $langs
+     * @param array<string, mixed> $collections
+     * @return array<int, array{loc: string, alternates: array<string, string>}>
+     */
+    private function buildCollectionUrls(string $base, array $langs, string $defaultLang, string $jsonBase, array $collections): array
+    {
+        $urls = [];
+
+        foreach ($collections as $collConfig) {
+            if (!is_array($collConfig)) {
+                continue;
+            }
+            $pattern = (string) ($collConfig['entity_url_pattern'] ?? '');
+            if ($pattern === '') {
+                continue;
+            }
+            $slugs = $this->dataLoader->loadEntitySlugs($jsonBase, $defaultLang, $collConfig) ?? [];
+            foreach ($slugs as $slug) {
+                $segment = trim(str_replace('{slug}', $slug, $pattern), '/');
+                foreach ($this->urlsForSegment($base, $langs, $defaultLang, $segment) as $u) {
+                    $urls[] = $u;
+                }
+            }
+        }
+
+        return $urls;
+    }
+
+    /**
+     * Строит loc + alternates для одного path-сегмента по всем языкам.
+     * Без хвостового слеша (кроме главной). Alternates печатаются только при мультиязычности.
+     *
+     * @param array<int, string> $langs
+     * @return array<int, array{loc: string, alternates: array<string, string>}>
+     */
+    private function urlsForSegment(string $base, array $langs, string $defaultLang, string $pathSegment): array
+    {
+        $multilang = count($langs) > 1;
+        $urls = [];
+
+        foreach ($langs as $lang) {
+            $loc = $base . $this->pathForLang($lang, $defaultLang, $pathSegment);
+
+            $alternates = [];
+            if ($multilang) {
+                foreach ($langs as $altLang) {
+                    $alternates[$altLang] = $base . $this->pathForLang($altLang, $defaultLang, $pathSegment);
+                }
+            }
+
+            $urls[] = ['loc' => $loc, 'alternates' => $alternates];
+        }
+
+        return $urls;
+    }
+
+    private function pathForLang(string $lang, string $defaultLang, string $pathSegment): string
+    {
+        if ($lang === $defaultLang) {
+            return $pathSegment === '' ? '/' : '/' . $pathSegment;
+        }
+        return $pathSegment === '' ? '/' . $lang : '/' . $lang . '/' . $pathSegment;
+    }
+
+    /** @param array<string, string> $reverseMap */
     private function pageIdToPathSegment(string $pageId, array $reverseMap): string
     {
         if ($pageId === 'index') {

@@ -1,4 +1,5 @@
 {
+  "metaDescription": "«Ателье тапас и бар» на Петроградке: испанская угольная печь, мексиканская классика и авторские коктейли. Лахтинская улица, 8, Санкт-Петербург.",
   "slug": "atelier",
   "visible": true,
   "restaurant": {
@@ -36,7 +37,8 @@
       "Мексиканская кухня"
     ],
     "priceRange": "₽₽",
-    "menuLink": "https://drive.google.com/file/d/1wcX8_W_rSxVBC7VQRafBs89KJJDDkI8U/view?usp=drivesdk"
+    "menuLink": "https://atelierfamily.ru/menu-atelier",
+    "bookingPoint": "910027"
   },
   "desc": {
     "short": "Культовый тапас-бар на Петроградке с испанской угольной печью, мексиканскими блюдами и акцентом на коктейли",
@@ -54,6 +56,18 @@
     },
     {
       "src": "data/img/restaurants/atelier/covers/raw/2.jpg",
+      "alt": "Ателье tapas&bar"
+    },
+    {
+      "src": "data/img/restaurants/atelier/covers/raw/3.jpg",
+      "alt": "Ателье tapas&bar"
+    },
+    {
+      "src": "data/img/restaurants/atelier/covers/raw/4.jpg",
+      "alt": "Ателье tapas&bar"
+    },
+    {
+      "src": "data/img/restaurants/atelier/covers/raw/5.jpg",
       "alt": "Ателье tapas&bar"
     }
   ],
@@ -81,7 +95,7 @@
   ],
   "staff": [
     {
-      "role": "Управляющий",
+      "role": "Управляющая",
       "name": "Наталья Мамлеева"
     },
     {

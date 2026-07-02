@@ -1,0 +1,65 @@
+{
+  "metaDescription": "Juan Москва — испано-мексиканская кантина: переносим в Москву всё, за что полюбили петербургский Juan, и атмосферу солнечных путешествий по югу Испании.",
+  "slug": "juan-moscow",
+  "visible": true,
+  "restaurant": {
+    "@type": "Restaurant",
+    "name": "Juan Москва",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Москва",
+      "addressRegion": "Москва",
+      "addressCountry": "RU"
+    }
+  },
+  "desc": {
+    "heading": "Скоро открытие",
+    "full": "Juan — это визуализация воспоминаний о солнечных путешествиях по югу Испании. Все, что делает петербургский Juan таким узнаваемым, — переносим в Москву."
+  },
+  "loyalty": false,
+  "tags": [],
+  "covers": [
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/1.jpg",
+      "alt": "Juan Москва"
+    },
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/2.jpg",
+      "alt": "Juan Москва"
+    },
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/3.jpg",
+      "alt": "Juan Москва"
+    },
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/4.jpg",
+      "alt": "Juan Москва"
+    },
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/5.jpg",
+      "alt": "Juan Москва"
+    }
+  ],
+  "logos": [
+    {
+      "src": "data/img/restaurants/juan-moscow/logos/logo-color-1.svg",
+      "alt": "Juan Москва белый лого",
+      "height": "7.4rem"
+    },
+    {
+      "src": "data/img/restaurants/juan-moscow/logos/logo-color-2.svg",
+      "alt": "Juan Москва чёрный лого",
+      "height": "7.4rem"
+    }
+  ],
+  "icons": [
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/icons/icon-color-1.svg",
+      "alt": "Juan Москва белая иконка"
+    },
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/icons/icon-color-2.svg",
+      "alt": "Juan Москва чёрная иконка"
+    }
+  ]
+}

@@ -31,7 +31,7 @@
         <div class="restaurant-intro__overlay">
           <div class="container">
             <div class="restaurant-intro__content">
-              <h1 class="restaurant-intro__title heading font-1 weight-300 uppercase">{{ r.name }}</h1>
+              <h1 class="restaurant-intro__title heading font-1 weight-300 uppercase">{{ r.nameHtml is defined and r.nameHtml ? r.nameHtml|raw : r.name }}</h1>
 
               <div class="restaurant-intro__contacts">
                 {% if r.address is defined %}
@@ -57,10 +57,10 @@
               {% if r.bookingPoint is defined or r.menuLink is defined %}
                 <div class="restaurant-intro__actions">
                   {% if r.menuLink is defined and r.menuLink %}
-                    <a href="{{ r.menuLink }}" target="_blank" rel="noopener noreferrer" class="button button-md button-rounded outline-color-1 color-1 uppercase link">Меню</a>
+                    <a href="{{ r.menuLink }}" target="_blank" rel="noopener noreferrer" class="button button-md outline-color-1 color-1 uppercase link">Меню</a>
                   {% endif %}
                   {% if r.bookingPoint is defined and r.bookingPoint %}
-                    <button type="button" class="button button-md button-rounded bg-color-1 color-2 uppercase link widget__point__{{ r.bookingPoint }}">Забронировать</button>
+                    <button type="button" class="button button-md bg-color-1 color-2 uppercase link widget__point__{{ r.bookingPoint }}">Забронировать</button>
                   {% endif %}
                 </div>
               {% endif %}
@@ -81,9 +81,15 @@
           </div>
         {% endif %}
 
-        {% if restaurant.desc.short is defined %}
+        {% if restaurant.desc.short is defined and restaurant.desc.short %}
           <div class="section__item heading-wrap">
             <p class="restaurant-about__sub">{{ restaurant.desc.short }}</p>
+          </div>
+        {% endif %}
+
+        {% if restaurant.desc.heading is defined and restaurant.desc.heading %}
+          <div class="section__item heading-wrap">
+            <h2 class="restaurant-about__sub">{{ restaurant.desc.heading }}</h2>
           </div>
         {% endif %}
 
@@ -114,7 +120,7 @@
         {% set galleryItems = restaurant.gallery|default(restaurant.covers|default([])) %}
         {% if galleryItems|length > 0 %}
           <div class="section__item restaurant-about__gallery" id="restaurantGallery">
-            {% for img in galleryItems %}
+            {% for img in galleryItems|slice(0, 4) %}
               <figure class="restaurant-about__photo">
                 <a href="{{ url(img.src) }}" class="glightbox link" data-gallery="restaurant-gallery">
                   <img src="{{ url(img.src) }}" alt="{{ img.alt|default(r.name) }}" loading="lazy">
@@ -133,36 +139,6 @@
   }} %}
 </div>
 
-{% if r.bookingPoint is defined and r.bookingPoint %}
-  <link rel="stylesheet" href="https://remarked.ru/widget/new/css/{{ r.bookingPoint }}.css">
-  <script src="https://remarked.ru/widget/new/js/newidget-v2.js" defer></script>
-  <script defer>
-    window.addEventListener('DOMContentLoaded', () => {
-      if (typeof widgetArea !== 'function') return;
-      const points = [
-        { name: 'Итали на Большом', phone: '+7 (812) 900-63-33', point: 600901 },
-        { name: 'Итали в Виленском', phone: '+7 (812) 906-65-58', point: 910001 },
-        { name: 'Итали на Московском', phone: '+7 (931) 954-61-97', point: 910005 },
-        { name: 'Итали на Большой Морской', phone: '+7 (921) 944-03-00', point: 910006 },
-        { name: 'ХИТЧ', phone: '+7 (921) 919-01-79', point: 910004 },
-        { name: 'Гус Гус', phone: '+7 (911) 928-37-27', point: 910002 },
-        { name: 'Bist', phone: '+7 (931) 994-75-15', point: 910007 }
-      ];
-      const current = points.find(p => p.point == {{ r.bookingPoint }});
-      if (!current) return;
-      const sortPoints = [current, ...points.filter(p => p.point !== current.point)];
-      widgetArea({
-        booking: sortPoints,
-        button: '.widget__point__{{ r.bookingPoint }}',
-        linkPolicy: '/policy/',
-        newSlotsTime: true,
-        requiredSelect: true,
-        children: true,
-        childrenQtyInput: true,
-        childrenQtyMin: '0',
-        childrenQtyMax: 10
-      });
-    });
-  </script>
-{% endif %}
+{# Бронирование Remarked инициализируется глобально и лениво в assets/js/sections/booking.js
+   (кнопка .widget__point__{{ r.bookingPoint }} выше; точки — в components/remarked-points.twig). #}
 {% endblock %}

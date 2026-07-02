@@ -29,7 +29,7 @@
               "heading": {
                 "tag": "span",
                 "class": "heading heading-flex weight-500 uppercase",
-                "title": "<span>Создаем места встреч, где каждый</span> <span>человек чувствует свою ценность</span>"
+                "title": "<span>Наполняем смыслом места встреч, где</span> <span>каждый человек чувствует свою ценность</span>"
               }
             },
             {
@@ -48,7 +48,7 @@
               "heading": {
                 "tag": "span",
                 "class": "heading heading-flex weight-500 uppercase",
-                "title": "<span>Создаем места встреч, где каждый</span> <span>человек чувствует свою ценность</span>"
+                "title": "<span>Наполняем смыслом места встреч, где</span> <span>каждый человек чувствует свою ценность</span>"
               }
             },
             {
@@ -67,7 +67,7 @@
               "heading": {
                 "tag": "span",
                 "class": "heading heading-flex weight-500 uppercase",
-                "title": "<span>Создаем места встреч, где каждый</span> <span>человек чувствует свою ценность</span>"
+                "title": "<span>Наполняем смыслом места встреч, где</span> <span>каждый человек чувствует свою ценность</span>"
               }
             },
             {
@@ -86,7 +86,7 @@
               "heading": {
                 "tag": "span",
                 "class": "heading heading-flex weight-500 uppercase",
-                "title": "<span>Создаем места встреч, где каждый</span> <span>человек чувствует свою ценность</span>"
+                "title": "<span>Наполняем смыслом места встреч, где</span> <span>каждый человек чувствует свою ценность</span>"
               }
             },
             {
@@ -105,7 +105,7 @@
               "heading": {
                 "tag": "span",
                 "class": "heading heading-flex weight-500 uppercase",
-                "title": "<span>Создаем места встреч, где каждый</span> <span>человек чувствует свою ценность</span>"
+                "title": "<span>Наполняем смыслом места встреч, где</span> <span>каждый человек чувствует свою ценность</span>"
               }
             },
             {
@@ -124,7 +124,7 @@
               "heading": {
                 "tag": "span",
                 "class": "heading heading-flex weight-500 uppercase",
-                "title": "<span>Создаем места встреч, где каждый</span> <span>человек чувствует свою ценность</span>"
+                "title": "<span>Наполняем смыслом места встреч, где</span> <span>каждый человек чувствует свою ценность</span>"
               }
             },
             {
@@ -143,7 +143,7 @@
               "heading": {
                 "tag": "span",
                 "class": "heading heading-flex weight-500 uppercase",
-                "title": "<span>Создаем места встреч, где каждый</span> <span>человек чувствует свою ценность</span>"
+                "title": "<span>Наполняем смыслом места встреч, где</span> <span>каждый человек чувствует свою ценность</span>"
               }
             }
           ]
@@ -198,13 +198,13 @@
         "items": [
           {
             "cover": {
-              "src": "data/img/owners/mikhail-sokolov.jpg"
+              "src": "data/img/owners/mikhail-sokolov.webp"
             },
             "title": "<span>Михаил</span> <span>Соколов</span>"
           },
           {
             "cover": {
-              "src": "data/img/owners/timur-dmitriev.jpg"
+              "src": "data/img/owners/timur-dmitriev.webp"
             },
             "title": "<span>Тимур</span> <span>Дмитриев</span>"
           }
@@ -216,7 +216,7 @@
       "visible": true,
       "data": {
         "cover": {
-          "src": "data/img/us/video-cover.jpg"
+          "src": "data/img/us/video-cover.webp"
         },
         "video": {
           "src": "data/img/us/video.mp4"
@@ -231,17 +231,17 @@
         ],
         "items": [
           {
-            "title": "15",
+            "title": "16",
             "label": "лет на рынке",
             "time": "1"
           },
           {
-            "title": "20+",
+            "title": "20<span class=\"card-number__plus\">+</span>",
             "label": "проектов",
             "time": "1"
           },
           {
-            "title": "1000+",
+            "title": "1000<span class=\"card-number__plus\">+</span>",
             "label": "сотрудников",
             "time": "1"
           }
@@ -259,7 +259,7 @@
             "href": "https://italytouch.ru",
             "target": "_blank",
             "cover": {
-              "src": "data/img/navigation/delivery.jpg"
+              "src": "data/img/navigation/delivery.webp"
             },
             "title": "Доставка",
             "class": "color-1 animation-zoom"
@@ -267,9 +267,9 @@
           {
             "type": "card",
             "size": "half",
-            "href": "/restaurants/",
+            "href": "/restaurants",
             "cover": {
-              "src": "data/img/navigation/rests.jpg"
+              "src": "data/img/navigation/rests.webp"
             },
             "title": "Рестораны",
             "class": "color-1 animation-zoom"
@@ -282,18 +282,38 @@
               "id": "lotterySlider",
               "settings": {
                 "loop": true,
-                "autoplay": { "delay": 5000, "disableOnInteraction": false },
-                "pagination": { "enabled": true, "clickable": true },
-                "navigation": { "enabled": true },
+                "autoplay": {
+                  "delay": 5000,
+                  "disableOnInteraction": false
+                },
+                "pagination": {
+                  "enabled": true,
+                  "clickable": true
+                },
+                "navigation": {
+                  "enabled": true
+                },
                 "effect": "fade",
                 "speed": 800
               },
               "items": [
                 {
-                  "cover": "data/img/navigation/lottery.png"
+                  "title": "Баланс",
+                  "cover": "data/img/navigation/banners/banner-1.webp",
+                  "href": "https://italycommunity.online/balance?utm_source=mainsite&utm_medium=banner_balance&utm_campaign=balancemenu&utm_content=link&utm_term=promo",
+                  "target": "_blank"
                 },
                 {
-                  "cover": "data/img/navigation/lottery.png"
+                  "title": "Приветственные бонусы",
+                  "cover": "data/img/navigation/banners/banner-2.webp",
+                  "href": "https://app.italydomoy.ru/app?utm_source=mainsite&utm_medium=banner_plwelcomebon&utm_campaign=apptouch&utm_content=link&utm_term=promo",
+                  "target": "_blank"
+                },
+                {
+                  "title": "Сертификат",
+                  "cover": "data/img/navigation/banners/banner-3.webp",
+                  "href": "https://app.italydomoy.ru/app?utm_source=mainsite&utm_medium=banner_certificate&utm_campaign=apptouch&utm_content=link&utm_term=promo",
+                  "target": "_blank"
                 }
               ]
             }
@@ -333,7 +353,7 @@
               },
               {
                 "title": "Ресторанный консалтинг",
-                "href": "https://italycommunity.ru/experts",
+                "href": "https://italycommunity.online/consulting",
                 "target": "_blank",
                 "icon": {
                   "src": "data/img/ui/button-icons/1.svg",
@@ -343,6 +363,7 @@
               {
                 "title": "Франшиза",
                 "href": "#",
+                "visible": false,
                 "icon": {
                   "src": "data/img/ui/button-icons/1.svg",
                   "class": "green"
@@ -350,7 +371,8 @@
               },
               {
                 "title": "Работай с нами",
-                "href": "#",
+                "href": "https://spb.hh.ru/employer/983791?tab=DESCRIPTION",
+                "target": "_blank",
                 "icon": {
                   "src": "data/img/ui/button-icons/3.svg",
                   "class": "red"
@@ -374,7 +396,7 @@
             "href": "https://italycommunity.online",
             "target": "_blank",
             "cover": {
-              "src": "data/img/navigation/italy-people.jpg"
+              "src": "data/img/navigation/italy-people.webp"
             },
             "title": "люди итали | italy people",
             "class": "color-1 text-center animation-zoom"

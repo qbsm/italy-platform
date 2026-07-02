@@ -1,0 +1,19 @@
+{# Точки бронирования Remarked (рестораны с bookingPoint) — для глобальной кнопки «Забронировать» в шапке.
+   Виджет грузится лениво по клику (booking.js), чтобы не тянуть 137КБ на каждой странице. #}
+{% set _rpoints = [] %}
+{% set _rlist = load_json('data/json/' ~ lang_code ~ '/pages/restaurants.json') %}
+{% if _rlist and _rlist.items is not empty %}
+  {% for slug in _rlist.items %}
+    {% set _r = load_json('data/json/' ~ lang_code ~ '/restaurants/' ~ slug ~ '.json') %}
+    {% if _r and _r.restaurant.bookingPoint is defined and _r.restaurant.bookingPoint %}
+      {% set _rpoints = _rpoints|merge([{
+        'name': _r.restaurant.name,
+        'phone': _r.restaurant.telephone.title|default(''),
+        'point': _r.restaurant.bookingPoint
+      }]) %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% if _rpoints|length > 0 %}
+<script id="remarked-points" type="application/json">{{ _rpoints|json_encode|raw }}</script>
+{% endif %}

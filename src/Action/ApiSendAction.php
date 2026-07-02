@@ -5,11 +5,19 @@ declare(strict_types=1);
 namespace App\Action;
 
 use App\Middleware\CorrelationIdMiddleware;
+use App\Service\MailService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
 
 final class ApiSendAction
 {
+    public function __construct(
+        private readonly MailService $mailService,
+        private readonly LoggerInterface $logger,
+    ) {
+    }
+
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -21,26 +29,22 @@ final class ApiSendAction
         $requestId = (string) $request->getAttribute(CorrelationIdMiddleware::REQUEST_ATTRIBUTE, '');
         $parsed = $request->getParsedBody();
         $data = is_array($parsed) ? $parsed : [];
-        $idempotencyKey = isset($data['idempotency_key']) && is_string($data['idempotency_key'])
-            ? trim($data['idempotency_key'])
-            : '';
+        $idempotencyKey = $this->extractString($data, 'idempotency_key');
 
-        $csrfToken = isset($data['csrf_token']) && is_string($data['csrf_token']) ? trim($data['csrf_token']) : '';
+        // CSRF
+        $csrfToken = $this->extractString($data, 'csrf_token');
         $sessionToken = isset($_SESSION['csrf_token']) && is_string($_SESSION['csrf_token']) ? $_SESSION['csrf_token'] : '';
 
         if ($csrfToken === '' || $sessionToken === '' || !hash_equals($sessionToken, $csrfToken)) {
-            return $this->json(
-                $response,
-                419,
-                [
-                    'success' => false,
-                    'code' => 'CSRF_INVALID',
-                    'message' => 'Сессия истекла. Обновите страницу и попробуйте снова.',
-                    'request_id' => $requestId,
-                ]
-            );
+            return $this->json($response, 419, [
+                'success' => false,
+                'code' => 'CSRF_INVALID',
+                'message' => 'Сессия истекла. Обновите страницу и попробуйте снова.',
+                'request_id' => $requestId,
+            ]);
         }
 
+        // Идемпотентность
         if ($idempotencyKey !== '') {
             $cached = $this->getCachedResponse($idempotencyKey);
             if ($cached !== null) {
@@ -48,23 +52,8 @@ final class ApiSendAction
             }
         }
 
-        $errors = [];
-
-        $email = isset($data['email']) && is_string($data['email']) ? trim($data['email']) : '';
-        if ($email === '' || filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-            $errors['email'] = 'Неверный E-mail';
-        }
-
-        $name = isset($data['name']) && is_string($data['name']) ? trim($data['name']) : '';
-        if ($name === '' || mb_strlen($name) < 2) {
-            $errors['name'] = 'Укажите имя';
-        }
-
-        $policy = isset($data['policy']) && is_string($data['policy']) ? $data['policy'] : 'off';
-        if ($policy !== 'on') {
-            $errors['policy'] = 'Согласитесь с политикой';
-        }
-
+        // Валидация
+        $errors = $this->validate($data);
         if ($errors !== []) {
             $payload = [
                 'success' => false,
@@ -77,6 +66,14 @@ final class ApiSendAction
             return $this->json($response, 422, $payload);
         }
 
+        // Отправка email
+        $uploadedFiles = $request->getUploadedFiles();
+        $mailSent = $this->mailService->sendFormSubmission($data, $uploadedFiles, $requestId);
+
+        if (!$mailSent) {
+            $this->logger->warning('Форма принята, но письмо не отправлено', ['request_id' => $requestId]);
+        }
+
         $payload = [
             'success' => true,
             'message' => 'Заявка успешно отправлена',
@@ -84,6 +81,40 @@ final class ApiSendAction
         ];
         $this->cacheResponse($idempotencyKey, 200, $payload);
         return $this->json($response, 200, $payload);
+    }
+
+    /**
+     * @param array<string,mixed> $data
+     * @return array<string,string>
+     */
+    private function validate(array $data): array
+    {
+        $errors = [];
+
+        $email = $this->extractString($data, 'email');
+        if ($email === '' || filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+            $errors['email'] = 'Неверный E-mail';
+        }
+
+        $name = $this->extractString($data, 'name');
+        if ($name === '' || mb_strlen($name) < 2) {
+            $errors['name'] = 'Укажите имя';
+        }
+
+        $policy = $this->extractString($data, 'policy');
+        if ($policy !== 'on') {
+            $errors['policy'] = 'Согласитесь с политикой';
+        }
+
+        return $errors;
+    }
+
+    /**
+     * @param array<string,mixed> $data
+     */
+    private function extractString(array $data, string $key): string
+    {
+        return isset($data[$key]) && is_string($data[$key]) ? trim($data[$key]) : '';
     }
 
     /**
@@ -104,7 +135,7 @@ final class ApiSendAction
         }
 
         $now = time();
-        $ttl = 900; // 15 минут
+        $ttl = 900;
         foreach ($store as $key => $item) {
             if (!is_array($item) || !isset($item['ts']) || !is_int($item['ts']) || ($now - $item['ts']) > $ttl) {
                 unset($store[$key]);
@@ -128,10 +159,7 @@ final class ApiSendAction
             return null;
         }
 
-        return [
-            'status' => $entry['status'],
-            'payload' => $entry['payload'],
-        ];
+        return ['status' => $entry['status'], 'payload' => $entry['payload']];
     }
 
     /**
@@ -148,12 +176,7 @@ final class ApiSendAction
             $store = [];
         }
 
-        $store[$idempotencyKey] = [
-            'status' => $status,
-            'payload' => $payload,
-            'ts' => time(),
-        ];
-
+        $store[$idempotencyKey] = ['status' => $status, 'payload' => $payload, 'ts' => time()];
         $_SESSION['api_send_idempotency'] = $store;
     }
 }

@@ -1,0 +1,115 @@
+{
+  "$schema": "https://ismart.pro/schemas/distill-state-v1.json",
+  "platform_repo": "github:qbsm/ismart-platform",
+  "platform_version": "1.0.0",
+  "platform_commit": "9715645bd375d4c8768a7900130b62113d1f8a18",
+  "platform_branch": "distill/initial-baseline",
+  "last_sync": "2026-05-20T00:00:00Z",
+  "overrides": {
+    "src/Service/SeoBuilderInterface.php": {
+      "reason": "Strategy pattern для расширяемого SEO (отсутствует в baseline — кандидат на унификацию во всех проектах)",
+      "accepted_drift": true,
+      "first_seen": "2026-05-20",
+      "linked_decision": "docs/notes/improvements.md: SeoService унификация"
+    },
+    "src/Service/SeoBuilderRegistry.php": {
+      "reason": "Реестр SeoBuilder'ов (registry для Strategy)",
+      "accepted_drift": true,
+      "first_seen": "2026-05-20"
+    },
+    "src/Service/RestaurantSeoBuilder.php": {
+      "reason": "italy-only: SEO-сборщик для коллекции restaurants",
+      "accepted_drift": true,
+      "first_seen": "2026-05-20"
+    },
+    "templates/pages/restaurant.twig": {
+      "reason": "italy-only: layout детальной страницы ресторана",
+      "accepted_drift": true,
+      "first_seen": "2026-05-20"
+    },
+    "config/project.php": {
+      "reason": "deployment-specific: route_map, collections (restaurants), sitemap_pages",
+      "accepted_drift": true,
+      "first_seen": "2026-05-20"
+    }
+  },
+  "drift": {
+    "src/Action/PageAction.php": {
+      "status": "unreviewed",
+      "note": "italy ушёл от kumho-варианта по PageAction — нужно понять что именно и куда канонизировать",
+      "first_seen": "2026-05-20"
+    },
+    "src/Service/SeoService.php": {
+      "status": "unreviewed",
+      "note": "italy использует Strategy через SeoBuilderRegistry, baseline пока с kumho-inline вариантом — кандидат на унификацию baseline'а",
+      "first_seen": "2026-05-20"
+    },
+    "src/Service/LanguageService.php": {
+      "status": "unreviewed",
+      "note": "italy многоязычный (ru/en?), возможно расхождение по deserialization настроек",
+      "first_seen": "2026-05-20"
+    },
+    "src/Service/TemplateDataBuilder.php": {
+      "status": "unreviewed",
+      "note": "extractHeroPreloadImage в baseline сложнее (62 строки adaptive images), в italy — упрощённый. Принять решение по канон-варианту.",
+      "first_seen": "2026-05-20"
+    },
+    "src/Middleware/SecurityHeadersMiddleware.php": {
+      "status": "ready-to-sync",
+      "note": "baseline: font-src 'self' data: https:; italy всё ещё с font-src 'self'. Уже исправлено в italy ветке refactor/backend-slim-events (commit 8b7daa9) — после мерджа уйдёт.",
+      "first_seen": "2026-05-20"
+    },
+    "src/Action/ApiSendAction.php": {
+      "status": "ready-to-sync",
+      "note": "baseline: extractString -> Arr::str"
+    },
+    "src/Action/SitemapAction.php": {
+      "status": "ready-to-sync",
+      "note": "baseline: inline settings -> PlatformSettings + Json::loadKey"
+    },
+    "src/Handler/HttpErrorHandler.php": {
+      "status": "ready-to-sync",
+      "note": "baseline: RespondsToContent trait"
+    },
+    "src/Handler/ServerErrorHandler.php": {
+      "status": "ready-to-sync",
+      "note": "baseline: RespondsToContent trait"
+    },
+    "src/Middleware/RateLimitMiddleware.php": {
+      "status": "ready-to-sync",
+      "note": "baseline: Json::load"
+    },
+    "src/Middleware/RedirectMiddleware.php": {
+      "status": "ready-to-sync",
+      "note": "baseline: Json::load"
+    },
+    "src/Middleware/TrailingSlashMiddleware.php": {
+      "status": "unreviewed",
+      "note": "italy расходится с baseline — проверить логику"
+    },
+    "src/Service/DataLoaderService.php": {
+      "status": "ready-to-sync",
+      "note": "baseline: Json::load"
+    },
+    "src/Service/MailService.php": {
+      "status": "ready-to-sync",
+      "note": "baseline: extractString -> Arr::str"
+    },
+    "src/Support/BaseUrlResolver.php": {
+      "status": "unreviewed",
+      "note": "проверить разницу с baseline"
+    },
+    "src/Twig/AssetExtension.php": {
+      "status": "ready-to-sync",
+      "note": "baseline: 2x json_decode -> Json::load"
+    },
+    "src/Twig/DataExtension.php": {
+      "status": "ready-to-sync",
+      "note": "baseline: 2x json_decode -> Json::load"
+    }
+  },
+  "notes": [
+    "italy первый показал, что Strategy pattern для SEO (SeoBuilderInterface) полезен. Это сильный сигнал к унификации baseline на Strategy.",
+    "drift с status='unreviewed' требует ручного review per file — какая версия canonical."
+  ]
+}

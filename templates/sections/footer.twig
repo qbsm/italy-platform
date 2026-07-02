@@ -2,7 +2,7 @@
   <div class="container">
     <div class="section__item form-wrap">
       <div class="section__subitem heading-wrap">
-        <span class="footer__heading uppercase">{{ data.form.heading | default(global['form-callback'].button[lang_code].title) }}</span>
+        <span class="footer__heading">{{ data.form.heading | default(global['form-callback'].button[lang_code].title) }}</span>
       </div>
       <div class="section__subitem form-inner-wrap">
         {% include 'components/form-callback.twig' %}
@@ -12,9 +12,11 @@
       <div class="section__subitem nav-wrap">
         {% if global.nav[lang_code].items is defined %}
           {% for link in global.nav[lang_code].items %}
+            {% if link.visible is not defined or link.visible %}
             <div class="footer__link-wrap">
               <a href="{{ url(link.href) }}"{% if link.target is defined %} target="{{ link.target }}" rel="noopener noreferrer"{% endif %} class="link footer__link">{{ link.title }}</a>
             </div>
+            {% endif %}
           {% endfor %}
         {% endif %}
       </div>
@@ -33,7 +35,7 @@
           {% endfor %}
         {% endif %}
         {% if global['social-channel'][lang_code] is defined %}
-          <a href="{{ global['social-channel'][lang_code].href }}" target="_blank" rel="noopener noreferrer" class="button button-sm outline-color-1 link footer__social-channel">{{ global['social-channel'][lang_code].title }}</a>
+          <a href="{{ global['social-channel'][lang_code].href }}" target="_blank" rel="noopener noreferrer" class="button button-sm outline-color-1 color-1 link footer__social-channel">{{ global['social-channel'][lang_code].title }}</a>
         {% endif %}
       </div>
     </div>
@@ -54,3 +56,4 @@
     </div>
   </div>
 </section>
+{% include 'components/remarked-points.twig' %}

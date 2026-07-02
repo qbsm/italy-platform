@@ -1,9 +1,10 @@
 {
+  "metaDescription": "Salone pasta&bar Москва на Малой Дмитровке, 18Ас3 — гастрозвезда Петербурга с культом пасты. Итальянская кухня, вино и атмосфера la dolce vita.",
   "slug": "salone-pasta-bar-moscow",
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
-    "name": "Salone pasta&bar Мск",
+    "name": "Salone pasta&bar Москва",
     "telephone": {
       "title": "+7 (929) 926-11-99",
       "href": "tel:+79299261199"
@@ -43,7 +44,8 @@
       "Итальянская кухня"
     ],
     "priceRange": "₽₽",
-    "menuLink": "https://drive.google.com/file/d/1vZBqLlEdfo_SWeMVnPGliDN3WGUWaG4L/view?usp=drivesdk"
+    "menuLink": "https://atelierfamily.ru/salone-menu",
+    "bookingPoint": "770070"
   },
   "desc": {
     "short": "Гастрозвезда Петербурга в Москве и место, в котором царит культ пасты",
@@ -82,23 +84,23 @@
   "logos": [
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/logos/logo-color-1.svg",
-      "alt": "Salone pasta&bar Мск белый лого",
-      "height": "7.2rem"
+      "alt": "Salone pasta&bar Москва белый лого",
+      "height": "6.0rem"
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/logos/logo-color-2.svg",
-      "alt": "Salone pasta&bar Мск чёрный лого",
-      "height": "7.2rem"
+      "alt": "Salone pasta&bar Москва чёрный лого",
+      "height": "6.0rem"
     }
   ],
   "icons": [
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/icons/icon-color-1.svg",
-      "alt": "Salone pasta&bar Мск белая иконка"
+      "alt": "Salone pasta&bar Москва белая иконка"
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/icons/icon-color-2.svg",
-      "alt": "Salone pasta&bar Мск чёрная иконка"
+      "alt": "Salone pasta&bar Москва чёрная иконка"
     }
   ],
   "staff": [

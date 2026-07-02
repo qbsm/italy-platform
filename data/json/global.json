@@ -4,11 +4,6 @@
       "title": "Русский",
       "code": "ru",
       "direction": "ltr"
-    },
-    {
-      "title": "English",
-      "code": "en",
-      "direction": "ltr"
     }
   ],
   "phones": [
@@ -21,9 +16,13 @@
     "ru": {
       "items": [
         {
-          "title": "люди итали | italy people",
-          "href": "https://italycommunity.online",
+          "title": "Доставка",
+          "href": "https://italytouch.ru",
           "target": "_blank"
+        },
+        {
+          "title": "Рестораны",
+          "href": "/restaurants"
         },
         {
           "title": "Программа лояльности",
@@ -31,17 +30,47 @@
           "target": "_blank"
         },
         {
+          "title": "Ресторанам Надо",
+          "href": "https://restoranamnado.ru",
+          "target": "_blank"
+        },
+        {
+          "title": "Банкеты и кейтеринг",
+          "href": "https://italyco.tilda.ws/banket",
+          "target": "_blank"
+        },
+        {
+          "title": "Ресторанный консалтинг",
+          "href": "https://italycommunity.online/consulting",
+          "target": "_blank"
+        },
+        {
+          "title": "Франшиза",
+          "href": "#",
+          "visible": false
+        },
+        {
           "title": "Работай с нами",
-          "href": "#"
+          "href": "https://spb.hh.ru/employer/983791?tab=DESCRIPTION",
+          "target": "_blank"
+        },
+        {
+          "title": "люди итали",
+          "href": "https://italycommunity.online",
+          "target": "_blank"
         }
       ]
     },
     "en": {
       "items": [
         {
-          "title": "люди итали | italy people",
-          "href": "https://italycommunity.online",
+          "title": "Delivery",
+          "href": "https://italytouch.ru",
           "target": "_blank"
+        },
+        {
+          "title": "Restaurants",
+          "href": "/restaurants"
         },
         {
           "title": "Loyalty program",
@@ -49,8 +78,34 @@
           "target": "_blank"
         },
         {
+          "title": "Restaurants Nado",
+          "href": "https://restoranamnado.ru",
+          "target": "_blank"
+        },
+        {
+          "title": "Banquets & catering",
+          "href": "https://italyco.tilda.ws/banket",
+          "target": "_blank"
+        },
+        {
+          "title": "Restaurant consulting",
+          "href": "https://italycommunity.online/consulting",
+          "target": "_blank"
+        },
+        {
+          "title": "Franchise",
+          "href": "#",
+          "visible": false
+        },
+        {
           "title": "Work with us",
-          "href": "#"
+          "href": "https://spb.hh.ru/employer/983791?tab=DESCRIPTION",
+          "target": "_blank"
+        },
+        {
+          "title": "italy people",
+          "href": "https://italycommunity.online",
+          "target": "_blank"
         }
       ]
     }
@@ -85,19 +140,19 @@
   },
   "socials": [
     {
-      "title": "Telegram",
-      "href": "#",
-      "icon": {
-        "src": "data/img/ui/icons/icon-telegram-color-1.svg",
-        "alt": "Telegram"
-      }
-    },
-    {
       "title": "VK",
-      "href": "#",
+      "href": "https://vk.com/italy.community",
       "icon": {
         "src": "data/img/ui/icons/icon-vk-color-1.svg",
         "alt": "VK"
+      }
+    },
+    {
+      "title": "Telegram",
+      "href": "https://t.me/MS_italycommunity",
+      "icon": {
+        "src": "data/img/ui/icons/icon-telegram-color-1.svg",
+        "alt": "Telegram"
       }
     }
   ],
@@ -108,26 +163,26 @@
   "policy": {
     "ru": {
       "title": "Политика в отношении обработки персональных данных",
-      "href": "/policy/"
+      "href": "/policy"
     },
     "en": {
       "title": "Privacy Policy",
-      "href": "/policy/"
+      "href": "/policy"
     }
   },
   "agree": {
     "ru": {
       "title": "Пользовательское соглашение",
-      "href": "/agree/"
+      "href": "/agree"
     },
     "en": {
       "title": "User Agreement",
-      "href": "/agree/"
+      "href": "/agree"
     }
   },
   "copyright": {
-    "ru": "Все права защищены",
-    "en": "All rights reserved"
+    "ru": "Все права защищены.",
+    "en": "All rights reserved."
   },
   "form-callback": {
     "placeholder": {
@@ -263,6 +318,27 @@
     "aria_close": {
       "ru": "Закрыть меню",
       "en": "Close menu"
+    }
+  },
+  "booking": {
+    "ru": {
+      "title": "Забронировать"
+    },
+    "en": {
+      "title": "Book"
+    }
+  },
+  "app": {
+    "href": "https://redirect.appmetrica.yandex.com/serve/966450630770056189",
+    "ru": {
+      "title": "Приложение",
+      "brand": "italy touch",
+      "button": "Скачать"
+    },
+    "en": {
+      "title": "Application",
+      "brand": "italy touch",
+      "button": "Download"
     }
   },
   "cookie-panel": {

@@ -9,7 +9,7 @@
               {% set logo = restaurant.logos[1] | default(restaurant.logos[0] | default(null)) %}
               {% if logo and logo.src is defined and logo.src %}
                 <div class="swiper-slide">
-                  <a href="{{ url('/restaurants/' ~ slug ~ '/') }}" class="logoline__item link">
+                  <a href="{{ url('/restaurants/' ~ slug) }}" class="logoline__item link">
                     <img
                       src="{{ url(logo.src) }}"
                       alt="{{ logo.alt | default(restaurant.restaurant.name | default(slug)) }}"

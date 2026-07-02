@@ -1,8 +1,8 @@
 .intro {
-  margin-top: -7.2rem;
+  margin-top: -11.2rem;
 
   @media (--lg) {
-    margin-top: -10.4rem;
+    margin-top: -12rem;
   }
 }
 
@@ -108,6 +108,12 @@
 
 .intro .heading {
   font-size: 1.1em;
+
+  /* На телефонах — текучий размер (vw), чтобы длинный заголовок интро ложился
+     в 2 полные строки на ЛЮБОЙ ширине мобильного (ёмкость строки ~постоянна). */
+  @media (--xs) {
+    font-size: clamp(1.05rem, 3.4vw, 1.8rem);
+  }
 
   @media (--lg) {
     font-size: 1.3em;

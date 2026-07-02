@@ -1,6 +1,7 @@
 <section class="burger-menu" id="burgerMenu" role="navigation" aria-label="{{ global.burger.aria_open[lang_code]|default('Menu') }}" aria-hidden="true">
   <div class="container">
     {% for item in items %}
+      {% if item.visible is not defined or item.visible %}
       {% set nav_path = item.href | trim('/') %}
       
       {% if lang_code != config.settings.default_lang %}
@@ -14,6 +15,7 @@
       <a href="{{ url(nav_path) }}"{% if item.target is defined %} target="{{ item.target }}"{% endif %} class="burger-menu__item link">
         <span class="burger-menu__title">{{ item.title }}</span>
       </a>
+      {% endif %}
     {% endfor %}
   </div>
 </section> 

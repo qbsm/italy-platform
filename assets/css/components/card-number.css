@@ -13,14 +13,32 @@
 }
 
 .card-number__title {
+  display: inline-block;
   font-family: var(--font-1-extended);
   font-weight: 500;
   font-size: 6em;
   line-height: 0.9;
+  font-variant-numeric: tabular-nums;
 
   @media (--lg) {
     font-size: 8em;
   }
+}
+
+.card-number__title::before {
+  content: attr(data-final);
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
+
+.card-number__plus {
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+}
+
+.card-number__plus.visible {
+  opacity: 1;
 }
 
 .card-number__item.label-wrap {

@@ -14,8 +14,9 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 final class SecurityHeadersMiddleware implements MiddlewareInterface
 {
-    /** Базовая CSP: default self, скрипты/стили с self + unsafe-inline, картинки self/data/https, шрифты self */
-    private const DEFAULT_CSP = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'";
+    /** CSP: разрешаем нужные сторонние сервисы по https (Яндекс.Метрика+вебвизор, VK, MindBox, виджет
+     *  бронирования remarked.ru). Сохраняем default-src/base-uri/frame-ancestors='self' от кликджекинга. */
+    private const DEFAULT_CSP = "default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https: wss:; frame-src 'self' https:; base-uri 'self'; form-action 'self' https:; frame-ancestors 'self'";
 
     public function __construct(
         private readonly bool $addHsts = true,
@@ -39,6 +40,11 @@ final class SecurityHeadersMiddleware implements MiddlewareInterface
 
         if ($this->contentSecurityPolicy !== null && $this->contentSecurityPolicy !== '') {
             $response = $response->withHeader('Content-Security-Policy', $this->contentSecurityPolicy);
+        }
+
+        $host = $request->getUri()->getHost();
+        if (str_ends_with($host, '.ismart.pro') || ($_ENV['APP_ENV'] ?? '') === 'staging') {
+            $response = $response->withHeader('X-Robots-Tag', 'noindex, nofollow');
         }
 
         return $response;
