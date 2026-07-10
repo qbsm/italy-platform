@@ -28,11 +28,23 @@
     },
     {
       "property": "og:image",
-      "content": "https://italycommunity.ru/data/img/seo/og.webp?v=1"
+      "content": "https://italycommunity.ru/data/img/seo/og.jpg?v=2"
     },
     {
       "property": "og:image:secure_url",
-      "content": "https://italycommunity.ru/data/img/seo/og.webp?v=1"
+      "content": "https://italycommunity.ru/data/img/seo/og.jpg?v=2"
+    },
+    {
+      "property": "og:image:type",
+      "content": "image/jpeg"
+    },
+    {
+      "property": "og:image:width",
+      "content": "1200"
+    },
+    {
+      "property": "og:image:height",
+      "content": "630"
     }
   ]
 }
