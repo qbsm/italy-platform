@@ -66,16 +66,24 @@ final class TemplateDataBuilder
      */
     private function extractHeroPreloadImage(array $sections): ?array
     {
-        $pick = static function ($node): ?string {
+        // sizes должен совпадать с пресетом 'full' в components/picture.twig,
+        // иначе браузер предзагрузит не тот вариант, что отрисует <picture>.
+        $sizes = '(min-width: 1441px) 1400px, (min-width: 1200px) 1200px, 100vw';
+
+        // Собираем полный набор ширин (800/1600/raw) для imagesrcset preload,
+        // чтобы предзагрузка совпадала с srcset <source> и реальный LCP-ресурс
+        // (на десктопе — 1600) грузился сразу из <head>, а не открывался поздно.
+        $srcset = static function ($node): ?array {
             if (!is_array($node)) {
                 return null;
             }
+            $out = [];
             foreach (['800', '1600', 'raw'] as $key) {
                 if (isset($node[$key]) && is_string($node[$key]) && $node[$key] !== '') {
-                    return $node[$key];
+                    $out[$key] = $node[$key];
                 }
             }
-            return null;
+            return $out === [] ? null : $out;
         };
 
         foreach ($sections as $section) {
@@ -90,21 +98,32 @@ final class TemplateDataBuilder
             $img = $first['image'] ?? null;
 
             if (is_array($img)) {
-                $vertical = $pick($img['vertical'] ?? null);
-                $horizontal = $pick($img['horizontal'] ?? null);
-                $mobile = $vertical ?? $horizontal;
+                $vertical = $srcset($img['vertical'] ?? null);
+                $horizontal = $srcset($img['horizontal'] ?? null);
                 $desktop = $horizontal ?? $vertical;
-                if ($mobile !== null && $desktop !== null) {
-                    return ['mobile' => $mobile, 'desktop' => $desktop];
+                if ($desktop !== null) {
+                    return [
+                        'sizes' => $sizes,
+                        'mobile' => $vertical,
+                        'desktop' => $desktop,
+                    ];
+                }
+                $direct = $srcset($img);
+                if ($direct !== null) {
+                    return [
+                        'sizes' => $sizes,
+                        'mobile' => null,
+                        'desktop' => $direct,
+                    ];
                 }
                 foreach (['raw', 'src'] as $key) {
                     if (isset($img[$key]) && is_string($img[$key]) && $img[$key] !== '') {
-                        return ['mobile' => $img[$key], 'desktop' => $img[$key]];
+                        return ['single' => $img[$key]];
                     }
                 }
             }
             if (isset($first['cover']) && is_string($first['cover']) && $first['cover'] !== '') {
-                return ['mobile' => $first['cover'], 'desktop' => $first['cover']];
+                return ['single' => $first['cover']];
             }
             return null;
         }

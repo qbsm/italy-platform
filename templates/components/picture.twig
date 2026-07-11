@@ -86,8 +86,9 @@
     <img 
       src="{{ url(fallbackSrc) }}" 
       alt="{{ imageAlt }}" 
-      loading="{{ imageLoading }}" 
+      loading="{{ imageLoading }}"
       decoding="async"
+      {% if imageFetchpriority %}fetchpriority="{{ imageFetchpriority }}"{% endif %}
       class="{{ imageClass }}"
       {% if dims %}width="{{ dims.width }}" height="{{ dims.height }}"{% endif %}
       {% if imageStyle %}style="{{ imageStyle }}"{% endif %}
@@ -119,8 +120,9 @@
     <img 
       src="{{ url(fallbackSrc) }}" 
       alt="{{ imageAlt }}" 
-      loading="{{ imageLoading }}" 
+      loading="{{ imageLoading }}"
       decoding="async"
+      {% if imageFetchpriority %}fetchpriority="{{ imageFetchpriority }}"{% endif %}
       class="{{ imageClass }}"
       {% if dims %}width="{{ dims.width }}" height="{{ dims.height }}"{% endif %}
       {% if imageStyle %}style="{{ imageStyle }}"{% endif %}
@@ -134,8 +136,9 @@
     <img 
       src="{{ url(image.src) }}" 
       alt="{{ imageAlt }}" 
-      loading="{{ imageLoading }}" 
+      loading="{{ imageLoading }}"
       decoding="async"
+      {% if imageFetchpriority %}fetchpriority="{{ imageFetchpriority }}"{% endif %}
       class="{{ imageClass }}"
       {% if dims %}width="{{ dims.width }}" height="{{ dims.height }}"{% endif %}
       {% if imageStyle %}style="{{ imageStyle }}"{% endif %}

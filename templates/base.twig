@@ -108,11 +108,17 @@
      woff2 мелкие и грузятся из render-blocking CSS, font-display:swap; измеренный CLS остаётся ~0.01.
      (preload_fonts по-прежнему вычисляется в TemplateDataBuilder, но не рендерится.) #}
   {% if hero_preload_image is defined and hero_preload_image %}
-  {% if hero_preload_image.mobile is defined %}
-  <link rel="preload" href="{{ url(hero_preload_image.mobile) }}" as="image" fetchpriority="high" media="(max-width: 767px)">
-  <link rel="preload" href="{{ url(hero_preload_image.desktop) }}" as="image" fetchpriority="high" media="(min-width: 768px)">
+  {% if hero_preload_image.single is defined %}
+  <link rel="preload" href="{{ url(hero_preload_image.single) }}" as="image" fetchpriority="high">
   {% else %}
-  <link rel="preload" href="{{ url(hero_preload_image) }}" as="image" fetchpriority="high">
+  {% if hero_preload_image.mobile %}
+    {% set _pm = [] %}
+    {% for w, p in hero_preload_image.mobile %}{% set _pm = _pm|merge([url(p) ~ ' ' ~ (w == 'raw' ? '1920' : w) ~ 'w']) %}{% endfor %}
+  <link rel="preload" as="image" fetchpriority="high" media="(max-width: 767px)" imagesrcset="{{ _pm|join(', ') }}" imagesizes="{{ hero_preload_image.sizes }}">
+  {% endif %}
+    {% set _pd = [] %}
+    {% for w, p in hero_preload_image.desktop %}{% set _pd = _pd|merge([url(p) ~ ' ' ~ (w == 'raw' ? '1920' : w) ~ 'w']) %}{% endfor %}
+  <link rel="preload" as="image" fetchpriority="high" media="{{ hero_preload_image.mobile ? '(min-width: 768px)' : 'all' }}" imagesrcset="{{ _pd|join(', ') }}" imagesizes="{{ hero_preload_image.sizes }}">
   {% endif %}
   {% endif %}
 
