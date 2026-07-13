@@ -88,6 +88,7 @@ return [
     // page_id страниц для sitemap.xml (без 404). Задаётся под проект.
     'sitemap_pages' => [
         'index',
+        'about',
         'contacts',
         'policy',
         'agree',
