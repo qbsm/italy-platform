@@ -81,13 +81,14 @@ return [
             'entity_url_pattern' => '/restaurants/{slug}',
             'site_name' => 'Экосистема итали',
             'prod_base_url' => 'https://italycommunity.ru',
-            'fallback_og_image' => '/data/img/seo/og.webp?v=1',
+            'fallback_og_image' => '/data/img/seo/og.jpg?v=3',
             'list_title' => 'Рестораны',
         ],
     ],
     // page_id страниц для sitemap.xml (без 404). Задаётся под проект.
     'sitemap_pages' => [
         'index',
+        'about',
         'contacts',
         'policy',
         'agree',
