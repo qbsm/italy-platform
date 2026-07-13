@@ -357,5 +357,14 @@
         "class": "button button-sm outline-color-2 button-animated animation-shift uppercase link nowrap js-cookie"
       }
     }
+  },
+  "restaurant-faq": {
+    "ru": {
+      "where": "Где находится ресторан?",
+      "hours": "Какие часы работы?",
+      "cuisine": "Какая кухня в ресторане?",
+      "contact": "Как забронировать столик или связаться с рестораном?",
+      "price": "Какой средний чек?"
+    }
   }
 }
