@@ -182,7 +182,7 @@
         "heading": {
           "tag": "h1",
           "class": "title font-1 weight-300 text-center uppercase",
-          "title": "Гастрономическое сообщество italy — рестораны, сервис, гостепреимство, проекты, экспертиза, поддержка талантов."
+          "title": "Гастрономическое сообщество italy — рестораны, сервис, гостеприимство, проекты, экспертиза, поддержка талантов."
         }
       }
     },
@@ -297,6 +297,12 @@
                 "speed": 800
               },
               "items": [
+                {
+                  "title": "Spaghettata",
+                  "cover": "data/img/navigation/banners/banner-4.webp",
+                  "href": "https://italytouch.ru/app/events/82?utm_source=banner_spagettata&utm_medium=mainsite&utm_campaign=prmo",
+                  "target": "_blank"
+                },
                 {
                   "title": "Баланс",
                   "cover": "data/img/navigation/banners/banner-1.webp",
