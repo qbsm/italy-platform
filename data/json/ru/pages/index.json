@@ -298,6 +298,12 @@
               },
               "items": [
                 {
+                  "title": "Spaghettata",
+                  "cover": "data/img/navigation/banners/banner-4.webp",
+                  "href": "https://italytouch.ru/app/events/82?utm_source=banner_spagettata&utm_medium=mainsite&utm_campaign=prmo",
+                  "target": "_blank"
+                },
+                {
                   "title": "Баланс",
                   "cover": "data/img/navigation/banners/banner-1.webp",
                   "href": "https://italycommunity.online/balance?utm_source=mainsite&utm_medium=banner_balance&utm_campaign=balancemenu&utm_content=link&utm_term=promo",
