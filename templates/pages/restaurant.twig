@@ -51,6 +51,11 @@
                   {% for h in r.openingHours %}
                     <div class="restaurant-intro__hours-row">{{ h.days }}: {{ h.hours }}</div>
                   {% endfor %}
+                  {% if r.hoursNotes is defined and r.hoursNotes|length > 0 %}
+                    {% for note in r.hoursNotes %}
+                      <p class="restaurant-intro__hours-note">{{ note }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               {% endif %}
 
