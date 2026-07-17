@@ -131,6 +131,22 @@ body:has(.restaurant-detail) {
   }
 }
 
+.restaurant-intro__hours-note {
+  margin: 0;
+  max-width: 52rem;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  opacity: 0.85;
+
+  @media (--lg) {
+    font-size: 1.5rem;
+  }
+}
+
+.restaurant-intro__hours-row + .restaurant-intro__hours-note {
+  margin-top: 0.4rem;
+}
+
 .restaurant-intro__hours-title {
   display: flex;
   align-items: center;
