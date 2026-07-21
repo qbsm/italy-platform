@@ -42,13 +42,17 @@
                 {% endif %}
               </div>
 
-              {% if r.openingHours is defined and r.openingHours|length > 0 %}
+              {% set _hours = r.openingHours | default([]) %}
+              {% if r.openingHoursFrom is defined and ("now"|date("Ymd")) >= (r.openingHoursFrom.date|date("Ymd")) %}
+                {% set _hours = r.openingHoursFrom.list %}
+              {% endif %}
+              {% if _hours|length > 0 %}
                 <div class="restaurant-intro__hours">
                   <div class="restaurant-intro__hours-title">
                     <span class="restaurant-intro__hours-icon" aria-hidden="true"></span>
                     <span>Часы работы:</span>
                   </div>
-                  {% for h in r.openingHours %}
+                  {% for h in _hours %}
                     <div class="restaurant-intro__hours-row">{{ h.days }}: {{ h.hours }}</div>
                   {% endfor %}
                   {% if r.hoursNotes is defined and r.hoursNotes|length > 0 %}

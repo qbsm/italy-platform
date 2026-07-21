@@ -50,6 +50,7 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
             ['property' => 'og:site_name', 'content' => $siteName],
             ['property' => 'og:image', 'content' => $ogImage],
             ['property' => 'og:image:secure_url', 'content' => $ogImage],
+            ['property' => 'og:image:type', 'content' => $this->imageMimeFromPath($ogImage)],
         ];
 
         return [
@@ -104,10 +105,12 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
             'hasMap' => $r['hasMap'] ?? null,
             'menu' => $r['menuLink'] ?? null,
         ];
-        if (!empty($r['openingHours']) && is_array($r['openingHours'])) {
-            $ld['openingHours'] = array_map(static function ($h) {
-                return trim(($h['days'] ?? '') . ' ' . ($h['hours'] ?? ''));
-            }, $r['openingHours']);
+        $openingHours = $this->resolveOpeningHours($r);
+        if ($openingHours !== []) {
+            $ohs = $this->buildOpeningHoursSpecification($openingHours);
+            if ($ohs !== []) {
+                $ld['openingHoursSpecification'] = $ohs;
+            }
         }
         if (!empty($r['servesCuisine'])) {
             $ld['servesCuisine'] = $r['servesCuisine'];
@@ -140,10 +143,11 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
                 ];
             }
         }
-        if (!empty($r['openingHours']) && is_array($r['openingHours']) && isset($faq['hours'])) {
+        $openingHours = $this->resolveOpeningHours($r);
+        if ($openingHours !== [] && isset($faq['hours'])) {
             $parts = array_map(static function ($h) {
                 return trim(($h['days'] ?? '') . ' ' . ($h['hours'] ?? ''));
-            }, $r['openingHours']);
+            }, $openingHours);
             $answer = implode('; ', array_filter($parts));
             if ($answer !== '') {
                 $mainEntity[] = [
@@ -183,5 +187,121 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
             'mainEntity' => $mainEntity,
         ];
         return (string) json_encode($ld, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * Возвращает актуальный график: если задан openingHoursFrom с датой начала
+     * и сегодня уже наступила эта дата — берёт новый список, иначе текущий openingHours.
+     *
+     * @param array<string,mixed> $r
+     * @return array<int,array<string,mixed>>
+     */
+    private function resolveOpeningHours(array $r): array
+    {
+        $hours = (!empty($r['openingHours']) && is_array($r['openingHours'])) ? $r['openingHours'] : [];
+        $from = $r['openingHoursFrom'] ?? null;
+        if (is_array($from) && !empty($from['date']) && !empty($from['list']) && is_array($from['list'])) {
+            $switch = strtotime((string) $from['date']);
+            if ($switch !== false && date('Ymd') >= date('Ymd', $switch)) {
+                $hours = $from['list'];
+            }
+        }
+        return $hours;
+    }
+
+    /**
+     * Преобразует человекочитаемые часы (RU: «Пн-Чт», «9:00–23:00», «Круглосуточно»)
+     * в валидный schema.org OpeningHoursSpecification. Невалидный формат openingHours
+     * (русские дни, тире-эндэш) Google молча игнорирует — spec парсится корректно.
+     *
+     * @param array<int,array<string,mixed>> $openingHours
+     * @return array<int,array<string,mixed>>
+     */
+    private function buildOpeningHoursSpecification(array $openingHours): array
+    {
+        $order = ['Пн' => 0, 'Вт' => 1, 'Ср' => 2, 'Чт' => 3, 'Пт' => 4, 'Сб' => 5, 'Вс' => 6];
+        $names = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        $pad = static function ($t): ?string {
+            $t = trim((string) $t);
+            if (!preg_match('/^(\d{1,2}):(\d{2})$/', $t, $m)) {
+                return null;
+            }
+            return sprintf('%02d:%02d', (int) $m[1], (int) $m[2]);
+        };
+
+        $spec = [];
+        foreach ($openingHours as $oh) {
+            $daysStr = trim((string) ($oh['days'] ?? ''));
+            $hoursStr = trim((string) ($oh['hours'] ?? ''));
+            if ($daysStr === '' || $hoursStr === '') {
+                continue;
+            }
+
+            $idx = [];
+            foreach (explode(',', $daysStr) as $group) {
+                $group = trim($group);
+                if ($group === '') {
+                    continue;
+                }
+                $parts = array_map('trim', (array) preg_split('/[-–—]/u', $group));
+                if (count($parts) === 2 && isset($order[$parts[0]], $order[$parts[1]])) {
+                    $i = $order[$parts[0]];
+                    $end = $order[$parts[1]];
+                    $guard = 0;
+                    while (true) {
+                        $idx[] = $i;
+                        if ($i === $end || $guard++ > 7) {
+                            break;
+                        }
+                        $i = ($i + 1) % 7;
+                    }
+                } elseif (isset($order[$group])) {
+                    $idx[] = $order[$group];
+                }
+            }
+            $idx = array_values(array_unique($idx));
+            if ($idx === []) {
+                continue;
+            }
+
+            if (mb_stripos($hoursStr, 'круглосуточно') !== false) {
+                $opens = '00:00';
+                $closes = '23:59';
+            } else {
+                $hp = array_map('trim', (array) preg_split('/[-–—]/u', $hoursStr));
+                if (count($hp) !== 2) {
+                    continue;
+                }
+                $opens = $pad($hp[0]);
+                $closes = $pad($hp[1]);
+                if ($opens === null || $closes === null) {
+                    continue;
+                }
+                if ($closes === '00:00') {
+                    $closes = '23:59';
+                }
+            }
+
+            $spec[] = [
+                '@type' => 'OpeningHoursSpecification',
+                'dayOfWeek' => array_map(static fn ($i) => $names[$i], $idx),
+                'opens' => $opens,
+                'closes' => $closes,
+            ];
+        }
+
+        return $spec;
+    }
+
+    /** MIME по расширению пути og:image (для og:image:type). */
+    private function imageMimeFromPath(string $path): string
+    {
+        $ext = strtolower((string) pathinfo((string) parse_url($path, PHP_URL_PATH), PATHINFO_EXTENSION));
+        return match ($ext) {
+            'png' => 'image/png',
+            'webp' => 'image/webp',
+            'gif' => 'image/gif',
+            default => 'image/jpeg',
+        };
     }
 }
