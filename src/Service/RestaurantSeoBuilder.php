@@ -105,8 +105,9 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
             'hasMap' => $r['hasMap'] ?? null,
             'menu' => $r['menuLink'] ?? null,
         ];
-        if (!empty($r['openingHours']) && is_array($r['openingHours'])) {
-            $ohs = $this->buildOpeningHoursSpecification($r['openingHours']);
+        $openingHours = $this->resolveOpeningHours($r);
+        if ($openingHours !== []) {
+            $ohs = $this->buildOpeningHoursSpecification($openingHours);
             if ($ohs !== []) {
                 $ld['openingHoursSpecification'] = $ohs;
             }
@@ -142,10 +143,11 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
                 ];
             }
         }
-        if (!empty($r['openingHours']) && is_array($r['openingHours']) && isset($faq['hours'])) {
+        $openingHours = $this->resolveOpeningHours($r);
+        if ($openingHours !== [] && isset($faq['hours'])) {
             $parts = array_map(static function ($h) {
                 return trim(($h['days'] ?? '') . ' ' . ($h['hours'] ?? ''));
-            }, $r['openingHours']);
+            }, $openingHours);
             $answer = implode('; ', array_filter($parts));
             if ($answer !== '') {
                 $mainEntity[] = [
@@ -185,6 +187,26 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
             'mainEntity' => $mainEntity,
         ];
         return (string) json_encode($ld, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * Возвращает актуальный график: если задан openingHoursFrom с датой начала
+     * и сегодня уже наступила эта дата — берёт новый список, иначе текущий openingHours.
+     *
+     * @param array<string,mixed> $r
+     * @return array<int,array<string,mixed>>
+     */
+    private function resolveOpeningHours(array $r): array
+    {
+        $hours = (!empty($r['openingHours']) && is_array($r['openingHours'])) ? $r['openingHours'] : [];
+        $from = $r['openingHoursFrom'] ?? null;
+        if (is_array($from) && !empty($from['date']) && !empty($from['list']) && is_array($from['list'])) {
+            $switch = strtotime((string) $from['date']);
+            if ($switch !== false && date('Ymd') >= date('Ymd', $switch)) {
+                $hours = $from['list'];
+            }
+        }
+        return $hours;
     }
 
     /**

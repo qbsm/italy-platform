@@ -58,8 +58,12 @@
               {% if r.address is defined and r.address.streetAddress %}
                 <p class="card-restaurant-slide__line">{{ r.address.streetAddress }}</p>
               {% endif %}
-              {% if r.openingHours is defined and r.openingHours|length > 0 %}
-                {% for h in r.openingHours %}
+              {% set _hours = r.openingHours | default([]) %}
+              {% if r.openingHoursFrom is defined and ("now"|date("Ymd")) >= (r.openingHoursFrom.date|date("Ymd")) %}
+                {% set _hours = r.openingHoursFrom.list %}
+              {% endif %}
+              {% if _hours|length > 0 %}
+                {% for h in _hours %}
                   <p class="card-restaurant-slide__line">{{ h.days }} {{ h.hours }}</p>
                 {% endfor %}
               {% endif %}

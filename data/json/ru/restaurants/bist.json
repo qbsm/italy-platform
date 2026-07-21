@@ -34,6 +34,27 @@
         "hours": "10:00–23:00"
       }
     ],
+    "openingHoursFrom": {
+      "date": "2026-07-24",
+      "list": [
+        {
+          "days": "Пн-Чт",
+          "hours": "9:00–23:00"
+        },
+        {
+          "days": "Пт",
+          "hours": "9:00–01:00"
+        },
+        {
+          "days": "Сб",
+          "hours": "10:00–01:00"
+        },
+        {
+          "days": "Вс",
+          "hours": "10:00–23:00"
+        }
+      ]
+    },
     "geo": {
       "@type": "GeoCoordinates",
       "latitude": "59.94282",
