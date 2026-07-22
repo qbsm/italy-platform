@@ -118,6 +118,18 @@
   }
 }
 
+/* Кламп длинных описаний: текст длиннее ~6 строк (Joli СПб, Salone — 500+ симв.)
+   при justify-content: flex-end переполнял слайд вверх — накрывал лого и обрезался
+   краем карточки. 6 строк влезают на всех брейкпоинтах при самом высоком лого (7.4rem);
+   полный текст остаётся на странице ресторана (кнопка «Подробнее»). */
+.card-restaurant .card-restaurant-slide__desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  min-height: 0;
+  overflow: hidden;
+}
+
 .card-restaurant .card-restaurant-slide__text {
   margin: 0;
   font-size: 0.95em;

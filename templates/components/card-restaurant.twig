@@ -42,9 +42,13 @@
               <img src="{{ url(logo.src) }}" alt="{{ logo.alt | default(name) }}"
                    class="card__logo img-responsive" loading="lazy">
             {% endif %}
-            {% for paragraph in descParagraphs %}
-              <p class="card-restaurant-slide__text">{{ paragraph }}</p>
-            {% endfor %}
+            {# Обёртка клампит длинные описания (Joli СПб, Salone — 500+ симв.),
+               иначе текст вылезал поверх лого за пределы карточки #}
+            <div class="card-restaurant-slide__desc">
+              {% for paragraph in descParagraphs %}
+                <p class="card-restaurant-slide__text">{{ paragraph }}</p>
+              {% endfor %}
+            </div>
           </div>
         {% endif %}
 
