@@ -90,9 +90,20 @@
               <h2 class="event-block__heading uppercase">В стоимость входит</h2>
               <ul class="event-includes">
                 {% for inc in event.includes %}
+                  {% set il = inc | lower %}
                   <li class="event-includes__item">
                     <span class="event-includes__mark" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+                      {% if 'аперитив' in il or 'коктейл' in il or 'шампан' in il %}
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14c0 3.9-3.1 6.5-7 6.5S5 7.9 5 4z"/><path d="M12 10.5V19M8.5 21h7"/></svg>
+                      {% elseif 'вин' in il %}
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8v3.5a4 4 0 0 1-8 0V3z"/><path d="M12 10.5V19M8.5 21h7"/></svg>
+                      {% elseif 'музык' in il or 'концерт' in il or 'фламенко' in il %}
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 17.5V6l8-2v11.5"/><circle cx="8" cy="17.5" r="2.3"/><circle cx="16.2" cy="15.5" r="2.3"/></svg>
+                      {% elseif 'шеф' in il %}
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 16v-2.6A4.2 4.2 0 0 1 6 5.8 4.2 4.2 0 0 1 12 4a4.2 4.2 0 0 1 6 1.8 4.2 4.2 0 0 1-1.5 7.6V16"/><path d="M7.5 16h9M7.5 19h9"/></svg>
+                      {% else %}
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 15a7.5 7.5 0 0 1 15 0"/><path d="M3 15h18M12 7.5V6.5"/><circle cx="12" cy="5.2" r="1"/></svg>
+                      {% endif %}
                     </span>{{ inc }}
                   </li>
                 {% endfor %}
@@ -137,8 +148,8 @@
 
             <div class="event-ticket__price">
               {% if e.priceFrom is defined and e.priceFrom %}
-                <span class="event-ticket__price-label">Билет от</span>
-                <span class="event-ticket__price-value">{{ e.priceFrom | number_format(0, '', ' ') }} {{ e.currency | default('₽') }}</span>
+                <span class="event-ticket__price-label">Участие</span>
+                <span class="event-ticket__price-value">от {{ e.priceFrom | number_format(0, '', ' ') }} {{ e.currency | default('₽') }}</span>
               {% elseif e.free is defined and e.free %}
                 <span class="event-ticket__price-value">Вход свободный</span>
               {% else %}
@@ -147,9 +158,9 @@
             </div>
 
             {% if soldOut %}
-              <a href="#buy" class="button button-md bg-color-6 color-2 button-rounded uppercase event-ticket__cta">Записаться в лист ожидания</a>
+              <a href="#buy" class="button button-md bg-color-6 color-2 button-rounded uppercase event-ticket__cta">В лист ожидания</a>
             {% else %}
-              <a href="{{ buyHref }}"{% if buyExternal %} target="_blank" rel="noopener noreferrer"{% endif %} class="button button-md bg-color-3 color-1 button-rounded uppercase event-ticket__cta">Купить билет</a>
+              <a href="{{ buyHref }}"{% if buyExternal %} target="_blank" rel="noopener noreferrer"{% endif %} class="button button-md bg-color-3 color-1 button-rounded uppercase event-ticket__cta">Забронировать место</a>
             {% endif %}
 
             <button type="button" class="event-ticket__share js-event-share"
@@ -167,12 +178,12 @@
     <section class="event-buy section" id="buy">
       <div class="container-md">
         <div class="section__item heading-wrap">
-          <h2 class="event-buy__heading uppercase">{{ soldOut ? 'Лист ожидания' : 'Оформить билет' }}</h2>
+          <h2 class="event-buy__heading uppercase">{{ soldOut ? 'Лист ожидания' : 'Забронировать место' }}</h2>
           <p class="event-buy__sub">
             {% if soldOut %}
               Оставьте контакты — сообщим, как только освободятся места на «{{ e.title }}».
             {% else %}
-              Укажите контакты и количество билетов на «{{ e.title }}» — пришлём подтверждение и ссылку на оплату на e-mail.
+              Укажите контакты и количество мест — пришлём подтверждение и ссылку на оплату на e-mail.
             {% endif %}
           </p>
         </div>
@@ -180,7 +191,7 @@
           {% if soldOut %}
             {% include 'components/form-callback.twig' with {'data': {'button': {'title': 'В лист ожидания'}}} %}
           {% else %}
-            {% include 'components/form-ticket.twig' with {'data': {'event': e, 'button': {'title': 'Купить билет'}}} %}
+            {% include 'components/form-ticket.twig' with {'data': {'event': e, 'button': {'title': 'Забронировать место'}}} %}
           {% endif %}
         </div>
       </div>
@@ -192,15 +203,15 @@
     <div class="event-stickybar" aria-hidden="false">
       <span class="event-stickybar__price">
         {% if e.priceFrom is defined and e.priceFrom %}
-          <span class="event-stickybar__label">Билет от</span>
-          <span class="event-stickybar__value">{{ e.priceFrom | number_format(0, '', ' ') }} {{ e.currency | default('₽') }}</span>
+          <span class="event-stickybar__label">Участие</span>
+          <span class="event-stickybar__value">от {{ e.priceFrom | number_format(0, '', ' ') }} {{ e.currency | default('₽') }}</span>
         {% elseif e.free is defined and e.free %}
           <span class="event-stickybar__value">Вход свободный</span>
         {% else %}
           <span class="event-stickybar__value">{{ d.day | default('') }} {{ d.month | default('') }}{% if d.time is defined %}, {{ d.time }}{% endif %}</span>
         {% endif %}
       </span>
-      <a href="{{ buyHref }}"{% if buyExternal %} target="_blank" rel="noopener noreferrer"{% endif %} class="button button-md bg-color-3 color-1 button-rounded uppercase event-stickybar__cta">Купить билет</a>
+      <a href="{{ buyHref }}"{% if buyExternal %} target="_blank" rel="noopener noreferrer"{% endif %} class="button button-md bg-color-3 color-1 button-rounded uppercase event-stickybar__cta">Забронировать место</a>
     </div>
   {% endif %}
 

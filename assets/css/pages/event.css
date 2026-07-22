@@ -205,25 +205,25 @@
   color: var(--color-6);
 }
 
-/* В стоимость входит */
+/* В стоимость входит — пилюли в идиоме сайта */
 
 .event-includes {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.2rem 2.4rem;
-
-  @media (--xm) {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.2rem;
 }
 
 .event-includes__item {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  font-size: 1.6rem;
-  line-height: 1.4;
-  color: var(--color-6);
+  display: inline-flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 0.7rem 2rem 0.7rem 0.9rem;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  color: var(--color-1);
+  background: rgb(255 255 255 / 5%);
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 10rem;
 }
 
 .event-includes__mark {
@@ -231,9 +231,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.4rem;
-  height: 2.4rem;
-  margin-top: 0.1rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   color: var(--color-2);
   background: var(--color-1);
@@ -262,7 +261,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--transition-2);
+  transition: var(--transition-2);
 }
 
 .event-gallery__figure:hover img {
@@ -271,10 +270,15 @@
 
 /* ---- Sticky ticket card ---- */
 
+/* На мобиле карточка дублирует форму брони (сводка+CTA) — показываем только на десктопе */
 .event-ticket {
+  display: none;
+
   @media (--md) {
+    /* липкая шапка 12rem высотой + воздух */
+    display: block;
     position: sticky;
-    top: 2.4rem;
+    top: 14.4rem;
   }
 }
 
@@ -385,6 +389,14 @@
   justify-content: center;
 }
 
+/* Длинный текст («В лист ожидания» и т.п.) не ломает кнопку фикс-высоты */
+.event-ticket__cta.button {
+  height: auto;
+  min-height: 5rem;
+  padding-block: 1.2rem;
+  text-align: center;
+}
+
 .event-ticket__share {
   display: flex;
   align-items: center;
@@ -398,7 +410,7 @@
   background: transparent;
   border: 0;
   cursor: pointer;
-  transition: color var(--transition-1);
+  transition: var(--transition-1);
 }
 
 .event-ticket__share:hover {
@@ -408,8 +420,9 @@
 /* ---------- Оформление ---------- */
 
 .event-buy {
-  background: var(--color-7);
+  background: var(--color-2);
   color: var(--color-1);
+  scroll-margin-top: 13rem; /* якорь #buy не ныряет под липкую шапку */
 }
 
 .event-buy .heading-wrap {
@@ -432,30 +445,144 @@
   color: var(--color-6);
 }
 
+/* Панель формы — как карточка билета в aside */
+
 .event-buy__form {
-  max-width: 62rem;
+  max-width: 68rem;
   margin: 3.2rem auto 0;
+  padding: 2.4rem 2rem;
+  background: var(--color-7);
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 1.8rem;
+
+  @media (--sm) {
+    padding: 3.2rem 3.6rem;
+  }
 }
 
-/* Тёмная форма — та же идиома, что в футере */
+/* Тёмная форма: поля-боксы с видимыми лейблами */
 
 .event-buy .form-callback .form-callback__input {
+  padding: 1.3rem 1.6rem;
   color: var(--color-1);
   caret-color: var(--color-1);
-  border-bottom-color: var(--color-1);
+  background-color: rgb(255 255 255 / 6%);
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 1rem;
+  transition: var(--transition-1);
 }
 
 .event-buy .form-callback .form-callback__input::placeholder {
-  color: var(--color-6);
+  color: rgb(255 255 255 / 55%);
   opacity: 1;
 }
 
 .event-buy .form-callback .form-callback__input:focus {
-  border-bottom-color: var(--color-1);
+  background-color: rgb(255 255 255 / 9%);
+  border-color: rgb(255 255 255 / 60%);
+}
+
+.event-buy .form-callback__item.error .form-callback__input {
+  border-color: var(--color-error);
+}
+
+.form-ticket__label {
+  display: block;
+  margin-bottom: 0.7rem;
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+  color: var(--color-6);
+}
+
+/* Сводка: что бронируем */
+
+.form-ticket__summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.6rem 2.4rem;
+  flex-wrap: wrap;
+  padding-bottom: 1.8rem;
+  border-bottom: 1px solid rgb(255 255 255 / 16%);
+}
+
+.form-ticket__summary-title {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.form-ticket__summary-meta {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 1.4rem;
+  color: var(--color-6);
+}
+
+.form-ticket__summary-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.2;
+}
+
+.form-ticket__summary-price span {
+  font-size: 1.2rem;
+  color: var(--color-6);
+}
+
+.form-ticket__summary-price b {
+  font-weight: 600;
+  font-size: 1.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Итого — лейбл и цена по базовой линии */
+
+.form-ticket__total {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  font-size: 1.5rem;
+  color: var(--color-6);
+}
+
+.form-ticket__total b {
+  vertical-align: baseline;
+  font-weight: 600;
+  font-size: 2rem;
+  color: var(--color-1);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Кнопка — денежное действие на всю ширину */
+
+.event-buy .form-ticket__submit {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Сообщение об успехе на тёмном */
+
+.event-buy .form-callback__success-title {
+  color: var(--color-1);
+}
+
+.event-buy .form-callback__success-text {
+  color: var(--color-6);
 }
 
 .event-buy .form-callback .form-callback__select {
   background-image: url("/data/img/ui/icons/icon-triangle-down-color-1.svg");
+  background-repeat: no-repeat;
+  background-position: right 1.4rem center;
+  background-size: 1rem 1rem;
+  padding-right: 3.8rem;
+}
+
+.event-buy .form-callback .form-callback__select:invalid {
+  color: rgb(255 255 255 / 55%);
 }
 
 .event-buy .form-callback .form-callback__select option {
@@ -488,11 +615,14 @@
 /* Форма заказа билета: свои grid-области поверх базовой формы */
 
 .form-ticket__container {
+  gap: 1.8rem;
   grid-template-areas:
+    "summary"
     "name"
     "phone"
     "email"
     "tickets"
+    "total"
     "button"
     "policy"
     "rules"
@@ -502,13 +632,23 @@
     grid-template-columns: 1fr 1fr;
     column-gap: 2.4rem;
     grid-template-areas:
+      "summary summary"
       "name phone"
       "email tickets"
+      "total total"
       "button button"
       "policy policy"
       "rules rules"
       "error error";
   }
+}
+
+.form-callback__item.form-ticket-item-summary {
+  grid-area: summary;
+}
+
+.form-callback__item.form-ticket-item-total {
+  grid-area: total;
 }
 
 .form-callback__item.form-ticket-item-name {
@@ -527,28 +667,65 @@
   grid-area: tickets;
 }
 
-/* Количество билетов: подпись + числовое поле в одну строку под общим подчёркиванием */
+/* Количество мест: степпер −/+ */
 
 .form-ticket__qty {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
-  gap: 1.6rem;
-  cursor: text;
-  border-bottom: 0.1rem solid var(--color-1);
+  gap: 1rem;
+  padding: 0.5rem 0.6rem;
+  background: rgb(255 255 255 / 6%);
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 1rem;
 }
 
-.form-ticket__qty-label {
-  padding-bottom: 1rem;
-  color: var(--color-6);
-}
-
-.form-ticket__qty .form-callback__input {
-  width: 8rem;
+.form-ticket__qty-btn {
   flex-shrink: 0;
-  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--color-1);
+  background: transparent;
+  border: 1px solid rgb(255 255 255 / 25%);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transition-1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .form-ticket__qty-btn:hover {
+    background: var(--color-1);
+    color: var(--color-2);
+  }
+}
+
+.form-ticket__qty-btn:disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.event-buy .form-callback .form-ticket__qty-input {
+  width: 6rem;
+  padding: 0.4rem 0;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
-  border-bottom: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  appearance: textfield;
+}
+
+.form-ticket__qty-input::-webkit-outer-spin-button,
+.form-ticket__qty-input::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
 }
 
 #page-content:has(.event-detail) {
@@ -571,7 +748,7 @@
   background: var(--color-7);
   border-top: 1px solid rgb(255 255 255 / 14%);
   transform: translateY(0);
-  transition: transform var(--transition-1);
+  transition: var(--transition-1);
 
   @media (--md) {
     display: none;

@@ -49,6 +49,7 @@ import './components/burger-icon.js';
 // --- Pages ---
 import './pages/restaurants.js';
 import './pages/restaurant.js';
+import './pages/event.js';
 import './pages/404.js';
 import './pages/contacts.js';
 import './pages/index.js';
