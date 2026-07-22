@@ -65,6 +65,7 @@ return [
     // slug в URL => page_id (файл в data/json/{lang}/pages/{page_id}.json)
     'route_map' => [
         'restaurants' => 'restaurants-list',
+        'events' => 'events-list',
     ],
     // Конфигурация коллекций — generic loader (loadEntity/loadEntitySlugs)
     // и per-collection SEO (seo_builder реализует SeoBuilderInterface)
@@ -84,6 +85,21 @@ return [
             'fallback_og_image' => '/data/img/seo/og.jpg?v=3',
             'list_title' => 'Рестораны',
         ],
+        'events' => [
+            'data_dir' => 'events',               // data/json/{lang}/events/{slug}.json
+            'item_key' => 'event',                // ключ внутри entity (валидируется на existence)
+            'nav_slug' => 'events',               // префикс URL и breadcrumb; список slug'ов — pages/events.json
+            'list_page_id' => 'events-list',      // pages/events-list.json
+            'slugs_source' => 'items',
+            'template' => 'pages/event.twig',
+            'extras_key' => 'event',              // ключ в template ($event)
+            'og_type' => 'event',
+            'entity_url_pattern' => '/events/{slug}',
+            'site_name' => 'Экосистема итали',
+            'prod_base_url' => 'https://italycommunity.ru',
+            'fallback_og_image' => '/data/img/seo/og.jpg?v=3',
+            'list_title' => 'Афиша',
+        ],
     ],
     // page_id страниц для sitemap.xml (без 404). Задаётся под проект.
     'sitemap_pages' => [
@@ -93,6 +109,7 @@ return [
         'policy',
         'agree',
         'restaurants-list',
+        'events-list',
     ],
     // Rate limiting для POST /api/send (по IP, файловое хранилище в cache/rate_limit)
     'rate_limit_api_send' => [

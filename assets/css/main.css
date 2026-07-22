@@ -23,6 +23,7 @@
 @import "sections/us.css";
 @import "sections/navigation.css";
 @import "sections/restaurants.css";
+@import "sections/events.css";
 
 /* Components */
 @import "components/analytics.css";
@@ -46,6 +47,7 @@
 @import "components/card-gradient.css";
 @import "components/card-number.css";
 @import "components/card-restaurant.css";
+@import "components/card-event.css";
 
 /* Pages */
 @import "pages/404.css";
@@ -55,3 +57,4 @@
 @import "sections/promo.css";
 @import "pages/restaurants.css";
 @import "pages/restaurant.css";
+@import "pages/event.css";

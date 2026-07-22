@@ -1,0 +1,54 @@
+{# Карточка события для афиши. item — объект события (data/json/{lang}/events/{slug}.json) #}
+{% set e = item.event | default({}) %}
+{% set d = e.date | default({}) %}
+{% set href = item.slug is defined ? '/events/' ~ item.slug : '#' %}
+{% set cover = (item.covers | default([]))[0] | default(null) %}
+{% set soldOut = e.seatsLeft is defined and e.seatsLeft is not null and e.seatsLeft <= 0 %}
+
+<a class="card-event {{ soldOut ? 'card-event--sold' : '' }}" href="{{ url(href) }}"
+   aria-label="{{ e.title | default('Событие') }} — {{ d.day | default('') }} {{ d.month | default('') }}, {{ e.restaurant.name | default('') }}">
+  <div class="card-event__media">
+    {% if cover %}
+      <img src="{{ url(cover.src) }}" alt="{{ cover.alt | default(e.title) }}" class="card-event__img" loading="lazy">
+    {% endif %}
+    {% if d.day is defined %}
+      <span class="card-event__date" aria-hidden="true">
+        <span class="card-event__date-day">{{ d.day }}</span>
+        <span class="card-event__date-month">{{ d.monthShort | default(d.month) }}</span>
+      </span>
+    {% endif %}
+    {% if e.category is defined and e.category %}
+      <span class="card-event__tag">{{ e.category }}</span>
+    {% endif %}
+    {% if soldOut %}<span class="card-event__badge">Мест нет</span>{% endif %}
+  </div>
+
+  <div class="card-event__body">
+    {% if e.restaurant.name is defined %}
+      <span class="card-event__place">{{ e.restaurant.name }}</span>
+    {% endif %}
+    <h3 class="card-event__title font-1 weight-500 uppercase">{{ e.titleHtml is defined and e.titleHtml ? e.titleHtml|raw : e.title }}</h3>
+
+    <div class="card-event__meta">
+      {% if d.weekday is defined %}<span class="card-event__meta-item">{{ d.weekday }}</span>{% endif %}
+      {% if d.time is defined %}<span class="card-event__meta-item">{{ d.time }}</span>{% endif %}
+      {% if e.duration is defined %}<span class="card-event__meta-item">{{ e.duration }}</span>{% endif %}
+    </div>
+
+    <div class="card-event__foot">
+      <span class="card-event__price">
+        {% if e.priceFrom is defined and e.priceFrom %}
+          <span class="card-event__price-label">от</span>
+          <span class="card-event__price-value">{{ e.priceFrom | number_format(0, '', ' ') }} {{ e.currency | default('₽') }}</span>
+        {% elseif e.free is defined and e.free %}
+          <span class="card-event__price-value">Бесплатно</span>
+        {% else %}
+          <span class="card-event__price-value card-event__price-value--tba">Цена уточняется</span>
+        {% endif %}
+      </span>
+      <span class="card-event__cta button button-sm {{ soldOut ? 'bg-color-6 color-2' : 'bg-color-3 color-1' }} button-rounded uppercase nowrap">
+        {{ soldOut ? 'Лист ожидания' : 'Купить билет' }}
+      </span>
+    </div>
+  </div>
+</a>

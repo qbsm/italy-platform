@@ -1,0 +1,53 @@
+{# Форма заказа билета на событие. data.event — объект события (event.*), data.button.title — текст кнопки #}
+{% set formId = 'formTicket' ~ random(1000000) %}
+{% set e = data.event | default({}) %}
+{% set d = e.date | default({}) %}
+<form class="form-callback form-ticket js-form-callback" novalidate method="post" action="" id="{{ formId }}">
+  <div class="form-callback__container form-ticket__container">
+    <div class="form-callback__item form-ticket-item-name">
+      <input id="{{ formId }}Name" type="text" class="form-callback__input" name="name" autocomplete="name" placeholder="{{ global['form-callback'].placeholder[lang_code].name }}" aria-required="true" aria-label="{{ global['form-callback'].label[lang_code].name }}">
+    </div>
+    <div class="form-callback__item form-ticket-item-phone">
+      <input id="{{ formId }}Phone" type="tel" class="form-callback__input" name="phone" inputmode="tel" autocomplete="tel" placeholder="Телефон" aria-label="Телефон">
+    </div>
+    <div class="form-callback__item form-ticket-item-email">
+      <input id="{{ formId }}Email" type="email" class="form-callback__input" name="email" inputmode="email" autocomplete="email" placeholder="{{ global['form-callback'].placeholder[lang_code].email }}" aria-required="true" aria-label="{{ global['form-callback'].label[lang_code].email }}">
+    </div>
+    <div class="form-callback__item form-ticket-item-tickets">
+      <select id="{{ formId }}Tickets" class="form-callback__input form-callback__select" name="tickets" aria-label="Количество билетов">
+        {% for n in 1..6 %}
+          <option value="{{ n }}"{% if n == 1 %} selected{% endif %}>{{ n }} {{ n == 1 ? 'билет' : (n < 5 ? 'билета' : 'билетов') }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-callback__item form-callback-item-policy">
+      <label class="form-callback__custom-checkbox">
+        <input id="{{ formId }}Policy" type="checkbox" name="policy" class="form-callback__checkbox" aria-required="true">
+        <span class="form-callback__checkmark" aria-hidden="true"></span>
+        <span class="form-callback__placeholder">{{ global['form-callback'].label[lang_code].policy }}</span>
+      </label>
+    </div>
+    <div class="form-callback__item form-callback-item-hidden">
+      <input type="hidden" name="event" value="{{ e.title | default('') }}{% if d.day is defined %} — {{ d.day }} {{ d.month | default('') }}{% if d.time is defined %}, {{ d.time }}{% endif %}{% endif %}">
+      <input type="hidden" name="current_url" value="">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token | default('') }}">
+    </div>
+    <div class="form-callback__item button-wrap">
+      <button class="button button-sm bg-color-1 color-2 button-animated animation-shift link" type="submit">
+        {% if data.button is defined and data.button.title is defined %}
+          {{ data.button.title }}
+        {% else %}
+          Купить билет
+        {% endif %}
+      </button>
+    </div>
+    {% if global['form-callback'].rules[lang_code].policy is defined and global['form-callback'].rules[lang_code].policy %}
+      <div class="form-callback__item form-callback-item-rules rules-wrap">
+        <span class="form-callback__rules">{{ global['form-callback'].rules[lang_code].policy | raw }}</span>
+      </div>
+    {% endif %}
+    <div class="form-callback__item form-callback__error hidden" aria-live="polite" aria-atomic="true">
+      <span id="{{ formId }}Error" class="form-callback__error-text" role="alert" aria-live="assertive">{{ global['form-callback'].error[lang_code].title }}</span>
+    </div>
+  </div>
+</form>

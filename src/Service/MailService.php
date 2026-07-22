@@ -22,6 +22,8 @@ final class MailService
         'message' => 'Сообщение',
         'company' => 'Компания',
         'city' => 'Город',
+        'event' => 'Событие',
+        'tickets' => 'Количество билетов',
     ];
 
     /** @var string[] */

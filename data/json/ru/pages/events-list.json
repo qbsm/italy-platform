@@ -1,0 +1,34 @@
+{
+  "name": "events-list",
+  "sections": [
+    {
+      "name": "header",
+      "visible": true,
+      "data": {}
+    },
+    {
+      "name": "events",
+      "visible": true,
+      "data": {
+        "heading": {
+          "tag": "h1",
+          "class": "heading weight-400 uppercase",
+          "title": "Афиша событий"
+        },
+        "lead": "Гастроужины, дегустации и живая музыка в ресторанах Итали. Выбирайте вечер и покупайте билет по прямой ссылке."
+      }
+    },
+    {
+      "name": "footer",
+      "visible": true,
+      "data": {
+        "background": {
+          "src": "data/img/ui/bg3.webp"
+        },
+        "form": {
+          "heading": "Будьте в курсе событий"
+        }
+      }
+    }
+  ]
+}

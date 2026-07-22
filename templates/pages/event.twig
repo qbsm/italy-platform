@@ -1,0 +1,269 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+<div id="page-content">
+  {% include 'sections/header.twig' with {'data': {}} %}
+
+  {% set e = event.event | default({}) %}
+  {% set d = e.date | default({}) %}
+  {% set covers = event.covers | default([]) %}
+  {% set soldOut = e.seatsLeft is defined and e.seatsLeft is not null and e.seatsLeft <= 0 %}
+  {% set buyHref = e.ticketUrl is defined and e.ticketUrl ? e.ticketUrl : '#buy' %}
+  {% set buyExternal = e.ticketUrl is defined and e.ticketUrl and (e.ticketUrl starts with 'http') %}
+
+  <main class="event-detail" role="main">
+
+    {# ---------- HERO ---------- #}
+    <section class="event-hero">
+      <div class="event-hero__media">
+        {% if covers|length > 0 %}
+          <img src="{{ url(covers[0].src) }}" alt="{{ covers[0].alt | default(e.title) }}" class="event-hero__img" loading="eager" fetchpriority="high">
+        {% endif %}
+        <span class="event-hero__scrim" aria-hidden="true"></span>
+      </div>
+      <div class="event-hero__overlay">
+        <div class="container">
+          <div class="event-hero__content">
+            {% if e.category is defined and e.category %}
+              <span class="event-hero__eyebrow">{{ e.category }}</span>
+            {% endif %}
+            <h1 class="event-hero__title font-1 weight-300 uppercase">{{ e.titleHtml is defined and e.titleHtml ? e.titleHtml|raw : e.title }}</h1>
+            <div class="event-hero__facts">
+              {% if d.day is defined %}
+                <span class="event-hero__fact">
+                  <span class="event-hero__fact-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></svg>
+                  </span>
+                  {{ d.day }} {{ d.month }}{% if d.time is defined %}, {{ d.time }}{% endif %}
+                </span>
+              {% endif %}
+              {% if e.restaurant.name is defined %}
+                <span class="event-hero__fact">
+                  <span class="event-hero__fact-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                  </span>
+                  {{ e.restaurant.name }}
+                </span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {# ---------- BODY + STICKY TICKET ---------- #}
+    <section class="event-body section">
+      <div class="container event-body__grid">
+
+        <div class="event-body__main">
+          {% if e.restaurant.address is defined and e.restaurant.address %}
+            <p class="event-body__place">{{ e.restaurant.address }}</p>
+          {% endif %}
+
+          {% if event.lead is defined and event.lead %}
+            <p class="event-body__lead">{{ event.lead }}</p>
+          {% endif %}
+
+          {% if event.desc.full is defined %}
+            {% set paras = event.desc.full is iterable ? event.desc.full : [event.desc.full] %}
+            <div class="event-body__text">
+              {% for p in paras %}<p>{{ p }}</p>{% endfor %}
+            </div>
+          {% endif %}
+
+          {% if event.program is defined and event.program|length > 0 %}
+            <div class="event-block">
+              <h2 class="event-block__heading uppercase">Программа вечера</h2>
+              <ul class="event-program">
+                {% for step in event.program %}
+                  <li class="event-program__item">
+                    {% if step.time is defined %}<span class="event-program__time">{{ step.time }}</span>{% endif %}
+                    <span class="event-program__title">{{ step.title }}</span>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+
+          {% if event.includes is defined and event.includes|length > 0 %}
+            <div class="event-block">
+              <h2 class="event-block__heading uppercase">В стоимость входит</h2>
+              <ul class="event-includes">
+                {% for inc in event.includes %}
+                  <li class="event-includes__item">
+                    <span class="event-includes__mark" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+                    </span>{{ inc }}
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+
+          {% if covers|length > 1 %}
+            <div class="event-block event-gallery" id="eventGallery">
+              {% for img in covers|slice(1, 4) %}
+                <figure class="event-gallery__figure">
+                  <a href="{{ url(img.src) }}" class="glightbox link" data-gallery="event-gallery">
+                    <img src="{{ url(img.src) }}" alt="{{ img.alt | default(e.title) }}" loading="lazy">
+                  </a>
+                </figure>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        {# --- Sticky ticket card (desktop aside) --- #}
+        <aside class="event-ticket" aria-label="Билеты">
+          <div class="event-ticket__card">
+            {% if d.day is defined %}
+              <div class="event-ticket__date">
+                <span class="event-ticket__date-day">{{ d.day }}</span>
+                <span class="event-ticket__date-rest">
+                  <span class="event-ticket__date-month">{{ d.month }}</span>
+                  {% if d.weekday is defined %}<span class="event-ticket__date-weekday">{{ d.weekday }}{% if d.time is defined %}, {{ d.time }}{% endif %}</span>{% endif %}
+                </span>
+              </div>
+            {% endif %}
+
+            <ul class="event-ticket__facts">
+              {% if e.restaurant.name is defined %}<li><span>Место</span><b>{{ e.restaurant.name }}</b></li>{% endif %}
+              {% if e.doorsOpen is defined and e.doorsOpen %}<li><span>Сбор гостей</span><b>{{ e.doorsOpen }}</b></li>{% endif %}
+              {% if e.duration is defined and e.duration %}<li><span>Длительность</span><b>{{ e.duration }}</b></li>{% endif %}
+              {% if e.seatsLeft is defined and e.seatsLeft is not null and e.seatsLeft > 0 and e.seatsLeft <= 20 %}
+                <li><span>Осталось мест</span><b class="event-ticket__seats">{{ e.seatsLeft }}</b></li>
+              {% endif %}
+            </ul>
+
+            <div class="event-ticket__price">
+              {% if e.priceFrom is defined and e.priceFrom %}
+                <span class="event-ticket__price-label">Билет от</span>
+                <span class="event-ticket__price-value">{{ e.priceFrom | number_format(0, '', ' ') }} {{ e.currency | default('₽') }}</span>
+              {% elseif e.free is defined and e.free %}
+                <span class="event-ticket__price-value">Вход свободный</span>
+              {% else %}
+                <span class="event-ticket__price-value event-ticket__price-value--tba">Стоимость уточняется</span>
+              {% endif %}
+            </div>
+
+            {% if soldOut %}
+              <a href="#buy" class="button button-md bg-color-6 color-2 button-rounded uppercase event-ticket__cta">Записаться в лист ожидания</a>
+            {% else %}
+              <a href="{{ buyHref }}"{% if buyExternal %} target="_blank" rel="noopener noreferrer"{% endif %} class="button button-md bg-color-3 color-1 button-rounded uppercase event-ticket__cta">Купить билет</a>
+            {% endif %}
+
+            <button type="button" class="event-ticket__share js-event-share"
+                    data-title="{{ e.title | default('') }}"
+                    aria-label="Поделиться событием">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5 8.6 10.5"/></svg>
+              <span>Поделиться ссылкой</span>
+            </button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    {# ---------- Оформление / покупка ---------- #}
+    <section class="event-buy section" id="buy">
+      <div class="container-md">
+        <div class="section__item heading-wrap">
+          <h2 class="event-buy__heading uppercase">{{ soldOut ? 'Лист ожидания' : 'Оформить билет' }}</h2>
+          <p class="event-buy__sub">
+            {% if soldOut %}
+              Оставьте контакты — сообщим, как только освободятся места на «{{ e.title }}».
+            {% else %}
+              Укажите контакты и количество билетов на «{{ e.title }}» — пришлём подтверждение и ссылку на оплату на e-mail.
+            {% endif %}
+          </p>
+        </div>
+        <div class="section__item event-buy__form">
+          {% if soldOut %}
+            {% include 'components/form-callback.twig' with {'data': {'button': {'title': 'В лист ожидания'}}} %}
+          {% else %}
+            {% include 'components/form-ticket.twig' with {'data': {'event': e, 'button': {'title': 'Купить билет'}}} %}
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {# --- Mobile sticky buy bar --- #}
+  {% if not soldOut %}
+    <div class="event-stickybar" aria-hidden="false">
+      <span class="event-stickybar__price">
+        {% if e.priceFrom is defined and e.priceFrom %}
+          <span class="event-stickybar__label">Билет от</span>
+          <span class="event-stickybar__value">{{ e.priceFrom | number_format(0, '', ' ') }} {{ e.currency | default('₽') }}</span>
+        {% elseif e.free is defined and e.free %}
+          <span class="event-stickybar__value">Вход свободный</span>
+        {% else %}
+          <span class="event-stickybar__value">{{ d.day | default('') }} {{ d.month | default('') }}{% if d.time is defined %}, {{ d.time }}{% endif %}</span>
+        {% endif %}
+      </span>
+      <a href="{{ buyHref }}"{% if buyExternal %} target="_blank" rel="noopener noreferrer"{% endif %} class="button button-md bg-color-3 color-1 button-rounded uppercase event-stickybar__cta">Купить билет</a>
+    </div>
+  {% endif %}
+
+  {% include 'sections/footer.twig' with {'data': {
+    'background': { 'src': 'data/img/ui/bg3.webp' },
+    'form': { 'heading': 'Будьте в курсе событий' }
+  }} %}
+</div>
+
+{# Schema.org Event — для поисковиков и шеринга #}
+{% if e.title is defined %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": {{ e.title|json_encode|raw }},
+  {% if e.date.iso is defined %}"startDate": {{ e.date.iso|json_encode|raw }},{% endif %}
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  {% if covers|length > 0 %}"image": [{{ (base_url|trim('/') ~ '/' ~ covers[0].src)|json_encode|raw }}],{% endif %}
+  {% if event.lead is defined %}"description": {{ event.lead|json_encode|raw }},{% endif %}
+  "location": {
+    "@type": "Place",
+    "name": {{ (e.restaurant.name|default('Итали'))|json_encode|raw }}
+    {% if e.restaurant.address is defined %},"address": {{ e.restaurant.address|json_encode|raw }}{% endif %}
+  }
+  {% if e.priceFrom is defined and e.priceFrom %},"offers": {
+    "@type": "Offer",
+    "price": "{{ e.priceFrom }}",
+    "priceCurrency": "RUB",
+    "availability": "{{ soldOut ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock' }}",
+    "url": "{{ base_url|trim('/') }}/events/{{ event.slug }}"
+  }{% endif %}
+}
+</script>
+{% endif %}
+
+<script>
+  (function () {
+    var btn = document.querySelector('.js-event-share');
+    if (btn) {
+      btn.addEventListener('click', function () {
+        var url = window.location.href;
+        var title = btn.getAttribute('data-title') || document.title;
+        if (navigator.share) {
+          navigator.share({ title: title, url: url }).catch(function () {});
+        } else if (navigator.clipboard) {
+          navigator.clipboard.writeText(url).then(function () {
+            var s = btn.querySelector('span');
+            if (s) { var t = s.textContent; s.textContent = 'Ссылка скопирована'; setTimeout(function () { s.textContent = t; }, 2000); }
+          });
+        }
+      });
+    }
+    // Прячем мобильную панель, когда виден блок оформления
+    var bar = document.querySelector('.event-stickybar');
+    var buy = document.getElementById('buy');
+    if (bar && buy && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { bar.classList.toggle('is-hidden', en.isIntersecting); });
+      }, { threshold: 0.15 });
+      io.observe(buy);
+    }
+  })();
+</script>
+{% endblock %}

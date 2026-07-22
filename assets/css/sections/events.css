@@ -1,0 +1,50 @@
+/* ============================================
+   Section: events (афиша)
+   ============================================ */
+
+.events {
+  background: var(--color-1);
+}
+
+.events .heading-wrap {
+  text-align: center;
+}
+
+.events__lead-wrap {
+  max-width: 68rem;
+  margin: 1.6rem auto 0;
+  text-align: center;
+}
+
+.events__lead {
+  font-size: 1.7rem;
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+
+.events__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.4rem;
+  margin-top: 4rem;
+
+  @media (--xm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (--md) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+}
+
+.events__cell {
+  display: flex;
+}
+
+.events__empty {
+  margin-top: 3rem;
+  text-align: center;
+  font-size: 1.7rem;
+  color: var(--color-muted);
+}
