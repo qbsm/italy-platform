@@ -3,11 +3,25 @@
    ============================================ */
 
 .events {
-  background: var(--color-1);
+  background: var(--color-2);
+  color: var(--color-1);
 }
 
 .events .heading-wrap {
   text-align: center;
+}
+
+.events .heading {
+  font-size: 2em;
+
+  @media (--lg) {
+    font-size: 3.2em;
+  }
+}
+
+/* Страница афиши тёмная целиком — без белых уголков за скруглением футера */
+#page-content:has(.events) {
+  background: var(--color-2);
 }
 
 .events__lead-wrap {
@@ -19,7 +33,7 @@
 .events__lead {
   font-size: 1.7rem;
   line-height: 1.6;
-  color: var(--color-muted);
+  color: var(--color-6);
 }
 
 .events__grid {
@@ -46,5 +60,5 @@
   margin-top: 3rem;
   text-align: center;
   font-size: 1.7rem;
-  color: var(--color-muted);
+  color: var(--color-6);
 }

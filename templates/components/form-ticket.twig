@@ -14,11 +14,10 @@
       <input id="{{ formId }}Email" type="email" class="form-callback__input" name="email" inputmode="email" autocomplete="email" placeholder="{{ global['form-callback'].placeholder[lang_code].email }}" aria-required="true" aria-label="{{ global['form-callback'].label[lang_code].email }}">
     </div>
     <div class="form-callback__item form-ticket-item-tickets">
-      <select id="{{ formId }}Tickets" class="form-callback__input form-callback__select" name="tickets" aria-label="Количество билетов">
-        {% for n in 1..6 %}
-          <option value="{{ n }}"{% if n == 1 %} selected{% endif %}>{{ n }} {{ n == 1 ? 'билет' : (n < 5 ? 'билета' : 'билетов') }}</option>
-        {% endfor %}
-      </select>
+      <label class="form-ticket__qty" for="{{ formId }}Tickets">
+        <span class="form-ticket__qty-label">Количество билетов</span>
+        <input id="{{ formId }}Tickets" type="number" class="form-callback__input" name="tickets" value="1" min="1" step="1" inputmode="numeric" aria-label="Количество билетов">
+      </label>
     </div>
     <div class="form-callback__item form-callback-item-policy">
       <label class="form-callback__custom-checkbox">

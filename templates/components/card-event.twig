@@ -30,9 +30,9 @@
     <h3 class="card-event__title font-1 weight-500 uppercase">{{ e.titleHtml is defined and e.titleHtml ? e.titleHtml|raw : e.title }}</h3>
 
     <div class="card-event__meta">
-      {% if d.weekday is defined %}<span class="card-event__meta-item">{{ d.weekday }}</span>{% endif %}
-      {% if d.time is defined %}<span class="card-event__meta-item">{{ d.time }}</span>{% endif %}
-      {% if e.duration is defined %}<span class="card-event__meta-item">{{ e.duration }}</span>{% endif %}
+      {% if d.weekday is defined and d.weekday %}<span class="card-event__meta-item">{{ d.weekday }}</span>{% endif %}
+      {% if d.time is defined and d.time %}<span class="card-event__meta-item">{{ d.time }}</span>{% endif %}
+      {% if e.duration is defined and e.duration %}<span class="card-event__meta-item">{{ e.duration }}</span>{% endif %}
     </div>
 
     <div class="card-event__foot">
@@ -46,7 +46,7 @@
           <span class="card-event__price-value card-event__price-value--tba">Цена уточняется</span>
         {% endif %}
       </span>
-      <span class="card-event__cta button button-sm {{ soldOut ? 'bg-color-6 color-2' : 'bg-color-3 color-1' }} button-rounded uppercase nowrap">
+      <span class="card-event__cta button button-sm {{ soldOut ? 'bg-color-6 color-2' : 'bg-color-1 color-2' }} button-rounded uppercase nowrap">
         {{ soldOut ? 'Лист ожидания' : 'Купить билет' }}
       </span>
     </div>

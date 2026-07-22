@@ -6,27 +6,31 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: var(--color-1);
+  background: var(--color-7);
   border-radius: 1.6rem;
   overflow: hidden;
-  box-shadow: 0 0.2rem 1.2rem rgb(0 0 0 / 6%);
-  border: 1px solid rgb(0 0 0 / 6%);
-  color: var(--color-2);
-  transition: transform var(--transition-1), box-shadow var(--transition-1);
+  color: var(--color-1);
+  text-decoration: none;
+  transition: background var(--transition-1), transform var(--transition-1);
   will-change: transform;
 }
 
 .card-event:hover,
 .card-event:focus-visible {
+  background: color-mix(in srgb, var(--color-7), white 6%);
   transform: translateY(-0.6rem);
-  box-shadow: 0 1.6rem 3.6rem rgb(0 0 0 / 14%);
+}
+
+.card-event:focus-visible {
+  outline: 2px solid var(--color-1);
+  outline-offset: 2px;
 }
 
 .card-event__media {
   position: relative;
   aspect-ratio: 4 / 3;
   overflow: hidden;
-  background: var(--color-8);
+  background: var(--color-7);
 }
 
 .card-event__img {
@@ -51,7 +55,6 @@
   padding: 0.8rem 1rem;
   background: var(--color-1);
   border-radius: 1rem;
-  box-shadow: 0 0.4rem 1.2rem rgb(0 0 0 / 18%);
   line-height: 1;
 }
 
@@ -60,7 +63,7 @@
   font-weight: 600;
   font-size: 2.6rem;
   font-variant-numeric: tabular-nums;
-  color: var(--color-3);
+  color: var(--color-2);
 }
 
 .card-event__date-month {
@@ -93,8 +96,8 @@
   font-size: 1.2rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--color-1);
-  background: var(--color-2);
+  color: var(--color-2);
+  background: var(--color-1);
   border-radius: 10rem;
 }
 
@@ -110,7 +113,7 @@
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--color-3);
+  color: var(--color-6);
 }
 
 .card-event__title {
@@ -118,6 +121,7 @@
   font-size: 2rem;
   line-height: 1.2;
   letter-spacing: 0.01em;
+  color: var(--color-1);
 }
 
 .card-event__meta {
@@ -127,7 +131,7 @@
   gap: 0.4rem 1rem;
   margin-top: 1rem;
   font-size: 1.4rem;
-  color: var(--color-muted);
+  color: var(--color-6);
 }
 
 .card-event__meta-item {
@@ -142,7 +146,7 @@
   width: 0.3rem;
   height: 0.3rem;
   border-radius: 50%;
-  background: var(--color-6);
+  background: rgb(255 255 255 / 30%);
   transform: translateY(-50%);
 }
 
@@ -163,14 +167,20 @@
 
 .card-event__price-label {
   font-size: 1.2rem;
-  color: var(--color-muted);
+  color: var(--color-6);
 }
 
 .card-event__price-value {
   font-weight: 600;
   font-size: 1.9rem;
   font-variant-numeric: tabular-nums;
-  color: var(--color-2);
+  color: var(--color-1);
+}
+
+.card-event__price-value--tba {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--color-6);
 }
 
 .card-event__cta {
