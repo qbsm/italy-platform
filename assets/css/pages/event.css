@@ -205,25 +205,21 @@
   color: var(--color-6);
 }
 
-/* В стоимость входит — пилюли в идиоме сайта */
+/* В стоимость входит — список с тематическими иконками */
 
 .event-includes {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem 1.2rem;
+  gap: 1.4rem 3rem;
 }
 
 .event-includes__item {
   display: inline-flex;
   align-items: center;
   gap: 1.2rem;
-  padding: 0.7rem 2rem 0.7rem 0.9rem;
   font-size: 1.5rem;
   line-height: 1.3;
   color: var(--color-1);
-  background: rgb(255 255 255 / 5%);
-  border: 1px solid rgb(255 255 255 / 14%);
-  border-radius: 10rem;
 }
 
 .event-includes__mark {
