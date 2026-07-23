@@ -176,6 +176,9 @@
 /* Программа */
 
 .event-program {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -208,6 +211,9 @@
 /* В стоимость входит — список с тематическими иконками */
 
 .event-includes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-wrap: wrap;
   gap: 1.4rem 3rem;
@@ -323,10 +329,12 @@
 }
 
 .event-ticket__facts {
+  list-style: none;
+  margin: 0 0 2rem;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 1.1rem;
-  margin-bottom: 2rem;
 }
 
 .event-ticket__facts li {
