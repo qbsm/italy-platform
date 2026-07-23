@@ -160,7 +160,7 @@
             {% if soldOut %}
               <a href="#buy" class="button button-md bg-color-6 color-2 button-rounded uppercase event-ticket__cta">В лист ожидания</a>
             {% else %}
-              <a href="{{ buyHref }}"{% if buyExternal %} target="_blank" rel="noopener noreferrer"{% endif %} class="button button-md bg-color-3 color-1 button-rounded uppercase event-ticket__cta">Забронировать место</a>
+              <a href="{{ buyHref }}"{% if buyExternal %} target="_blank" rel="noopener noreferrer"{% endif %} class="button button-md bg-color-3 color-1 button-rounded uppercase event-ticket__cta">Купить билет</a>
             {% endif %}
 
             <button type="button" class="event-ticket__share js-event-share"
@@ -178,7 +178,7 @@
     <section class="event-buy section" id="buy">
       <div class="container-md">
         <div class="section__item heading-wrap">
-          <h2 class="event-buy__heading uppercase">{{ soldOut ? 'Лист ожидания' : 'Забронировать место' }}</h2>
+          <h2 class="event-buy__heading uppercase">{{ soldOut ? 'Лист ожидания' : 'Купить билет' }}</h2>
           <p class="event-buy__sub">
             {% if soldOut %}
               Оставьте контакты — сообщим, как только освободятся места на «{{ e.title }}».
@@ -191,7 +191,7 @@
           {% if soldOut %}
             {% include 'components/form-callback.twig' with {'data': {'button': {'title': 'В лист ожидания'}}} %}
           {% else %}
-            {% include 'components/form-ticket.twig' with {'data': {'event': e, 'button': {'title': 'Забронировать место'}}} %}
+            {% include 'components/form-ticket.twig' with {'data': {'event': e, 'button': {'title': 'Купить билет'}}} %}
           {% endif %}
         </div>
       </div>
@@ -211,7 +211,7 @@
           <span class="event-stickybar__value">{{ d.day | default('') }} {{ d.month | default('') }}{% if d.time is defined %}, {{ d.time }}{% endif %}</span>
         {% endif %}
       </span>
-      <a href="{{ buyHref }}"{% if buyExternal %} target="_blank" rel="noopener noreferrer"{% endif %} class="button button-md bg-color-3 color-1 button-rounded uppercase event-stickybar__cta">Забронировать место</a>
+      <a href="{{ buyHref }}"{% if buyExternal %} target="_blank" rel="noopener noreferrer"{% endif %} class="button button-md bg-color-3 color-1 button-rounded uppercase event-stickybar__cta">Купить билет</a>
     </div>
   {% endif %}
 
