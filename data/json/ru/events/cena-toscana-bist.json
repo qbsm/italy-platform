@@ -21,6 +21,7 @@
     "doorsOpen": "18:30",
     "duration": "около 3 часов",
     "priceFrom": 6500,
+    "price": 6500,
     "currency": "₽",
     "seatsLeft": 12,
     "ticketUrl": null

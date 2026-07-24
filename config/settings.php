@@ -129,6 +129,34 @@ return [
         'from_name' => (string) (getenv('MAIL_FROM_NAME') ?: ''),
         'subject_prefix' => (string) (getenv('MAIL_SUBJECT_PREFIX') ?: ''),
     ],
+    // Эквайринг Русский Стандарт (RSB ecomm2) — перенос механизма оплаты билетов с tasteproject.
+    // Включается флагом PAYMENT_ENABLED. Сертификат/ключ — вне docroot (var/rsb, не в git).
+    'payment' => (static function () use ($appEnv, $projectRoot): array {
+        $payEnv = strtolower((string) (getenv('PAYMENT_ENV') ?: ($appEnv === 'production' ? 'prod' : 'test')));
+        $isProdGate = $payEnv === 'prod';
+        return [
+            'enabled' => in_array(strtolower((string) (getenv('PAYMENT_ENABLED') ?: '0')), ['1', 'true', 'yes', 'on'], true),
+            'env' => $payEnv,
+            'gateway' => 'rsb',
+            'merchant_url' => $isProdGate
+                ? 'https://securepay.rsb.ru:9443/ecomm2/MerchantHandler'
+                : 'https://testsecurepay.rsb.ru:9443/ecomm2/MerchantHandler',
+            'client_url' => $isProdGate
+                ? 'https://securepay.rsb.ru/ecomm2/ClientHandler'
+                : 'https://testsecurepay.rsb.ru/ecomm2/ClientHandler',
+            'cert' => $projectRoot . '/var/rsb/9295933758.pem',
+            'key' => $projectRoot . '/var/rsb/9295933758.key',
+            'ca' => $projectRoot . '/var/rsb/chain-ecomm-ca-root-ca.crt',
+            'currency' => '643',
+            'description' => (string) (getenv('PAYMENT_DESCRIPTION') ?: 'Покупка билета — Экосистема итали'),
+            // ТСП «Чек онлайн» (ОФД). ВНИМАНИЕ: значение унаследовано от tasteproject
+            // (ООО «Сервис и Развитие»). Для оператора ТЭД нужен собственный Group/мерчант.
+            'ofd_group' => (string) (getenv('PAYMENT_OFD_GROUP') ?: ($isProdGate ? '5b3e92af-4a17-4ce6-a171-f069a7005484' : 'testgroup')),
+            'ofd_tax_id' => (int) (getenv('PAYMENT_OFD_TAX_ID') ?: 4), // 4 = Без налога
+            'orders_dir' => $projectRoot . '/var/orders',
+            'timeout' => 30,
+        ];
+    })(),
     'errors' => require __DIR__ . '/errors.php',
     'twig' => [
         'cache' => $isProduction ? $cacheDir . '/twig' : false,

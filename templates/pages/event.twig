@@ -10,6 +10,8 @@
   {% set soldOut = e.seatsLeft is defined and e.seatsLeft is not null and e.seatsLeft <= 0 %}
   {% set buyHref = e.ticketUrl is defined and e.ticketUrl ? e.ticketUrl : '#buy' %}
   {% set buyExternal = e.ticketUrl is defined and e.ticketUrl and (e.ticketUrl starts with 'http') %}
+  {# онлайн-оплата билета доступна только если у события задана цена И включён эквайринг (PAYMENT_ENABLED) #}
+  {% set hasPrice = (e.price is defined and e.price) and (payment_enabled | default(false)) %}
 
   <main class="event-detail" role="main">
 
@@ -182,6 +184,8 @@
           <p class="event-buy__sub">
             {% if soldOut %}
               Оставьте контакты — сообщим, как только освободятся места на «{{ e.title }}».
+            {% elseif hasPrice %}
+              Укажите контакты и количество мест — оплатите билет онлайн на защищённой странице банка.
             {% else %}
               Укажите контакты и количество мест — пришлём подтверждение и ссылку на оплату на e-mail.
             {% endif %}
@@ -190,6 +194,8 @@
         <div class="section__item event-buy__form">
           {% if soldOut %}
             {% include 'components/form-callback.twig' with {'data': {'button': {'title': 'В лист ожидания'}}} %}
+          {% elseif hasPrice %}
+            {% include 'components/form-ticket-pay.twig' with {'data': {'event': e, 'slug': event.slug, 'button': {'title': 'Оплатить билет'}}} %}
           {% else %}
             {% include 'components/form-ticket.twig' with {'data': {'event': e, 'button': {'title': 'Купить билет'}}} %}
           {% endif %}

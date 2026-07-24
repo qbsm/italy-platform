@@ -96,3 +96,7 @@ logs/
 public/assets
 public/data
 public/robots.txt
+
+# Эквайринг: сертификаты RSB (секреты) и рантайм-заказы — НЕ в git
+var/rsb/
+var/orders/
