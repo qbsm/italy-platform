@@ -91,11 +91,11 @@
   ],
   "icons": [
     {
-      "src": "data/img/restaurants/joli-grand-bistrot/icons/icon-color-1.svg",
+      "src": "data/img/restaurants/joli-grand-bistrot/icons/icon-color-1.svg?v=2",
       "alt": "Joli СПб белая иконка"
     },
     {
-      "src": "data/img/restaurants/joli-grand-bistrot/icons/icon-color-2.svg",
+      "src": "data/img/restaurants/joli-grand-bistrot/icons/icon-color-2.svg?v=2",
       "alt": "Joli СПб чёрная иконка"
     }
   ],
