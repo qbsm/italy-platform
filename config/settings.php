@@ -65,6 +65,7 @@ return [
     // slug в URL => page_id (файл в data/json/{lang}/pages/{page_id}.json)
     'route_map' => [
         'restaurants' => 'restaurants-list',
+        'events' => 'events-list',
     ],
     // Конфигурация коллекций — generic loader (loadEntity/loadEntitySlugs)
     // и per-collection SEO (seo_builder реализует SeoBuilderInterface)
@@ -84,6 +85,21 @@ return [
             'fallback_og_image' => '/data/img/seo/og.jpg?v=3',
             'list_title' => 'Рестораны',
         ],
+        'events' => [
+            'data_dir' => 'events',               // data/json/{lang}/events/{slug}.json
+            'item_key' => 'event',                // ключ внутри entity (валидируется на existence)
+            'nav_slug' => 'events',               // префикс URL и breadcrumb; список slug'ов — pages/events.json
+            'list_page_id' => 'events-list',      // pages/events-list.json
+            'slugs_source' => 'items',
+            'template' => 'pages/event.twig',
+            'extras_key' => 'event',              // ключ в template ($event)
+            'og_type' => 'event',
+            'entity_url_pattern' => '/events/{slug}',
+            'site_name' => 'Экосистема итали',
+            'prod_base_url' => 'https://italycommunity.ru',
+            'fallback_og_image' => '/data/img/seo/og.jpg?v=3',
+            'list_title' => 'Афиша',
+        ],
     ],
     // page_id страниц для sitemap.xml (без 404). Задаётся под проект.
     'sitemap_pages' => [
@@ -93,6 +109,7 @@ return [
         'policy',
         'agree',
         'restaurants-list',
+        'events-list',
     ],
     // Rate limiting для POST /api/send (по IP, файловое хранилище в cache/rate_limit)
     'rate_limit_api_send' => [
@@ -112,6 +129,34 @@ return [
         'from_name' => (string) (getenv('MAIL_FROM_NAME') ?: ''),
         'subject_prefix' => (string) (getenv('MAIL_SUBJECT_PREFIX') ?: ''),
     ],
+    // Эквайринг Русский Стандарт (RSB ecomm2) — перенос механизма оплаты билетов с tasteproject.
+    // Включается флагом PAYMENT_ENABLED. Сертификат/ключ — вне docroot (var/rsb, не в git).
+    'payment' => (static function () use ($appEnv, $projectRoot): array {
+        $payEnv = strtolower((string) (getenv('PAYMENT_ENV') ?: ($appEnv === 'production' ? 'prod' : 'test')));
+        $isProdGate = $payEnv === 'prod';
+        return [
+            'enabled' => in_array(strtolower((string) (getenv('PAYMENT_ENABLED') ?: '0')), ['1', 'true', 'yes', 'on'], true),
+            'env' => $payEnv,
+            'gateway' => 'rsb',
+            'merchant_url' => $isProdGate
+                ? 'https://securepay.rsb.ru:9443/ecomm2/MerchantHandler'
+                : 'https://testsecurepay.rsb.ru:9443/ecomm2/MerchantHandler',
+            'client_url' => $isProdGate
+                ? 'https://securepay.rsb.ru/ecomm2/ClientHandler'
+                : 'https://testsecurepay.rsb.ru/ecomm2/ClientHandler',
+            'cert' => $projectRoot . '/var/rsb/9295933758.pem',
+            'key' => $projectRoot . '/var/rsb/9295933758.key',
+            'ca' => $projectRoot . '/var/rsb/chain-ecomm-ca-root-ca.crt',
+            'currency' => '643',
+            'description' => (string) (getenv('PAYMENT_DESCRIPTION') ?: 'Покупка билета — Экосистема итали'),
+            // ТСП «Чек онлайн» (ОФД). ВНИМАНИЕ: значение унаследовано от tasteproject
+            // (ООО «Сервис и Развитие»). Для оператора ТЭД нужен собственный Group/мерчант.
+            'ofd_group' => (string) (getenv('PAYMENT_OFD_GROUP') ?: ($isProdGate ? '5b3e92af-4a17-4ce6-a171-f069a7005484' : 'testgroup')),
+            'ofd_tax_id' => (int) (getenv('PAYMENT_OFD_TAX_ID') ?: 4), // 4 = Без налога
+            'orders_dir' => $projectRoot . '/var/orders',
+            'timeout' => 30,
+        ];
+    })(),
     'errors' => require __DIR__ . '/errors.php',
     'twig' => [
         'cache' => $isProduction ? $cacheDir . '/twig' : false,

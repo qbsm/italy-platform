@@ -1,0 +1,34 @@
+{
+  "name": "events-list",
+  "title": "Афиша событий — гастроужины и дегустации в ресторанах итали",
+  "meta": [
+    {
+      "name": "description",
+      "content": "Афиша событий экосистемы итали: гастроужины, дегустации вин, ужины с шефом и живая музыка в ресторанах Петербурга и Москвы. Покупка билета по прямой ссылке."
+    },
+    {
+      "property": "og:url",
+      "content": "https://italycommunity.ru/events"
+    },
+    {
+      "property": "og:type",
+      "content": "website"
+    },
+    {
+      "property": "og:title",
+      "content": "Афиша событий — гастроужины и дегустации в ресторанах итали"
+    },
+    {
+      "property": "og:description",
+      "content": "Гастроужины, дегустации вин, ужины с шефом и живая музыка в ресторанах экосистемы итали. Покупка билета по прямой ссылке."
+    },
+    {
+      "property": "og:site_name",
+      "content": "Экосистема итали"
+    },
+    {
+      "property": "og:image",
+      "content": "https://italycommunity.ru/data/img/seo/og.jpg?v=3"
+    }
+  ]
+}

@@ -1,0 +1,185 @@
+/* ============================================
+   Component: card-event (карточка события)
+   ============================================ */
+
+.card-event {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-7);
+  border-radius: 1.6rem;
+  overflow: hidden;
+  color: var(--color-1);
+  text-decoration: none;
+  transition: var(--transition-1);
+}
+
+.card-event:hover,
+.card-event:focus-visible {
+  background: color-mix(in srgb, var(--color-7), white 6%);
+}
+
+.card-event:focus-visible {
+  outline: 2px solid var(--color-1);
+  outline-offset: 2px;
+}
+
+.card-event__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--color-7);
+}
+
+.card-event__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition-2);
+}
+
+.card-event:hover .card-event__img {
+  transform: scale(1.05);
+}
+
+.card-event__date {
+  position: absolute;
+  top: 1.4rem;
+  left: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 5.6rem;
+  padding: 0.8rem 1rem;
+  background: var(--color-1);
+  border-radius: 1rem;
+  line-height: 1;
+}
+
+.card-event__date-day {
+  font-family: var(--font-1);
+  font-weight: 600;
+  font-size: 2.6rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-2);
+}
+
+.card-event__date-month {
+  margin-top: 0.3rem;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+}
+
+.card-event__tag {
+  position: absolute;
+  bottom: 1.4rem;
+  left: 1.4rem;
+  padding: 0.5rem 1.2rem;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-1);
+  background: rgb(21 21 21 / 55%);
+  backdrop-filter: blur(6px);
+  border-radius: 10rem;
+}
+
+.card-event__badge {
+  position: absolute;
+  top: 1.4rem;
+  right: 1.4rem;
+  padding: 0.5rem 1.1rem;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-2);
+  background: var(--color-1);
+  border-radius: 10rem;
+}
+
+.card-event__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 2rem 2.2rem 2.2rem;
+}
+
+.card-event__place {
+  font-size: 1.3rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-6);
+}
+
+.card-event__title {
+  margin-top: 0.8rem;
+  font-size: 2rem;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  color: var(--color-1);
+}
+
+.card-event__meta {
+  margin-top: 1rem;
+  font-size: 1.4rem;
+  color: var(--color-6);
+}
+
+.card-event__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  margin-top: auto;
+  padding-top: 1.8rem;
+}
+
+.card-event__price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  line-height: 1.1;
+}
+
+.card-event__price-label {
+  font-size: 1.4rem;
+  color: var(--color-6);
+}
+
+.card-event__price-value {
+  font-weight: 600;
+  font-size: 1.9rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-1);
+}
+
+.card-event__price-value--tba {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--color-6);
+}
+
+.card-event__cta {
+  flex-shrink: 0; /* кнопка внутри <a.card-event> — клик и так уходит по карточке-ссылке */
+}
+
+/* ховер кнопки срабатывает и при наведении на всю карточку */
+.card-event:hover .card-event__cta.bg-color-1 {
+  background: color-mix(in srgb, var(--color-1), black 10%);
+}
+
+.card-event:hover .card-event__cta.bg-color-6 {
+  background: color-mix(in srgb, var(--color-6), black 80%);
+  color: var(--color-1);
+}
+
+.card-event--sold {
+  opacity: 0.85;
+}
+
+.card-event--sold .card-event__img {
+  filter: grayscale(0.35);
+}

@@ -103,6 +103,7 @@ return static function (): ContainerInterface {
             );
             $env->addGlobal('base_url', $baseUrl);
             $env->addGlobal('global', $global);
+            $env->addGlobal('payment_enabled', (bool) ($settings['payment']['enabled'] ?? false));
 
             return $twig;
         },
@@ -149,6 +150,19 @@ return static function (): ContainerInterface {
         },
 
         ApiSendAction::class => \DI\autowire(),
+
+        \App\Service\RsbGateway::class => static fn(ContainerInterface $c) => new \App\Service\RsbGateway(
+            $c->get('settings')['payment'] ?? [],
+            $c->get(LoggerInterface::class),
+        ),
+        \App\Service\OrderStore::class => static fn(ContainerInterface $c) => new \App\Service\OrderStore(
+            (string) ($c->get('settings')['payment']['orders_dir'] ?? ''),
+            $c->get(LoggerInterface::class),
+        ),
+        \App\Action\PayCreateAction::class => \DI\autowire()
+            ->constructorParameter('settings', \DI\get('settings')),
+        \App\Action\PayReturnAction::class => \DI\autowire(),
+
         RestaurantSeoBuilder::class => \DI\autowire(),
         SeoBuilderRegistry::class => static fn(ContainerInterface $c) => new SeoBuilderRegistry([
             'restaurants' => $c->get(RestaurantSeoBuilder::class),

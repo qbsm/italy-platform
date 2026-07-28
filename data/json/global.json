@@ -25,6 +25,10 @@
           "href": "/restaurants"
         },
         {
+          "title": "Афиша",
+          "href": "/events"
+        },
+        {
           "title": "О нас",
           "href": "/about"
         },

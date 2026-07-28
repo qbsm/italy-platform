@@ -1,0 +1,73 @@
+{# Форма покупки билета с онлайн-оплатой (RSB-эквайринг).
+   Обычный POST /api/pay → сервер регистрирует платёж и редиректит на страницу банка.
+   БЕЗ класса js-form-callback (чтобы JS не перехватывал submit); класс form-ticket
+   оставлен — на него в pages/event.js навешены степпер количества, пересчёт «Итого» и маска телефона. #}
+{% set formId = 'formPay' ~ random(1000000) %}
+{% set e = data.event | default({}) %}
+{% set slug = data.slug | default('') %}
+{% set d = e.date | default({}) %}
+<form class="form-callback form-ticket form-ticket-pay" novalidate method="post" action="/api/pay" id="{{ formId }}" data-price="{{ e.price }}" data-currency="{{ e.currency | default('₽') }}">
+  <div class="form-callback__container form-ticket__container">
+    {% if e.title is defined and e.title %}
+      <div class="form-callback__item form-ticket-item-summary">
+        <div class="form-ticket__summary">
+          <div class="form-ticket__summary-main">
+            <span class="form-ticket__summary-title">{{ e.title }}</span>
+            <span class="form-ticket__summary-meta">{% if d.day is defined %}{{ d.day }} {{ d.month | default('') }}{% if d.time is defined and d.time %}, {{ d.time }}{% endif %}{% endif %}{% if e.restaurant.name is defined %} · {{ e.restaurant.name }}{% endif %}{% if e.seatsLeft is defined and e.seatsLeft is not null and e.seatsLeft > 0 and e.seatsLeft <= 20 %} · осталось мест: {{ e.seatsLeft }}{% endif %}</span>
+          </div>
+          <div class="form-ticket__summary-price">
+            <span>цена билета</span>
+            <b>{{ e.price | number_format(0, '', ' ') }} {{ e.currency | default('₽') }}</b>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    <div class="form-callback__item form-ticket-item-name">
+      <label class="form-ticket__label" for="{{ formId }}Name">Имя</label>
+      <input id="{{ formId }}Name" type="text" class="form-callback__input" name="name" autocomplete="name" placeholder="{{ global['form-callback'].placeholder[lang_code].name }}" required aria-required="true">
+    </div>
+    <div class="form-callback__item form-ticket-item-phone">
+      <label class="form-ticket__label" for="{{ formId }}Phone">Телефон</label>
+      <input id="{{ formId }}Phone" type="tel" class="form-callback__input" name="phone" inputmode="tel" autocomplete="tel" placeholder="+7 (999) 123-45-67">
+    </div>
+    <div class="form-callback__item form-ticket-item-email">
+      <label class="form-ticket__label" for="{{ formId }}Email">E-mail</label>
+      <input id="{{ formId }}Email" type="email" class="form-callback__input" name="email" inputmode="email" autocomplete="email" placeholder="{{ global['form-callback'].placeholder[lang_code].email }}" required aria-required="true">
+    </div>
+    <div class="form-callback__item form-ticket-item-tickets">
+      <span class="form-ticket__label" id="{{ formId }}TicketsLabel">Количество мест</span>
+      <div class="form-ticket__qty">
+        <button type="button" class="form-ticket__qty-btn js-qty-step" data-step="-1" aria-label="Меньше мест">&minus;</button>
+        <input id="{{ formId }}Tickets" type="number" class="form-callback__input form-ticket__qty-input" name="tickets" value="1" min="1" max="20" step="1" inputmode="numeric" aria-labelledby="{{ formId }}TicketsLabel">
+        <button type="button" class="form-ticket__qty-btn js-qty-step" data-step="1" aria-label="Больше мест">+</button>
+      </div>
+    </div>
+    <div class="form-callback__item form-ticket-item-total">
+      <span class="form-ticket__total" aria-live="polite">Итого <b class="js-ticket-total">{{ e.price | number_format(0, '', ' ') }} {{ e.currency | default('₽') }}</b></span>
+    </div>
+    <div class="form-callback__item form-callback-item-policy">
+      <label class="form-callback__custom-checkbox">
+        <input id="{{ formId }}Policy" type="checkbox" name="policy" class="form-callback__checkbox" required aria-required="true">
+        <span class="form-callback__checkmark" aria-hidden="true"></span>
+        <span class="form-callback__placeholder">{{ global['form-callback'].label[lang_code].policy }}</span>
+      </label>
+    </div>
+    <div class="form-callback__item form-callback-item-hidden">
+      <input type="hidden" name="slug" value="{{ slug }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token | default('') }}">
+    </div>
+    <div class="form-callback__item button-wrap">
+      <button class="button button-md bg-color-3 color-1 button-rounded uppercase link form-ticket__submit" type="submit">
+        {{ data.button.title | default('Оплатить') }}
+      </button>
+    </div>
+    {% if global['form-callback'].rules[lang_code].policy is defined and global['form-callback'].rules[lang_code].policy %}
+      <div class="form-callback__item form-callback-item-rules rules-wrap">
+        <span class="form-callback__rules">{{ global['form-callback'].rules[lang_code].policy | raw }}</span>
+      </div>
+    {% endif %}
+    <div class="form-callback__item form-ticket-pay-note">
+      <span class="form-callback__rules">Оплата картой на защищённой странице банка. После оплаты подтверждение придёт на e-mail.</span>
+    </div>
+  </div>
+</form>
