@@ -2,6 +2,18 @@ import { onReady } from '../base/init.js';
 import { PhoneMask } from '../components/form-callback/mask.js';
 
 onReady(function () {
+  // Спойлер меню: первый раздел виден, остальные — по кнопке
+  const menuToggle = document.querySelector('.js-menu-toggle');
+  const menuMore = document.querySelector('.js-menu-more');
+  if (menuToggle && menuMore) {
+    menuToggle.addEventListener('click', function () {
+      const opened = !menuMore.hidden;
+      menuMore.hidden = opened;
+      menuToggle.setAttribute('aria-expanded', String(!opened));
+      menuToggle.textContent = opened ? 'Показать всё меню' : 'Свернуть меню';
+    });
+  }
+
   // Галерея события — тот же лайтбокс, что на странице ресторана
   if (typeof window.GLightbox === 'function' && document.getElementById('eventGallery')) {
     window.GLightbox({

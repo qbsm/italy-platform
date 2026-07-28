@@ -91,7 +91,7 @@
                 <p class="event-menu__intro">{{ event.menu.intro }}</p>
               {% endif %}
               <div class="event-menu__groups">
-                {% for g in event.menu.groups %}
+                {% for g in event.menu.groups | slice(0, 1) %}
                   <div class="event-menu__group">
                     <h3 class="event-menu__group-title uppercase">{{ g.title }}</h3>
                     <ul class="event-menu__list">
@@ -99,6 +99,19 @@
                     </ul>
                   </div>
                 {% endfor %}
+                {% if event.menu.groups | length > 1 %}
+                  <div class="event-menu__more js-menu-more" hidden>
+                    {% for g in event.menu.groups | slice(1) %}
+                      <div class="event-menu__group">
+                        <h3 class="event-menu__group-title uppercase">{{ g.title }}</h3>
+                        <ul class="event-menu__list">
+                          {% for it in g.items %}<li class="event-menu__item">{{ it }}</li>{% endfor %}
+                        </ul>
+                      </div>
+                    {% endfor %}
+                  </div>
+                  <button type="button" class="event-menu__toggle js-menu-toggle" aria-expanded="false">Показать всё меню</button>
+                {% endif %}
               </div>
               {% if event.menu.image is defined and event.menu.image %}
                 <a href="{{ url(event.menu.image) }}" class="glightbox link event-menu__full" data-gallery="event-menu">Открыть меню вечера</a>
@@ -215,7 +228,7 @@
 
     {# ---------- Оформление / покупка ---------- #}
     <section class="event-buy section" id="buy">
-      <div class="container-md">
+      <div class="container">
         <div class="section__item heading-wrap">
           <h2 class="event-buy__heading uppercase">{{ soldOut ? 'Лист ожидания' : 'Купить билет' }}</h2>
           <p class="event-buy__sub">
