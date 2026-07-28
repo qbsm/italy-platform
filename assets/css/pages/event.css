@@ -421,9 +421,10 @@
   }
 }
 
-/* полноширинный слайд не обрезаем (карта прохода с подписями) — вписываем целиком */
+/* полноширинный слайд не обрезаем (карта прохода с подписями) — вписываем целиком, прижимаем к левому краю */
 .event-gallery__figure:nth-child(3n) img {
   object-fit: contain;
+  object-position: left center;
 }
 
 .event-gallery__figure .glightbox {
