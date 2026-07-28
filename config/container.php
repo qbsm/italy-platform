@@ -141,11 +141,17 @@ return static function (): ContainerInterface {
             return new Mailer(Transport::fromDsn($dsn));
         },
 
+        \App\Service\TelegramAlertService::class => static fn(ContainerInterface $c) => new \App\Service\TelegramAlertService(
+            $c->get('settings')['alerts'] ?? [],
+            $c->get(LoggerInterface::class),
+        ),
+
         MailService::class => static function (ContainerInterface $c): MailService {
             return new MailService(
                 $c->get(MailerInterface::class),
                 $c->get(LoggerInterface::class),
                 $c->get('settings')['mail'] ?? [],
+                $c->get(\App\Service\TelegramAlertService::class),
             );
         },
 
