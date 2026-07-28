@@ -266,7 +266,7 @@
 .event-accent::after {
   content: "";
   display: block;
-  width: 14rem;
+  width: 100%;
   height: 1px;
   margin: 0 auto;
   background: var(--color-border);
