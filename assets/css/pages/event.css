@@ -415,20 +415,20 @@
   transform: scale(1.05);
 }
 
+/* каждый третий слайд (карта прохода) — самостоятельный центрированный блок
+   с естественными пропорциями изображения, как на референсе */
 .event-gallery__figure:nth-child(3n) {
   grid-column: 1 / -1;
   height: auto;
-  aspect-ratio: 4 / 3;
-
-  @media (--sm) {
-    aspect-ratio: 16 / 9;
-  }
+  aspect-ratio: auto;
+  max-width: 72rem;
+  width: 100%;
+  margin: 1.2rem auto 0;
 }
 
-/* полноширинный слайд не обрезаем (карта прохода с подписями) — вписываем целиком, прижимаем к левому краю */
 .event-gallery__figure:nth-child(3n) img {
-  object-fit: contain;
-  object-position: left center;
+  height: auto;
+  object-fit: unset;
 }
 
 .event-gallery__figure .glightbox {
@@ -610,9 +610,16 @@
   scroll-margin-top: 13rem; /* якорь #buy не ныряет под липкую шапку */
 }
 
-/* заголовок, подводка и форма — по центру, в стиле заголовков разделов */
+/* заголовок, подводка и форма — по центру ЛЕВОЙ колонки двухколоночного блока выше
+   (контент сужается на ширину aside 36rem + gap 5rem) */
 .event-buy .heading-wrap {
   text-align: center;
+}
+
+@media (--md) {
+  .event-buy .section__item {
+    width: calc(100% - 41rem);
+  }
 }
 
 .event-buy__heading {
