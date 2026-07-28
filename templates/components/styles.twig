@@ -1,5 +1,12 @@
+{# main.css — инлайн (render-blocking запрос убран, плейбук lighthouse-100 §6.1); фолбэк — link #}
+{% set _inlineMain = inlineCss('main.css') %}
+{% if _inlineMain %}
+<style>{{ _inlineMain | raw }}</style>
+{% else %}
 <link rel="stylesheet" href="{{ assetUrl('main.css', 'css') }}" />
+{% endif %}
 {% set vendorCss = assetUrl('vendors.css', 'js', true) %}
-{% if vendorCss %}<link rel="stylesheet" href="{{ vendorCss }}" />{% endif %}
+{% if vendorCss %}<link rel="stylesheet" href="{{ vendorCss }}" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="{{ vendorCss }}"></noscript>{% endif %}
 {% set uiVendorCss = assetUrl('ui-vendors.css', 'js', true) %}
+{# ui-vendors (swiper) — render-blocking: интро-слайдер без этих стилей раскладывается с флипом (LCP+CLS) #}
 {% if uiVendorCss %}<link rel="stylesheet" href="{{ uiVendorCss }}" />{% endif %}
