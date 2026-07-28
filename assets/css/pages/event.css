@@ -240,6 +240,41 @@
   background: var(--color-1);
 }
 
+/* Крупные заголовки разделов и акцентные абзацы (референс vechervosobnyake-italy.ru) */
+
+.event-h2 {
+  font-family: var(--font-1-extended);
+  font-size: 2.8rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin: 4rem 0 1.6rem;
+
+  @media (--sm) {
+    font-size: 3.6rem;
+  }
+}
+
+.event-accent {
+  margin: 4rem auto;
+  max-width: 66ch;
+  text-align: center;
+  font-size: 1.8rem;
+  line-height: 1.6;
+}
+
+.event-accent::before,
+.event-accent::after {
+  content: "";
+  display: block;
+  width: 14rem;
+  height: 1px;
+  margin: 0 auto;
+  background: var(--color-border);
+}
+
+.event-accent::before { margin-bottom: 2.4rem; }
+.event-accent::after { margin-top: 2.4rem; }
+
 /* Меню вечера — по референсу лендинга vechervosobnyake-italy.ru:
    тёмный фон страницы, светлый текст, центрированные заголовки с золотыми линиями */
 

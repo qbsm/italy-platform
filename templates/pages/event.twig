@@ -66,7 +66,18 @@
             <p class="event-body__lead">{{ event.lead }}</p>
           {% endif %}
 
-          {% if event.desc.full is defined %}
+          {% if event.desc.sections is defined %}
+            {% for sec in event.desc.sections %}
+              {% if sec.accent is defined %}
+                <div class="event-accent"><p>{{ sec.accent }}</p></div>
+              {% else %}
+                {% if sec.heading is defined %}<h2 class="event-h2">{{ sec.heading }}</h2>{% endif %}
+                <div class="event-body__text">
+                  {% for p in sec.paras | default([]) %}<p>{{ p }}</p>{% endfor %}
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% elseif event.desc.full is defined %}
             {% set paras = event.desc.full is iterable ? event.desc.full : [event.desc.full] %}
             <div class="event-body__text">
               {% for p in paras %}<p>{{ p }}</p>{% endfor %}
@@ -75,7 +86,7 @@
 
           {% if event.menu is defined and event.menu.groups is defined %}
             <div class="event-block event-menu">
-              <h2 class="event-block__heading uppercase">Гастрономия вечера</h2>
+              <h2 class="event-h2">{{ event.menu.heading | default('Гастрономия вечера') }}</h2>
               {% if event.menu.intro is defined and event.menu.intro %}
                 <p class="event-menu__intro">{{ event.menu.intro }}</p>
               {% endif %}
@@ -133,6 +144,10 @@
                 {% endfor %}
               </ul>
             </div>
+          {% endif %}
+
+          {% if event.descOutro.accent is defined %}
+            <div class="event-accent"><p>{{ event.descOutro.accent }}</p></div>
           {% endif %}
 
           {% if covers|length > 1 %}
