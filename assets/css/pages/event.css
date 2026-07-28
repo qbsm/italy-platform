@@ -246,7 +246,7 @@
   display: block; /* глобальный reset делает h1-h6 inline-block — бокс сжимается и text-align:center не центрирует по колонке */
   width: 100%;
   font-family: var(--font-1-extended);
-  font-size: 2.8rem;
+  font-size: 2em;
   font-weight: 500;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -254,7 +254,7 @@
   margin: 4rem 0 1.6rem;
 
   @media (--sm) {
-    font-size: 3.6rem;
+    font-size: 2.57em;
   }
 }
 
@@ -262,11 +262,11 @@
 .event-accent {
   margin: 4rem 0;
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.43em;
   line-height: 1.65;
 
   @media (--sm) {
-    font-size: 2.2rem;
+    font-size: 1.57em;
   }
 }
 
@@ -292,7 +292,7 @@
    тёмный фон страницы, светлый текст, центрированные заголовки с золотыми линиями */
 
 .event-menu__intro {
-  font-size: 1.7rem;
+  font-size: 1.21em;
   line-height: 1.7;
   color: var(--color-6);
 }
@@ -313,7 +313,7 @@
   gap: 1.6rem;
   margin: 0 0 1.8rem;
   font-family: var(--font-1-extended);
-  font-size: 2.1rem;
+  font-size: 1.5em;
   font-weight: 500;
   letter-spacing: 0.08em;
   color: var(--color-1);
@@ -624,19 +624,19 @@
 
 .event-buy__heading {
   font-family: var(--font-1-extended);
-  font-size: 2.8rem;
+  font-size: 2em;
   font-weight: 500;
   letter-spacing: 0.04em;
 
   @media (--sm) {
-    font-size: 3.6rem;
+    font-size: 2.57em;
   }
 }
 
 .event-buy__sub {
   max-width: 72ch;
   margin: 1.4rem auto 0;
-  font-size: 1.6rem;
+  font-size: 1.14em;
   line-height: 1.6;
   color: var(--color-6);
 }
@@ -869,7 +869,7 @@
 }
 
 .form-ticket-pay-note .form-callback__rules {
-  font-size: 1.3rem;
+  font-size: 0.93em;
   line-height: 1.5;
 }
 
