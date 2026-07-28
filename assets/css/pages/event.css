@@ -243,6 +243,8 @@
 /* Крупные заголовки разделов и акцентные абзацы (референс vechervosobnyake-italy.ru) */
 
 .event-h2 {
+  display: block; /* глобальный reset делает h1-h6 inline-block — бокс сжимается и text-align:center не центрирует по колонке */
+  width: 100%;
   font-family: var(--font-1-extended);
   font-size: 2.8rem;
   font-weight: 500;
@@ -255,6 +257,7 @@
     font-size: 3.6rem;
   }
 }
+
 
 .event-accent {
   margin: 4rem 0;
