@@ -126,11 +126,16 @@
   }
 }
 
-/* Ритм левой колонки — через gap на родителе (конвенция платформы), без своих margin у блоков */
+/* Ритм левой колонки — через gap на родителе (конвенция платформы), без своих margin у блоков.
+   У <p> нет глобального reset — браузерные margin ломают ритм, обнуляем в пределах колонки */
 .event-body__main {
   display: flex;
   flex-direction: column;
   gap: 6rem;
+}
+
+.event-body__main p {
+  margin: 0;
 }
 
 .event-body__intro {
@@ -318,7 +323,6 @@
 }
 
 .event-menu__groups {
-  margin-top: 1.2rem; /* небольшой добор к gap родителя перед первой группой */
   display: grid;
   gap: 3.6rem;
 }
