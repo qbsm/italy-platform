@@ -58,12 +58,15 @@
       <div class="container event-body__grid">
 
         <div class="event-body__main">
-          {% if e.restaurant.address is defined and e.restaurant.address %}
-            <p class="event-body__place">{{ e.restaurant.address }}</p>
-          {% endif %}
-
-          {% if event.lead is defined and event.lead %}
-            <p class="event-body__lead">{{ event.lead }}</p>
+          {% if (e.restaurant.address is defined and e.restaurant.address) or (event.lead is defined and event.lead) %}
+            <div class="event-body__intro">
+              {% if e.restaurant.address is defined and e.restaurant.address %}
+                <p class="event-body__place">{{ e.restaurant.address }}</p>
+              {% endif %}
+              {% if event.lead is defined and event.lead %}
+                <p class="event-body__lead">{{ event.lead }}</p>
+              {% endif %}
+            </div>
           {% endif %}
 
           {% if event.desc.sections is defined %}
@@ -71,9 +74,11 @@
               {% if sec.accent is defined %}
                 <div class="event-accent"><p>{{ sec.accent }}</p></div>
               {% else %}
-                {% if sec.heading is defined %}<h2 class="event-h2">{{ sec.heading }}</h2>{% endif %}
-                <div class="event-body__text">
-                  {% for p in sec.paras | default([]) %}<p>{{ p }}</p>{% endfor %}
+                <div class="event-body__section">
+                  {% if sec.heading is defined %}<h2 class="event-h2">{{ sec.heading }}</h2>{% endif %}
+                  <div class="event-body__text">
+                    {% for p in sec.paras | default([]) %}<p>{{ p }}</p>{% endfor %}
+                  </div>
                 </div>
               {% endif %}
             {% endfor %}
