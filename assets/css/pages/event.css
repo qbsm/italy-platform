@@ -160,7 +160,8 @@
 /* ---- Content blocks ---- */
 
 .event-block {
-  margin-top: 4rem;
+  /* 8rem: margin блока, заголовка внутри и соседней врезки схлопываются в один — берём итоговый визуальный отступ */
+  margin-top: 8rem;
 }
 
 .event-block__heading {
@@ -619,6 +620,13 @@
 @media (--md) {
   .event-buy .section__item {
     width: calc(100% - 41rem);
+  }
+
+  /* карточку формы центрируем по той же левой колонке:
+     max-width+margin:auto центрировали её по всему контейнеру */
+  .event-buy .event-buy__form {
+    margin-left: max(0rem, calc((100% - 41rem - 76rem) / 2));
+    margin-right: 0;
   }
 }
 
