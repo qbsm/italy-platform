@@ -157,6 +157,13 @@ return [
             'timeout' => 30,
         ];
     })(),
+    // Telegram-алерты об ошибках оплаты/отправки почты в группу «Итали» (Обновление сайта italy&co.)
+    'alerts' => [
+        'token' => (string) (getenv('TG_ALERT_BOT_TOKEN') ?: ''),
+        'chat_id' => (string) (getenv('TG_ALERT_CHAT_ID') ?: ''),
+        'proxy' => (string) (getenv('TG_ALERT_PROXY') ?: ''),
+        'site' => (string) (getenv('TG_ALERT_SITE') ?: 'italycommunity.ru'),
+    ],
     'errors' => require __DIR__ . '/errors.php',
     'twig' => [
         'cache' => $isProduction ? $cacheDir . '/twig' : false,

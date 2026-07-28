@@ -8,6 +8,7 @@ use App\Middleware\CorrelationIdMiddleware;
 use App\Service\MailService;
 use App\Service\OrderStore;
 use App\Service\RsbGateway;
+use App\Service\TelegramAlertService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
@@ -27,6 +28,7 @@ final class PayCreateAction
         private readonly RsbGateway $gateway,
         private readonly OrderStore $orders,
         private readonly MailService $mail,
+        private readonly TelegramAlertService $alerts,
         private readonly LoggerInterface $logger,
         private readonly array $settings,
     ) {
@@ -236,6 +238,8 @@ final class PayCreateAction
     /**
      * @param array<string,string> $errors
      */
+    private const ALERT_CODES = ['PAYMENT_DISABLED', 'GATEWAY_ERROR', 'ORDER_STORE_ERROR'];
+
     private function fail(
         ResponseInterface $response,
         bool $wantsJson,
@@ -247,6 +251,10 @@ final class PayCreateAction
         array $errors = [],
     ): ResponseInterface {
         $this->logger->warning('Оплата отклонена', ['request_id' => $requestId, 'code' => $code]);
+        // серверные сбои (не пользовательская валидация) — алерт в группу Итали
+        if (in_array($code, self::ALERT_CODES, true)) {
+            $this->alerts->send("Ошибка оплаты билета: {$code} — {$message}", $requestId);
+        }
         if ($wantsJson) {
             $payload = ['success' => false, 'code' => $code, 'message' => $message, 'request_id' => $requestId];
             if ($errors !== []) {

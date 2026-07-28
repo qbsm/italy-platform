@@ -41,6 +41,7 @@ final class MailService
         private readonly MailerInterface $mailer,
         private readonly LoggerInterface $logger,
         private readonly array $config,
+        private readonly ?TelegramAlertService $alerts = null,
     ) {
     }
 
@@ -102,6 +103,7 @@ final class MailService
                 'request_id' => $requestId,
                 'error' => $e->getMessage(),
             ]);
+            $this->alerts?->send("Ошибка отправки заявки с формы (письмо на {$to} не ушло): " . $e->getMessage(), $requestId);
             return false;
         }
     }
@@ -164,6 +166,7 @@ final class MailService
                 'request_id' => $requestId,
                 'error' => $e->getMessage(),
             ]);
+            $this->alerts?->send("Ошибка отправки ссылки на оплату клиенту {$toEmail}: " . $e->getMessage(), $requestId);
             return false;
         }
     }

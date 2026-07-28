@@ -8,6 +8,7 @@ use App\Middleware\CorrelationIdMiddleware;
 use App\Service\MailService;
 use App\Service\OrderStore;
 use App\Service\RsbGateway;
+use App\Service\TelegramAlertService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
@@ -25,6 +26,7 @@ final class PayReturnAction
         private readonly RsbGateway $gateway,
         private readonly OrderStore $orders,
         private readonly MailService $mail,
+        private readonly TelegramAlertService $alerts,
         private readonly LoggerInterface $logger,
     ) {
     }
@@ -69,6 +71,12 @@ final class PayReturnAction
 
         $this->orders->update((string) $order['id'], ['status' => 'failed', 'fail_reason' => $status['result'] ?: 'unknown']);
         $this->logger->warning('Оплата не прошла', ['request_id' => $requestId, 'order' => $order['id'], 'result' => $status['result']]);
+        $this->alerts->send(sprintf(
+            'Оплата не прошла: заказ %s, событие %s, результат банка: %s',
+            (string) $order['id'],
+            (string) ($order['event_title'] ?? $slug),
+            $status['result'] ?: 'unknown',
+        ), $requestId);
         return $this->redirect($response, $back . '?' . http_build_query(['order' => $order['id'], 'pay' => 'failed']));
     }
 
