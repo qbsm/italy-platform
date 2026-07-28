@@ -1,7 +1,7 @@
 {
   "metaDescription": "Ужин с шеф-поваром в Salone Pasta Bar. 5 сентября, 19:30. Дегустационное меню из 6 подач у открытой кухни. Билет от 7 500 ₽.",
   "slug": "chef-dinner-salone",
-  "visible": true,
+  "visible": false,
   "event": {
     "title": "Ужин с шеф-поваром",
     "category": "Chef's table",
@@ -33,11 +33,26 @@
     ]
   },
   "program": [
-    { "time": "19:30", "title": "Аперитив и амюз-буш" },
-    { "time": "20:00", "title": "Две подачи закусок" },
-    { "time": "20:45", "title": "Свежая паста от шефа" },
-    { "time": "21:30", "title": "Основное блюдо" },
-    { "time": "22:00", "title": "Десерт и кофе" }
+    {
+      "time": "19:30",
+      "title": "Аперитив и амюз-буш"
+    },
+    {
+      "time": "20:00",
+      "title": "Две подачи закусок"
+    },
+    {
+      "time": "20:45",
+      "title": "Свежая паста от шефа"
+    },
+    {
+      "time": "21:30",
+      "title": "Основное блюдо"
+    },
+    {
+      "time": "22:00",
+      "title": "Десерт и кофе"
+    }
   ],
   "includes": [
     "Сет из 6 подач",
@@ -46,7 +61,13 @@
     "Общение с шеф-поваром"
   ],
   "covers": [
-    { "src": "data/img/restaurants/salone-pasta-bar/covers/raw/1.jpg", "alt": "Ужин с шеф-поваром в Salone Pasta Bar" },
-    { "src": "data/img/restaurants/salone-pasta-bar/covers/raw/2.jpg", "alt": "Открытая кухня Salone" }
+    {
+      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/1.jpg",
+      "alt": "Ужин с шеф-поваром в Salone Pasta Bar"
+    },
+    {
+      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/2.jpg",
+      "alt": "Открытая кухня Salone"
+    }
   ]
 }

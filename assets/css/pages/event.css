@@ -240,6 +240,60 @@
   background: var(--color-1);
 }
 
+/* Меню вечера */
+
+.event-menu__intro {
+  color: var(--color-muted);
+  max-width: 62ch;
+}
+
+.event-menu__groups {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.6rem;
+  margin-top: 2rem;
+
+  @media (--sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.event-menu__group-title {
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+  margin: 0 0 0.8rem;
+}
+
+.event-menu__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.event-menu__item {
+  padding-left: 1.4rem;
+  position: relative;
+}
+
+.event-menu__item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 0.5rem;
+  height: 1px;
+  background: var(--color-3);
+}
+
+.event-menu__full {
+  display: inline-block;
+  margin-top: 2rem;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
 /* Галерея */
 
 .event-gallery {
@@ -259,7 +313,15 @@
   border-radius: 1.2rem;
 }
 
+.event-gallery__figure .glightbox {
+  /* инлайновая ссылка не даёт высоту img — растягиваем на весь figure */
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .event-gallery__figure img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;

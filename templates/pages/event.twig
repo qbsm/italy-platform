@@ -73,6 +73,28 @@
             </div>
           {% endif %}
 
+          {% if event.menu is defined and event.menu.groups is defined %}
+            <div class="event-block event-menu">
+              <h2 class="event-block__heading uppercase">Гастрономия вечера</h2>
+              {% if event.menu.intro is defined and event.menu.intro %}
+                <p class="event-menu__intro">{{ event.menu.intro }}</p>
+              {% endif %}
+              <div class="event-menu__groups">
+                {% for g in event.menu.groups %}
+                  <div class="event-menu__group">
+                    <h3 class="event-menu__group-title uppercase">{{ g.title }}</h3>
+                    <ul class="event-menu__list">
+                      {% for it in g.items %}<li class="event-menu__item">{{ it }}</li>{% endfor %}
+                    </ul>
+                  </div>
+                {% endfor %}
+              </div>
+              {% if event.menu.image is defined and event.menu.image %}
+                <a href="{{ url(event.menu.image) }}" class="glightbox link event-menu__full" data-gallery="event-menu">Открыть меню вечера</a>
+              {% endif %}
+            </div>
+          {% endif %}
+
           {% if event.program is defined and event.program|length > 0 %}
             <div class="event-block">
               <h2 class="event-block__heading uppercase">Программа вечера</h2>
@@ -151,7 +173,7 @@
             <div class="event-ticket__price">
               {% if e.priceFrom is defined and e.priceFrom %}
                 <span class="event-ticket__price-label">Участие</span>
-                <span class="event-ticket__price-value">от {{ e.priceFrom | number_format(0, '', ' ') }} {{ e.currency | default('₽') }}</span>
+                <span class="event-ticket__price-value">{% if not (e.price is defined and e.price) %}от {% endif %}{{ e.priceFrom | number_format(0, '', ' ') }} {{ e.currency | default('₽') }}</span>
               {% elseif e.free is defined and e.free %}
                 <span class="event-ticket__price-value">Вход свободный</span>
               {% else %}
@@ -210,7 +232,7 @@
       <span class="event-stickybar__price">
         {% if e.priceFrom is defined and e.priceFrom %}
           <span class="event-stickybar__label">Участие</span>
-          <span class="event-stickybar__value">от {{ e.priceFrom | number_format(0, '', ' ') }} {{ e.currency | default('₽') }}</span>
+          <span class="event-stickybar__value">{% if not (e.price is defined and e.price) %}от {% endif %}{{ e.priceFrom | number_format(0, '', ' ') }} {{ e.currency | default('₽') }}</span>
         {% elseif e.free is defined and e.free %}
           <span class="event-stickybar__value">Вход свободный</span>
         {% else %}

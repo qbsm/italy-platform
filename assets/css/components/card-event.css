@@ -163,8 +163,17 @@
 }
 
 .card-event__cta {
-  flex-shrink: 0;
-  pointer-events: none; /* весь клик — по карточке-ссылке */
+  flex-shrink: 0; /* кнопка внутри <a.card-event> — клик и так уходит по карточке-ссылке */
+}
+
+/* ховер кнопки срабатывает и при наведении на всю карточку */
+.card-event:hover .card-event__cta.bg-color-1 {
+  background: color-mix(in srgb, var(--color-1), black 10%);
+}
+
+.card-event:hover .card-event__cta.bg-color-6 {
+  background: color-mix(in srgb, var(--color-6), black 80%);
+  color: var(--color-1);
 }
 
 .card-event--sold {

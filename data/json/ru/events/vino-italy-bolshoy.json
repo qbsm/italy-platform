@@ -1,7 +1,7 @@
 {
   "metaDescription": "Вечер итальянских вин в ресторане Italy на Большом проспекте. 21 августа, 20:00. Дегустация 6 позиций с гастрономическими парами. Билет от 4 500 ₽.",
   "slug": "vino-italy-bolshoy",
-  "visible": true,
+  "visible": false,
   "event": {
     "title": "Вечер итальянских вин",
     "category": "Дегустация",
@@ -33,10 +33,22 @@
     ]
   },
   "program": [
-    { "time": "20:00", "title": "Игристое: Франчакорта и Просекко" },
-    { "time": "20:30", "title": "Белые вина севера" },
-    { "time": "21:00", "title": "Красные Тосканы и Пьемонта" },
-    { "time": "21:30", "title": "Амароне и сладкий финал" }
+    {
+      "time": "20:00",
+      "title": "Игристое: Франчакорта и Просекко"
+    },
+    {
+      "time": "20:30",
+      "title": "Белые вина севера"
+    },
+    {
+      "time": "21:00",
+      "title": "Красные Тосканы и Пьемонта"
+    },
+    {
+      "time": "21:30",
+      "title": "Амароне и сладкий финал"
+    }
   ],
   "includes": [
     "6 позиций вина",
@@ -45,7 +57,13 @@
     "Дегустационный буклет с собой"
   ],
   "covers": [
-    { "src": "data/img/restaurants/italy-bolshoy/covers/raw/1.jpg", "alt": "Вечер вин в Italy на Большом" },
-    { "src": "data/img/restaurants/italy-bolshoy/covers/raw/2.jpg", "alt": "Интерьер Italy на Большом" }
+    {
+      "src": "data/img/restaurants/italy-bolshoy/covers/raw/1.jpg",
+      "alt": "Вечер вин в Italy на Большом"
+    },
+    {
+      "src": "data/img/restaurants/italy-bolshoy/covers/raw/2.jpg",
+      "alt": "Интерьер Italy на Большом"
+    }
   ]
 }

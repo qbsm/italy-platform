@@ -107,6 +107,68 @@ final class MailService
     }
 
     /**
+     * Письмо клиенту со ссылкой на оплату (дубль редиректа на платёжную страницу банка).
+     * Ошибка отправки не должна ломать оплату — только логируется.
+     */
+    public function sendPaymentLink(
+        string $toEmail,
+        string $name,
+        string $eventTitle,
+        string $eventDate,
+        int $tickets,
+        string $sum,
+        string $formUrl,
+        string $requestId = '',
+    ): bool {
+        if ($toEmail === '' || filter_var($toEmail, FILTER_VALIDATE_EMAIL) === false) {
+            return false;
+        }
+
+        $from = $this->config['from_name'] !== ''
+            ? new Address($this->config['from'], $this->config['from_name'])
+            : new Address($this->config['from']);
+
+        $greeting = $name !== '' ? 'Здравствуйте, ' . $name . '!' : 'Здравствуйте!';
+        $eventLine = trim($eventTitle . ($eventDate !== '' ? ' — ' . $eventDate : ''));
+
+        $text = implode("\n", [
+            $greeting,
+            '',
+            'Вы оформляете билеты на событие «' . $eventLine . '» (' . $tickets . ' шт., ' . $sum . ').',
+            'Если страница оплаты не открылась автоматически, перейдите по ссылке:',
+            $formUrl,
+            '',
+            'Ссылка действительна ограниченное время. Если оплата уже прошла — просто проигнорируйте это письмо.',
+        ]);
+
+        $html = '<p>' . htmlspecialchars($greeting) . '</p>'
+            . '<p>Вы оформляете билеты на событие «<b>' . htmlspecialchars($eventLine) . '</b>» (' . $tickets . ' шт., ' . htmlspecialchars($sum) . ').</p>'
+            . '<p>Если страница оплаты не открылась автоматически, оплатите по кнопке:</p>'
+            . '<p><a href="' . htmlspecialchars($formUrl) . '" style="display:inline-block;padding:12px 24px;background:#c44c01;color:#fff;text-decoration:none;border-radius:24px;">Оплатить билет</a></p>'
+            . '<p style="color:#777;font-size:13px;">Ссылка действительна ограниченное время. Если оплата уже прошла — просто проигнорируйте это письмо.</p>';
+
+        $email = (new Email())
+            ->from($from)
+            ->to(new Address($toEmail, $name))
+            ->subject(trim($this->config['subject_prefix'] . ' Ссылка на оплату — ' . $eventTitle))
+            ->text($text)
+            ->html($html);
+
+        try {
+            $this->mailer->send($email);
+            $this->logger->info('Письмо со ссылкой на оплату отправлено', ['to' => $toEmail, 'request_id' => $requestId]);
+            return true;
+        } catch (TransportExceptionInterface $e) {
+            $this->logger->error('Ошибка отправки ссылки на оплату', [
+                'to' => $toEmail,
+                'request_id' => $requestId,
+                'error' => $e->getMessage(),
+            ]);
+            return false;
+        }
+    }
+
+    /**
      * @param array<string,mixed> $formData
      * @param array<string,mixed> $uploadedFiles
      */

@@ -1,7 +1,7 @@
 {
   "metaDescription": "Тосканский гастроужин в Bist на Васильевском острове — 5 подач, вино в паре, живая музыка. 15 августа, 19:00. Билет от 6 500 ₽.",
   "slug": "cena-toscana-bist",
-  "visible": true,
+  "visible": false,
   "event": {
     "title": "Тосканский гастроужин",
     "category": "Гастроужин",
@@ -34,11 +34,26 @@
     ]
   },
   "program": [
-    { "time": "18:30", "title": "Сбор гостей, аперитив и знакомство" },
-    { "time": "19:00", "title": "Первая подача: тосканские антипасти" },
-    { "time": "19:45", "title": "Паста ручной работы с трюфелем" },
-    { "time": "20:30", "title": "Bistecca alla Fiorentina на углях" },
-    { "time": "21:30", "title": "Десерт, кантуччи и вин санто" }
+    {
+      "time": "18:30",
+      "title": "Сбор гостей, аперитив и знакомство"
+    },
+    {
+      "time": "19:00",
+      "title": "Первая подача: тосканские антипасти"
+    },
+    {
+      "time": "19:45",
+      "title": "Паста ручной работы с трюфелем"
+    },
+    {
+      "time": "20:30",
+      "title": "Bistecca alla Fiorentina на углях"
+    },
+    {
+      "time": "21:30",
+      "title": "Десерт, кантуччи и вин санто"
+    }
   ],
   "includes": [
     "5 авторских подач",
@@ -48,9 +63,21 @@
     "Общение с бренд-шефом"
   ],
   "covers": [
-    { "src": "data/img/restaurants/bist/covers/raw/1.jpg", "alt": "Тосканский гастроужин в Bist" },
-    { "src": "data/img/restaurants/bist/covers/raw/2.jpg", "alt": "Интерьер Bist" },
-    { "src": "data/img/restaurants/bist/covers/raw/3.jpg", "alt": "Подача блюда в Bist" },
-    { "src": "data/img/restaurants/bist/covers/raw/4.jpg", "alt": "Вино в Bist" }
+    {
+      "src": "data/img/restaurants/bist/covers/raw/1.jpg",
+      "alt": "Тосканский гастроужин в Bist"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/2.jpg",
+      "alt": "Интерьер Bist"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/3.jpg",
+      "alt": "Подача блюда в Bist"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/4.jpg",
+      "alt": "Вино в Bist"
+    }
   ]
 }

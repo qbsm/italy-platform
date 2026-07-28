@@ -1,7 +1,7 @@
 {
   "metaDescription": "Фламенко-вечер в Juan Cantina Española. 11 сентября, 21:00. Живое выступление, испанская кухня и сангрия. Билет от 3 000 ₽.",
   "slug": "flamenco-juan",
-  "visible": true,
+  "visible": false,
   "event": {
     "title": "Фламенко-вечер",
     "category": "Живая музыка",
@@ -33,9 +33,18 @@
     ]
   },
   "program": [
-    { "time": "21:00", "title": "Первое отделение фламенко" },
-    { "time": "21:40", "title": "Тапас и сангрия" },
-    { "time": "22:10", "title": "Второе отделение и танцы" }
+    {
+      "time": "21:00",
+      "title": "Первое отделение фламенко"
+    },
+    {
+      "time": "21:40",
+      "title": "Тапас и сангрия"
+    },
+    {
+      "time": "22:10",
+      "title": "Второе отделение и танцы"
+    }
   ],
   "includes": [
     "Живое выступление фламенко",
@@ -44,7 +53,13 @@
     "Место в зале"
   ],
   "covers": [
-    { "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/1.jpg", "alt": "Фламенко-вечер в Juan" },
-    { "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/2.jpg", "alt": "Интерьер Juan Cantina Española" }
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/1.jpg",
+      "alt": "Фламенко-вечер в Juan"
+    },
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/2.jpg",
+      "alt": "Интерьер Juan Cantina Española"
+    }
   ]
 }

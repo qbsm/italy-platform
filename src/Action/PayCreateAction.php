@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Action;
 
 use App\Middleware\CorrelationIdMiddleware;
+use App\Service\MailService;
 use App\Service\OrderStore;
 use App\Service\RsbGateway;
 use Psr\Http\Message\ResponseInterface;
@@ -25,6 +26,7 @@ final class PayCreateAction
     public function __construct(
         private readonly RsbGateway $gateway,
         private readonly OrderStore $orders,
+        private readonly MailService $mail,
         private readonly LoggerInterface $logger,
         private readonly array $settings,
     ) {
@@ -132,6 +134,19 @@ final class PayCreateAction
         $this->orders->update((string) $order['id'], ['status' => 'pending', 'trans_id' => $transactionId]);
         $formUrl = $this->gateway->clientRedirectUrl($transactionId);
         $this->logger->info('Оплата зарегистрирована', ['request_id' => $requestId, 'order' => $order['id'], 'amount' => $amount]);
+
+        // Дубль ссылки на оплату клиенту на почту (редирект — основной сценарий; сбой почты оплату не ломает)
+        $currency = ((string) ($this->settings['payment']['currency'] ?? '643')) === '643' ? '₽' : (string) ($this->settings['payment']['currency'] ?? '');
+        $this->mail->sendPaymentLink(
+            $email,
+            $name,
+            (string) ($e['title'] ?? $slug),
+            $this->eventDate($e),
+            $tickets,
+            number_format($amount / 100, 0, '.', ' ') . ' ' . $currency,
+            $formUrl,
+            $requestId,
+        );
 
         if ($wantsJson) {
             return $this->json($response, 200, ['success' => true, 'formUrl' => $formUrl, 'order_id' => $order['id'], 'request_id' => $requestId]);
