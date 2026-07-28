@@ -255,11 +255,15 @@
 }
 
 .event-accent {
-  margin: 4rem auto;
-  max-width: 66ch;
+  margin: 4rem 0;
   text-align: center;
   font-size: 1.8rem;
   line-height: 1.6;
+}
+
+.event-accent p {
+  max-width: 66ch;
+  margin: 0 auto;
 }
 
 .event-accent::before,
