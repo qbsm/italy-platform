@@ -126,6 +126,13 @@
   }
 }
 
+/* Ритм левой колонки — через gap на родителе (конвенция платформы), без своих margin у блоков */
+.event-body__main {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+}
+
 .event-body__place {
   font-size: 1.4rem;
   font-weight: 500;
@@ -147,7 +154,6 @@
 }
 
 .event-body__text {
-  margin-top: 2rem;
   font-size: 1.7rem;
   line-height: 1.7;
   color: var(--color-6);
@@ -160,8 +166,7 @@
 /* ---- Content blocks ---- */
 
 .event-block {
-  /* 8rem: margin блока, заголовка внутри и соседней врезки схлопываются в один — берём итоговый визуальный отступ */
-  margin-top: 8rem;
+  margin-top: 0; /* ритм задаёт gap родителя .event-body__main */
 }
 
 .event-block__heading {
@@ -252,7 +257,7 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   text-align: center;
-  margin: 4rem 0 1.6rem;
+  margin: 0 0 1.6rem;
 
   @media (--sm) {
     font-size: 2.57em;
@@ -261,7 +266,7 @@
 
 
 .event-accent {
-  margin: 4rem 0;
+  margin: 0;
   text-align: center;
   font-size: 1.43em;
   line-height: 1.65;
