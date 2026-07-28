@@ -69,59 +69,37 @@
             </div>
           {% endif %}
 
-          {% if event.desc.sections is defined %}
-            {% for sec in event.desc.sections %}
-              {% if sec.accent is defined %}
-                <div class="event-accent"><p>{{ sec.accent }}</p></div>
-              {% else %}
-                <div class="event-body__section">
-                  {% if sec.heading is defined %}<h2 class="event-h2">{{ sec.heading }}</h2>{% endif %}
-                  <div class="event-body__text">
-                    {% for p in sec.paras | default([]) %}<p>{{ p }}</p>{% endfor %}
-                  </div>
-                </div>
+          {# --- Тело события: массив блоков (по образцу section content) --- #}
+          {% if event.body is defined %}
+            {% for b in event.body %}
+              {% if b.type == 'text' %}
+                {% include 'components/event-body-text.twig' with {'data': b} %}
+              {% elseif b.type == 'accent' %}
+                {% include 'components/event-body-accent.twig' with {'data': b} %}
+              {% elseif b.type == 'menu' %}
+                {% include 'components/event-body-menu.twig' with {'data': b} %}
+              {% elseif b.type == 'gallery' %}
+                {% include 'components/event-body-gallery.twig' with {'data': {'covers': covers|slice(1, 4)}} %}
               {% endif %}
             {% endfor %}
-          {% elseif event.desc.full is defined %}
-            {% set paras = event.desc.full is iterable ? event.desc.full : [event.desc.full] %}
-            <div class="event-body__text">
-              {% for p in paras %}<p>{{ p }}</p>{% endfor %}
-            </div>
-          {% endif %}
-
-          {% if event.menu is defined and event.menu.groups is defined %}
-            <div class="event-block event-menu">
-              <h2 class="event-h2">{{ event.menu.heading | default('Гастрономия вечера') }}</h2>
-              {% if event.menu.intro is defined and event.menu.intro %}
-                <p class="event-menu__intro">{{ event.menu.intro }}</p>
-              {% endif %}
-              <div class="event-menu__groups">
-                {% for g in event.menu.groups | slice(0, 1) %}
-                  <div class="event-menu__group">
-                    <h3 class="event-menu__group-title uppercase">{{ g.title }}</h3>
-                    <ul class="event-menu__list">
-                      {% for it in g.items %}<li class="event-menu__item">{{ it }}</li>{% endfor %}
-                    </ul>
-                  </div>
-                {% endfor %}
-                {% if event.menu.groups | length > 1 %}
-                  <div class="event-menu__more js-menu-more" hidden>
-                    {% for g in event.menu.groups | slice(1) %}
-                      <div class="event-menu__group">
-                        <h3 class="event-menu__group-title uppercase">{{ g.title }}</h3>
-                        <ul class="event-menu__list">
-                          {% for it in g.items %}<li class="event-menu__item">{{ it }}</li>{% endfor %}
-                        </ul>
-                      </div>
-                    {% endfor %}
-                  </div>
-                  <button type="button" class="event-menu__toggle js-menu-toggle" aria-expanded="false">Показать всё меню</button>
+          {% else %}
+            {# legacy-формат данных (desc.sections/desc.full + menu + descOutro) — те же компоненты #}
+            {% if event.desc.sections is defined %}
+              {% for sec in event.desc.sections %}
+                {% if sec.accent is defined %}
+                  {% include 'components/event-body-accent.twig' with {'data': {'text': sec.accent}} %}
+                {% else %}
+                  {% include 'components/event-body-text.twig' with {'data': sec} %}
                 {% endif %}
-              </div>
-              {% if event.menu.image is defined and event.menu.image %}
-                <a href="{{ url(event.menu.image) }}" class="glightbox link event-menu__full" data-gallery="event-menu">Открыть меню вечера</a>
-              {% endif %}
-            </div>
+              {% endfor %}
+            {% elseif event.desc.full is defined %}
+              {% set paras = event.desc.full is iterable ? event.desc.full : [event.desc.full] %}
+              {% include 'components/event-body-text.twig' with {'data': {'paras': paras}} %}
+            {% endif %}
+
+            {% if event.menu is defined and event.menu.groups is defined %}
+              {% include 'components/event-body-menu.twig' with {'data': event.menu} %}
+            {% endif %}
           {% endif %}
 
           {% if event.program is defined and event.program|length > 0 %}
@@ -164,20 +142,12 @@
             </div>
           {% endif %}
 
-          {% if event.descOutro.accent is defined %}
-            <div class="event-accent"><p>{{ event.descOutro.accent }}</p></div>
+          {% if event.body is not defined and event.descOutro.accent is defined %}
+            {% include 'components/event-body-accent.twig' with {'data': {'text': event.descOutro.accent}} %}
           {% endif %}
 
-          {% if covers|length > 1 %}
-            <div class="event-block event-gallery" id="eventGallery">
-              {% for img in covers|slice(1, 4) %}
-                <figure class="event-gallery__figure">
-                  <a href="{{ url(img.src) }}" class="glightbox link" data-gallery="event-gallery">
-                    <img src="{{ url(img.src) }}" alt="{{ img.alt | default(e.title) }}" loading="lazy">
-                  </a>
-                </figure>
-              {% endfor %}
-            </div>
+          {% if event.body is not defined and covers|length > 1 %}
+            {% include 'components/event-body-gallery.twig' with {'data': {'covers': covers|slice(1, 4)}} %}
           {% endif %}
         </div>
 

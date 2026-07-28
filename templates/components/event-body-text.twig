@@ -1,0 +1,7 @@
+{# Текстовый блок тела события: заголовок раздела + абзацы. data: {heading?, paras[]} #}
+<div class="event-body__section">
+  {% if data.heading is defined and data.heading %}<h2 class="event-h2">{{ data.heading }}</h2>{% endif %}
+  <div class="event-body__text">
+    {% for p in data.paras | default([]) %}<p>{{ p }}</p>{% endfor %}
+  </div>
+</div>

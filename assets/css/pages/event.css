@@ -133,13 +133,17 @@
   gap: 6rem;
 }
 
+.event-body__intro {
+  display: grid;
+  gap: 1.4rem;
+}
+
 .event-body__place {
   font-size: 1.4rem;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--color-6);
-  margin-bottom: 1.4rem;
 }
 
 .event-body__lead {
@@ -248,6 +252,11 @@
 
 /* Крупные заголовки разделов и акцентные абзацы (референс vechervosobnyake-italy.ru) */
 
+.event-body__section {
+  display: grid;
+  gap: 1.6rem;
+}
+
 .event-h2 {
   display: block; /* глобальный reset делает h1-h6 inline-block — бокс сжимается и text-align:center не центрирует по колонке */
   width: 100%;
@@ -257,7 +266,7 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   text-align: center;
-  margin: 0 0 1.6rem;
+  margin: 0;
 
   @media (--sm) {
     font-size: 2.57em;
@@ -297,6 +306,11 @@
 /* Меню вечера — по референсу лендинга vechervosobnyake-italy.ru:
    тёмный фон страницы, светлый текст, центрированные заголовки с золотыми линиями */
 
+.event-menu {
+  display: grid;
+  gap: 1.6rem;
+}
+
 .event-menu__intro {
   font-size: 1.21em;
   line-height: 1.7;
@@ -304,7 +318,7 @@
 }
 
 .event-menu__groups {
-  margin-top: 2.8rem;
+  margin-top: 1.2rem; /* небольшой добор к gap родителя перед первой группой */
   display: grid;
   gap: 3.6rem;
 }
@@ -378,7 +392,6 @@
 
 .event-menu__full {
   display: inline-block;
-  margin-top: 2.4rem;
   color: var(--color-1);
   text-decoration: underline;
   text-underline-offset: 0.3em;
@@ -429,7 +442,7 @@
   aspect-ratio: auto;
   max-width: 72rem;
   width: 100%;
-  margin: 1.2rem auto 0;
+  margin: 0 auto;
 }
 
 .event-gallery__figure:nth-child(3n) img {
@@ -618,8 +631,15 @@
 
 /* заголовок, подводка и форма — по центру ЛЕВОЙ колонки двухколоночного блока выше
    (контент сужается на ширину aside 36rem + gap 5rem) */
+.event-buy .container {
+  display: grid;
+  gap: 3.2rem;
+}
+
 .event-buy .heading-wrap {
   text-align: center;
+  display: grid;
+  gap: 1.4rem;
 }
 
 @media (--md) {
@@ -632,6 +652,7 @@
   .event-buy .event-buy__form {
     margin-left: max(0rem, calc((100% - 41rem - 76rem) / 2));
     margin-right: 0;
+    margin-top: 0;
   }
 }
 
@@ -648,7 +669,7 @@
 
 .event-buy__sub {
   max-width: 72ch;
-  margin: 1.4rem auto 0;
+  margin: 0 auto;
   font-size: 1.14em;
   line-height: 1.6;
   color: var(--color-6);
@@ -658,7 +679,7 @@
 
 .event-buy__form {
   max-width: 76rem;
-  margin: 3.2rem auto 0;
+  margin: 0 auto;
   padding: 2.4rem 2rem;
   background: var(--color-7);
   border: 1px solid rgb(255 255 255 / 12%);
