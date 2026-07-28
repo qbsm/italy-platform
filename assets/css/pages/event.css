@@ -240,28 +240,42 @@
   background: var(--color-1);
 }
 
-/* Меню вечера */
+/* Меню вечера — по референсу лендинга vechervosobnyake-italy.ru:
+   тёмный фон страницы, светлый текст, центрированные заголовки с золотыми линиями */
 
 .event-menu__intro {
-  color: var(--color-muted);
-  max-width: 62ch;
+  color: var(--color-6);
 }
 
 .event-menu__groups {
+  margin-top: 2.8rem;
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.6rem;
-  margin-top: 2rem;
+  gap: 3.6rem;
+}
 
-  @media (--sm) {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.event-menu__group {
+  text-align: center;
 }
 
 .event-menu__group-title {
-  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  margin: 0 0 1.8rem;
+  font-family: var(--font-1-extended);
+  font-size: 2.1rem;
+  font-weight: 500;
   letter-spacing: 0.08em;
-  margin: 0 0 0.8rem;
+  color: var(--color-1);
+  white-space: nowrap;
+}
+
+.event-menu__group-title::before,
+.event-menu__group-title::after {
+  content: "";
+  flex: 1 1 0;
+  height: 1px;
+  background: #c98a2e;
 }
 
 .event-menu__list {
@@ -269,27 +283,20 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 0.5rem;
+  gap: 1.1rem;
+  justify-items: center;
 }
 
 .event-menu__item {
-  padding-left: 1.4rem;
-  position: relative;
-}
-
-.event-menu__item::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.65em;
-  width: 0.5rem;
-  height: 1px;
-  background: var(--color-3);
+  max-width: 46ch;
+  line-height: 1.5;
+  color: var(--color-1);
 }
 
 .event-menu__full {
   display: inline-block;
-  margin-top: 2rem;
+  margin-top: 2.4rem;
+  color: var(--color-1);
   text-decoration: underline;
   text-underline-offset: 0.3em;
 }
@@ -297,12 +304,13 @@
 /* Галерея */
 
 .event-gallery {
+  /* крупная сетка: пара 50/50, каждый третий слайд — во всю ширину */
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.2rem;
 
   @media (--sm) {
-    grid-template-columns: repeat(3, 1fr);
+    gap: 1.6rem;
   }
 }
 
@@ -311,6 +319,24 @@
   aspect-ratio: 1 / 1;
   overflow: hidden;
   border-radius: 1.2rem;
+
+  @media (--sm) {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+.event-gallery__figure:nth-child(3n) {
+  grid-column: 1 / -1;
+  aspect-ratio: 4 / 3;
+
+  @media (--sm) {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* полноширинный слайд не обрезаем (карта прохода с подписями) — вписываем целиком */
+.event-gallery__figure:nth-child(3n) img {
+  object-fit: contain;
 }
 
 .event-gallery__figure .glightbox {

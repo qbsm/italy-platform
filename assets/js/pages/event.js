@@ -27,7 +27,7 @@ onReady(function () {
       input.value = v;
       if (minus) minus.disabled = v <= 1;
       if (total && price) {
-        total.textContent = 'от ' + (v * price).toLocaleString('ru-RU') + ' ' + currency;
+        total.textContent = (v * price).toLocaleString('ru-RU') + ' ' + currency;
       }
     }
 
