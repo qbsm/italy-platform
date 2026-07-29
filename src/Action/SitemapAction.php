@@ -102,6 +102,12 @@ final class SitemapAction
             }
             $slugs = $this->dataLoader->loadEntitySlugs($jsonBase, $defaultLang, $collConfig) ?? [];
             foreach ($slugs as $slug) {
+                // В sitemap — только реально доступные сущности: loadEntity вернёт null
+                // для visible:false и битых записей (та же логика, что на страницах),
+                // иначе карта отдаёт 404-URL (скрытые/демо-события).
+                if ($this->dataLoader->loadEntity($jsonBase, $defaultLang, $slug, '', $collConfig) === null) {
+                    continue;
+                }
                 $segment = trim(str_replace('{slug}', $slug, $pattern), '/');
                 foreach ($this->urlsForSegment($base, $langs, $defaultLang, $segment) as $u) {
                     $urls[] = $u;
