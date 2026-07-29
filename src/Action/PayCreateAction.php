@@ -244,7 +244,9 @@ final class PayCreateAction
     /**
      * @param array<string,string> $errors
      */
-    private const ALERT_CODES = ['PAYMENT_DISABLED', 'GATEWAY_ERROR', 'ORDER_STORE_ERROR'];
+    // PAYMENT_DISABLED сюда не входит: это штатно выключенная оплата, а не сбой —
+    // иначе каждый POST на /api/pay (бот, прямой запрос) шлёт алерт в группу
+    private const ALERT_CODES = ['GATEWAY_ERROR', 'ORDER_STORE_ERROR'];
 
     private function fail(
         ResponseInterface $response,
