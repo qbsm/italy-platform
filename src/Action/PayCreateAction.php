@@ -6,18 +6,18 @@ namespace App\Action;
 
 use App\Middleware\CorrelationIdMiddleware;
 use App\Service\MailService;
+use App\Service\AlfaGateway;
 use App\Service\OrderStore;
-use App\Service\RsbGateway;
 use App\Service\TelegramAlertService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * POST /api/pay — регистрация оплаты билета в эквайринге RSB и редирект на платёжную
- * страницу банка. Порт механизма make_order() с tasteproject.ru под italy-platform.
+ * POST /api/pay — регистрация оплаты билета в эквайринге Альфа-Банка и редирект на
+ * платёжную страницу банка.
  *
- * Успех: 303 на ClientHandler банка (для обычного submit) либо JSON {formUrl} (для XHR).
+ * Успех: 303 на formUrl банка (для обычного submit) либо JSON {formUrl} (для XHR).
  */
 final class PayCreateAction
 {
@@ -25,7 +25,7 @@ final class PayCreateAction
      * @param array<string,mixed> $settings
      */
     public function __construct(
-        private readonly RsbGateway $gateway,
+        private readonly AlfaGateway $gateway,
         private readonly OrderStore $orders,
         private readonly MailService $mail,
         private readonly TelegramAlertService $alerts,
@@ -111,34 +111,38 @@ final class PayCreateAction
             'tickets' => $tickets,
             'unit_price' => $price,
             'amount' => $amount,
-            'currency' => (string) ($this->settings['payment']['currency'] ?? '643'),
+            'currency' => (string) ($this->settings['payment']['currency'] ?? '810'),
             'request_id' => $requestId,
         ]);
         if ($order === null) {
             return $this->fail($response, $wantsJson, 500, 'ORDER_STORE_ERROR', 'Не удалось создать заказ', $backUrl, $requestId);
         }
 
-        $transactionId = $this->gateway->register([
+        $orderId = (string) $order['id'];
+        $returnUrl = $this->returnUrl($orderId);
+
+        $registered = $this->gateway->register([
             'amount' => $amount,
-            'orderId' => (string) $order['id'],
-            'clientIp' => $this->clientIp($request),
+            'orderId' => $orderId,
             'phone' => $phone,
             'email' => $email,
             'tickets' => $tickets,
             'unitKopecks' => $unitKopecks,
+            'returnUrl' => $returnUrl,
+            'failUrl' => $returnUrl . '&fail=1',
         ], $requestId);
 
-        if ($transactionId === null) {
-            $this->orders->update((string) $order['id'], ['status' => 'failed', 'fail_reason' => 'register']);
+        if ($registered === null) {
+            $this->orders->update($orderId, ['status' => 'failed', 'fail_reason' => 'register']);
             return $this->fail($response, $wantsJson, 502, 'GATEWAY_ERROR', 'Банк недоступен, попробуйте позже', $backUrl, $requestId);
         }
 
-        $this->orders->update((string) $order['id'], ['status' => 'pending', 'trans_id' => $transactionId]);
-        $formUrl = $this->gateway->clientRedirectUrl($transactionId);
-        $this->logger->info('Оплата зарегистрирована', ['request_id' => $requestId, 'order' => $order['id'], 'amount' => $amount]);
+        $formUrl = $registered['formUrl'];
+        $this->orders->update($orderId, ['status' => 'pending', 'bank_order_id' => $registered['orderId']]);
+        $this->logger->info('Оплата зарегистрирована', ['request_id' => $requestId, 'order' => $orderId, 'amount' => $amount]);
 
         // Дубль ссылки на оплату клиенту на почту (редирект — основной сценарий; сбой почты оплату не ломает)
-        $currency = ((string) ($this->settings['payment']['currency'] ?? '643')) === '643' ? '₽' : (string) ($this->settings['payment']['currency'] ?? '');
+        $currency = $this->currencySign((string) ($this->settings['payment']['currency'] ?? '810'));
         $this->mail->sendPaymentLink(
             $email,
             $name,
@@ -207,17 +211,19 @@ final class PayCreateAction
         return trim($slug, '-');
     }
 
-    private function clientIp(ServerRequestInterface $request): string
+    /**
+     * Адрес возврата с платёжной страницы. Свой id заказа кладём в query — банк
+     * добавит к нему собственный orderId, оба нужны обработчику /pay/return.
+     */
+    private function returnUrl(string $orderId): string
     {
-        $server = $request->getServerParams();
-        $fwd = (string) ($server['HTTP_X_FORWARDED_FOR'] ?? '');
-        if ($fwd !== '') {
-            $first = trim(explode(',', $fwd)[0]);
-            if ($first !== '') {
-                return $first;
-            }
-        }
-        return (string) ($server['REMOTE_ADDR'] ?? '');
+        $base = rtrim((string) ($this->settings['payment']['base_url'] ?? ''), '/');
+        return $base . '/pay/return?order=' . rawurlencode($orderId);
+    }
+
+    private function currencySign(string $code): string
+    {
+        return in_array($code, ['810', '643'], true) ? '₽' : $code;
     }
 
     private function wantsJson(ServerRequestInterface $request): bool

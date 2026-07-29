@@ -129,30 +129,35 @@ return [
         'from_name' => (string) (getenv('MAIL_FROM_NAME') ?: ''),
         'subject_prefix' => (string) (getenv('MAIL_SUBJECT_PREFIX') ?: ''),
     ],
-    // Эквайринг Русский Стандарт (RSB ecomm2) — перенос механизма оплаты билетов с tasteproject.
-    // Включается флагом PAYMENT_ENABLED. Сертификат/ключ — вне docroot (var/rsb, не в git).
+    // Интернет-эквайринг Альфа-Банка (платформа RBS, REST). Включается флагом PAYMENT_ENABLED,
+    // учётные данные магазина (логин с суффиксом -api и пароль либо token) — только из окружения.
     'payment' => (static function () use ($appEnv, $projectRoot): array {
         $payEnv = strtolower((string) (getenv('PAYMENT_ENV') ?: ($appEnv === 'production' ? 'prod' : 'test')));
         $isProdGate = $payEnv === 'prod';
+        $baseUrl = rtrim((string) (getenv('PAYMENT_RETURN_BASE') ?: (getenv('APP_BASE_URL') ?: 'https://italycommunity.ru')), '/');
         return [
             'enabled' => in_array(strtolower((string) (getenv('PAYMENT_ENABLED') ?: '0')), ['1', 'true', 'yes', 'on'], true),
             'env' => $payEnv,
-            'gateway' => 'rsb',
-            'merchant_url' => $isProdGate
-                ? 'https://securepay.rsb.ru:9443/ecomm2/MerchantHandler'
-                : 'https://testsecurepay.rsb.ru:9443/ecomm2/MerchantHandler',
-            'client_url' => $isProdGate
-                ? 'https://securepay.rsb.ru/ecomm2/ClientHandler'
-                : 'https://testsecurepay.rsb.ru/ecomm2/ClientHandler',
-            'cert' => $projectRoot . '/var/rsb/9295933758.pem',
-            'key' => $projectRoot . '/var/rsb/9295933758.key',
-            'ca' => $projectRoot . '/var/rsb/chain-ecomm-ca-root-ca.crt',
-            'currency' => '643',
+            'gateway' => 'alfa',
+            'api_url' => $isProdGate
+                ? 'https://pay.alfabank.ru/payment/rest'
+                : 'https://tws.egopay.ru/ab/rest',
+            'username' => (string) (getenv('PAYMENT_USERNAME') ?: ''),
+            'password' => (string) (getenv('PAYMENT_PASSWORD') ?: ''),
+            'token' => (string) (getenv('PAYMENT_TOKEN') ?: ''),
+            'base_url' => $baseUrl,
+            // ISO 4217; в шлюзе Альфы рубль — 810
+            'currency' => (string) (getenv('PAYMENT_CURRENCY') ?: '810'),
             'description' => (string) (getenv('PAYMENT_DESCRIPTION') ?: 'Покупка билета — Экосистема итали'),
-            // ТСП «Чек онлайн» (ОФД). ВНИМАНИЕ: значение унаследовано от tasteproject
-            // (ООО «Сервис и Развитие»). Для оператора ТЭД нужен собственный Group/мерчант.
-            'ofd_group' => (string) (getenv('PAYMENT_OFD_GROUP') ?: ($isProdGate ? '5b3e92af-4a17-4ce6-a171-f069a7005484' : 'testgroup')),
-            'ofd_tax_id' => (int) (getenv('PAYMENT_OFD_TAX_ID') ?: 4), // 4 = Без налога
+            'item_name' => (string) (getenv('PAYMENT_ITEM_NAME') ?: 'Электронный билет'),
+            'session_timeout' => (int) (getenv('PAYMENT_SESSION_TIMEOUT') ?: 1200),
+            // Корзина чека (54-ФЗ) уходит в orderBundle. Включать только когда у магазина
+            // включена фискализация на стороне банка — иначе банк отклонит регистрацию.
+            'fiscal' => [
+                'enabled' => in_array(strtolower((string) (getenv('PAYMENT_FISCAL_ENABLED') ?: '0')), ['1', 'true', 'yes', 'on'], true),
+                'tax_type' => (int) (getenv('PAYMENT_FISCAL_TAX_TYPE') ?: 0), // 0 = без НДС
+                'measure' => (string) (getenv('PAYMENT_FISCAL_MEASURE') ?: 'шт'),
+            ],
             'orders_dir' => $projectRoot . '/var/orders',
             'timeout' => 30,
         ];
