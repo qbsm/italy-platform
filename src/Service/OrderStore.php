@@ -9,8 +9,9 @@ use Psr\Log\LoggerInterface;
 /**
  * Файловое хранилище заказов билетов (в italy-platform нет БД).
  * Один заказ = один JSON-файл var/orders/{id}.json, ключ — id заказа (hex).
- * mrch_transaction_id, передаваемый банку = id заказа, поэтому по ответу
- * банка (MRCH_TRANSACTION_ID) заказ находится напрямую.
+ * orderNumber, передаваемый банку = id заказа, поэтому по ответу банка
+ * (orderNumber в статусе) заказ находится напрямую; id заказа в банке
+ * хранится в поле bank_order_id.
  */
 final class OrderStore
 {
@@ -31,7 +32,7 @@ final class OrderStore
         $order = array_merge($data, [
             'id' => $id,
             'status' => 'new',
-            'trans_id' => '',
+            'bank_order_id' => '',
             'created_at' => $now,
             'updated_at' => $now,
         ]);

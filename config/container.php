@@ -157,7 +157,7 @@ return static function (): ContainerInterface {
 
         ApiSendAction::class => \DI\autowire(),
 
-        \App\Service\RsbGateway::class => static fn(ContainerInterface $c) => new \App\Service\RsbGateway(
+        \App\Service\AlfaGateway::class => static fn(ContainerInterface $c) => new \App\Service\AlfaGateway(
             $c->get('settings')['payment'] ?? [],
             $c->get(LoggerInterface::class),
         ),

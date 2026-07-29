@@ -97,6 +97,5 @@ public/assets
 public/data
 public/robots.txt
 
-# Эквайринг: сертификаты RSB (секреты) и рантайм-заказы — НЕ в git
-var/rsb/
+# Эквайринг: рантайм-заказы — НЕ в git
 var/orders/
