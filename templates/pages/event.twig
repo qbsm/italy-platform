@@ -262,7 +262,13 @@
   {% if e.date.iso is defined %}"startDate": {{ e.date.iso|json_encode|raw }},{% endif %}
   "eventStatus": "https://schema.org/EventScheduled",
   "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-  {% if covers|length > 0 %}"image": [{{ (base_url|trim('/') ~ '/' ~ covers[0].src)|json_encode|raw }}],{% endif %}
+  {% if covers|length > 0 %}
+  {% set _cover_src = covers[0].src %}
+  {% set _cover_abs = (_cover_src starts with 'http://' or _cover_src starts with 'https://') ? _cover_src : (base_url|trim('/') ~ '/' ~ _cover_src|trim('/')) %}
+  "image": [{{ _cover_abs|json_encode|raw }}],
+  {% endif %}
+  "url": {{ (base_url|trim('/') ~ '/events/' ~ event.slug)|json_encode|raw }},
+  "organizer": { "@id": {{ (base_url|trim('/') ~ '/#organization')|json_encode|raw }} },
   {% if event.lead is defined %}"description": {{ event.lead|json_encode|raw }},{% endif %}
   "location": {
     "@type": "Place",
