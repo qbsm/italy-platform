@@ -21,7 +21,7 @@ final class ApiSendAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
+            session_start(['cache_limiter' => '']);
         }
 
         $this->pruneIdempotencyStore();
