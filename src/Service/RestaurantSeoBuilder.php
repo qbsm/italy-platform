@@ -53,10 +53,17 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
             ['property' => 'og:image:type', 'content' => $this->imageMimeFromPath($ogImage)],
         ];
 
+        $metaTitle = trim((string) ($entity['metaTitle'] ?? ''));
+        $title = $metaTitle !== ''
+            ? $metaTitle
+            : ($name !== '' ? $name . ' — ' . $siteName : $siteName);
+
+        $images = $this->collectImages($entity, $prodBase, $ogImage);
+
         return [
-            'title' => $name !== '' ? $name . ' — ' . $siteName : $siteName,
+            'title' => $title,
             'meta' => $meta,
-            'json_ld' => $this->buildRestaurantJsonLd($entity, $desc, $ogImage, $url),
+            'json_ld' => $this->buildRestaurantJsonLd($entity, $desc, $images, $url, $prodBase),
             'json_ld_faq' => $this->buildRestaurantFaqJsonLd($entity, $langCode, $global),
         ];
     }
@@ -87,23 +94,63 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
         return trim((string) $full);
     }
 
-    /** @param array<string,mixed> $entity */
-    private function buildRestaurantJsonLd(array $entity, string $description = '', string $image = '', string $url = ''): string
+    /**
+     * Все обложки ресторана как абсолютные URL (Google предпочитает несколько изображений).
+     *
+     * @param array<string,mixed> $entity
+     * @return array<int,string>
+     */
+    private function collectImages(array $entity, string $prodBase, string $fallback): array
+    {
+        $images = [];
+        if (!empty($entity['covers']) && is_array($entity['covers'])) {
+            foreach ($entity['covers'] as $cover) {
+                $src = is_array($cover) ? (string) ($cover['src'] ?? '') : '';
+                if ($src === '') {
+                    continue;
+                }
+                if (str_starts_with($src, 'http://') || str_starts_with($src, 'https://')) {
+                    $images[] = $src;
+                    continue;
+                }
+                $pos = strpos($src, '/data/');
+                $relPath = $pos !== false ? substr($src, $pos) : '/' . ltrim($src, '/');
+                $images[] = $prodBase . $relPath;
+            }
+        }
+        if ($images === [] && $fallback !== '') {
+            $images[] = $fallback;
+        }
+
+        return array_values(array_unique($images));
+    }
+
+    /**
+     * @param array<string,mixed> $entity
+     * @param array<int,string> $images
+     */
+    private function buildRestaurantJsonLd(array $entity, string $description = '', array $images = [], string $url = '', string $prodBase = ''): string
     {
         $r = $entity['restaurant'] ?? [];
+        $selfUrl = $r['url'] ?? ($url !== '' ? $url : null);
         $ld = [
             '@context' => 'https://schema.org',
             '@type' => 'Restaurant',
+            '@id' => $selfUrl !== null ? $selfUrl . '#restaurant' : null,
             'name' => $r['name'] ?? null,
             'description' => $description !== '' ? $description : null,
-            'image' => $image !== '' ? $image : null,
+            'image' => $images !== [] ? $images : null,
             'telephone' => isset($r['telephone']['title']) ? $r['telephone']['title'] : null,
             'address' => isset($r['address']) ? $r['address'] : null,
             'geo' => $r['geo'] ?? null,
-            'url' => $r['url'] ?? ($url !== '' ? $url : null),
+            'url' => $selfUrl,
             'priceRange' => $r['priceRange'] ?? null,
+            'currenciesAccepted' => 'RUB',
             'hasMap' => $r['hasMap'] ?? null,
             'menu' => $r['menuLink'] ?? null,
+            'acceptsReservations' => !empty($r['bookingPoint']) ? true : null,
+            'parentOrganization' => $prodBase !== '' ? ['@id' => $prodBase . '/#organization'] : null,
+            'sameAs' => !empty($r['sameAs']) && is_array($r['sameAs']) ? $r['sameAs'] : null,
         ];
         $openingHours = $this->resolveOpeningHours($r);
         if ($openingHours !== []) {

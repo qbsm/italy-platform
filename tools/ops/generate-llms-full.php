@@ -66,6 +66,8 @@ foreach ($langs as $lang) {
         $nameKey = (string) ($coll['name_key'] ?? 'name');
         $descKey = isset($coll['desc_key']) ? (string) $coll['desc_key'] : null;
         $visibleKey = isset($coll['visible_key']) ? (string) $coll['visible_key'] : null;
+        $heading = isset($coll['heading']) ? (string) $coll['heading'] : '';
+        $urlPattern = isset($coll['url_pattern']) ? (string) $coll['url_pattern'] : '';
         $fields = (array) ($coll['fields'] ?? []);
 
         $listFullPath = $dataDir . '/' . $listPath;
@@ -80,6 +82,11 @@ foreach ($langs as $lang) {
         $itemBaseDir = $dataDir . '/' . $itemDir;
         if (!is_dir($itemBaseDir)) {
             continue;
+        }
+
+        if ($heading !== '') {
+            $lines[] = '## ' . $heading;
+            $lines[] = '';
         }
 
         foreach ($slugs as $slug) {
@@ -99,6 +106,9 @@ foreach ($langs as $lang) {
             $name = getByPath($json, $nameKey);
             $lines[] = '### ' . (is_string($name) ? $name : $slug);
             $lines[] = 'Slug: ' . $slug;
+            if ($urlPattern !== '') {
+                $lines[] = 'URL: ' . str_replace('{slug}', (string) $slug, $urlPattern);
+            }
             if ($descKey !== null) {
                 $desc = getByPath($json, $descKey);
                 if ($desc !== null && $desc !== '') {
@@ -157,12 +167,12 @@ function formatValue($value, string $key): string
     }
     // PostalAddress-like
     if (isset($value['streetAddress']) || isset($value['addressLocality'])) {
-        $parts = array_filter([
+        $parts = array_unique(array_filter([
             $value['streetAddress'] ?? '',
             $value['addressLocality'] ?? '',
             $value['addressRegion'] ?? '',
             $value['addressCountry'] ?? '',
-        ]);
+        ]));
         return implode(', ', $parts);
     }
     // openingHours-like: [ {days, hours}, ... ]

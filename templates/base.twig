@@ -167,6 +167,13 @@
   {% endif %}
 
   {% set _org = global.organization[lang_code] | default(global.organization.ru) | default({}) %}
+  {% if _org.sameAs is defined and _org.sameAs|length > 0 %}
+    {% for href in _org.sameAs %}
+      {% if href starts with 'http' and href not in _socials_filtered %}
+        {% set _socials_filtered = _socials_filtered|merge([href]) %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
   {# Микроразметка Schema.org Organization #}
   <script type="application/ld+json">
   {
@@ -178,8 +185,12 @@
     "logo": "{{ _logo_url }}",
     {% endif %}
     "url": "{{ _base_secure_domain_for_seo }}"
+    {% if _org.alternateName is defined and _org.alternateName|length > 0 %},"alternateName": [{% for n in _org.alternateName %}"{{ n|e('js') }}"{% if not loop.last %},{% endif %}{% endfor %}]{% endif %}
     {% if _org.description is defined and _org.description %},"description": "{{ _org.description|e('js') }}"{% endif %}
     {% if _org.slogan is defined and _org.slogan %},"slogan": "{{ _org.slogan|e('js') }}"{% endif %}
+    {% if _org.legalName is defined and _org.legalName %},"legalName": "{{ _org.legalName|e('js') }}"{% endif %}
+    {% if _org.taxID is defined and _org.taxID %},"taxID": "{{ _org.taxID|e('js') }}"{% endif %}
+    {% if _org.knowsAbout is defined and _org.knowsAbout|length > 0 %},"knowsAbout": [{% for k in _org.knowsAbout %}"{{ k|e('js') }}"{% if not loop.last %},{% endif %}{% endfor %}]{% endif %}
     {% if _org.foundingDate is defined and _org.foundingDate %},"foundingDate": "{{ _org.foundingDate|e('js') }}"{% endif %}
     {% if _org.areaServed is defined and _org.areaServed|length > 0 %},"areaServed": [{% for a in _org.areaServed %}"{{ a|e('js') }}"{% if not loop.last %},{% endif %}{% endfor %}]{% endif %}
     {% if _org.founders is defined and _org.founders|length > 0 %},"founder": [{% for f in _org.founders %}{"@type":"Person","name":"{{ f|e('js') }}"}{% if not loop.last %},{% endif %}{% endfor %}]{% endif %}
@@ -220,7 +231,9 @@
     "@type": "WebSite",
     "@id": "{{ _base_secure_domain_for_seo }}/#website",
     "name": "{{ _site_name }}",
+    {% if _org.alternateName is defined and _org.alternateName|length > 0 %}"alternateName": [{% for n in _org.alternateName %}"{{ n|e('js') }}"{% if not loop.last %},{% endif %}{% endfor %}],{% endif %}
     "inLanguage": "ru-RU",
+    "publisher": { "@id": "{{ _base_secure_domain_for_seo }}/#organization" },
     "url": "{{ _base_secure_domain_for_seo ~ '/' }}"
   }
   </script>
