@@ -7,6 +7,11 @@ Allow: /assets/js/build/
 Allow: /data/img/
 Allow: /llms.txt
 Allow: /llms-full.txt
+# Собранные бандлы обязаны быть доступны краулерам: Google рендерит страницы и при
+# заблокированных CSS/JS считает их сломанными (правило длиннее Disallow — Allow побеждает)
+Allow: /assets/css/build/
+Allow: /assets/js/build/
+Allow: /assets/js/utils/
 Disallow: /src/
 Disallow: /config/
 Disallow: /tools/
