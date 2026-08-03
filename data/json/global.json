@@ -26,7 +26,8 @@
         },
         {
           "title": "Афиша",
-          "href": "/events"
+          "href": "/events",
+          "visible": false
         },
         {
           "title": "О нас",
