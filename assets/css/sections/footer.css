@@ -92,6 +92,14 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
+  @media (--md) {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(5, auto);
+    justify-content: start;
+    gap: 0.5rem 2.5rem;
+  }
 }
 
 .footer__link {
