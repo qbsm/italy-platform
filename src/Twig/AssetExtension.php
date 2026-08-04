@@ -30,7 +30,32 @@ class AssetExtension extends AbstractExtension
             new TwigFunction('assetUrl', [$this, 'getAssetUrl']),
             new TwigFunction('asset_manifest', [$this, 'getAssetManifest']),
             new TwigFunction('css_manifest', [$this, 'getCssManifest']),
+            new TwigFunction('inlineCss', [$this, 'getInlineCss']),
         ];
+    }
+
+
+    /**
+     * Читает содержимое CSS-файла из build-директории для inline-вставки в <style>.
+     * Принимает и логическое имя (main.css) — резолвит в хешированное через css-манифест.
+     */
+    public function getInlineCss(string $filename): ?string
+    {
+        $manifest = $this->getCssManifest() ?? [];
+        if (isset($manifest[$filename])) {
+            $filename = basename((string) $manifest[$filename]);
+        }
+        $filePath = $this->baseDir . '/assets/css/build/' . $filename;
+        if (!is_readable($filePath)) {
+            return null;
+        }
+        $content = @file_get_contents($filePath);
+        if ($content === false) {
+            return null;
+        }
+        // Относительные url(../../X) в build-CSS считаются от assets/css/build/ —
+        // при инлайне в HTML база меняется на страницу, переписываем на абсолютные
+        return str_replace('url(../../', 'url(' . $this->baseUrl . 'assets/', $content);
     }
 
     public function getAssetUrl(string $assetName, string $manifestType = 'js', bool $safe = false): ?string
