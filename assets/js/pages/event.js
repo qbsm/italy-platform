@@ -57,4 +57,32 @@ onReady(function () {
       new PhoneMask(phone).init();
     }
   });
+
+  // Переход на страницу банка занимает секунду-две. Без обратной связи кнопка выглядит
+  // сломанной, и покупатель жмёт её повторно — каждый клик создаёт новый заказ.
+  document.querySelectorAll('.form-ticket-pay').forEach(function (form) {
+    form.addEventListener('submit', function () {
+      if (!form.checkValidity()) return;
+
+      const button = form.querySelector('[type="submit"]');
+      if (!button || button.dataset.pending === '1') return;
+
+      button.dataset.pending = '1';
+      button.dataset.label = button.textContent;
+      button.textContent = 'Переходим к оплате…';
+      setTimeout(function () {
+        button.disabled = true;
+      }, 0);
+    });
+  });
+
+  // Возврат «Назад» со страницы банка отдаётся из bfcache — кнопка должна ожить
+  window.addEventListener('pageshow', function (event) {
+    if (!event.persisted) return;
+    document.querySelectorAll('.form-ticket-pay [type="submit"][data-pending="1"]').forEach(function (button) {
+      button.disabled = false;
+      button.textContent = button.dataset.label || 'Оплатить билет';
+      delete button.dataset.pending;
+    });
+  });
 });

@@ -141,18 +141,21 @@ final class PayCreateAction
         $this->orders->update($orderId, ['status' => 'pending', 'bank_order_id' => $registered['orderId']]);
         $this->logger->info('Оплата зарегистрирована', ['request_id' => $requestId, 'order' => $orderId, 'amount' => $amount]);
 
-        // Дубль ссылки на оплату клиенту на почту (редирект — основной сценарий; сбой почты оплату не ломает)
+        // Дубль ссылки на оплату клиенту на почту (редирект — основной сценарий; сбой почты оплату не ломает).
+        // Отправка отложена до закрытия соединения: SMTP занимает несколько секунд, и всё это
+        // время покупатель смотрел бы на неподвижную страницу вместо платёжной формы банка.
+        $mail = $this->mail;
         $currency = $this->currencySign((string) ($this->settings['payment']['currency'] ?? '810'));
-        $this->mail->sendPaymentLink(
-            $email,
-            $name,
-            (string) ($e['title'] ?? $slug),
-            $this->eventDate($e),
-            $tickets,
-            number_format($amount / 100, 0, '.', ' ') . ' ' . $currency,
-            $formUrl,
-            $requestId,
-        );
+        $eventTitle = (string) ($e['title'] ?? $slug);
+        $eventDate = $this->eventDate($e);
+        $sum = number_format($amount / 100, 0, '.', ' ') . ' ' . $currency;
+
+        register_shutdown_function(static function () use ($mail, $email, $name, $eventTitle, $eventDate, $tickets, $sum, $formUrl, $requestId): void {
+            if (function_exists('fastcgi_finish_request')) {
+                fastcgi_finish_request();
+            }
+            $mail->sendPaymentLink($email, $name, $eventTitle, $eventDate, $tickets, $sum, $formUrl, $requestId);
+        });
 
         if ($wantsJson) {
             return $this->json($response, 200, ['success' => true, 'formUrl' => $formUrl, 'order_id' => $order['id'], 'request_id' => $requestId]);
