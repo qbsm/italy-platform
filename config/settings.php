@@ -141,10 +141,13 @@ return [
             'gateway' => 'alfa',
             'api_url' => $isProdGate
                 ? 'https://pay.alfabank.ru/payment/rest'
-                : 'https://tws.egopay.ru/ab/rest',
+                : 'https://alfa.rbsuat.com/payment/rest',
             'username' => (string) (getenv('PAYMENT_USERNAME') ?: ''),
             'password' => (string) (getenv('PAYMENT_PASSWORD') ?: ''),
             'token' => (string) (getenv('PAYMENT_TOKEN') ?: ''),
+            // Общий ключ контрольной суммы callback-уведомлений (ЛК банка → Callback-уведомления).
+            // Пока пуст, /pay/callback не принимает ничего: оплата подтверждается только возвратом.
+            'callback_token' => (string) (getenv('PAYMENT_CALLBACK_TOKEN') ?: ''),
             'base_url' => $baseUrl,
             // ISO 4217; в шлюзе Альфы рубль — 810
             'currency' => (string) (getenv('PAYMENT_CURRENCY') ?: '810'),

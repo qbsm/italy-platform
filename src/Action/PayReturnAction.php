@@ -6,7 +6,7 @@ namespace App\Action;
 
 use App\Middleware\CorrelationIdMiddleware;
 use App\Service\AlfaGateway;
-use App\Service\MailService;
+use App\Service\OrderConfirmer;
 use App\Service\OrderStore;
 use App\Service\TelegramAlertService;
 use Psr\Http\Message\ResponseInterface;
@@ -23,7 +23,7 @@ final class PayReturnAction
     public function __construct(
         private readonly AlfaGateway $gateway,
         private readonly OrderStore $orders,
-        private readonly MailService $mail,
+        private readonly OrderConfirmer $confirmer,
         private readonly TelegramAlertService $alerts,
         private readonly LoggerInterface $logger,
     ) {
@@ -73,11 +73,7 @@ final class PayReturnAction
         $back = $slug !== '' ? '/events/' . $slug : '/events';
 
         if ($this->gateway->isPaid($status)) {
-            $alreadyPaid = ($order['status'] ?? '') === 'paid';
-            if (!$alreadyPaid) {
-                $this->orders->update((string) $order['id'], ['status' => 'paid', 'paid_at' => time()]);
-                $this->notify($order, $requestId);
-            }
+            $this->confirmer->confirm($order, $requestId);
             $this->logger->info('Оплата успешна', ['request_id' => $requestId, 'order' => $order['id']]);
             return $this->redirect($response, $back . '?' . http_build_query(['order' => $order['id'], 'paid' => '1']));
         }
@@ -97,35 +93,6 @@ final class PayReturnAction
             $reason,
         ), $requestId);
         return $this->redirect($response, $back . '?' . http_build_query(['order' => $order['id'], 'pay' => 'failed']));
-    }
-
-    /**
-     * Уведомление о покупке на MAIL_TO (переиспользуем существующий канал форм).
-     *
-     * @param array<string,mixed> $order
-     */
-    private function notify(array $order, string $requestId): void
-    {
-        $amount = (int) ($order['amount'] ?? 0);
-        $currency = in_array((string) ($order['currency'] ?? '810'), ['810', '643'], true) ? '₽' : (string) $order['currency'];
-        $sum = number_format($amount / 100, 2, '.', ' ');
-        $eventLine = trim((string) ($order['event_title'] ?? '') . ' — ' . (string) ($order['event_date'] ?? ''), ' —');
-
-        $sent = $this->mail->sendFormSubmission([
-            'name' => (string) ($order['name'] ?? ''),
-            'phone' => (string) ($order['phone'] ?? ''),
-            'email' => (string) ($order['email'] ?? ''),
-            'event' => $eventLine,
-            'tickets' => (string) ($order['tickets'] ?? ''),
-            'message' => sprintf('ОПЛАЧЕНО. Заказ %s. Сумма %s %s.', (string) ($order['id'] ?? ''), $sum, $currency),
-        ], [], $requestId);
-
-        if (!$sent) {
-            $this->logger->warning('Оплата проведена, но уведомление не отправлено (MAIL_TO?)', [
-                'request_id' => $requestId,
-                'order' => $order['id'] ?? '',
-            ]);
-        }
     }
 
     private function redirect(ResponseInterface $response, string $location): ResponseInterface

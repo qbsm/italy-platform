@@ -242,7 +242,6 @@ final class AlfaGateway
         $errno = curl_errno($curl);
         $error = curl_error($curl);
         $httpCode = (int) curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        curl_close($curl);
 
         if ($errno !== 0 || !is_string($result)) {
             $this->logger->error('Альфа: ошибка транспорта', [

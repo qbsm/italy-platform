@@ -165,9 +165,14 @@ return static function (): ContainerInterface {
             (string) ($c->get('settings')['payment']['orders_dir'] ?? ''),
             $c->get(LoggerInterface::class),
         ),
+        \App\Service\CallbackVerifier::class => static fn(ContainerInterface $c) => new \App\Service\CallbackVerifier(
+            (string) ($c->get('settings')['payment']['callback_token'] ?? ''),
+        ),
+        \App\Service\OrderConfirmer::class => \DI\autowire(),
         \App\Action\PayCreateAction::class => \DI\autowire()
             ->constructorParameter('settings', \DI\get('settings')),
         \App\Action\PayReturnAction::class => \DI\autowire(),
+        \App\Action\PayCallbackAction::class => \DI\autowire(),
 
         RestaurantSeoBuilder::class => \DI\autowire(),
         SeoBuilderRegistry::class => static fn(ContainerInterface $c) => new SeoBuilderRegistry([
