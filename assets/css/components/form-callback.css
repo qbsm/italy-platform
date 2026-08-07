@@ -236,6 +236,10 @@
   margin: 0 auto 0.9375rem;
 }
 
+.form-callback__success-icon--error {
+  background-color: var(--color-error);
+}
+
 .form-callback__success-title {
   font-size: 1.375rem;
   font-weight: 600;

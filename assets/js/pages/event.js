@@ -69,7 +69,7 @@ onReady(function () {
 
       button.dataset.pending = '1';
       button.dataset.label = button.textContent;
-      button.textContent = 'Переходим к оплате…';
+      button.textContent = 'Переходим к оплате';
       setTimeout(function () {
         button.disabled = true;
       }, 0);
@@ -85,4 +85,58 @@ onReady(function () {
       delete button.dataset.pending;
     });
   });
+
+  // Банк возвращает покупателя на страницу события с ?paid=1 или ?pay=failed.
+  // Без разбора этих параметров человек после оплаты видит обычную страницу и
+  // не понимает, прошёл платёж или нет.
+  (function showPaymentResult() {
+    const params = new URLSearchParams(window.location.search);
+    const paid = params.get('paid') === '1';
+    const failed = params.get('pay') === 'failed';
+    if (!paid && !failed) return;
+
+    const slot = document.querySelector('.event-buy__form');
+    if (!slot) return;
+
+    const order = params.get('order') || '';
+    const box = document.createElement('div');
+    box.className = 'form-callback__success';
+    box.setAttribute('role', 'status');
+
+    const icon = document.createElement('div');
+    icon.className = 'form-callback__success-icon' + (failed ? ' form-callback__success-icon--error' : '');
+    icon.textContent = paid ? '✓' : '!';
+
+    const title = document.createElement('div');
+    title.className = 'form-callback__success-title';
+    title.textContent = paid ? 'Оплата прошла' : 'Оплата не прошла';
+
+    const text = document.createElement('div');
+    text.className = 'form-callback__success-text';
+    text.textContent = paid
+      ? 'Билет и детали мы отправили на вашу почту.' + (order ? ' Номер заказа: ' + order + '.' : '')
+      : 'Деньги не списаны. Попробуйте оплатить ещё раз или напишите нам, если ошибка повторится.';
+
+    box.append(icon, title, text);
+
+    if (paid) {
+      slot.replaceChildren(box);
+      const heading = document.querySelector('.event-buy__heading');
+      if (heading) heading.textContent = 'Билет оплачен';
+      const sub = document.querySelector('.event-buy__sub');
+      if (sub) sub.remove();
+    } else {
+      slot.prepend(box);
+    }
+
+    const anchor = document.getElementById('buy');
+    if (anchor) anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Чтобы перезагрузка страницы не показывала результат повторно
+    params.delete('paid');
+    params.delete('pay');
+    params.delete('order');
+    const query = params.toString();
+    window.history.replaceState({}, '', window.location.pathname + (query ? '?' + query : '') + '#buy');
+  })();
 });
