@@ -123,7 +123,7 @@ return [
         'allow_credentials' => false,
     ],
     'mail' => [
-        'dsn' => (string) (getenv('MAILER_DSN') ?: 'sendmail://default'),
+        'dsn' => (string) (getenv('MAIL_DSN') ?: 'sendmail://default'),
         'to' => (string) (getenv('MAIL_TO') ?: ''),
         'from' => (string) (getenv('MAIL_FROM') ?: 'noreply@localhost'),
         'from_name' => (string) (getenv('MAIL_FROM_NAME') ?: ''),
@@ -167,10 +167,10 @@ return [
     })(),
     // Telegram-алерты об ошибках оплаты/отправки почты в группу «Итали» (Обновление сайта italy&co.)
     'alerts' => [
-        'token' => (string) (getenv('TG_ALERT_BOT_TOKEN') ?: ''),
-        'chat_id' => (string) (getenv('TG_ALERT_CHAT_ID') ?: ''),
-        'proxy' => (string) (getenv('TG_ALERT_PROXY') ?: ''),
-        'site' => (string) (getenv('TG_ALERT_SITE') ?: 'italycommunity.ru'),
+        'token' => (string) (getenv('TELEGRAM_ALERT_BOT_TOKEN') ?: ''),
+        'chat_id' => (string) (getenv('TELEGRAM_ALERT_CHAT_ID') ?: ''),
+        'proxy' => (string) (getenv('TELEGRAM_ALERT_PROXY') ?: ''),
+        'site' => (string) (getenv('TELEGRAM_ALERT_SITE') ?: 'italycommunity.ru'),
     ],
     // Резервный сбор заявок (rescue-канал): дублирует заявку в наш сервис, который сначала её
     // сохраняет, а потом раздаёт по каналам с повторами — упавший канал не теряет лид.
