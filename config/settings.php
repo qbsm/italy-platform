@@ -172,6 +172,18 @@ return [
         'proxy' => (string) (getenv('TG_ALERT_PROXY') ?: ''),
         'site' => (string) (getenv('TG_ALERT_SITE') ?: 'italycommunity.ru'),
     ],
+    // Резервный сбор заявок (rescue-канал): дублирует заявку в наш сервис, который сначала её
+    // сохраняет, а потом раздаёт по каналам с повторами — упавший канал не теряет лид.
+    // Подтверждение отправителя — по домену: заявку шлёт бэкенд, значит с адреса, на который
+    // домен резолвится. Секрета в .env нет; ключ нужен только хостингам вне нашего периметра.
+    'rescue' => [
+        'enable' => filter_var((string) (getenv('RESCUE_ENABLE') ?: 'false'), FILTER_VALIDATE_BOOLEAN),
+        'url' => (string) (getenv('RESCUE_URL') ?: 'https://api.ismart.pro/v1/rescue'),
+        'site' => (string) (getenv('RESCUE_SITE') ?: ''),
+        'key' => (string) (getenv('RESCUE_KEY') ?: ''),
+        'timeout' => (int) (getenv('RESCUE_TIMEOUT') ?: 10),
+    ],
+
     'errors' => require __DIR__ . '/errors.php',
     'twig' => [
         'cache' => $isProduction ? $cacheDir . '/twig' : false,

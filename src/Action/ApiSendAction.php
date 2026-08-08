@@ -15,6 +15,7 @@ final class ApiSendAction
     public function __construct(
         private readonly MailService $mailService,
         private readonly LoggerInterface $logger,
+        private readonly \App\Notification\Channel\RescueChannel $rescue,
     ) {
     }
 
@@ -72,6 +73,17 @@ final class ApiSendAction
 
         if (!$mailSent) {
             $this->logger->warning('Форма принята, но письмо не отправлено', ['request_id' => $requestId]);
+        }
+
+        // Резервная копия заявки в приёмник: письмо уходит в один заход, и отказ SMTP означал бы
+        // потерянный лид. Канал изолирован — его отказ не должен ломать ответ формы.
+        try {
+            if ($this->rescue->isEnabled()) {
+                $data['_user_agent'] = (string) ($request->getHeaderLine('User-Agent') ?: '');
+                $this->rescue->send($data, $uploadedFiles, $requestId);
+            }
+        } catch (\Throwable $e) {
+            $this->logger->error('Rescue: канал упал', ['request_id' => $requestId, 'error' => $e->getMessage()]);
         }
 
         $payload = [

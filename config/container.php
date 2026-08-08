@@ -155,6 +155,14 @@ return static function (): ContainerInterface {
             );
         },
 
+        \Symfony\Contracts\HttpClient\HttpClientInterface::class => static fn() => \Symfony\Component\HttpClient\HttpClient::create(),
+
+        \App\Notification\Channel\RescueChannel::class => static fn(ContainerInterface $c) => new \App\Notification\Channel\RescueChannel(
+            $c->get(\Symfony\Contracts\HttpClient\HttpClientInterface::class),
+            $c->get(LoggerInterface::class),
+            $c->get('settings')['rescue'] ?? [],
+        ),
+
         ApiSendAction::class => \DI\autowire(),
 
         \App\Service\AlfaGateway::class => static fn(ContainerInterface $c) => new \App\Service\AlfaGateway(
