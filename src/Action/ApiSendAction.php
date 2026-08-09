@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Action;
 
 use App\Middleware\CorrelationIdMiddleware;
-use App\Service\MailService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
@@ -13,7 +12,7 @@ use Psr\Log\LoggerInterface;
 final class ApiSendAction
 {
     public function __construct(
-        private readonly MailService $mailService,
+        private readonly \App\Notification\NotificationDispatcher $dispatcher,
         private readonly LoggerInterface $logger,
         private readonly \App\Notification\Channel\RescueChannel $rescue,
         private readonly \App\Support\FormToken $formToken,
@@ -83,32 +82,48 @@ final class ApiSendAction
             return $this->json($response, 422, $payload);
         }
 
-        // Отправка email
+        // Каналы обходит диспетчер (ADR-0005): падение одного изолировано и не мешает
+        // остальным, а ответ формы получает статус каждого.
         $uploadedFiles = $request->getUploadedFiles();
-        $mailSent = $this->mailService->sendFormSubmission($data, $uploadedFiles, $requestId);
+        $data['_user_agent'] = (string) ($request->getHeaderLine('User-Agent') ?: '');
+        $data['_ip'] = $this->clientIp($request);
 
-        if (!$mailSent) {
-            $this->logger->warning('Форма принята, но письмо не отправлено', ['request_id' => $requestId]);
-        }
-
-        // Резервная копия заявки в приёмник: письмо уходит в один заход, и отказ SMTP означал бы
-        // потерянный лид. Канал изолирован — его отказ не должен ломать ответ формы.
-        try {
-            if ($this->rescue->isEnabled()) {
-                $data['_user_agent'] = (string) ($request->getHeaderLine('User-Agent') ?: '');
-                $this->rescue->send($data, $uploadedFiles, $requestId);
+        $channels = [];
+        foreach ($this->dispatcher->dispatch($data, $uploadedFiles, $requestId) as $result) {
+            $channels[$result->channel] = $result->status;
+            if ($result->status === \App\Notification\ChannelResult::STATUS_FAILED) {
+                $this->logger->warning('Канал не доставил', [
+                    'channel' => $result->channel,
+                    'message' => $result->message,
+                    'request_id' => $requestId,
+                ]);
             }
-        } catch (\Throwable $e) {
-            $this->logger->error('Rescue: канал упал', ['request_id' => $requestId, 'error' => $e->getMessage()]);
         }
+
+        // Итоги каналов уходят в приёмник: иначе «дошло ли до CallTouch на прозвон» не видно.
+        $this->rescue->reportChannels($channels, $requestId);
 
         $payload = [
             'success' => true,
             'message' => 'Заявка успешно отправлена',
+            'channels' => $channels,
             'request_id' => $requestId,
         ];
         $this->cacheResponse($idempotencyKey, 200, $payload);
         return $this->json($response, 200, $payload);
+    }
+
+    private function clientIp(ServerRequestInterface $request): string
+    {
+        $forwarded = $request->getHeaderLine('X-Forwarded-For');
+        if ($forwarded !== '') {
+            $first = trim(explode(',', $forwarded)[0]);
+            if ($first !== '') {
+                return $first;
+            }
+        }
+
+        return (string) ($request->getServerParams()['REMOTE_ADDR'] ?? '');
     }
 
     /**

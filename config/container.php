@@ -166,6 +166,43 @@ return static function (): ContainerInterface {
             $c->get('settings')['rescue'] ?? [],
         ),
 
+        // Каналы уведомлений по ADR-0005: порядок в списке — порядок обхода. Rescue первым,
+        // чтобы заявка была сохранена раньше любых попыток доставки.
+        \App\Notification\Channel\MailChannel::class => static fn(ContainerInterface $c) => new \App\Notification\Channel\MailChannel(
+            $c->get(MailService::class),
+            $c->get('settings')['mail'] ?? [],
+        ),
+
+        \App\Notification\Channel\CallTouchChannel::class => static fn(ContainerInterface $c) => new \App\Notification\Channel\CallTouchChannel(
+            $c->get(\Symfony\Contracts\HttpClient\HttpClientInterface::class),
+            $c->get(LoggerInterface::class),
+            $c->get('settings')['calltouch'] ?? [],
+        ),
+
+        \App\Notification\Channel\TelegramChannel::class => static fn(ContainerInterface $c) => new \App\Notification\Channel\TelegramChannel(
+            $c->get(\Symfony\Contracts\HttpClient\HttpClientInterface::class),
+            $c->get(LoggerInterface::class),
+            $c->get('settings')['telegram'] ?? [],
+        ),
+
+        \App\Notification\Channel\GoogleSheetsChannel::class => static fn(ContainerInterface $c) => new \App\Notification\Channel\GoogleSheetsChannel(
+            $c->get(\Symfony\Contracts\HttpClient\HttpClientInterface::class),
+            $c->get(LoggerInterface::class),
+            $c->get('settings')['google_sheets'] ?? [],
+            (string) ($c->get('settings')['project_root'] ?? ''),
+        ),
+
+        \App\Notification\NotificationDispatcher::class => static fn(ContainerInterface $c) => new \App\Notification\NotificationDispatcher(
+            [
+                $c->get(\App\Notification\Channel\RescueChannel::class),
+                $c->get(\App\Notification\Channel\MailChannel::class),
+                $c->get(\App\Notification\Channel\CallTouchChannel::class),
+                $c->get(\App\Notification\Channel\TelegramChannel::class),
+                $c->get(\App\Notification\Channel\GoogleSheetsChannel::class),
+            ],
+            $c->get(LoggerInterface::class),
+        ),
+
         // Секрет подписи живёт в cache и заводится сам: иначе каждый deployment пришлось бы
         // править вручную, а забытый ключ означал бы неотправляемые формы.
         FormToken::class => static function (ContainerInterface $c) {

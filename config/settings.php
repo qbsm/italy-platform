@@ -138,6 +138,26 @@ return [
         'from_name' => (string) (getenv('MAIL_FROM_NAME') ?: ''),
         'subject_prefix' => (string) (getenv('MAIL_SUBJECT_PREFIX') ?: ''),
     ],
+    'calltouch' => [
+        'enable' => (bool) filter_var((string) (getenv('CALLTOUCH_ENABLE') ?: ''), FILTER_VALIDATE_BOOL),
+        'route_key' => (string) (getenv('CALLTOUCH_ROUTE_KEY') ?: ''),
+        'token' => (string) (getenv('CALLTOUCH_TOKEN') ?: ''),
+        'site_id' => (string) (getenv('CALLTOUCH_SITE_ID') ?: ''),
+        'timeout' => (int) (getenv('CALLTOUCH_TIMEOUT') ?: 10),
+    ],
+    'telegram' => [
+        'enable' => (bool) filter_var((string) (getenv('TELEGRAM_ENABLE') ?: ''), FILTER_VALIDATE_BOOL),
+        'bot_token' => (string) (getenv('TELEGRAM_BOT_TOKEN') ?: ''),
+        'chat_id' => (string) (getenv('TELEGRAM_CHAT_ID') ?: ''),
+        'timeout' => (int) (getenv('TELEGRAM_TIMEOUT') ?: 10),
+    ],
+    'google_sheets' => [
+        'enable' => (bool) filter_var((string) (getenv('SHEETS_ENABLE') ?: ''), FILTER_VALIDATE_BOOL),
+        'spreadsheet_id' => (string) (getenv('SHEETS_SPREADSHEET_ID') ?: ''),
+        'sheet_name' => (string) (getenv('SHEETS_SHEET_NAME') ?: 'Заявки'),
+        'credentials_path' => (string) (getenv('SHEETS_CREDENTIALS_PATH') ?: 'config/secrets/google-service-account.json'),
+        'timeout' => (int) (getenv('SHEETS_TIMEOUT') ?: 10),
+    ],
     // Интернет-эквайринг Альфа-Банка (платформа RBS, REST). Включается флагом PAYMENT_ENABLED,
     // учётные данные магазина (логин с суффиксом -api и пароль либо token) — только из окружения.
     'payment' => (static function () use ($appEnv, $projectRoot): array {
