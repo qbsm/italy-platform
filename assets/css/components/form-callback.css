@@ -1,3 +1,11 @@
+.form-callback__trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 /* Форма обратной связи: BEM, переменные, доступность (подписи над полями, обязательность *, подпись под кнопкой) */
 .form-callback {
   width: 100%;

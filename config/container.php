@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Action\ApiFormTokenAction;
 use App\Action\ApiSendAction;
 use App\Action\ApiWidgetRescueAction;
 use App\Action\HealthAction;
@@ -15,6 +16,7 @@ use App\Middleware\RateLimitMiddleware;
 use App\Middleware\RedirectMiddleware;
 use App\Middleware\RequestDurationMiddleware;
 use App\Middleware\SecurityHeadersMiddleware;
+use App\Support\FormToken;
 use App\Service\DataLoaderService;
 use App\Service\MailService;
 use App\Service\RestaurantSeoBuilder;
@@ -164,6 +166,34 @@ return static function (): ContainerInterface {
             $c->get('settings')['rescue'] ?? [],
         ),
 
+        // Секрет подписи живёт в cache и заводится сам: иначе каждый deployment пришлось бы
+        // править вручную, а забытый ключ означал бы неотправляемые формы.
+        FormToken::class => static function (ContainerInterface $c) {
+            $settings = $c->get('settings');
+            $config = (array) ($settings['form_token'] ?? []);
+            $file = (string) ($config['secret_file'] ?? '');
+            $secret = (string) (getenv('APP_SECRET') ?: '');
+
+            if ($secret === '' && $file !== '') {
+                if (is_file($file)) {
+                    $secret = trim((string) file_get_contents($file));
+                }
+                if ($secret === '') {
+                    $secret = bin2hex(random_bytes(32));
+                    @mkdir(dirname($file), 0775, true);
+                    @file_put_contents($file, $secret, LOCK_EX);
+                    @chmod($file, 0600);
+                }
+            }
+
+            return new FormToken(
+                $secret !== '' ? $secret : 'insecure-fallback',
+                (int) ($config['min_age'] ?? 3),
+                (int) ($config['max_age'] ?? 7200),
+            );
+        },
+
+        ApiFormTokenAction::class => \DI\autowire(),
         ApiSendAction::class => \DI\autowire(),
         ApiWidgetRescueAction::class => \DI\autowire(),
 
