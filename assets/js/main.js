@@ -45,7 +45,9 @@ import './components/card-number.js';
 import './components/card-gradient-parallax.js';
 import setupSliders from './components/slider.js';
 import './components/burger-icon.js';
-import { initCalltouchWidgetCapture } from './components/calltouch-widget-capture.js';
+import { initCalltouchWidgetCheck } from './components/calltouch-widget-check.js';
+import { initLeadContext } from './components/lead-context.js';
+import { initFunnel } from './components/funnel.js';
 
 // --- Pages ---
 import './pages/restaurants.js';
@@ -57,7 +59,9 @@ import './pages/index.js';
 
 // --- Init ---
 onReady(() => {
-  initCalltouchWidgetCapture();
+  initFunnel();
+  initLeadContext();
+  initCalltouchWidgetCheck();
   if (typeof setupSliders === 'function') {
     setupSliders();
   }
