@@ -15,6 +15,7 @@ use Slim\App;
 return static function (App $app): void {
     $app->get('/health', HealthAction::class);
     $app->post('/api/send', ApiSendAction::class);
+    $app->post('/api/widget-rescue', ApiWidgetRescueAction::class);
     $app->post('/api/pay', PayCreateAction::class);
     $app->get('/pay/return', PayReturnAction::class);
     $app->get('/pay/callback', PayCallbackAction::class);
