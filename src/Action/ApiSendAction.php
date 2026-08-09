@@ -16,6 +16,7 @@ final class ApiSendAction
         private readonly MailService $mailService,
         private readonly LoggerInterface $logger,
         private readonly \App\Notification\Channel\RescueChannel $rescue,
+        private readonly \App\Support\FormToken $formToken,
     ) {
     }
 
@@ -32,15 +33,30 @@ final class ApiSendAction
         $data = is_array($parsed) ? $parsed : [];
         $idempotencyKey = $this->extractString($data, 'idempotency_key');
 
-        // CSRF
-        $csrfToken = $this->extractString($data, 'csrf_token');
-        $sessionToken = isset($_SESSION['csrf_token']) && is_string($_SESSION['csrf_token']) ? $_SESSION['csrf_token'] : '';
+        // Ловушка: поле спрятано от человека, робот заполняет всё подряд. Отвечаем как при
+        // успехе — иначе робот подберёт набор полей и вернётся.
+        if ($this->extractString($data, 'company_site') !== '') {
+            $this->logger->warning('Заявка отброшена ловушкой', ['request_id' => $requestId]);
+            return $this->json($response, 200, [
+                'success' => true,
+                'message' => 'Заявка успешно отправлена',
+                'channels' => [],
+                'request_id' => $requestId,
+            ]);
+        }
 
-        if ($csrfToken === '' || $sessionToken === '' || !hash_equals($sessionToken, $csrfToken)) {
+        // Подтверждение источника: токен выдан по запросу браузера и несёт время выдачи.
+        $verdict = $this->formToken->inspect($this->extractString($data, 'form_token'));
+        if (!$verdict['valid']) {
+            $this->logger->warning('Заявка отклонена проверкой токена', [
+                'request_id' => $requestId,
+                'reason' => $verdict['reason'],
+            ]);
             return $this->json($response, 419, [
                 'success' => false,
-                'code' => 'CSRF_INVALID',
-                'message' => 'Сессия истекла. Обновите страницу и попробуйте снова.',
+                'code' => 'TOKEN_INVALID',
+                'message' => 'Не удалось подтвердить отправку. Попробуйте ещё раз.',
+                'retry_after' => max(1, $this->formToken->minAge()),
                 'request_id' => $requestId,
             ]);
         }
