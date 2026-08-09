@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Action\ApiSendAction;
+use App\Action\ApiWidgetRescueAction;
 use App\Action\HealthAction;
 use App\Action\PageAction;
 use App\Action\PayCallbackAction;

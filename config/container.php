@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Action\ApiSendAction;
+use App\Action\ApiWidgetRescueAction;
 use App\Action\HealthAction;
 use App\Action\PageAction;
 use App\Action\SitemapAction;
@@ -164,6 +165,7 @@ return static function (): ContainerInterface {
         ),
 
         ApiSendAction::class => \DI\autowire(),
+        ApiWidgetRescueAction::class => \DI\autowire(),
 
         \App\Service\AlfaGateway::class => static fn(ContainerInterface $c) => new \App\Service\AlfaGateway(
             $c->get('settings')['payment'] ?? [],
