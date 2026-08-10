@@ -30,7 +30,8 @@ final class ApiWidgetRescueAction
         private readonly RescueChannel $rescue,
         private readonly LoggerInterface $logger,
         private readonly FormToken $formToken,
-    ) {}
+    ) {
+    }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
@@ -69,6 +70,13 @@ final class ApiWidgetRescueAction
                 'error' => $e->getMessage(),
             ]);
             return $this->json($response, 200, ['success' => true, 'registered' => false, 'request_id' => $requestId]);
+        }
+
+        // Заявку в CallTouch создал сам виджет, слать её туда второй раз нечего — но в отчёте
+        // каналов это должно читаться как доставлено, иначе колонка пуста и выглядит как
+        // «неизвестно, дошло ли». Виджетные заявки видно по названию формы.
+        if ($result->status === 'success') {
+            $this->rescue->reportChannels(['calltouch' => 'success'], $requestId);
         }
 
         return $this->json($response, 200, [
