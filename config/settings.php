@@ -113,17 +113,8 @@ return [
     ],
     // Rate limiting для POST /api/send (по IP, файловое хранилище в cache/rate_limit)
     'rate_limit_api_send' => [
-        'paths' => ['/api/send', '/api/widget-rescue'],
         'max_requests' => 10,
         'window_seconds' => 60,
-    ],
-    // Токен формы выдаётся браузеру по запросу, а не вместе с HTML: страница, скачанная
-    // роботом, не даёт возможности отправить заявку. min_age — сколько секунд между выдачей
-    // токена и отправкой считаем нижней границей для живого человека.
-    'form_token' => [
-        'min_age' => 3,
-        'max_age' => 7200,
-        'secret_file' => $cacheDir . '/form-token-secret',
     ],
     'cors' => [
         'allowed_origins' => [], // например ['https://example.com'] или ['*'] для любого
@@ -132,33 +123,11 @@ return [
         'allow_credentials' => false,
     ],
     'mail' => [
-        // Пусто — флага в .env нет, поведение прежнее: канал включён, если задан адрес.
-        'enable' => (string) (getenv('MAIL_ENABLE') ?: ''),
-        'dsn' => (string) (getenv('MAIL_DSN') ?: 'sendmail://default'),
+        'dsn' => (string) (getenv('MAILER_DSN') ?: 'sendmail://default'),
         'to' => (string) (getenv('MAIL_TO') ?: ''),
         'from' => (string) (getenv('MAIL_FROM') ?: 'noreply@localhost'),
         'from_name' => (string) (getenv('MAIL_FROM_NAME') ?: ''),
         'subject_prefix' => (string) (getenv('MAIL_SUBJECT_PREFIX') ?: ''),
-    ],
-    'calltouch' => [
-        'enable' => (bool) filter_var((string) (getenv('CALLTOUCH_ENABLE') ?: ''), FILTER_VALIDATE_BOOL),
-        'route_key' => (string) (getenv('CALLTOUCH_ROUTE_KEY') ?: ''),
-        'token' => (string) (getenv('CALLTOUCH_TOKEN') ?: ''),
-        'site_id' => (string) (getenv('CALLTOUCH_SITE_ID') ?: ''),
-        'timeout' => (int) (getenv('CALLTOUCH_TIMEOUT') ?: 10),
-    ],
-    'telegram' => [
-        'enable' => (bool) filter_var((string) (getenv('TELEGRAM_ENABLE') ?: ''), FILTER_VALIDATE_BOOL),
-        'bot_token' => (string) (getenv('TELEGRAM_BOT_TOKEN') ?: ''),
-        'chat_id' => (string) (getenv('TELEGRAM_CHAT_ID') ?: ''),
-        'timeout' => (int) (getenv('TELEGRAM_TIMEOUT') ?: 10),
-    ],
-    'google_sheets' => [
-        'enable' => (bool) filter_var((string) (getenv('SHEETS_ENABLE') ?: ''), FILTER_VALIDATE_BOOL),
-        'spreadsheet_id' => (string) (getenv('SHEETS_SPREADSHEET_ID') ?: ''),
-        'sheet_name' => (string) (getenv('SHEETS_SHEET_NAME') ?: 'Заявки'),
-        'credentials_path' => (string) (getenv('SHEETS_CREDENTIALS_PATH') ?: 'config/secrets/google-service-account.json'),
-        'timeout' => (int) (getenv('SHEETS_TIMEOUT') ?: 10),
     ],
     // Интернет-эквайринг Альфа-Банка (платформа RBS, REST). Включается флагом PAYMENT_ENABLED,
     // учётные данные магазина (логин с суффиксом -api и пароль либо token) — только из окружения.
@@ -198,23 +167,11 @@ return [
     })(),
     // Telegram-алерты об ошибках оплаты/отправки почты в группу «Итали» (Обновление сайта italy&co.)
     'alerts' => [
-        'token' => (string) (getenv('TELEGRAM_ALERT_BOT_TOKEN') ?: ''),
-        'chat_id' => (string) (getenv('TELEGRAM_ALERT_CHAT_ID') ?: ''),
-        'proxy' => (string) (getenv('TELEGRAM_ALERT_PROXY') ?: ''),
-        'site' => (string) (getenv('TELEGRAM_ALERT_SITE') ?: 'italycommunity.ru'),
+        'token' => (string) (getenv('TG_ALERT_BOT_TOKEN') ?: ''),
+        'chat_id' => (string) (getenv('TG_ALERT_CHAT_ID') ?: ''),
+        'proxy' => (string) (getenv('TG_ALERT_PROXY') ?: ''),
+        'site' => (string) (getenv('TG_ALERT_SITE') ?: 'italycommunity.ru'),
     ],
-    // Резервный сбор заявок (rescue-канал): дублирует заявку в наш сервис, который сначала её
-    // сохраняет, а потом раздаёт по каналам с повторами — упавший канал не теряет лид.
-    // Подтверждение отправителя — по домену: заявку шлёт бэкенд, значит с адреса, на который
-    // домен резолвится. Секрета в .env нет; ключ нужен только хостингам вне нашего периметра.
-    'rescue' => [
-        'enable' => filter_var((string) (getenv('RESCUE_ENABLE') ?: 'false'), FILTER_VALIDATE_BOOLEAN),
-        'url' => (string) (getenv('RESCUE_URL') ?: 'https://api.ismart.pro/v1/rescue'),
-        'site' => (string) (getenv('RESCUE_SITE') ?: ''),
-        'key' => (string) (getenv('RESCUE_KEY') ?: ''),
-        'timeout' => (int) (getenv('RESCUE_TIMEOUT') ?: 10),
-    ],
-
     'errors' => require __DIR__ . '/errors.php',
     'twig' => [
         'cache' => $isProduction ? $cacheDir . '/twig' : false,

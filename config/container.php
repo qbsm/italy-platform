@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Action\ApiFormTokenAction;
 use App\Action\ApiSendAction;
-use App\Action\ApiWidgetRescueAction;
 use App\Action\HealthAction;
 use App\Action\PageAction;
 use App\Action\SitemapAction;
@@ -16,7 +14,6 @@ use App\Middleware\RateLimitMiddleware;
 use App\Middleware\RedirectMiddleware;
 use App\Middleware\RequestDurationMiddleware;
 use App\Middleware\SecurityHeadersMiddleware;
-use App\Support\FormToken;
 use App\Service\DataLoaderService;
 use App\Service\MailService;
 use App\Service\RestaurantSeoBuilder;
@@ -158,81 +155,7 @@ return static function (): ContainerInterface {
             );
         },
 
-        \Symfony\Contracts\HttpClient\HttpClientInterface::class => static fn() => \Symfony\Component\HttpClient\HttpClient::create(),
-
-        \App\Notification\Channel\RescueChannel::class => static fn(ContainerInterface $c) => new \App\Notification\Channel\RescueChannel(
-            $c->get(\Symfony\Contracts\HttpClient\HttpClientInterface::class),
-            $c->get(LoggerInterface::class),
-            $c->get('settings')['rescue'] ?? [],
-        ),
-
-        // Каналы уведомлений по ADR-0005: порядок в списке — порядок обхода. Rescue первым,
-        // чтобы заявка была сохранена раньше любых попыток доставки.
-        \App\Notification\Channel\MailChannel::class => static fn(ContainerInterface $c) => new \App\Notification\Channel\MailChannel(
-            $c->get(MailService::class),
-            $c->get('settings')['mail'] ?? [],
-        ),
-
-        \App\Notification\Channel\CallTouchChannel::class => static fn(ContainerInterface $c) => new \App\Notification\Channel\CallTouchChannel(
-            $c->get(\Symfony\Contracts\HttpClient\HttpClientInterface::class),
-            $c->get(LoggerInterface::class),
-            $c->get('settings')['calltouch'] ?? [],
-        ),
-
-        \App\Notification\Channel\TelegramChannel::class => static fn(ContainerInterface $c) => new \App\Notification\Channel\TelegramChannel(
-            $c->get(\Symfony\Contracts\HttpClient\HttpClientInterface::class),
-            $c->get(LoggerInterface::class),
-            $c->get('settings')['telegram'] ?? [],
-        ),
-
-        \App\Notification\Channel\GoogleSheetsChannel::class => static fn(ContainerInterface $c) => new \App\Notification\Channel\GoogleSheetsChannel(
-            $c->get(\Symfony\Contracts\HttpClient\HttpClientInterface::class),
-            $c->get(LoggerInterface::class),
-            $c->get('settings')['google_sheets'] ?? [],
-            (string) ($c->get('settings')['project_root'] ?? ''),
-        ),
-
-        \App\Notification\NotificationDispatcher::class => static fn(ContainerInterface $c) => new \App\Notification\NotificationDispatcher(
-            [
-                $c->get(\App\Notification\Channel\RescueChannel::class),
-                $c->get(\App\Notification\Channel\MailChannel::class),
-                $c->get(\App\Notification\Channel\CallTouchChannel::class),
-                $c->get(\App\Notification\Channel\TelegramChannel::class),
-                $c->get(\App\Notification\Channel\GoogleSheetsChannel::class),
-            ],
-            $c->get(LoggerInterface::class),
-        ),
-
-        // Секрет подписи живёт в cache и заводится сам: иначе каждый deployment пришлось бы
-        // править вручную, а забытый ключ означал бы неотправляемые формы.
-        FormToken::class => static function (ContainerInterface $c) {
-            $settings = $c->get('settings');
-            $config = (array) ($settings['form_token'] ?? []);
-            $file = (string) ($config['secret_file'] ?? '');
-            $secret = (string) (getenv('APP_SECRET') ?: '');
-
-            if ($secret === '' && $file !== '') {
-                if (is_file($file)) {
-                    $secret = trim((string) file_get_contents($file));
-                }
-                if ($secret === '') {
-                    $secret = bin2hex(random_bytes(32));
-                    @mkdir(dirname($file), 0775, true);
-                    @file_put_contents($file, $secret, LOCK_EX);
-                    @chmod($file, 0600);
-                }
-            }
-
-            return new FormToken(
-                $secret !== '' ? $secret : 'insecure-fallback',
-                (int) ($config['min_age'] ?? 3),
-                (int) ($config['max_age'] ?? 7200),
-            );
-        },
-
-        ApiFormTokenAction::class => \DI\autowire(),
         ApiSendAction::class => \DI\autowire(),
-        ApiWidgetRescueAction::class => \DI\autowire(),
 
         \App\Service\AlfaGateway::class => static fn(ContainerInterface $c) => new \App\Service\AlfaGateway(
             $c->get('settings')['payment'] ?? [],

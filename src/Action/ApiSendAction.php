@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Action;
 
 use App\Middleware\CorrelationIdMiddleware;
+use App\Service\MailService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
@@ -12,10 +13,8 @@ use Psr\Log\LoggerInterface;
 final class ApiSendAction
 {
     public function __construct(
-        private readonly \App\Notification\NotificationDispatcher $dispatcher,
+        private readonly MailService $mailService,
         private readonly LoggerInterface $logger,
-        private readonly \App\Notification\Channel\RescueChannel $rescue,
-        private readonly \App\Support\FormToken $formToken,
     ) {
     }
 
@@ -32,30 +31,15 @@ final class ApiSendAction
         $data = is_array($parsed) ? $parsed : [];
         $idempotencyKey = $this->extractString($data, 'idempotency_key');
 
-        // Ловушка: поле спрятано от человека, робот заполняет всё подряд. Отвечаем как при
-        // успехе — иначе робот подберёт набор полей и вернётся.
-        if ($this->extractString($data, 'company_site') !== '') {
-            $this->logger->warning('Заявка отброшена ловушкой', ['request_id' => $requestId]);
-            return $this->json($response, 200, [
-                'success' => true,
-                'message' => 'Заявка успешно отправлена',
-                'channels' => [],
-                'request_id' => $requestId,
-            ]);
-        }
+        // CSRF
+        $csrfToken = $this->extractString($data, 'csrf_token');
+        $sessionToken = isset($_SESSION['csrf_token']) && is_string($_SESSION['csrf_token']) ? $_SESSION['csrf_token'] : '';
 
-        // Подтверждение источника: токен выдан по запросу браузера и несёт время выдачи.
-        $verdict = $this->formToken->inspect($this->extractString($data, 'form_token'));
-        if (!$verdict['valid']) {
-            $this->logger->warning('Заявка отклонена проверкой токена', [
-                'request_id' => $requestId,
-                'reason' => $verdict['reason'],
-            ]);
+        if ($csrfToken === '' || $sessionToken === '' || !hash_equals($sessionToken, $csrfToken)) {
             return $this->json($response, 419, [
                 'success' => false,
-                'code' => 'TOKEN_INVALID',
-                'message' => 'Не удалось подтвердить отправку. Попробуйте ещё раз.',
-                'retry_after' => max(1, $this->formToken->minAge()),
+                'code' => 'CSRF_INVALID',
+                'message' => 'Сессия истекла. Обновите страницу и попробуйте снова.',
                 'request_id' => $requestId,
             ]);
         }
@@ -82,48 +66,21 @@ final class ApiSendAction
             return $this->json($response, 422, $payload);
         }
 
-        // Каналы обходит диспетчер (ADR-0005): падение одного изолировано и не мешает
-        // остальным, а ответ формы получает статус каждого.
+        // Отправка email
         $uploadedFiles = $request->getUploadedFiles();
-        $data['_user_agent'] = (string) ($request->getHeaderLine('User-Agent') ?: '');
-        $data['_ip'] = $this->clientIp($request);
+        $mailSent = $this->mailService->sendFormSubmission($data, $uploadedFiles, $requestId);
 
-        $channels = [];
-        foreach ($this->dispatcher->dispatch($data, $uploadedFiles, $requestId) as $result) {
-            $channels[$result->channel] = $result->status;
-            if ($result->status === \App\Notification\ChannelResult::STATUS_FAILED) {
-                $this->logger->warning('Канал не доставил', [
-                    'channel' => $result->channel,
-                    'message' => $result->message,
-                    'request_id' => $requestId,
-                ]);
-            }
+        if (!$mailSent) {
+            $this->logger->warning('Форма принята, но письмо не отправлено', ['request_id' => $requestId]);
         }
-
-        // Итоги каналов уходят в приёмник: иначе «дошло ли до CallTouch на прозвон» не видно.
-        $this->rescue->reportChannels($channels, $requestId);
 
         $payload = [
             'success' => true,
             'message' => 'Заявка успешно отправлена',
-            'channels' => $channels,
             'request_id' => $requestId,
         ];
         $this->cacheResponse($idempotencyKey, 200, $payload);
         return $this->json($response, 200, $payload);
-    }
-
-    private function clientIp(ServerRequestInterface $request): string
-    {
-        $forwarded = $request->getHeaderLine('X-Forwarded-For');
-        if ($forwarded !== '') {
-            $first = trim(explode(',', $forwarded)[0]);
-            if ($first !== '') {
-                return $first;
-            }
-        }
-
-        return (string) ($request->getServerParams()['REMOTE_ADDR'] ?? '');
     }
 
     /**

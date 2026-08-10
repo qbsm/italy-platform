@@ -1,9 +1,5 @@
 {% set formId = 'formCallback' ~ random(1000000) %}
 <form class="form-callback js-form-callback" novalidate method="post" action="" id="{{ formId }}">
-  <div class="form-callback__trap" aria-hidden="true">
-    <input type="text" name="company_site" tabindex="-1" autocomplete="off">
-  </div>
-  <input type="hidden" name="form_token" value="">
   <div class="form-callback__container">
     <div class="form-callback__item form-callback-item-email">
       <input id="{{ formId }}Email" type="email" class="form-callback__input" name="email" inputmode="email" autocomplete="email" placeholder="{{ global['form-callback'].placeholder[lang_code].email }}" aria-required="true" aria-label="{{ global['form-callback'].label[lang_code].email }}">
@@ -27,6 +23,7 @@
     </div>
     <div class="form-callback__item form-callback-item-hidden">
       <input type="hidden" name="current_url" value="">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token | default('') }}">
     </div>
     <div class="form-callback__item button-wrap">
       <button class="button button-sm bg-color-1 color-2 button-animated animation-shift link" type="submit">
