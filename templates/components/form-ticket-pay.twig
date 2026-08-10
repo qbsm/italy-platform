@@ -54,7 +54,7 @@
     </div>
     <div class="form-callback__item form-callback-item-hidden">
       <input type="hidden" name="slug" value="{{ slug }}">
-      <input type="hidden" name="form_token" value="">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token | default('') }}">
     </div>
     <div class="form-callback__item button-wrap">
       <button class="button button-md bg-color-3 color-1 button-rounded uppercase link form-ticket__submit" type="submit">

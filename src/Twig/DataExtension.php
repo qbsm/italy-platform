@@ -36,12 +36,21 @@ class DataExtension extends AbstractExtension
      */
     /**
      * Путь в манифесте: относительно data/img (например intro/cover.jpg или restaurants/.../1.jpg).
-     * В шаблон может приходить с префиксом data/img/ — он отрезается при поиске.
+     * На вход принимаем и относительный путь с префиксом data/img/, и абсолютный URL —
+     * часть данных нормализуется в absolute до рендера (covers у событий/ресторанов).
      */
     public function getImageDimensions(string $path): ?array
     {
         $path = ltrim(str_replace('\\', '/', $path), '/');
-        $path = preg_replace('#^data/img/#', '', $path);
+        if (preg_match('#^[a-z][a-z0-9+.-]*://#i', $path) === 1) {
+            $urlPath = parse_url($path, PHP_URL_PATH);
+            $path = is_string($urlPath) ? ltrim($urlPath, '/') : '';
+        }
+        $marker = 'data/img/';
+        $pos = strrpos($path, $marker);
+        if ($pos !== false) {
+            $path = substr($path, $pos + strlen($marker));
+        }
         if ($path === '') {
             return null;
         }

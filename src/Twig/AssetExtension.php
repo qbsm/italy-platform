@@ -54,8 +54,13 @@ class AssetExtension extends AbstractExtension
             return null;
         }
         // Относительные url(../../X) в build-CSS считаются от assets/css/build/ —
-        // при инлайне в HTML база меняется на страницу, переписываем на абсолютные
-        return str_replace('url(../../', 'url(' . $this->baseUrl . 'assets/', $content);
+        // при инлайне в HTML база меняется на страницу, переписываем на абсолютные.
+        // Кавычки учитываем: prod-сборка их срезает, dev оставляет url('../../X').
+        return preg_replace_callback(
+            '#url\(\s*([\'"]?)\.\./\.\./#',
+            fn (array $m): string => 'url(' . $m[1] . $this->baseUrl . 'assets/',
+            $content
+        ) ?? $content;
     }
 
     public function getAssetUrl(string $assetName, string $manifestType = 'js', bool $safe = false): ?string

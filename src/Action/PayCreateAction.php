@@ -30,7 +30,6 @@ final class PayCreateAction
         private readonly MailService $mail,
         private readonly TelegramAlertService $alerts,
         private readonly LoggerInterface $logger,
-        private readonly \App\Support\FormToken $formToken,
         private readonly array $settings,
     ) {
     }
@@ -49,10 +48,11 @@ final class PayCreateAction
             return $this->fail($response, $wantsJson, 503, 'PAYMENT_DISABLED', 'Онлайн-оплата временно недоступна', '/events', $requestId);
         }
 
-        // Токен формы — тот же механизм, что и в ApiSendAction: выдаётся по запросу и несёт
-        // время выдачи, поэтому страница, скачанная роботом, оплату зарегистрировать не даёт.
-        if (!$this->formToken->inspect($this->str($data, 'form_token'))['valid']) {
-            return $this->fail($response, $wantsJson, 419, 'TOKEN_INVALID', 'Не удалось подтвердить отправку. Обновите страницу и попробуйте снова.', '/events', $requestId);
+        // CSRF (тот же механизм, что и в ApiSendAction)
+        $csrfToken = $this->str($data, 'csrf_token');
+        $sessionToken = isset($_SESSION['csrf_token']) && is_string($_SESSION['csrf_token']) ? $_SESSION['csrf_token'] : '';
+        if ($csrfToken === '' || $sessionToken === '' || !hash_equals($sessionToken, $csrfToken)) {
+            return $this->fail($response, $wantsJson, 419, 'CSRF_INVALID', 'Сессия истекла. Обновите страницу и попробуйте снова.', '/events', $requestId);
         }
 
         // Событие

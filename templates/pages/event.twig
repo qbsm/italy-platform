@@ -19,7 +19,8 @@
     <section class="event-hero">
       <div class="event-hero__media">
         {% if covers|length > 0 %}
-          <img src="{{ url(covers[0].src) }}" alt="{{ covers[0].alt | default(e.title) }}" class="event-hero__img" loading="eager" fetchpriority="high">
+          {% set heroDim = image_dimensions(covers[0].src) %}
+          <img src="{{ url(covers[0].src) }}" alt="{{ covers[0].alt | default(e.title) }}" class="event-hero__img" loading="eager" fetchpriority="high"{% if heroDim %} width="{{ heroDim.width }}" height="{{ heroDim.height }}"{% endif %}>
         {% endif %}
         <span class="event-hero__scrim" aria-hidden="true"></span>
       </div>

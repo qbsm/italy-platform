@@ -30,6 +30,14 @@
 }
 
 :root {
+    --header-fixed-height: 11.2rem;
+
+    @media (--lg) {
+        --header-fixed-height: 12rem;
+    }
+}
+
+:root {
     --transition-1: 0.25s all ease-out;
     --transition-2: 0.5s all ease-out;
     --transition-3: 1s all ease-out;

@@ -27,6 +27,37 @@ function findRasterFiles() {
   return glob.sync(pattern, { nodir: true });
 }
 
+function findReadyFiles() {
+  const pattern = path.join(imgDir, '**/*.{webp,avif}').replace(/\\/g, '/');
+  return glob.sync(pattern, { nodir: true });
+}
+
+/**
+ * Картинки, положенные в репозиторий сразу в webp/avif (без jpg/png-исходника),
+ * пайплайн не трогает — но размеры им нужны: без width/height у <img> нет
+ * intrinsic-соотношения, и блок с height:auto дорастает после ленивой загрузки,
+ * сдвигая якорные переходы.
+ */
+async function indexReadyFiles(manifest) {
+  let added = 0;
+  for (const file of findReadyFiles()) {
+    const relKey = path.relative(imgDir, file).replace(/\\/g, '/');
+    if (manifest[relKey]) {
+      continue;
+    }
+    try {
+      const meta = await sharp(file).metadata();
+      if (meta.width && meta.height) {
+        manifest[relKey] = { width: meta.width, height: meta.height };
+        added += 1;
+      }
+    } catch (err) {
+      console.error('Ошибка:', file, err.message);
+    }
+  }
+  return added;
+}
+
 /**
  * Для пути data/img/restaurants/bear/covers/raw/1.jpg возвращает:
  * - relPath: restaurants/bear/covers/raw/1.jpg
@@ -88,19 +119,37 @@ async function main() {
     widths = config.widths;
   }
 
-  const files = findRasterFiles();
-  const manifest = {};
+  // --index-only: не перекодировать ничего, только дополнить манифест размерами
+  const indexOnly = process.argv.includes('--index-only');
 
-  for (const file of files) {
-    try {
-      await processImage(file, keys, widths, manifest);
-    } catch (err) {
-      console.error('Ошибка:', file, err.message);
+  let files = [];
+  let manifest = {};
+
+  if (indexOnly) {
+    if (fs.existsSync(manifestPath)) {
+      const raw = fs.readFileSync(manifestPath, 'utf8');
+      const data = JSON.parse(raw);
+      manifest = data && typeof data === 'object' ? data : {};
+    }
+  } else {
+    files = findRasterFiles();
+    for (const file of files) {
+      try {
+        await processImage(file, keys, widths, manifest);
+      } catch (err) {
+        console.error('Ошибка:', file, err.message);
+      }
     }
   }
 
+  const indexed = await indexReadyFiles(manifest);
+
   fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2), 'utf8');
-  console.log('build:images: обработано файлов:', files.length, ', записей в манифесте:', Object.keys(manifest).length);
+  console.log(
+    'build:images: обработано файлов:', files.length,
+    ', проиндексировано готовых webp/avif:', indexed,
+    ', записей в манифесте:', Object.keys(manifest).length
+  );
 }
 
 main().catch((err) => {

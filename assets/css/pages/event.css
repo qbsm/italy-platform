@@ -630,7 +630,6 @@
   background: var(--color-2);
   color: var(--color-1);
   padding-top: 0; /* .section даёт 6rem сверху, а event-body уже даёт 6rem снизу — двойной зазор */
-  scroll-margin-top: 13rem; /* якорь #buy не ныряет под липкую шапку */
 }
 
 /* заголовок, подводка и форма — по центру ЛЕВОЙ колонки двухколоночного блока выше
