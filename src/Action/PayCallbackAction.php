@@ -49,12 +49,19 @@ final class PayCallbackAction
         $operation = isset($params['operation']) && is_string($params['operation']) ? $params['operation'] : '';
         $status = isset($params['status']) ? (string) $params['status'] : '';
 
+        // Адрес открывают руками при настройке уведомлений в кабинете банка. Уведомление
+        // всегда приходит с параметрами, поэтому голый запрос — это проверка доступности,
+        // и отвечать на неё пустой страницей значит выдавать рабочий адрес за сломанный.
+        if ($params === []) {
+            return $this->text($response, 200, 'Приём уведомлений об оплате. Адрес рабочий, уведомления банк шлёт с параметрами.');
+        }
+
         if (!$this->verifier->isEnabled()) {
             $this->logger->error('Оплата: callback пришёл, но токен подписи не настроен', [
                 'request_id' => $requestId,
                 'order_number' => $orderNumber,
             ]);
-            return $response->withStatus(503);
+            return $this->text($response, 503, 'Приём уведомлений не настроен: не задан ключ контрольной суммы.');
         }
 
         if (!$this->verifier->verify($params)) {
@@ -63,7 +70,7 @@ final class PayCallbackAction
                 'order_number' => $orderNumber,
                 'operation' => $operation,
             ]);
-            return $response->withStatus(403);
+            return $this->text($response, 403, 'Уведомление отклонено: неверная контрольная сумма.');
         }
 
         $this->logger->info('Оплата: callback банка', [
@@ -123,7 +130,12 @@ final class PayCallbackAction
 
     private function ok(ResponseInterface $response): ResponseInterface
     {
-        $response->getBody()->write('OK');
-        return $response->withStatus(200)->withHeader('Content-Type', 'text/plain');
+        return $this->text($response, 200, 'OK');
+    }
+
+    private function text(ResponseInterface $response, int $status, string $body): ResponseInterface
+    {
+        $response->getBody()->write($body);
+        return $response->withStatus($status)->withHeader('Content-Type', 'text/plain; charset=utf-8');
     }
 }
