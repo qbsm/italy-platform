@@ -93,7 +93,13 @@ URL: https://italycommunity.ru/restaurants/juan-cantina-espanola
 ### Juan Москва
 Slug: juan-moscow
 URL: https://italycommunity.ru/restaurants/juan-moscow
-Адрес: Москва, RU
+Описание: Испано-мексиканская кантина — портал в бесконечную фиесту
+Адрес: 2-я Звенигородская ул., 12 стр 22, Москва, RU
+Телефон: +7 (925) 404-11-12
+Часы работы: Пн-Вс 12:00–00:00
+Кухня: Испанская кухня, Мексиканская кухня
+Ценовой диапазон: ₽₽
+Карта: https://yandex.ru/maps/?pt=37.556649,55.762338&z=17&l=map
 
 ### Salone pasta&bar Санкт-Петербург
 Slug: salone-pasta-bar
