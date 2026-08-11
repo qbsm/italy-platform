@@ -109,7 +109,7 @@
           {% set descParas = restaurant.desc.full is iterable ? restaurant.desc.full : [restaurant.desc.full] %}
           <div class="section__item desc-wrap">
             {% for para in descParas %}
-              <p class="restaurant-about__col">{{ para }}</p>
+              <p class="restaurant-about__col">{{ para|raw }}</p>
             {% endfor %}
           </div>
         {% endif %}
