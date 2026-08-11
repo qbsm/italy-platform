@@ -1,43 +1,72 @@
 {
-  "metaDescription": "Juan Москва — испано-мексиканская кантина: переносим в Москву всё, за что полюбили петербургский Juan, и атмосферу солнечных путешествий по югу Испании.",
+  "metaDescription": "Juan Москва — испано-мексиканская кантина на 2-й Звенигородской, 12с22: тапас, тако, паэлья и мескаль-бар. Открытие 15 августа, ежедневно с 12:00 до 00:00.",
   "slug": "juan-moscow",
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
     "name": "Juan Москва",
+    "telephone": {
+      "title": "+7 (925) 404-11-12",
+      "href": "tel:+79254041112"
+    },
     "address": {
       "@type": "PostalAddress",
+      "streetAddress": "2-я Звенигородская ул., 12 стр 22",
       "addressLocality": "Москва",
       "addressRegion": "Москва",
       "addressCountry": "RU"
-    }
+    },
+    "openingHours": [
+      {
+        "days": "Пн-Вс",
+        "hours": "12:00–00:00"
+      }
+    ],
+    "hoursNotes": [
+      "Открытие 15 августа, бронь принимаем уже сейчас"
+    ],
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "55.762338",
+      "longitude": "37.556649"
+    },
+    "hasMap": "https://yandex.ru/maps/?pt=37.556649,55.762338&z=17&l=map",
+    "servesCuisine": [
+      "Испанская кухня",
+      "Мексиканская кухня"
+    ],
+    "priceRange": "₽₽"
   },
   "desc": {
-    "heading": "Скоро открытие",
-    "full": "Juan — это визуализация воспоминаний о солнечных путешествиях по югу Испании. Все, что делает петербургский Juan таким узнаваемым, — переносим в Москву."
+    "short": "Испано-мексиканская кантина — портал в бесконечную фиесту",
+    "heading": "Открытие 15 августа",
+    "full": [
+      "В столице открывает свои двери новая испано-мексиканская кантина — портал в бесконечную фиесту. Juan Cantina Espanola — это визуализация воспоминаний о солнечных днях, проведённых в путешествиях по Мексике и югу Испании.",
+      "Всё, что делает петербургский Juan таким узнаваемым, — переносим в Москву: тапас и пинчос, тако и паэлья, стейки на огне и барная карта с текилой, мескалем и агавовыми дистиллятами."
+    ]
   },
   "loyalty": false,
   "tags": [],
   "covers": [
     {
-      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/1.jpg",
-      "alt": "Juan Москва"
+      "src": "data/img/restaurants/juan-moscow/covers/raw/1.jpg",
+      "alt": "Интерьер Juan Москва: витражи и связки перцев над барной стойкой"
     },
     {
-      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/2.jpg",
-      "alt": "Juan Москва"
+      "src": "data/img/restaurants/juan-moscow/covers/raw/2.jpg",
+      "alt": "Стол в Juan Москва: тако, паэлья, батат фри и пинчос"
     },
     {
-      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/3.jpg",
-      "alt": "Juan Москва"
+      "src": "data/img/restaurants/juan-moscow/covers/raw/3.jpg",
+      "alt": "Тако и лимонад на террасе Juan Москва"
     },
     {
-      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/4.jpg",
-      "alt": "Juan Москва"
+      "src": "data/img/restaurants/juan-moscow/covers/raw/4.jpg",
+      "alt": "Коктейли Juan Москва на фоне фирменной арки"
     },
     {
-      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/5.jpg",
-      "alt": "Juan Москва"
+      "src": "data/img/restaurants/juan-moscow/covers/raw/5.jpg",
+      "alt": "Паэлья Juan Москва в фирменном деревянном лотке"
     }
   ],
   "logos": [
@@ -62,5 +91,5 @@
       "alt": "Juan Москва чёрная иконка"
     }
   ],
-  "metaTitle": "Juan Москва — испано-мексиканская кантина, скоро открытие"
+  "metaTitle": "Juan Москва — испано-мексиканская кантина на 2-й Звенигородской"
 }
