@@ -25,8 +25,8 @@
     "test:js": "vitest run",
     "test:smoke": "node tests/smoke/smoke.js",
     "check": "npm run lint && npm run lint:css && npm run lint:php && npm run format:check && npm run format:php:check && npm run test",
-    "build:dev": "npm run build:css && npm run build:js && npm run clean:assets && npm run setup:public-links",
-    "build": "npm run check && cross-env NODE_ENV=production npm run build:css && cross-env NODE_ENV=production npm run build:js && npm run clean:assets && npm run setup:public-links",
+    "build:dev": "npm run build:css && npm run build:js && npm run clean:assets && npm run setup:public-links && npm run check:permissions",
+    "build": "npm run check && cross-env NODE_ENV=production npm run build:css && cross-env NODE_ENV=production npm run build:js && npm run clean:assets && npm run setup:public-links && npm run check:permissions",
     "create-section": "node tools/scaffold/create-section.js",
     "create-component": "node tools/scaffold/create-component.js",
     "create-page": "node tools/scaffold/create-page.js",
@@ -35,7 +35,8 @@
     "validate-json": "node tools/ops/validate-json.js data/json",
     "generate-llms": "php tools/ops/generate-llms-full.php > public/llms-full.txt",
     "fix-permissions": "sudo bash tools/ops/fix-permissions.sh",
-    "prepare": "husky"
+    "prepare": "husky",
+    "check:permissions": "node tools/ops/check-permissions.js"
   },
   "lint-staged": {
     "*.{js,mjs}": "eslint --fix",
