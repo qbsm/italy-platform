@@ -12,6 +12,8 @@ const LINKS = [
   { link: 'assets', target: '../assets', type: 'dir' },
   { link: 'data', target: '../data', type: 'dir' },
   { link: 'robots.txt', target: '../robots.txt', type: 'file' },
+  // Яндекс, Telegram и часть браузеров идут за иконкой в корень домена, минуя <link rel="icon">
+  { link: 'favicon.ico', target: '../data/img/favicons/favicon.ico', type: 'file' },
 ];
 
 function ensurePublicDir() {
