@@ -17,6 +17,8 @@
               <div class="swiper-container card-slider {{ item.class|default('') }}" id="{{ item.slider.id|default('') }}" data-settings="{{ item.slider.settings|default({})|json_encode }}">
                 <div class="swiper-wrapper">
                   {% for slide in item.slider.items %}
+                    {# hideFrom — дата (Y-m-d, МСК), с которой слайд перестаёт показываться сам #}
+                    {% if slide.hideFrom is not defined or ("now"|date("Ymd", "Europe/Moscow")) < (slide.hideFrom|date("Ymd")) %}
                     <div class="swiper-slide">
                       {% if slide.href is defined %}
                         <a href="{{ slide.href }}"{% if slide.target is defined %} target="{{ slide.target }}" rel="noopener noreferrer"{% endif %}{% if slide.title is defined and slide.title %} aria-label="{{ slide.title }}"{% endif %} class="card-slider__link">
@@ -26,6 +28,7 @@
                         <div class="card-slider__cover" style="background-image: url('{{ url(slide.cover) }}');"></div>
                       {% endif %}
                     </div>
+                    {% endif %}
                   {% endfor %}
                 </div>
                 <div class="swiper-pagination"></div>

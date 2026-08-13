@@ -301,7 +301,8 @@
                   "title": "Ужин братьев Мясниковых при свечах",
                   "cover": "data/img/navigation/banners/banner-5.webp",
                   "href": "https://vechervosobnyake-italy.ru",
-                  "target": "_blank"
+                  "target": "_blank",
+                  "hideFrom": "2026-08-24"
                 },
                 {
                   "title": "Баланс",
