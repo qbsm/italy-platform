@@ -1,5 +1,7 @@
 <?php
 
+use App\Support\Env;
+
 $projectRoot = dirname(__DIR__);
 
 // APP_ENV: production | development — разделение окружений (кэш Twig, уровень логов)
@@ -38,6 +40,10 @@ if ($envDefaultLang !== false && $envDefaultLang !== '') {
 }
 
 // Ключи и ширины для адаптивных изображений (picture.twig, tools/build) — единый источник
+// Проектная конфигурация (route_map, collections, sitemap_pages, integrations)
+$projectConfigPath = __DIR__ . '/project.php';
+$projectConfig = is_file($projectConfigPath) ? (array) require $projectConfigPath : [];
+
 $imageSizesPath = __DIR__ . '/image-sizes.json';
 $image_sizes = [
     'keys' => ['800', '1600', 'raw'],
@@ -62,68 +68,51 @@ return [
     'default_lang' => $default_lang,
     'available_langs' => $available_langs,
     'yandex_metric_id' => (int) (getenv('YANDEX_METRIC_ID') ?: 0),
-    // slug в URL => page_id (файл в data/json/{lang}/pages/{page_id}.json)
-    'route_map' => [
-        'restaurants' => 'restaurants-list',
-        'events' => 'events-list',
-    ],
-    // Конфигурация коллекций — generic loader (loadEntity/loadEntitySlugs)
-    // и per-collection SEO (seo_builder реализует SeoBuilderInterface)
-    'collections' => [
-        'restaurants' => [
-            'data_dir' => 'restaurants',          // data/json/{lang}/restaurants/{slug}.json
-            'item_key' => 'restaurant',           // ключ внутри entity (валидируется на existence)
-            'nav_slug' => 'restaurants',          // префикс URL и breadcrumb
-            'list_page_id' => 'restaurants-list', // pages/restaurants-list.json
-            'slugs_source' => 'items',
-            'template' => 'pages/restaurant.twig',
-            'extras_key' => 'restaurant',         // ключ в template ($restaurant)
-            'og_type' => 'website',
-            'entity_url_pattern' => '/restaurants/{slug}',
-            'site_name' => 'Экосистема итали',
-            'prod_base_url' => 'https://italycommunity.ru',
-            'fallback_og_image' => '/data/img/seo/og.jpg?v=3',
-            'list_title' => 'Рестораны',
-        ],
-        'events' => [
-            'data_dir' => 'events',               // data/json/{lang}/events/{slug}.json
-            'item_key' => 'event',                // ключ внутри entity (валидируется на existence)
-            'nav_slug' => 'events',               // префикс URL и breadcrumb; список slug'ов — pages/events.json
-            'list_page_id' => 'events-list',      // pages/events-list.json
-            'slugs_source' => 'items',
-            'template' => 'pages/event.twig',
-            'extras_key' => 'event',              // ключ в template ($event)
-            'og_type' => 'event',
-            'entity_url_pattern' => '/events/{slug}',
-            'site_name' => 'Экосистема итали',
-            'prod_base_url' => 'https://italycommunity.ru',
-            'fallback_og_image' => '/data/img/seo/og.jpg?v=3',
-            'list_title' => 'Афиша',
-        ],
-    ],
-    // page_id страниц для sitemap.xml (без 404). Задаётся под проект.
-    'sitemap_pages' => [
-        'index',
-        'about',
-        'contacts',
-        'policy',
-        'agree',
-        'restaurants-list',
-        'events-list',
-    ],
-    // Rate limiting для POST /api/send (по IP, файловое хранилище в cache/rate_limit)
+    // slug в URL => page_id (из project.php)
+    'route_map' => (array) ($projectConfig['route_map'] ?? []),
+    // Конфигурация коллекций (из project.php)
+    'collections' => (array) ($projectConfig['collections'] ?? []),
+    // page_id страниц для sitemap.xml (из project.php)
+    'sitemap_pages' => (array) ($projectConfig['sitemap_pages'] ?? ['index']),
+    // Динамические подпути для sitemap (из project.php): page => {data_page, list_key, value_key, slugger}
+    'sitemap_dynamic_pages' => (array) ($projectConfig['sitemap_dynamic_pages'] ?? []),
+    // Rate limiting публичных POST-эндпоинтов (по IP, файловое хранилище в cache/rate_limit).
+    // paths — список путей под лимитом; deployment дополняет своими (например оплатой).
     'rate_limit_api_send' => [
-        'paths' => ['/api/send', '/api/widget-rescue'],
         'max_requests' => 10,
         'window_seconds' => 60,
+        'paths' => ['/api/send', '/api/widget-rescue'],
+    ],
+    // Отсев роботов на форме. Значения зашиты в ядро и работают без .env; переопределяются
+    // переменными точечно. Выключатель нужен для разбора жалоб «форма не отправляется»:
+    // при `false` отказ не выносится, но срабатывание всё равно пишется в лог.
+    //
+    // trap_field принимает несколько имён через запятую: у части сайтов форм две и ловушки в
+    // них исторически названы по-разному. Ловим любое заполненное — робот не разбирает, какое
+    // из полей «настоящее».
+    //
+    // min_age_sec — единственный источник порога «набрано слишком быстро»; form_token берёт
+    // его отсюда, чтобы выданный токен и проверка на отправке не разъезжались.
+    'form_guard' => [
+        'enable' => Env::bool('FORM_GUARD_ENABLE', true),
+        'trap_field' => Env::get('FORM_GUARD_TRAP_FIELD') ?: 'company_site, website',
+        'min_age_sec' => Env::int('FORM_GUARD_MIN_AGE_SEC', 3),
+        'required_fields' => Env::get('FORM_REQUIRED_FIELDS') ?: 'phone',
     ],
     // Токен формы выдаётся браузеру по запросу, а не вместе с HTML: страница, скачанная
-    // роботом, не даёт возможности отправить заявку. min_age — сколько секунд между выдачей
-    // токена и отправкой считаем нижней границей для живого человека.
+    // роботом, не даёт возможности отправить заявку.
     'form_token' => [
-        'min_age' => 3,
         'max_age' => 7200,
         'secret_file' => $cacheDir . '/form-token-secret',
+    ],
+    // Капча Yandex SmartCaptcha. По умолчанию выключена: на большинстве сайтов роботов
+    // отсекают токен формы и ловушка, а лишний барьер стоит конверсии. Включается точечно —
+    // там, где спам действительно идёт.
+    'captcha' => [
+        'enable' => Env::bool('CAPTCHA_ENABLE'),
+        'client_key' => Env::get('CAPTCHA_CLIENT_KEY'),
+        'server_key' => Env::get('CAPTCHA_SERVER_KEY'),
+        'timeout' => Env::int('CAPTCHA_TIMEOUT', 5),
     ],
     'cors' => [
         'allowed_origins' => [], // например ['https://example.com'] или ['*'] для любого
@@ -133,32 +122,67 @@ return [
     ],
     'mail' => [
         // Пусто — флага в .env нет, поведение прежнее: канал включён, если задан адрес.
-        'enable' => (string) (getenv('MAIL_ENABLE') ?: ''),
-        'dsn' => (string) (getenv('MAIL_DSN') ?: 'sendmail://default'),
-        'to' => (string) (getenv('MAIL_TO') ?: ''),
-        'from' => (string) (getenv('MAIL_FROM') ?: 'noreply@localhost'),
-        'from_name' => (string) (getenv('MAIL_FROM_NAME') ?: ''),
-        'subject_prefix' => (string) (getenv('MAIL_SUBJECT_PREFIX') ?: ''),
+        'enable' => Env::get('MAIL_ENABLE'),
+        'dsn' => Env::get('MAIL_DSN') ?: 'sendmail://default',
+        'to' => Env::get('MAIL_TO'),
+        'from' => Env::get('MAIL_FROM') ?: 'noreply@localhost',
+        'from_name' => Env::get('MAIL_FROM_NAME'),
+        'subject_prefix' => Env::get('MAIL_SUBJECT_PREFIX'),
     ],
+    // Резервный сбор заявок (rescue-канал): дублирует заявку в наш сервис, который сначала её
+    // сохраняет, а потом раздаёт по каналам с повторами — упавший канал не теряет лид.
+    // Подтверждение отправителя — по домену: заявку шлёт бэкенд, значит с адреса, на который
+    // домен резолвится. Секрета в .env нет; ключ нужен только хостингам вне нашего периметра.
+    'rescue' => [
+        'enable' => Env::bool('RESCUE_ENABLE'),
+        'url' => Env::get('RESCUE_URL') ?: 'https://api.ismart.pro/v1/rescue',
+        'site' => Env::get('RESCUE_SITE'),
+        'key' => Env::get('RESCUE_KEY'),
+        'timeout' => Env::int('RESCUE_TIMEOUT', 3),
+    ],
+
     'calltouch' => [
-        'enable' => (bool) filter_var((string) (getenv('CALLTOUCH_ENABLE') ?: ''), FILTER_VALIDATE_BOOL),
-        'route_key' => (string) (getenv('CALLTOUCH_ROUTE_KEY') ?: ''),
-        'token' => (string) (getenv('CALLTOUCH_TOKEN') ?: ''),
-        'site_id' => (string) (getenv('CALLTOUCH_SITE_ID') ?: ''),
-        'timeout' => (int) (getenv('CALLTOUCH_TIMEOUT') ?: 10),
+        'enable' => Env::bool('CALLTOUCH_ENABLE'),
+        'route_key' => Env::get('CALLTOUCH_ROUTE_KEY'),
+        'token' => Env::get('CALLTOUCH_TOKEN'),
+        // Числовой ID личного кабинета (Интеграции → Отправка данных во внешние
+        // системы → API). Включает режим регистрации заявки — без токена.
+        'site_id' => Env::get('CALLTOUCH_SITE_ID'),
+        'timeout' => Env::int('CALLTOUCH_TIMEOUT', 10),
     ],
     'telegram' => [
-        'enable' => (bool) filter_var((string) (getenv('TELEGRAM_ENABLE') ?: ''), FILTER_VALIDATE_BOOL),
-        'bot_token' => (string) (getenv('TELEGRAM_BOT_TOKEN') ?: ''),
-        'chat_id' => (string) (getenv('TELEGRAM_CHAT_ID') ?: ''),
-        'timeout' => (int) (getenv('TELEGRAM_TIMEOUT') ?: 10),
+        'enable' => Env::bool('TELEGRAM_ENABLE'),
+        'bot_token' => Env::get('TELEGRAM_BOT_TOKEN'),
+        'chat_id' => Env::get('TELEGRAM_CHAT_ID'),
+        'timeout' => Env::int('TELEGRAM_TIMEOUT', 10),
     ],
     'google_sheets' => [
-        'enable' => (bool) filter_var((string) (getenv('SHEETS_ENABLE') ?: ''), FILTER_VALIDATE_BOOL),
-        'spreadsheet_id' => (string) (getenv('SHEETS_SPREADSHEET_ID') ?: ''),
-        'sheet_name' => (string) (getenv('SHEETS_SHEET_NAME') ?: 'Заявки'),
-        'credentials_path' => (string) (getenv('SHEETS_CREDENTIALS_PATH') ?: 'config/secrets/google-service-account.json'),
-        'timeout' => (int) (getenv('SHEETS_TIMEOUT') ?: 10),
+        'enable' => Env::bool('SHEETS_ENABLE'),
+        'spreadsheet_id' => Env::get('SHEETS_SPREADSHEET_ID'),
+        'sheet_name' => Env::get('SHEETS_SHEET_NAME') ?: 'Заявки',
+        'credentials_path' => Env::get('SHEETS_CREDENTIALS_PATH')
+            ?: 'config/secrets/google-service-account.json',
+        'timeout' => Env::int('SHEETS_TIMEOUT', 10),
+    ],
+    'errors' => require __DIR__ . '/errors.php',
+    'twig' => [
+        'cache' => $isProduction ? $cacheDir . '/twig' : false,
+        'debug' => $isDebug,
+        'auto_reload' => !$isProduction,
+    ],
+    'paths' => [
+        'templates' => $projectRoot . '/templates',
+        'json_base' => $projectRoot . '/data/json',
+        'json_global' => $projectRoot . '/data/json/global.json',
+        'json_pages_dir' => $projectRoot . '/data/json/{lang}/pages',
+        'redirects' => $projectRoot . '/config/redirects.json',
+        'cache' => $cacheDir,
+        'logs' => $projectRoot . '/logs',
+    ],
+    'image_sizes' => $image_sizes,
+    'resource_hints' => [
+        ['rel' => 'preconnect', 'href' => 'https://mc.yandex.ru', 'crossorigin' => false],
+        ['rel' => 'preconnect', 'href' => 'https://yastatic.net', 'crossorigin' => false],
     ],
     // Интернет-эквайринг Альфа-Банка (платформа RBS, REST). Включается флагом PAYMENT_ENABLED,
     // учётные данные магазина (логин с суффиксом -api и пароль либо token) — только из окружения.
@@ -196,39 +220,4 @@ return [
             'timeout' => 30,
         ];
     })(),
-    // Telegram-алерты об ошибках оплаты/отправки почты в группу «Итали» (Обновление сайта italy&co.)
-    'alerts' => [
-        'token' => (string) (getenv('TELEGRAM_ALERT_BOT_TOKEN') ?: ''),
-        'chat_id' => (string) (getenv('TELEGRAM_ALERT_CHAT_ID') ?: ''),
-        'proxy' => (string) (getenv('TELEGRAM_ALERT_PROXY') ?: ''),
-        'site' => (string) (getenv('TELEGRAM_ALERT_SITE') ?: 'italycommunity.ru'),
-    ],
-    // Резервный сбор заявок (rescue-канал): дублирует заявку в наш сервис, который сначала её
-    // сохраняет, а потом раздаёт по каналам с повторами — упавший канал не теряет лид.
-    // Подтверждение отправителя — по домену: заявку шлёт бэкенд, значит с адреса, на который
-    // домен резолвится. Секрета в .env нет; ключ нужен только хостингам вне нашего периметра.
-    'rescue' => [
-        'enable' => filter_var((string) (getenv('RESCUE_ENABLE') ?: 'false'), FILTER_VALIDATE_BOOLEAN),
-        'url' => (string) (getenv('RESCUE_URL') ?: 'https://api.ismart.pro/v1/rescue'),
-        'site' => (string) (getenv('RESCUE_SITE') ?: ''),
-        'key' => (string) (getenv('RESCUE_KEY') ?: ''),
-        'timeout' => (int) (getenv('RESCUE_TIMEOUT') ?: 10),
-    ],
-
-    'errors' => require __DIR__ . '/errors.php',
-    'twig' => [
-        'cache' => $isProduction ? $cacheDir . '/twig' : false,
-        'debug' => $isDebug,
-        'auto_reload' => !$isProduction,
-    ],
-    'paths' => [
-        'templates' => $projectRoot . '/templates',
-        'json_base' => $projectRoot . '/data/json',
-        'json_global' => $projectRoot . '/data/json/global.json',
-        'json_pages_dir' => $projectRoot . '/data/json/{lang}/pages',
-        'redirects' => $projectRoot . '/config/redirects.json',
-        'cache' => $cacheDir,
-        'logs' => $projectRoot . '/logs',
-    ],
-    'image_sizes' => $image_sizes,
 ];

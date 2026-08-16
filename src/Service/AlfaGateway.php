@@ -33,8 +33,7 @@ final class AlfaGateway
     public function __construct(
         private readonly array $config,
         private readonly LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     public function isEnabled(): bool
     {

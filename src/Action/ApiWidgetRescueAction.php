@@ -30,8 +30,7 @@ final class ApiWidgetRescueAction
         private readonly RescueChannel $rescue,
         private readonly LoggerInterface $logger,
         private readonly FormToken $formToken,
-    ) {
-    }
+    ) {}
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
@@ -73,10 +72,10 @@ final class ApiWidgetRescueAction
         }
 
         // Заявку в CallTouch создал сам виджет, слать её туда второй раз нечего — но в отчёте
-        // каналов это должно читаться как доставлено, иначе колонка пуста и выглядит как
-        // «неизвестно, дошло ли». Виджетные заявки видно по названию формы.
+        // каналов это читается как «отправлено через виджет»: исход кабинета остаётся внутри
+        // виджета, и утверждать успех мы не вправе — номер там мог не пройти проверку.
         if ($result->status === 'success') {
-            $this->rescue->reportChannels(['calltouch' => 'success'], $requestId);
+            $this->rescue->reportChannels(['calltouch' => 'sent'], $requestId);
         }
 
         return $this->json($response, 200, [

@@ -26,7 +26,7 @@ final class DataLoaderServiceTest extends TestCase
     {
         $path = __DIR__ . '/../fixtures/invalid.json';
         if (!is_dir(dirname($path))) {
-            mkdir(dirname($path), 0755, true);
+            mkdir(dirname($path), 0o755, true);
         }
         file_put_contents($path, '{ invalid }');
         try {

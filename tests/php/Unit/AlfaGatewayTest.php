@@ -37,7 +37,7 @@ final class AlfaGatewayTest extends TestCase
      */
     private function call(AlfaGateway $gateway, string $method, array $args): mixed
     {
-        return (new ReflectionMethod($gateway, $method))->invokeArgs($gateway, $args);
+        return new ReflectionMethod($gateway, $method)->invokeArgs($gateway, $args);
     }
 
     public function testIsEnabledFollowsConfig(): void

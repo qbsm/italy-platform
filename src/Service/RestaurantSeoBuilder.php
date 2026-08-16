@@ -140,8 +140,8 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
             'name' => $r['name'] ?? null,
             'description' => $description !== '' ? $description : null,
             'image' => $images !== [] ? $images : null,
-            'telephone' => isset($r['telephone']['title']) ? $r['telephone']['title'] : null,
-            'address' => isset($r['address']) ? $r['address'] : null,
+            'telephone' => $r['telephone']['title'] ?? null,
+            'address' => $r['address'] ?? null,
             'geo' => $r['geo'] ?? null,
             'url' => $selfUrl,
             'priceRange' => $r['priceRange'] ?? null,
@@ -162,7 +162,7 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
         if (!empty($r['servesCuisine'])) {
             $ld['servesCuisine'] = $r['servesCuisine'];
         }
-        $ld = array_filter($ld, static fn ($v) => $v !== null && $v !== '');
+        $ld = array_filter($ld, static fn($v) => $v !== null && $v !== '');
         return (string) json_encode($ld, JSON_UNESCAPED_UNICODE);
     }
 
@@ -331,7 +331,7 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
 
             $spec[] = [
                 '@type' => 'OpeningHoursSpecification',
-                'dayOfWeek' => array_map(static fn ($i) => $names[$i], $idx),
+                'dayOfWeek' => array_map(static fn($i) => $names[$i], $idx),
                 'opens' => $opens,
                 'closes' => $closes,
             ];

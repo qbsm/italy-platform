@@ -23,14 +23,11 @@
         {% if meta.property == 'og:url' %}{% set _og_url = meta.content %}{% endif %}
       {% endif %}
     {% endfor %}
-    <meta property="og:locale" content="ru_RU">
-    {% if _og_image %}<meta property="og:image:alt" content="{{ _og_title|raw }}">{% endif %}
     {# Twitter Card (дублируем OG для соцсетей) #}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ _og_title|raw }}">
     {% if _og_description %}<meta name="twitter:description" content="{{ _og_description|raw }}">{% endif %}
-    {% if _og_image %}<meta name="twitter:image" content="{{ _og_image|raw }}">
-    <meta name="twitter:image:alt" content="{{ _og_title|raw }}">{% endif %}
+    {% if _og_image %}<meta name="twitter:image" content="{{ _og_image|raw }}">{% endif %}
     {% if _og_url %}<meta name="twitter:url" content="{{ _og_url|raw }}">{% endif %}
   {% else %}
     {# Минимальные Twitter Card при отсутствии SEO meta #}
@@ -41,26 +38,21 @@
   {# Логика формирования current_url, canonical и alternate #}
   {% set _base_url_trimmed = base_url|trim('/') %} {# base_url без слешей по краям #}
 
-  {# reverse route_map: page_id ('restaurants-list') → URL slug ('restaurants') #}
-  {% set _url_slug = page_id %}
-  {% for url_part, mapped_id in config.settings.route_map | default({}) %}
-    {% if mapped_id == page_id %}
-      {% set _url_slug = url_part %}
-    {% endif %}
-  {% endfor %}
-
-  {% if restaurant is defined and restaurant.slug is defined %}
-    {% set _path_segment = 'restaurants/' ~ restaurant.slug %}
+  {# seo_url_path передан из PageAction — готовый путь без trailing slash. #}
+  {# Fallback для legacy-контекста: reverse route_map (page_id 'tires-list' → '/tires'). #}
+  {% if seo_url_path is defined and seo_url_path is not null %}
+    {% set _path_segment = seo_url_path %}
   {% elseif page_id == 'index' %}
     {% set _path_segment = '' %}
   {% else %}
+    {% set _url_slug = page_id %}
+    {% for url_part, mapped_id in config.settings.route_map | default({}) %}
+      {% if mapped_id == page_id %}{% set _url_slug = url_part %}{% endif %}
+    {% endfor %}
     {% set _path_segment = _url_slug %}
-  {% endif %}
-
-  {% if restaurant is not defined and route_params|length > 0 and _path_segment != '' %}
-    {% set _path_segment = _path_segment ~ '/' ~ route_params|join('/') %}
-  {% elseif restaurant is not defined and route_params|length > 0 and _path_segment == '' %}
-     {% set _path_segment = route_params|join('/') %}
+    {% if route_params|length > 0 %}
+      {% set _path_segment = _path_segment ~ '/' ~ route_params|join('/') %}
+    {% endif %}
   {% endif %}
 
   {% set _final_path_for_current_url = (_path_segment != '') ? '/' ~ _path_segment : '/' %}
@@ -104,29 +96,47 @@
     <link rel="alternate" href="{{ _base_secure_domain_for_seo ~ '/' }}" hreflang="x-default" />
   {% endif %}
 
-  {# Шрифты НЕ preload'им: при image-LCP высокоприоритетный preload шрифтов крадёт канал у hero-картинки.
-     woff2 мелкие и грузятся из render-blocking CSS, font-display:swap; измеренный CLS остаётся ~0.01.
-     (preload_fonts по-прежнему вычисляется в TemplateDataBuilder, но не рендерится.) #}
+  {% include 'components/resource-hints.twig' %}
+
+  {% if preload_fonts is defined and preload_fonts is iterable and preload_fonts|length > 0 %}
+  {% for path in preload_fonts %}
+  <link rel="preload" href="{{ url(path) }}" as="font" type="font/woff2" crossorigin>
+  {% endfor %}
+  {% endif %}
+
+  {# Responsive preload hero-изображения с imagesrcset и type #}
   {% if hero_preload_image is defined and hero_preload_image %}
-  {% if hero_preload_image.single is defined %}
-  <link rel="preload" href="{{ url(hero_preload_image.single) }}" as="image" fetchpriority="high">
-  {% else %}
-  {% if hero_preload_image.mobile %}
-    {% set _pm = [] %}
-    {% for w, p in hero_preload_image.mobile %}{% set _pm = _pm|merge([url(p) ~ ' ' ~ (w == 'raw' ? '1920' : w) ~ 'w']) %}{% endfor %}
-  <link rel="preload" as="image" fetchpriority="high" media="(max-width: 767px)" imagesrcset="{{ _pm|join(', ') }}" imagesizes="{{ hero_preload_image.sizes }}">
-  {% endif %}
-    {% set _pd = [] %}
-    {% for w, p in hero_preload_image.desktop %}{% set _pd = _pd|merge([url(p) ~ ' ' ~ (w == 'raw' ? '1920' : w) ~ 'w']) %}{% endfor %}
-  <link rel="preload" as="image" fetchpriority="high" media="{{ hero_preload_image.mobile ? '(min-width: 768px)' : 'all' }}" imagesrcset="{{ _pd|join(', ') }}" imagesizes="{{ hero_preload_image.sizes }}">
-  {% endif %}
+    {% if hero_preload_image is iterable %}
+      {# Адаптивный preload с AVIF и WebP #}
+      {% set _preload_srcset_parts = [] %}
+      {% for key, path in hero_preload_image %}
+        {% set _preload_srcset_parts = _preload_srcset_parts|merge([url(path) ~ ' ' ~ key ~ 'w']) %}
+      {% endfor %}
+      {% if _preload_srcset_parts|length > 0 %}
+        {% set _preload_srcset = _preload_srcset_parts|join(', ') %}
+        {# AVIF preload #}
+        {% set _avif_srcset_parts = [] %}
+        {% for key, path in hero_preload_image %}
+          {% set _avif_path = path|replace({'.webp': '.avif'}) %}
+          {% set _avif_srcset_parts = _avif_srcset_parts|merge([url(_avif_path) ~ ' ' ~ key ~ 'w']) %}
+        {% endfor %}
+        <link rel="preload" as="image" imagesrcset="{{ _avif_srcset_parts|join(', ') }}" imagesizes="100vw" type="image/avif">
+        {# WebP preload (fallback) #}
+        <link rel="preload" as="image" imagesrcset="{{ _preload_srcset }}" imagesizes="100vw" type="image/webp">
+      {% endif %}
+    {% else %}
+      <link rel="preload" href="{{ url(hero_preload_image) }}" as="image">
+    {% endif %}
   {% endif %}
 
   <script>
     window.appConfig = {
-      baseUrl: "{{ base_url | e('js') }}", 
+      baseUrl: "{{ base_url | e('js') }}",
       langCode: "{{ lang_code | e('js') }}",
-      YANDEX_METRIC_ID: {{ config.settings.yandex_metric_id|default(0) }}
+      YANDEX_METRIC_ID: {{ config.settings.yandex_metric_id|default(0) }},
+      {# Ключ капчи публичный по своей природе — он и должен быть в разметке. Пусто на
+         сайтах, где капча не включена: тогда скрипт SmartCaptcha даже не загружается. #}
+      CAPTCHA_CLIENT_KEY: "{{ captcha_client_key | default('') | e('js') }}"
     };
   </script>
   
@@ -138,86 +148,42 @@
   
   {% include 'components/scripts.twig' %}
   
-  {% set _site_name = site.name|default('Экосистема итали') %}
-  {% set _logo_src = (global.logo.black.src|default('')) %}
-  {% if _logo_src starts with 'http://' or _logo_src starts with 'https://' %}
-    {% set _logo_url = _logo_src %}
-  {% elseif _logo_src %}
-    {% set _logo_url = _base_secure_domain_for_seo ~ '/' ~ _logo_src|trim('/') %}
-  {% else %}
-    {% set _logo_url = '' %}
-  {% endif %}
-  {% set _email_value = global.email.title|default('')|replace({'<span>': '', '</span>': ''}) %}
-  {% set _phones_filtered = [] %}
-  {% if global.phones is defined and global.phones|length > 0 %}
-    {% for phone in global.phones %}
-      {% set _ptitle = phone.title|default('')|replace({'<span>': '', '</span>': ''}) %}
-      {% if _ptitle and _ptitle is not same as('+7 (000) 000-00-00') %}
-        {% set _phones_filtered = _phones_filtered|merge([_ptitle]) %}
-      {% endif %}
-    {% endfor %}
-  {% endif %}
-  {% set _socials_filtered = [] %}
-  {% if global.socials is defined and global.socials|length > 0 %}
-    {% for social in global.socials %}
-      {% if (social.visible is not defined or social.visible) and social.href is defined and social.href and social.href != '#' and social.href starts with 'http' %}
-        {% set _socials_filtered = _socials_filtered|merge([social.href]) %}
-      {% endif %}
-    {% endfor %}
-  {% endif %}
-
-  {% set _org = global.organization[lang_code] | default(global.organization.ru) | default({}) %}
-  {% if _org.sameAs is defined and _org.sameAs|length > 0 %}
-    {% for href in _org.sameAs %}
-      {% if href starts with 'http' and href not in _socials_filtered %}
-        {% set _socials_filtered = _socials_filtered|merge([href]) %}
-      {% endif %}
-    {% endfor %}
-  {% endif %}
   {# Микроразметка Schema.org Organization #}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "@id": "{{ _base_secure_domain_for_seo }}/#organization",
-    "name": "{{ _site_name }}",
-    {% if _logo_url %}
-    "logo": "{{ _logo_url }}",
+    "name": "{{ site.name|default('Company') }}",
+    {% if global.logo.horizontal.black is defined %}
+    "logo": "{{ _base_secure_domain_for_seo ~ '/' ~ global.logo.horizontal.black.src }}",
     {% endif %}
-    "url": "{{ _base_secure_domain_for_seo }}"
-    {% if _org.alternateName is defined and _org.alternateName|length > 0 %},"alternateName": [{% for n in _org.alternateName %}"{{ n|e('js') }}"{% if not loop.last %},{% endif %}{% endfor %}]{% endif %}
-    {% if _org.description is defined and _org.description %},"description": "{{ _org.description|e('js') }}"{% endif %}
-    {% if _org.slogan is defined and _org.slogan %},"slogan": "{{ _org.slogan|e('js') }}"{% endif %}
-    {% if _org.legalName is defined and _org.legalName %},"legalName": "{{ _org.legalName|e('js') }}"{% endif %}
-    {% if _org.taxID is defined and _org.taxID %},"taxID": "{{ _org.taxID|e('js') }}"{% endif %}
-    {% if _org.knowsAbout is defined and _org.knowsAbout|length > 0 %},"knowsAbout": [{% for k in _org.knowsAbout %}"{{ k|e('js') }}"{% if not loop.last %},{% endif %}{% endfor %}]{% endif %}
-    {% if _org.foundingDate is defined and _org.foundingDate %},"foundingDate": "{{ _org.foundingDate|e('js') }}"{% endif %}
-    {% if _org.areaServed is defined and _org.areaServed|length > 0 %},"areaServed": [{% for a in _org.areaServed %}"{{ a|e('js') }}"{% if not loop.last %},{% endif %}{% endfor %}]{% endif %}
-    {% if _org.founders is defined and _org.founders|length > 0 %},"founder": [{% for f in _org.founders %}{"@type":"Person","name":"{{ f|e('js') }}"}{% if not loop.last %},{% endif %}{% endfor %}]{% endif %}
-    {% if _email_value and _email_value is not same as('info@example.com') %}
-    ,"email": "{{ _email_value|raw }}"
+    "url": "{{ _base_secure_domain_for_seo }}",
+    {% if global.email is defined %}
+    "email": "{{ global.email.title|replace({'<span>': '', '</span>': ''})|raw }}",
     {% endif %}
-    {% if _phones_filtered|length > 0 %}
-    ,"telephone": [
-      {% for t in _phones_filtered %}
-      "{{ t|raw }}"{% if not loop.last %},{% endif %}
+    {% if global.phones is defined and global.phones|length > 0 %}
+    "telephone": [
+      {% for phone in global.phones %}
+      "{{ phone.title|replace({'<span>': '', '</span>': ''})|raw }}"{% if not loop.last %},{% endif %}
       {% endfor %}
-    ]
+    ],
     {% endif %}
     {% if global.address[lang_code] is defined and global.address[lang_code]|length > 0 %}
-    ,"address": [
+    "address": [
       {% for address in global.address[lang_code] %}
       {
         "@type": "PostalAddress",
         "streetAddress": "{{ address.title|replace({'<span>': '', '</span>': ''})|raw }}"
       }{% if not loop.last %},{% endif %}
       {% endfor %}
-    ]
+    ],
     {% endif %}
-    {% if _socials_filtered|length > 0 %}
-    ,"sameAs": [
-      {% for href in _socials_filtered %}
-      "{{ href }}"{% if not loop.last %},{% endif %}
+    {% if global.socials is defined and global.socials|length > 0 %}
+    "sameAs": [
+      {% for social in global.socials %}
+      {% if social.visible %}
+      "{{ social.href }}"{% if not loop.last %},{% endif %}
+      {% endif %}
       {% endfor %}
     ]
     {% endif %}
@@ -229,11 +195,7 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "@id": "{{ _base_secure_domain_for_seo }}/#website",
-    "name": "{{ _site_name }}",
-    {% if _org.alternateName is defined and _org.alternateName|length > 0 %}"alternateName": [{% for n in _org.alternateName %}"{{ n|e('js') }}"{% if not loop.last %},{% endif %}{% endfor %}],{% endif %}
-    "inLanguage": "ru-RU",
-    "publisher": { "@id": "{{ _base_secure_domain_for_seo }}/#organization" },
+    "name": "{{ site.name|default('Company') }}",
     "url": "{{ _base_secure_domain_for_seo ~ '/' }}"
   }
   </script>
@@ -272,47 +234,14 @@
     {{ pageSeoData.json_ld_faq | raw }}
   </script>
   {% endif %}
-
-  {# Schema.org ItemList — страница-список ресторанов (для понимания коллекции поисковиками) #}
-  {% if page_id == 'restaurants-list' %}
-    {% set _rlist = load_json('data/json/' ~ lang_code ~ '/pages/restaurants.json') %}
-    {% if _rlist and _rlist.items is not empty %}
-      {% set _ritems = [] %}
-      {% for slug in _rlist.items %}
-        {% set _r = load_json('data/json/' ~ lang_code ~ '/restaurants/' ~ slug ~ '.json') %}
-        {% if _r and (_r.visible is not defined or _r.visible) and _r.restaurant.name is defined and _r.restaurant.name %}
-          {% set _ritems = _ritems|merge([{'name': _r.restaurant.name, 'slug': slug}]) %}
-        {% endif %}
-      {% endfor %}
-      {% if _ritems|length > 0 %}
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    "itemListElement": [
-      {% for it in _ritems %}
-      {
-        "@type": "ListItem",
-        "position": {{ loop.index }},
-        "name": "{{ it.name|e('js') }}",
-        "url": "{{ _base_secure_domain_for_seo }}/restaurants/{{ it.slug|e('js') }}"
-      }{% if not loop.last %},{% endif %}
-      {% endfor %}
-    ]
-  }
-  </script>
-      {% endif %}
-    {% endif %}
-  {% endif %}
 </head>
 
 <body class="page-{{ pageData.name|default(page_id) }}">
+  {% include 'components/analytics-noscript.twig' %}
   <a href="#page-content" class="skip-link js-skip-link">{{ skip_link_text|default('Перейти к контенту') }}</a>
   {% block content %}{% endblock %}
   {# Глобальное подключение cookie-panel #}
-  {% if global['cookie-panel'] is defined and global['cookie-panel'].enabled|default(true) %}
-    {% include 'sections/cookie-panel.twig' %}
-  {% endif %}
+  {% include 'sections/cookie-panel.twig' %}
 </body>
 
 </html>

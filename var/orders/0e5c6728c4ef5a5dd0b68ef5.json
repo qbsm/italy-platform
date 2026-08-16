@@ -1,0 +1,19 @@
+{
+    "event_slug": "uzhin-v-osobnyake",
+    "event_title": "Ужин братьев Мясниковых при свечах",
+    "event_date": "23 августа 19:00",
+    "name": "тест2",
+    "phone": "+7 (911) 200-49-21",
+    "email": "fedorovich.d@gmail.com",
+    "tickets": 1,
+    "unit_price": 15000,
+    "amount": 1500000,
+    "currency": "810",
+    "request_id": "4c3166901602e6f4020822fe10712db6",
+    "id": "0e5c6728c4ef5a5dd0b68ef5",
+    "status": "failed",
+    "bank_order_id": "03653f37-b309-7e03-89df-e5fc02714702",
+    "created_at": 1786111195,
+    "updated_at": 1786112431,
+    "fail_reason": "Операция отклонена. Проверьте введённые данные, достаточность средств на карте и повторите операцию."
+}

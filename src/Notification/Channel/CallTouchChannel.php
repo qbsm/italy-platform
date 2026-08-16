@@ -92,7 +92,7 @@ final class CallTouchChannel implements ChannelInterface
             ]);
             $httpCode = $response->getStatusCode();
             $decoded = $response->toArray(false);
-        } catch (TransportException | ExceptionInterface $e) {
+        } catch (TransportException|ExceptionInterface $e) {
             $this->logger->error('CallTouch: ошибка запроса автопрозвона', [
                 'request_id' => $requestId,
                 'error' => $e->getMessage(),
@@ -153,7 +153,7 @@ final class CallTouchChannel implements ChannelInterface
             ]);
             $httpCode = $response->getStatusCode();
             $decoded = $response->toArray(false);
-        } catch (TransportException | ExceptionInterface $e) {
+        } catch (TransportException|ExceptionInterface $e) {
             $this->logger->error('CallTouch: ошибка запроса заявки', [
                 'request_id' => $requestId,
                 'error' => $e->getMessage(),
@@ -230,7 +230,7 @@ final class CallTouchChannel implements ChannelInterface
             'email' => trim((string) ($formData['email'] ?? '')),
         ];
 
-        $subject = trim((string) ($formData['form_name'] ?? $formData['subject'] ?? ''));
+        $subject = trim((string) ($formData['form_name'] ?? $formData['subject'] ?? $formData['source'] ?? ''));
         if ($subject !== '') {
             $payload['subject'] = mb_substr($subject, 0, 256);
         }
@@ -240,7 +240,14 @@ final class CallTouchChannel implements ChannelInterface
             $payload['comment'] = $comment;
         }
 
-        $requestUrl = trim((string) ($formData['request_url'] ?? $formData['requestUrl'] ?? $formData['page_url'] ?? ''));
+        // current_url — имя, под которым страницу заявки шлёт форма платформы.
+        $requestUrl = trim((string) (
+            $formData['request_url']
+            ?? $formData['requestUrl']
+            ?? $formData['page_url']
+            ?? $formData['current_url']
+            ?? ''
+        ));
         if ($requestUrl !== '') {
             $payload['requestUrl'] = $requestUrl;
         }
@@ -252,7 +259,7 @@ final class CallTouchChannel implements ChannelInterface
             $payload['sessionId'] = $sessionId;
         }
 
-        return array_filter($payload, static fn (string $v): bool => $v !== '');
+        return array_filter($payload, static fn(string $v): bool => $v !== '');
     }
 
     /**

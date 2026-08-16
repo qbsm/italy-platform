@@ -33,8 +33,7 @@ final class PayCreateAction
         private readonly LoggerInterface $logger,
         private readonly FormToken $formToken,
         private readonly array $settings,
-    ) {
-    }
+    ) {}
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
@@ -205,7 +204,7 @@ final class PayCreateAction
             (string) ($d['day'] ?? ''),
             (string) ($d['month'] ?? ''),
             (string) ($d['time'] ?? ''),
-        ], static fn (string $p): bool => $p !== '');
+        ], static fn(string $p): bool => $p !== '');
         return implode(' ', $parts);
     }
 

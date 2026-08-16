@@ -15,8 +15,7 @@ final class CallbackVerifier
 {
     public function __construct(
         private readonly string $token,
-    ) {
-    }
+    ) {}
 
     public function isEnabled(): bool
     {

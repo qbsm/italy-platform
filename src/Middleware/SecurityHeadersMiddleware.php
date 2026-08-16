@@ -14,15 +14,17 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 final class SecurityHeadersMiddleware implements MiddlewareInterface
 {
-    /** CSP: разрешаем нужные сторонние сервисы по https (Яндекс.Метрика+вебвизор, VK, MindBox, виджет
-     *  бронирования remarked.ru). Сохраняем default-src/base-uri/frame-ancestors='self' от кликджекинга. */
-    private const DEFAULT_CSP = "default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https: wss:; frame-src 'self' https:; base-uri 'self'; form-action 'self' https:; frame-ancestors 'self'";
+    /**
+     * Базовая CSP: скрипты/стили/картинки — self + любой https (счётчики, карты и виджеты
+     * подключаются без правки ядра, см. ADR-0012). object-src и form-action закрыты:
+     * плагинов на страницах нет, а action формы приходит из JSON-контента.
+     */
+    private const DEFAULT_CSP = "default-src 'self' https:; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https: wss:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'";
 
     public function __construct(
         private readonly bool $addHsts = true,
         private readonly ?string $contentSecurityPolicy = self::DEFAULT_CSP,
-    ) {
-    }
+    ) {}
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {

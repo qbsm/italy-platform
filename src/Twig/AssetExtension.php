@@ -2,6 +2,7 @@
 
 namespace App\Twig;
 
+use App\Support\Json;
 use RuntimeException;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -34,33 +35,18 @@ class AssetExtension extends AbstractExtension
         ];
     }
 
-
     /**
      * Читает содержимое CSS-файла из build-директории для inline-вставки в <style>.
-     * Принимает и логическое имя (main.css) — резолвит в хешированное через css-манифест.
+     * Используется для critical CSS.
      */
     public function getInlineCss(string $filename): ?string
     {
-        $manifest = $this->getCssManifest() ?? [];
-        if (isset($manifest[$filename])) {
-            $filename = basename((string) $manifest[$filename]);
-        }
         $filePath = $this->baseDir . '/assets/css/build/' . $filename;
         if (!is_readable($filePath)) {
             return null;
         }
         $content = @file_get_contents($filePath);
-        if ($content === false) {
-            return null;
-        }
-        // Относительные url(../../X) в build-CSS считаются от assets/css/build/ —
-        // при инлайне в HTML база меняется на страницу, переписываем на абсолютные.
-        // Кавычки учитываем: prod-сборка их срезает, dev оставляет url('../../X').
-        return preg_replace_callback(
-            '#url\(\s*([\'"]?)\.\./\.\./#',
-            fn (array $m): string => 'url(' . $m[1] . $this->baseUrl . 'assets/',
-            $content
-        ) ?? $content;
+        return $content !== false ? $content : null;
     }
 
     public function getAssetUrl(string $assetName, string $manifestType = 'js', bool $safe = false): ?string
@@ -93,6 +79,7 @@ class AssetExtension extends AbstractExtension
         $trimmedAssetName = ltrim($assetName, '/');
         if (!isset($manifest[$assetName]) && !isset($manifest[$trimmedAssetName])) {
             if ($safe) {
+                error_log("AssetExtension: Ассет '{$assetName}' отсутствует в '{$manifestType}' манифесте.");
                 return null;
             }
             throw new RuntimeException("Ассет '{$assetName}' отсутствует в '{$manifestType}' манифесте.");
@@ -109,24 +96,7 @@ class AssetExtension extends AbstractExtension
             return $this->manifestCache;
         }
 
-        if (!file_exists($this->manifestPath)) {
-            $this->manifestCache = null;
-            return null;
-        }
-
-        $manifestJson = @file_get_contents($this->manifestPath);
-        if ($manifestJson === false) {
-            $this->manifestCache = null;
-            return null;
-        }
-
-        $manifest = json_decode($manifestJson, true);
-        if (!is_array($manifest)) {
-            $this->manifestCache = null;
-            return null;
-        }
-
-        $this->manifestCache = $manifest;
+        $this->manifestCache = Json::load($this->manifestPath);
         return $this->manifestCache;
     }
 
@@ -136,24 +106,7 @@ class AssetExtension extends AbstractExtension
             return $this->cssManifestCache;
         }
 
-        if (!file_exists($this->cssManifestPath)) {
-            $this->cssManifestCache = null;
-            return null;
-        }
-
-        $manifestJson = @file_get_contents($this->cssManifestPath);
-        if ($manifestJson === false) {
-            $this->cssManifestCache = null;
-            return null;
-        }
-
-        $manifest = json_decode($manifestJson, true);
-        if (!is_array($manifest)) {
-            $this->cssManifestCache = null;
-            return null;
-        }
-
-        $this->cssManifestCache = $manifest;
+        $this->cssManifestCache = Json::load($this->cssManifestPath);
         return $this->cssManifestCache;
     }
 

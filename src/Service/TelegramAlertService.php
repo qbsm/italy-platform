@@ -21,8 +21,7 @@ final class TelegramAlertService
     public function __construct(
         private readonly array $config,
         private readonly LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     public function send(string $text, string $requestId = ''): bool
     {

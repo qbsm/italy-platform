@@ -100,9 +100,7 @@ final class OrderConfirmerTest extends TestCase
     private function mailService(int &$sent): MailService
     {
         $mailer = new class ($sent) implements MailerInterface {
-            public function __construct(private int &$sent)
-            {
-            }
+            public function __construct(private int &$sent) {}
 
             public function send(RawMessage $message, ?\Symfony\Component\Mailer\Envelope $envelope = null): void
             {

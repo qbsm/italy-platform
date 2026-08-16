@@ -23,7 +23,7 @@ final class CallbackVerifierTest extends TestCase
             'checksum' => strtoupper(hash_hmac('sha256', $data, self::TOKEN)),
         ];
 
-        self::assertTrue((new CallbackVerifier(self::TOKEN))->verify($params));
+        self::assertTrue(new CallbackVerifier(self::TOKEN)->verify($params));
     }
 
     public function testParameterOrderDoesNotMatter(): void
@@ -37,7 +37,7 @@ final class CallbackVerifierTest extends TestCase
             'mdOrder' => 'abc',
         ];
 
-        self::assertTrue((new CallbackVerifier(self::TOKEN))->verify($params));
+        self::assertTrue(new CallbackVerifier(self::TOKEN)->verify($params));
     }
 
     public function testLowercaseChecksumIsAccepted(): void
@@ -49,7 +49,7 @@ final class CallbackVerifierTest extends TestCase
             'checksum' => strtolower(hash_hmac('sha256', $data, self::TOKEN)),
         ];
 
-        self::assertTrue((new CallbackVerifier(self::TOKEN))->verify($params));
+        self::assertTrue(new CallbackVerifier(self::TOKEN)->verify($params));
     }
 
     public function testSignAliasIsNotPartOfChecksum(): void
@@ -62,7 +62,7 @@ final class CallbackVerifierTest extends TestCase
             'checksum' => strtoupper(hash_hmac('sha256', $data, self::TOKEN)),
         ];
 
-        self::assertTrue((new CallbackVerifier(self::TOKEN))->verify($params));
+        self::assertTrue(new CallbackVerifier(self::TOKEN)->verify($params));
     }
 
     public function testTamperedParameterIsRejected(): void
@@ -76,7 +76,7 @@ final class CallbackVerifierTest extends TestCase
             'checksum' => strtoupper(hash_hmac('sha256', $data, self::TOKEN)),
         ];
 
-        self::assertFalse((new CallbackVerifier(self::TOKEN))->verify($params));
+        self::assertFalse(new CallbackVerifier(self::TOKEN)->verify($params));
     }
 
     public function testChecksumFromAnotherTokenIsRejected(): void
@@ -88,12 +88,12 @@ final class CallbackVerifierTest extends TestCase
             'checksum' => strtoupper(hash_hmac('sha256', $data, 'otherToken')),
         ];
 
-        self::assertFalse((new CallbackVerifier(self::TOKEN))->verify($params));
+        self::assertFalse(new CallbackVerifier(self::TOKEN)->verify($params));
     }
 
     public function testNotificationWithoutChecksumIsRejected(): void
     {
-        self::assertFalse((new CallbackVerifier(self::TOKEN))->verify(['mdOrder' => 'abc', 'status' => '1']));
+        self::assertFalse(new CallbackVerifier(self::TOKEN)->verify(['mdOrder' => 'abc', 'status' => '1']));
     }
 
     public function testWithoutConfiguredTokenNothingIsAccepted(): void

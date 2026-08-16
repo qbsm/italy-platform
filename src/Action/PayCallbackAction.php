@@ -36,8 +36,7 @@ final class PayCallbackAction
         private readonly OrderConfirmer $confirmer,
         private readonly TelegramAlertService $alerts,
         private readonly LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {

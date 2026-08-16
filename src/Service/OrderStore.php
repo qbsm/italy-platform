@@ -18,8 +18,7 @@ final class OrderStore
     public function __construct(
         private readonly string $dir,
         private readonly LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string,mixed> $data
@@ -81,7 +80,7 @@ final class OrderStore
             return false;
         }
         if (!is_dir($this->dir)) {
-            @mkdir($this->dir, 0775, true);
+            @mkdir($this->dir, 0o775, true);
         }
         $json = json_encode($order, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         if ($json === false) {

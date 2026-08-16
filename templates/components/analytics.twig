@@ -1,55 +1,45 @@
-{# Трекинг перенесён со старого сайта (КРОМЕ Google Analytics — старый UA-71423170-9 отключён Google в 2023).
-   Рендерится только на боевом хосте (не на *.ismart.pro), чтобы стейдж/тесты не лили данные в счётчики клиента.
-   Отложенная загрузка (первое взаимодействие или таймер) — чтобы не конкурировать с LCP. #}
-{% if base_url is defined and base_url and 'ismart.pro' not in base_url %}
+{# Yandex.Metrika — отложенная загрузка после load + requestIdleCallback.
+   Не блокирует FCP/LCP/TBT. ID из YANDEX_METRIC_ID; без него счётчик не выводится. #}
 {% set _ym_id = config.settings.yandex_metric_id|default(0) %}
-<script type="text/javascript">
-  (function () {
-    var loaded = false;
-    function loadAnalytics() {
-      if (loaded) { return; }
-      loaded = true;
+{% if _ym_id %}
+<!-- Yandex.Metrika counter -->
+<script>
+  (function() {
+    function initMetrika() {
+      var m = window, e = document, t = 'script',
+          r = 'https://mc.yandex.ru/metrika/tag.js',
+          i = 'ym';
+      m[i] = m[i] || function() { (m[i].a = m[i].a || []).push(arguments); };
+      m[i].l = 1 * new Date();
+      for (var j = 0; j < e.scripts.length; j++) { if (e.scripts[j].src === r) return; }
+      var k = e.createElement(t); k.async = 1; k.src = r;
+      var a = e.getElementsByTagName(t)[0]; a.parentNode.insertBefore(k, a);
 
-      {% if _ym_id %}
-      /* Яндекс.Метрика */
-      (function (m, e, t, r, i, k, a) {
-        m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
-        m[i].l = 1 * new Date();
-        for (var j = 0; j < e.scripts.length; j++) { if (e.scripts[j].src === r) { return; } }
-        k = e.createElement(t); a = e.getElementsByTagName(t)[0]; k.async = 1; k.src = r;
-        a.parentNode.insertBefore(k, a);
-      })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-      ym({{ _ym_id }}, "init", { clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: true });
-      {% endif %}
-
-      /* VK Retargeting (пиксель) */
-      var vk = document.createElement("script");
-      vk.type = "text/javascript"; vk.async = true; vk.src = "https://vk.com/js/api/openapi.js?169";
-      vk.onload = function () { try { VK.Retargeting.Init("VK-RTRG-1561150-6I7NQ"); VK.Retargeting.Hit(); } catch (e) {} };
-      document.head.appendChild(vk);
-
-      /* MindBox */
-      window.mindbox = window.mindbox || function () { mindbox.queue.push(arguments); };
-      mindbox.queue = mindbox.queue || [];
-      mindbox("create");
-      var mb = document.createElement("script");
-      mb.async = true; mb.src = "https://api.mindbox.ru/scripts/v1/tracker.js";
-      document.head.appendChild(mb);
+      m[i]({{ _ym_id }}, 'init', {
+        webvisor: true,
+        clickmap: true,
+        ecommerce: "dataLayer",
+        referrer: e.referrer,
+        url: location.href,
+        accurateTrackBounce: true,
+        trackLinks: true
+      });
     }
 
-    ['scroll', 'mousemove', 'touchstart', 'keydown', 'pointerdown'].forEach(function (ev) {
-      window.addEventListener(ev, loadAnalytics, { once: true, passive: true });
-    });
-    setTimeout(loadAnalytics, 3500);
+    function deferInit() {
+      if (typeof requestIdleCallback === 'function') {
+        requestIdleCallback(initMetrika, { timeout: 3000 });
+      } else {
+        setTimeout(initMetrika, 3000);
+      }
+    }
 
-    {% if _ym_id %}
-    /* Цель Метрики на успешную отправку формы (перенос старого form_booking; form-callback шлёт это событие) */
-    document.addEventListener('formSubmissionSuccess', function () {
-      if (typeof window.ym === 'function') { window.ym({{ _ym_id }}, 'reachGoal', 'form_booking'); }
-    });
-    {% endif %}
+    if (document.readyState === 'complete') {
+      deferInit();
+    } else {
+      window.addEventListener('load', deferInit, { once: true });
+    }
   })();
 </script>
-{% if _ym_id %}<noscript><div><img src="https://mc.yandex.ru/watch/{{ _ym_id }}" style="position:absolute; left:-9999px;" alt="" /></div></noscript>{% endif %}
-<noscript><img src="https://vk.com/rtrg?p=VK-RTRG-1561150-6I7NQ" style="position:fixed; left:-999px;" alt=""/></noscript>
+<!-- /Yandex.Metrika counter -->
 {% endif %}

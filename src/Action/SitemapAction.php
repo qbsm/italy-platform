@@ -4,28 +4,25 @@ declare(strict_types=1);
 
 namespace App\Action;
 
-use App\Service\DataLoaderService;
+use App\Support\CitySlugger;
+use App\Support\Json;
+use App\Support\PlatformSettings;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Генерация sitemap.xml с учётом мультиязычности и hreflang.
- * Статические страницы берутся из settings['sitemap_pages'] (массив page_id),
- * страницы коллекций (рестораны) — из settings['collections'] через DataLoaderService.
- * URL без хвостового слеша — под canonical (TrailingSlashMiddleware режет слеш).
+ * Список страниц берётся из config: settings['sitemap_pages'] (массив page_id).
  */
 final class SitemapAction
 {
     /** @var array<string, mixed> */
     private array $settings;
 
-    private DataLoaderService $dataLoader;
-
     /** @param array<string, mixed> $settings */
-    public function __construct(array $settings, DataLoaderService $dataLoader)
+    public function __construct(array $settings)
     {
         $this->settings = $settings;
-        $this->dataLoader = $dataLoader;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -38,18 +35,20 @@ final class SitemapAction
         }
         $base = rtrim($base, '/');
 
-        $langs = (array) ($this->settings['available_langs'] ?? ['ru', 'en']);
-        $defaultLang = (string) ($this->settings['default_lang'] ?? 'ru');
-        $routeMap = (array) ($this->settings['route_map'] ?? []);
-
-        $collections = (array) ($this->settings['collections'] ?? []);
-        $jsonBase = (string) ($this->settings['paths']['json_base'] ?? '');
+        $langs = PlatformSettings::availableLangs($this->settings);
+        $defaultLang = PlatformSettings::defaultLang($this->settings);
+        $routeMap = PlatformSettings::routeMap($this->settings);
 
         $sitemapPages = (array) ($this->settings['sitemap_pages'] ?? []);
-        $urls = $this->buildUrls($base, $langs, $defaultLang, $routeMap, $sitemapPages, $jsonBase);
+        $urls = $this->buildUrls($base, $langs, $defaultLang, $routeMap, $sitemapPages);
 
-        if ($collections !== [] && $jsonBase !== '') {
-            $urls = array_merge($urls, $this->buildCollectionUrls($base, $langs, $defaultLang, $jsonBase, $collections));
+        $dynamicPages = (array) ($this->settings['sitemap_dynamic_pages'] ?? []);
+        $jsonBaseDir = (string) ($this->settings['paths']['json_base'] ?? '');
+        if ($dynamicPages !== [] && $jsonBaseDir !== '') {
+            $urls = array_merge(
+                $urls,
+                $this->buildDynamicUrls($base, $langs, $defaultLang, $routeMap, $dynamicPages, $jsonBaseDir)
+            );
         }
 
         $xml = $this->renderSitemap($base, $urls);
@@ -65,115 +64,29 @@ final class SitemapAction
      * @param array<int, string> $langs
      * @param array<string, string> $routeMap slug => page_id
      * @param array<int, string> $sitemapPages page_id для включения в sitemap
-     * @return array<int, array{loc: string, alternates: array<string, string>, lastmod: string|null}>
+     * @return array<int, array{loc: string, alternates: array<string, string>}>
      */
-    private function buildUrls(string $base, array $langs, string $defaultLang, array $routeMap, array $sitemapPages, string $jsonBase = ''): array
+    private function buildUrls(string $base, array $langs, string $defaultLang, array $routeMap, array $sitemapPages): array
     {
         $reverseMap = array_flip($routeMap);
         $urls = [];
 
         foreach ($sitemapPages as $pageId) {
             $pathSegment = $this->pageIdToPathSegment($pageId, $reverseMap);
-            $lastmod = $jsonBase !== ''
-                ? $this->fileLastmod($jsonBase . '/' . $defaultLang . '/pages/' . $pageId . '.json')
-                : null;
-            foreach ($this->urlsForSegment($base, $langs, $defaultLang, $pathSegment, $lastmod) as $u) {
-                $urls[] = $u;
-            }
-        }
 
-        return $urls;
-    }
-
-    /** Дата последнего изменения JSON-источника страницы (W3C, только дата). */
-    private function fileLastmod(string $path): ?string
-    {
-        if (!is_readable($path)) {
-            return null;
-        }
-        $mtime = filemtime($path);
-
-        return $mtime === false ? null : date('Y-m-d', $mtime);
-    }
-
-    /**
-     * Страницы коллекций (рестораны): slug'и берутся из страницы-списка через DataLoaderService.
-     *
-     * @param array<int, string> $langs
-     * @param array<string, mixed> $collections
-     * @return array<int, array{loc: string, alternates: array<string, string>, lastmod: string|null}>
-     */
-    private function buildCollectionUrls(string $base, array $langs, string $defaultLang, string $jsonBase, array $collections): array
-    {
-        $urls = [];
-
-        foreach ($collections as $collConfig) {
-            if (!is_array($collConfig)) {
-                continue;
-            }
-            $pattern = (string) ($collConfig['entity_url_pattern'] ?? '');
-            if ($pattern === '') {
-                continue;
-            }
-            $slugs = $this->dataLoader->loadEntitySlugs($jsonBase, $defaultLang, $collConfig) ?? [];
-            foreach ($slugs as $slug) {
-                // В sitemap — только реально доступные сущности: loadEntity вернёт null
-                // для visible:false и битых записей (та же логика, что на страницах),
-                // иначе карта отдаёт 404-URL (скрытые/демо-события).
-                if ($this->dataLoader->loadEntity($jsonBase, $defaultLang, $slug, '', $collConfig) === null) {
-                    continue;
-                }
-                $segment = trim(str_replace('{slug}', $slug, $pattern), '/');
-                $dataDir = (string) ($collConfig['data_dir'] ?? '');
-                $lastmod = $dataDir !== ''
-                    ? $this->fileLastmod($jsonBase . '/' . $defaultLang . '/' . $dataDir . '/' . $slug . '.json')
-                    : null;
-                foreach ($this->urlsForSegment($base, $langs, $defaultLang, $segment, $lastmod) as $u) {
-                    $urls[] = $u;
-                }
-            }
-        }
-
-        return $urls;
-    }
-
-    /**
-     * Строит loc + alternates для одного path-сегмента по всем языкам.
-     * Без хвостового слеша (кроме главной). Alternates печатаются только при мультиязычности.
-     *
-     * @param array<int, string> $langs
-     * @return array<int, array{loc: string, alternates: array<string, string>, lastmod: string|null}>
-     */
-    private function urlsForSegment(string $base, array $langs, string $defaultLang, string $pathSegment, ?string $lastmod = null): array
-    {
-        $multilang = count($langs) > 1;
-        $urls = [];
-
-        foreach ($langs as $lang) {
-            $loc = $base . $this->pathForLang($lang, $defaultLang, $pathSegment);
-
-            $alternates = [];
-            if ($multilang) {
+            foreach ($langs as $lang) {
+                $loc = $this->buildLangPath($base, $lang, $defaultLang, $pathSegment);
+                $alternates = [];
                 foreach ($langs as $altLang) {
-                    $alternates[$altLang] = $base . $this->pathForLang($altLang, $defaultLang, $pathSegment);
+                    $alternates[$altLang] = $this->buildLangPath($base, $altLang, $defaultLang, $pathSegment);
                 }
+                $urls[] = ['loc' => $loc, 'alternates' => $alternates];
             }
-
-            $urls[] = ['loc' => $loc, 'alternates' => $alternates, 'lastmod' => $lastmod];
         }
 
         return $urls;
     }
 
-    private function pathForLang(string $lang, string $defaultLang, string $pathSegment): string
-    {
-        if ($lang === $defaultLang) {
-            return $pathSegment === '' ? '/' : '/' . $pathSegment;
-        }
-        return $pathSegment === '' ? '/' . $lang : '/' . $lang . '/' . $pathSegment;
-    }
-
-    /** @param array<string, string> $reverseMap */
     private function pageIdToPathSegment(string $pageId, array $reverseMap): string
     {
         if ($pageId === 'index') {
@@ -183,7 +96,106 @@ final class SitemapAction
     }
 
     /**
-     * @param array<int, array{loc: string, alternates: array<string, string>, lastmod: string|null}> $urls
+     * Раскрывает динамические подпути (например, /buy/<city>/) для каждого языка.
+     *
+     * @param array<int, string> $langs
+     * @param array<string, string> $routeMap
+     * @param array<string, array<string, mixed>> $dynamicPages
+     * @return array<int, array{loc: string, alternates: array<string, string>}>
+     */
+    private function buildDynamicUrls(
+        string $base,
+        array $langs,
+        string $defaultLang,
+        array $routeMap,
+        array $dynamicPages,
+        string $jsonBaseDir
+    ): array {
+        $reverseMap = array_flip($routeMap);
+        $urls = [];
+
+        foreach ($dynamicPages as $pageId => $config) {
+            $pathSegment = $this->pageIdToPathSegment((string) $pageId, $reverseMap);
+            $dataPage = (string) ($config['data_page'] ?? '');
+            $listKey = (string) ($config['list_key'] ?? '');
+            $valueKey = (string) ($config['value_key'] ?? '');
+            $sluggerKey = (string) ($config['slugger'] ?? 'city');
+            if ($pathSegment === '' || $dataPage === '' || $listKey === '' || $valueKey === '') {
+                continue;
+            }
+
+            // Slug-набор одинаковый для всех языков: данные дилеров — это адреса/названия
+            // на родном языке, перевод не предполагается. Берём slug-набор из дефолтного языка.
+            $slugs = $this->loadDynamicSlugs($jsonBaseDir, $defaultLang, $dataPage, $listKey, $valueKey, $sluggerKey);
+            if ($slugs === []) {
+                continue;
+            }
+
+            foreach ($slugs as $subSlug) {
+                foreach ($langs as $lang) {
+                    $loc = $this->buildLangPath($base, $lang, $defaultLang, $pathSegment . '/' . $subSlug);
+                    $alternates = [];
+                    foreach ($langs as $altLang) {
+                        $alternates[$altLang] = $this->buildLangPath($base, $altLang, $defaultLang, $pathSegment . '/' . $subSlug);
+                    }
+                    $urls[] = ['loc' => $loc, 'alternates' => $alternates];
+                }
+            }
+        }
+
+        return $urls;
+    }
+
+    private function buildLangPath(string $base, string $lang, string $defaultLang, string $pathSegment): string
+    {
+        if ($pathSegment === '') {
+            return $base . ($lang === $defaultLang ? '/' : '/' . $lang);
+        }
+        $prefix = $lang === $defaultLang ? '' : '/' . $lang;
+        return $base . $prefix . '/' . $pathSegment;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function loadDynamicSlugs(
+        string $jsonBaseDir,
+        string $lang,
+        string $dataPage,
+        string $listKey,
+        string $valueKey,
+        string $sluggerKey
+    ): array {
+        $items = Json::loadKey($jsonBaseDir . '/' . $lang . '/pages/' . $dataPage . '.json', $listKey);
+        if ($items === null) {
+            return [];
+        }
+
+        $slugs = [];
+        foreach ($items as $item) {
+            if (!is_array($item) || !isset($item[$valueKey]) || !is_string($item[$valueKey])) {
+                continue;
+            }
+            $slug = $this->slugifyValue((string) $item[$valueKey], $sluggerKey);
+            if ($slug === '' || in_array($slug, $slugs, true)) {
+                continue;
+            }
+            $slugs[] = $slug;
+        }
+        sort($slugs);
+        return $slugs;
+    }
+
+    private function slugifyValue(string $value, string $sluggerKey): string
+    {
+        return match ($sluggerKey) {
+            'city' => CitySlugger::slug($value),
+            default => CitySlugger::slug($value),
+        };
+    }
+
+    /**
+     * @param array<int, array{loc: string, alternates: array<string, string>}> $urls
      */
     private function renderSitemap(string $base, array $urls): string
     {
@@ -193,9 +205,6 @@ final class SitemapAction
         foreach ($urls as $u) {
             $out .= '  <url>' . "\n";
             $out .= '    <loc>' . htmlspecialchars($u['loc'], ENT_XML1, 'UTF-8') . '</loc>' . "\n";
-            if (!empty($u['lastmod'])) {
-                $out .= '    <lastmod>' . htmlspecialchars((string) $u['lastmod'], ENT_XML1, 'UTF-8') . '</lastmod>' . "\n";
-            }
             foreach ($u['alternates'] as $hreflang => $href) {
                 $out .= '    <xhtml:link rel="alternate" hreflang="' . htmlspecialchars($hreflang, ENT_XML1, 'UTF-8') . '" href="' . htmlspecialchars($href, ENT_XML1, 'UTF-8') . '"/>' . "\n";
             }

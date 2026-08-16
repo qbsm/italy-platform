@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Support\Arr;
+use App\Support\Phone;
 use Psr\Http\Message\UploadedFileInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -22,12 +24,29 @@ final class MailService
         'message' => 'Сообщение',
         'company' => 'Компания',
         'city' => 'Город',
-        'event' => 'Событие',
-        'tickets' => 'Количество билетов',
+        'source' => 'Форма',
+        'trigger_text' => 'Кнопка',
+        'trigger_section' => 'Секция',
+        'trigger_age_sec' => 'Секунд до отправки',
+        'referrer' => 'Переход с',
+        'utm_source' => 'utm_source',
+        'utm_medium' => 'utm_medium',
+        'utm_campaign' => 'utm_campaign',
+        'utm_content' => 'utm_content',
+        'utm_term' => 'utm_term',
     ];
 
-    /** @var string[] */
-    private const SKIP_FIELDS = ['csrf_token', 'form_token', 'company_site', 'current_url', 'policy', 'lang', 'idempotency_key'];
+    /**
+     * Служебное в перечень полей не идёт: часть уходит в подвал письма (страница, IP,
+     * браузер, sessionId), остальное менеджеру не говорит ничего.
+     *
+     * @var string[]
+     */
+    private const SKIP_FIELDS = [
+        'csrf_token', 'form_token', 'company_site', 'smart-token', 'current_url', 'policy',
+        'lang', 'idempotency_key', 'utm_session', 'session_id', 'sessionId', '_ip', '_user_agent',
+        'phone_shown', 'phone_digits',
+    ];
 
     /**
      * @param array{
@@ -42,8 +61,7 @@ final class MailService
         private readonly LoggerInterface $logger,
         private readonly array $config,
         private readonly ?TelegramAlertService $alerts = null,
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string,mixed>  $formData     POST-данные формы
@@ -59,13 +77,13 @@ final class MailService
             $this->logger->warning('MAIL_TO не задан, письмо не отправлено', ['request_id' => $requestId]);
             return false;
         }
-        $recipients = array_values(array_filter(array_map('trim', explode(',', $to)), static fn (string $a): bool => $a !== ''));
+        $recipients = array_values(array_filter(array_map('trim', explode(',', $to)), static fn(string $a): bool => $a !== ''));
         if ($recipients === []) {
             $this->logger->warning('MAIL_TO не задан, письмо не отправлено', ['request_id' => $requestId]);
             return false;
         }
 
-        $currentUrl = $this->extractString($formData, 'current_url');
+        $currentUrl = Arr::str($formData, 'current_url');
         $pagePath = $currentUrl !== '' ? (parse_url($currentUrl, PHP_URL_PATH) ?: '/') : '/';
         $subject = trim($this->config['subject_prefix'] . ' Заявка с сайта — ' . $pagePath);
 
@@ -76,7 +94,7 @@ final class MailService
             ? new Address($this->config['from'], $this->config['from_name'])
             : new Address($this->config['from']);
 
-        $email = (new Email())
+        $email = new Email()
             ->from($from)
             ->to(...$recipients)
             ->subject($subject)
@@ -84,9 +102,9 @@ final class MailService
             ->html($htmlBody);
 
         // Reply-To: email клиента, если есть
-        $clientEmail = $this->extractString($formData, 'email');
+        $clientEmail = Arr::str($formData, 'email');
         if ($clientEmail !== '' && filter_var($clientEmail, FILTER_VALIDATE_EMAIL) !== false) {
-            $clientName = $this->extractString($formData, 'name');
+            $clientName = Arr::str($formData, 'name');
             $email->replyTo($clientName !== '' ? new Address($clientEmail, $clientName) : new Address($clientEmail));
         }
 
@@ -103,70 +121,6 @@ final class MailService
                 'request_id' => $requestId,
                 'error' => $e->getMessage(),
             ]);
-            $this->alerts?->send("Ошибка отправки заявки с формы (письмо на {$to} не ушло): " . $e->getMessage(), $requestId);
-            return false;
-        }
-    }
-
-    /**
-     * Письмо клиенту со ссылкой на оплату (дубль редиректа на платёжную страницу банка).
-     * Ошибка отправки не должна ломать оплату — только логируется.
-     */
-    public function sendPaymentLink(
-        string $toEmail,
-        string $name,
-        string $eventTitle,
-        string $eventDate,
-        int $tickets,
-        string $sum,
-        string $formUrl,
-        string $requestId = '',
-    ): bool {
-        if ($toEmail === '' || filter_var($toEmail, FILTER_VALIDATE_EMAIL) === false) {
-            return false;
-        }
-
-        $from = $this->config['from_name'] !== ''
-            ? new Address($this->config['from'], $this->config['from_name'])
-            : new Address($this->config['from']);
-
-        $greeting = $name !== '' ? 'Здравствуйте, ' . $name . '!' : 'Здравствуйте!';
-        $eventLine = trim($eventTitle . ($eventDate !== '' ? ' — ' . $eventDate : ''));
-
-        $text = implode("\n", [
-            $greeting,
-            '',
-            'Вы оформляете билеты на событие «' . $eventLine . '» (' . $tickets . ' шт., ' . $sum . ').',
-            'Если страница оплаты не открылась автоматически, перейдите по ссылке:',
-            $formUrl,
-            '',
-            'Ссылка действительна ограниченное время. Если оплата уже прошла — просто проигнорируйте это письмо.',
-        ]);
-
-        $html = '<p>' . htmlspecialchars($greeting) . '</p>'
-            . '<p>Вы оформляете билеты на событие «<b>' . htmlspecialchars($eventLine) . '</b>» (' . $tickets . ' шт., ' . htmlspecialchars($sum) . ').</p>'
-            . '<p>Если страница оплаты не открылась автоматически, оплатите по кнопке:</p>'
-            . '<p><a href="' . htmlspecialchars($formUrl) . '" style="display:inline-block;padding:12px 24px;background:#c44c01;color:#fff;text-decoration:none;border-radius:24px;">Оплатить билет</a></p>'
-            . '<p style="color:#777;font-size:13px;">Ссылка действительна ограниченное время. Если оплата уже прошла — просто проигнорируйте это письмо.</p>';
-
-        $email = (new Email())
-            ->from($from)
-            ->to(new Address($toEmail, $name))
-            ->subject(trim($this->config['subject_prefix'] . ' Ссылка на оплату — ' . $eventTitle))
-            ->text($text)
-            ->html($html);
-
-        try {
-            $this->mailer->send($email);
-            $this->logger->info('Письмо со ссылкой на оплату отправлено', ['to' => $toEmail, 'request_id' => $requestId]);
-            return true;
-        } catch (TransportExceptionInterface $e) {
-            $this->logger->error('Ошибка отправки ссылки на оплату', [
-                'to' => $toEmail,
-                'request_id' => $requestId,
-                'error' => $e->getMessage(),
-            ]);
-            $this->alerts?->send("Ошибка отправки ссылки на оплату клиенту {$toEmail}: " . $e->getMessage(), $requestId);
             return false;
         }
     }
@@ -199,7 +153,15 @@ final class MailService
         $lines[] = str_repeat('—', 40);
         $lines[] = 'Страница: ' . $currentUrl;
         $lines[] = 'Время: ' . date('d.m.Y H:i:s');
-        $lines[] = 'IP: ' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown');
+        $lines[] = 'IP: ' . $this->clientIp($formData);
+        $userAgent = Arr::str($formData, '_user_agent');
+        if ($userAgent !== '') {
+            $lines[] = 'Браузер: ' . $userAgent;
+        }
+        $ctSession = $this->ctSession($formData);
+        if ($ctSession !== '') {
+            $lines[] = 'CallTouch sessionId: ' . $ctSession;
+        }
         if ($requestId !== '') {
             $lines[] = 'Request ID: ' . $requestId;
         }
@@ -236,27 +198,36 @@ final class MailService
 
         $pageHtml = htmlspecialchars($currentUrl, ENT_QUOTES, 'UTF-8');
         $time = date('d.m.Y H:i:s');
-        $ip = htmlspecialchars($_SERVER['REMOTE_ADDR'] ?? 'unknown', ENT_QUOTES, 'UTF-8');
+        $ip = htmlspecialchars($this->clientIp($formData), ENT_QUOTES, 'UTF-8');
+        $techHtml = '';
+        $userAgent = Arr::str($formData, '_user_agent');
+        if ($userAgent !== '') {
+            $techHtml .= '<br>Браузер: ' . htmlspecialchars($userAgent, ENT_QUOTES, 'UTF-8');
+        }
+        $ctSession = $this->ctSession($formData);
+        if ($ctSession !== '') {
+            $techHtml .= '<br>CallTouch sessionId: ' . htmlspecialchars($ctSession, ENT_QUOTES, 'UTF-8');
+        }
 
         return <<<HTML
-        <!DOCTYPE html>
-        <html lang="ru">
-        <head><meta charset="UTF-8"></head>
-        <body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;color:#333">
-        <div style="max-width:600px;margin:20px auto;background:#fff;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden">
-          <div style="background:#4a4a49;color:#fff;padding:16px 24px;font-size:16px;font-weight:600">Новая заявка с сайта</div>
-          <div style="padding:24px">
-            <table style="width:100%;border-collapse:collapse">{$rows}</table>
-            {$filesHtml}
-          </div>
-          <div style="padding:12px 24px;background:#f9f9f9;font-size:12px;color:#999;border-top:1px solid #eee">
-            Страница: <a href="{$pageHtml}" style="color:#999">{$pageHtml}</a><br>
-            {$time} &middot; IP: {$ip}{$this->requestIdHtml($requestId)}
-          </div>
-        </div>
-        </body>
-        </html>
-        HTML;
+            <!DOCTYPE html>
+            <html lang="ru">
+            <head><meta charset="UTF-8"></head>
+            <body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;color:#333">
+            <div style="max-width:600px;margin:20px auto;background:#fff;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden">
+              <div style="background:#4a4a49;color:#fff;padding:16px 24px;font-size:16px;font-weight:600">Новая заявка с сайта</div>
+              <div style="padding:24px">
+                <table style="width:100%;border-collapse:collapse">{$rows}</table>
+                {$filesHtml}
+              </div>
+              <div style="padding:12px 24px;background:#f9f9f9;font-size:12px;color:#999;border-top:1px solid #eee">
+                Страница: <a href="{$pageHtml}" style="color:#999">{$pageHtml}</a><br>
+                {$time} &middot; IP: {$ip}{$this->requestIdHtml($requestId)}{$techHtml}
+              </div>
+            </div>
+            </body>
+            </html>
+            HTML;
     }
 
     private function requestIdHtml(string $requestId): string
@@ -316,14 +287,95 @@ final class MailService
 
     private function formatValue(string $key, string $value): string
     {
-        if ($key === 'phone' && $value !== '' && $value[0] !== '+' && ctype_digit($value)) {
-            return '+' . $value;
+        if ($key === 'phone' && $value !== '') {
+            return Phone::format($value);
         }
         return $value;
     }
 
-    private function extractString(array $data, string $key): string
+    /**
+     * @param array<string,mixed> $formData
+     */
+    private function clientIp(array $formData): string
     {
-        return isset($data[$key]) && is_string($data[$key]) ? trim($data[$key]) : '';
+        $ip = Arr::str($formData, '_ip');
+        if ($ip !== '') {
+            return $ip;
+        }
+        return (string) ($_SERVER['REMOTE_ADDR'] ?? 'unknown');
+    }
+
+    /**
+     * @param array<string,mixed> $formData
+     */
+    private function ctSession(array $formData): string
+    {
+        $id = Arr::str($formData, 'session_id');
+        return $id !== '' ? $id : Arr::str($formData, 'sessionId');
+    }
+
+
+
+    /**
+     * Письмо клиенту со ссылкой на оплату (дубль редиректа на платёжную страницу банка).
+     * Ошибка отправки не должна ломать оплату — только логируется.
+     */
+    public function sendPaymentLink(
+        string $toEmail,
+        string $name,
+        string $eventTitle,
+        string $eventDate,
+        int $tickets,
+        string $sum,
+        string $formUrl,
+        string $requestId = '',
+    ): bool {
+        if ($toEmail === '' || filter_var($toEmail, FILTER_VALIDATE_EMAIL) === false) {
+            return false;
+        }
+
+        $from = $this->config['from_name'] !== ''
+            ? new Address($this->config['from'], $this->config['from_name'])
+            : new Address($this->config['from']);
+
+        $greeting = $name !== '' ? 'Здравствуйте, ' . $name . '!' : 'Здравствуйте!';
+        $eventLine = trim($eventTitle . ($eventDate !== '' ? ' — ' . $eventDate : ''));
+
+        $text = implode("\n", [
+            $greeting,
+            '',
+            'Вы оформляете билеты на событие «' . $eventLine . '» (' . $tickets . ' шт., ' . $sum . ').',
+            'Если страница оплаты не открылась автоматически, перейдите по ссылке:',
+            $formUrl,
+            '',
+            'Ссылка действительна ограниченное время. Если оплата уже прошла — просто проигнорируйте это письмо.',
+        ]);
+
+        $html = '<p>' . htmlspecialchars($greeting) . '</p>'
+            . '<p>Вы оформляете билеты на событие «<b>' . htmlspecialchars($eventLine) . '</b>» (' . $tickets . ' шт., ' . htmlspecialchars($sum) . ').</p>'
+            . '<p>Если страница оплаты не открылась автоматически, оплатите по кнопке:</p>'
+            . '<p><a href="' . htmlspecialchars($formUrl) . '" style="display:inline-block;padding:12px 24px;background:#c44c01;color:#fff;text-decoration:none;border-radius:24px;">Оплатить билет</a></p>'
+            . '<p style="color:#777;font-size:13px;">Ссылка действительна ограниченное время. Если оплата уже прошла — просто проигнорируйте это письмо.</p>';
+
+        $email = new Email()
+            ->from($from)
+            ->to(new Address($toEmail, $name))
+            ->subject(trim($this->config['subject_prefix'] . ' Ссылка на оплату — ' . $eventTitle))
+            ->text($text)
+            ->html($html);
+
+        try {
+            $this->mailer->send($email);
+            $this->logger->info('Письмо со ссылкой на оплату отправлено', ['to' => $toEmail, 'request_id' => $requestId]);
+            return true;
+        } catch (TransportExceptionInterface $e) {
+            $this->logger->error('Ошибка отправки ссылки на оплату', [
+                'to' => $toEmail,
+                'request_id' => $requestId,
+                'error' => $e->getMessage(),
+            ]);
+            $this->alerts?->send("Ошибка отправки ссылки на оплату клиенту {$toEmail}: " . $e->getMessage(), $requestId);
+            return false;
+        }
     }
 }

@@ -20,8 +20,7 @@ final class OrderConfirmer
         private readonly OrderStore $orders,
         private readonly MailService $mail,
         private readonly LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string,mixed> $order

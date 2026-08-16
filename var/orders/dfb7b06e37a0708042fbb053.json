@@ -1,0 +1,18 @@
+{
+    "event_slug": "uzhin-v-osobnyake",
+    "event_title": "Ужин братьев Мясниковых при свечах",
+    "event_date": "23 августа 19:00",
+    "name": "Тест SMTP",
+    "phone": "",
+    "email": "fedorovich.d@gmail.com",
+    "tickets": 1,
+    "unit_price": 15000,
+    "amount": 1500000,
+    "currency": "643",
+    "request_id": "6a422c34fb2cf66b5c64a9109332c7c9",
+    "id": "dfb7b06e37a0708042fbb053",
+    "status": "pending",
+    "trans_id": "5EAUHCPYSzv1ZKEYsWXPsI6sim0=",
+    "created_at": 1785232818,
+    "updated_at": 1785232818
+}

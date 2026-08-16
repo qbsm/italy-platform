@@ -6,6 +6,7 @@ namespace App\Notification\Channel;
 
 use App\Notification\ChannelInterface;
 use App\Notification\ChannelResult;
+use App\Support\Phone;
 use Psr\Http\Message\UploadedFileInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpClient\Exception\TransportException;
@@ -24,16 +25,22 @@ final class TelegramChannel implements ChannelInterface
         'phone' => 'Телефон',
         'email' => 'Email',
         'message' => 'Сообщение',
+        'source' => 'Форма',
+        'trigger_text' => 'Кнопка',
+        'trigger_section' => 'Секция',
     ];
 
     private const SKIP_FIELDS = [
         'csrf_token',
         'form_token',
         'company_site',
+        'smart-token',
         'idempotency_key',
         'policy',
         'session_id',
         'sessionId',
+        'phone_shown',
+        'phone_digits',
     ];
 
     /**
@@ -200,6 +207,9 @@ final class TelegramChannel implements ChannelInterface
             $value = (string) ($formData[$key] ?? '');
             if ($value === '') {
                 continue;
+            }
+            if ($key === 'phone') {
+                $value = Phone::format($value);
             }
             $lines[] = '<b>' . htmlspecialchars($label, ENT_QUOTES | ENT_HTML5, 'UTF-8')
                 . ':</b> ' . htmlspecialchars($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
