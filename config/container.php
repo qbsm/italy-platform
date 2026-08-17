@@ -27,6 +27,8 @@ use App\Support\FormToken;
 use App\Service\DataLoaderService;
 use App\Service\DefaultSeoBuilder;
 use App\Service\MailService;
+use App\Service\EventSeoBuilder;
+use App\Service\RestaurantSeoBuilder;
 use App\Service\SeoBuilderRegistry;
 use App\Twig\AssetExtension;
 use App\Twig\DataExtension;
@@ -135,10 +137,13 @@ return static function (): ContainerInterface {
         //       $c->get(DefaultSeoBuilder::class),
         //   ),
         DefaultSeoBuilder::class => \DI\autowire(),
-        SeoBuilderRegistry::class => static fn(ContainerInterface $c) => new SeoBuilderRegistry(
-            [],
-            $c->get(DefaultSeoBuilder::class),
-        ),
+        RestaurantSeoBuilder::class => \DI\autowire(),
+        EventSeoBuilder::class => \DI\autowire(),
+        // Реестр отдаёт null для неизвестного типа — generic-ветку держит сам PageAction.
+        SeoBuilderRegistry::class => static fn(ContainerInterface $c) => new SeoBuilderRegistry([
+            'restaurants' => $c->get(RestaurantSeoBuilder::class),
+            'events' => $c->get(EventSeoBuilder::class),
+        ]),
 
         PageAction::class => \DI\autowire()
             ->constructorParameter('settings', \DI\get('settings'))
