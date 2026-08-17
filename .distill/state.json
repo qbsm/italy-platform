@@ -2,9 +2,9 @@
   "$schema": "https://ismart.pro/schemas/distill-state-v1.json",
   "platform_repo": "github:qbsm/ismart-platform",
   "platform_version": "1.0.0",
-  "platform_commit": "88809d447afe22d5db51423d215392100a3624a0",
+  "platform_commit": "c34ba3880f07a6c50f0829a8fe7130f153e14b8d",
   "platform_branch": "feat/ismart-pro-site",
-  "last_sync": "2026-08-16T18:31:11.928Z",
+  "last_sync": "2026-08-17T10:52:22.104Z",
   "overrides": {
     "src/Service/SeoBuilderInterface.php": {
       "reason": "Strategy pattern для расширяемого SEO (отсутствует в baseline — кандидат на унификацию во всех проектах)",
@@ -34,6 +34,24 @@
     },
     "templates/components/form-callback.twig": {
       "reason": "Кастомная форма подписки (email+имя+город) — generic-шаблон ядра сюда не катится; сниппет маячков вставлен вручную",
+      "accepted_drift": true,
+      "first_seen": "2026-05-20",
+      "linked_decision": "docs/notes/improvements.md: SeoService унификация"
+    },
+    "src/Service/MailService.php": {
+      "reason": "почта деплоймента умеет жаловаться в телеграм — параметра alerts у ядра нет",
+      "accepted_drift": true,
+      "first_seen": "2026-05-20",
+      "linked_decision": "docs/notes/improvements.md: SeoService унификация"
+    },
+    "config/project-di.php": {
+      "reason": "свои сервисы: эквайринг Альфа, телеграм-алерты",
+      "accepted_drift": true,
+      "first_seen": "2026-05-20",
+      "linked_decision": "docs/notes/improvements.md: SeoService унификация"
+    },
+    "config/project-routes.php": {
+      "reason": "свои маршруты: оплата билетов",
       "accepted_drift": true,
       "first_seen": "2026-05-20",
       "linked_decision": "docs/notes/improvements.md: SeoService унификация"
