@@ -12,6 +12,8 @@ namespace App\Service;
  */
 final class RestaurantSeoBuilder implements SeoBuilderInterface
 {
+    public function __construct(private readonly string $projectRoot = '') {}
+
     public function build(array $entity, string $baseUrl, string $langCode, array $config, array $global): array
     {
         $r = $entity['restaurant'] ?? [];
@@ -40,6 +42,7 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
         } else {
             $ogImage = $prodBase . '/' . ltrim($fallbackImage, '/');
         }
+        $ogImage = $this->socialImage($ogImage, $prodBase, $fallbackImage);
 
         $meta = [
             ['name' => 'description', 'content' => $desc],
@@ -66,6 +69,41 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
             'json_ld' => $this->buildRestaurantJsonLd($entity, $desc, $images, $url, $prodBase),
             'json_ld_faq' => $this->buildRestaurantFaqJsonLd($entity, $langCode, $global),
         ];
+    }
+
+    /**
+     * Картинка для соцсетей и мессенджеров — строго JPEG 1200x630: Telegram не разворачивает
+     * WebP в превью, а обложка ресторана снята в своей пропорции и обрезается сервисом по живому.
+     * Файлы готовит tools/build/build-og-images.js рядом с исходником, суффикс -og.jpg.
+     */
+    private function socialImage(string $image, string $prodBase, string $fallbackImage): string
+    {
+        $fallbackUrl = $fallbackImage !== '' ? $prodBase . '/' . ltrim($fallbackImage, '/') : '';
+
+        $candidate = preg_replace('/\\.(jpe?g|png|webp|avif)$/i', '-og.jpg', $image);
+        if ($candidate !== null && $candidate !== $image && $this->existsLocally($candidate, $prodBase)) {
+            return $candidate;
+        }
+
+        if (preg_match('/\\.jpe?g($|\\?)/i', $image) === 1) {
+            return $image;
+        }
+
+        return $fallbackUrl !== '' ? $fallbackUrl : $image;
+    }
+
+    private function existsLocally(string $url, string $prodBase): bool
+    {
+        if ($this->projectRoot === '') {
+            return false;
+        }
+        $relative = $prodBase !== '' && str_starts_with($url, $prodBase)
+            ? substr($url, strlen($prodBase))
+            : (string) parse_url($url, PHP_URL_PATH);
+
+        $relative = '/' . ltrim((string) $relative, '/');
+
+        return is_file($this->projectRoot . $relative);
     }
 
     /**

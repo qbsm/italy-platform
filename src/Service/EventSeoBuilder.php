@@ -12,6 +12,8 @@ namespace App\Service;
  */
 final class EventSeoBuilder implements SeoBuilderInterface
 {
+    public function __construct(private readonly string $projectRoot = '') {}
+
     private const MONTHS_GENITIVE = [
         1 => 'января', 2 => 'февраля', 3 => 'марта', 4 => 'апреля',
         5 => 'мая', 6 => 'июня', 7 => 'июля', 8 => 'августа',
@@ -31,7 +33,7 @@ final class EventSeoBuilder implements SeoBuilderInterface
 
         $siteName = (string) ($config['site_name'] ?? 'Site');
         $images = $this->collectImages($entity, $prodBase, $config);
-        $ogImage = $images[0] ?? '';
+        $ogImage = $this->socialImage($images[0] ?? '', $prodBase, $config);
 
         $meta = [
             ['name' => 'description', 'content' => $desc],
@@ -45,6 +47,10 @@ final class EventSeoBuilder implements SeoBuilderInterface
             $meta[] = ['property' => 'og:image', 'content' => $ogImage];
             $meta[] = ['property' => 'og:image:secure_url', 'content' => $ogImage];
             $meta[] = ['property' => 'og:image:type', 'content' => $this->imageMimeFromPath($ogImage)];
+            if (str_ends_with($ogImage, '-og.jpg')) {
+                $meta[] = ['property' => 'og:image:width', 'content' => '1200'];
+                $meta[] = ['property' => 'og:image:height', 'content' => '630'];
+            }
         }
 
         return [
@@ -153,15 +159,61 @@ final class EventSeoBuilder implements SeoBuilderInterface
         return array_values(array_unique($images));
     }
 
+    /**
+     * Картинка для соцсетей и мессенджеров — строго JPEG 1200x630: Telegram не разворачивает
+     * WebP в превью, а произвольная пропорция обложки обрезается сервисом по живому.
+     * Файлы готовит tools/build/build-og-images.js рядом с исходником, суффикс -og.jpg.
+     *
+     * @param array<string,mixed> $config
+     */
+    private function socialImage(string $image, string $prodBase, array $config): string
+    {
+        $fallback = trim((string) ($config['fallback_og_image'] ?? ''));
+        $fallbackUrl = $fallback !== '' ? $this->absolutize($fallback, $prodBase) : '';
+
+        if ($image === '') {
+            return $fallbackUrl;
+        }
+
+        $candidate = preg_replace('/\.(jpe?g|png|webp|avif)$/i', '-og.jpg', $image);
+        if ($candidate !== null && $candidate !== $image && $this->existsLocally($candidate, $prodBase)) {
+            return $candidate;
+        }
+
+        // Исходник годится только если он уже JPEG — иначе превью в мессенджере не раскроется
+        if (preg_match('/\.jpe?g($|\?)/i', $image) === 1) {
+            return $image;
+        }
+
+        return $fallbackUrl !== '' ? $fallbackUrl : $image;
+    }
+
+    private function existsLocally(string $url, string $prodBase): bool
+    {
+        if ($this->projectRoot === '') {
+            return false;
+        }
+        $relative = $prodBase !== '' && str_starts_with($url, $prodBase)
+            ? substr($url, strlen($prodBase))
+            : (string) parse_url($url, PHP_URL_PATH);
+
+        $relative = '/' . ltrim((string) $relative, '/');
+
+        return is_file($this->projectRoot . $relative);
+    }
+
     private function absolutize(string $src, string $prodBase): string
     {
+        // Пути из JSON уже абсолютизированы текущим хостом — приводим к прод-домену,
+        // иначе в og уедет адрес стенда, на котором отрисовали страницу.
+        $pos = strpos($src, '/data/');
+        if ($pos !== false) {
+            return $prodBase . substr($src, $pos);
+        }
         if (str_starts_with($src, 'http://') || str_starts_with($src, 'https://')) {
             return $src;
         }
-        $pos = strpos($src, '/data/');
-        $relPath = $pos !== false ? substr($src, $pos) : '/' . ltrim($src, '/');
-
-        return $prodBase . $relPath;
+        return $prodBase . '/' . ltrim($src, '/');
     }
 
     private function imageMimeFromPath(string $path): string

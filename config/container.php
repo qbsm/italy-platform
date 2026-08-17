@@ -137,8 +137,13 @@ return static function (): ContainerInterface {
         //       $c->get(DefaultSeoBuilder::class),
         //   ),
         DefaultSeoBuilder::class => \DI\autowire(),
-        RestaurantSeoBuilder::class => \DI\autowire(),
-        EventSeoBuilder::class => \DI\autowire(),
+        // projectRoot нужен билдерам, чтобы проверить наличие JPEG-версии картинки для соцсетей
+        RestaurantSeoBuilder::class => static fn(ContainerInterface $c) => new RestaurantSeoBuilder(
+            (string) ($c->get('settings')['project_root'] ?? '')
+        ),
+        EventSeoBuilder::class => static fn(ContainerInterface $c) => new EventSeoBuilder(
+            (string) ($c->get('settings')['project_root'] ?? '')
+        ),
         // Реестр отдаёт null для неизвестного типа — generic-ветку держит сам PageAction.
         SeoBuilderRegistry::class => static fn(ContainerInterface $c) => new SeoBuilderRegistry([
             'restaurants' => $c->get(RestaurantSeoBuilder::class),
