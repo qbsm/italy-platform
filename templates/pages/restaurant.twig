@@ -72,7 +72,7 @@
               {% if r.bookingPoint is defined or r.menuLink is defined or r.barMenuLink is defined %}
                 <div class="restaurant-intro__actions">
                   {% if r.menuLink is defined and r.menuLink %}
-                    <a href="{{ r.menuLink }}" target="_blank" rel="noopener noreferrer" class="button button-md outline-color-1 color-1 uppercase link">Меню</a>
+                    <a href="{{ r.menuLink }}" target="_blank" rel="noopener noreferrer" data-ym-goal="menu_click" class="button button-md outline-color-1 color-1 uppercase link">Меню</a>
                   {% endif %}
                   {% if r.barMenuLink is defined and r.barMenuLink %}
                     <a href="{{ r.barMenuLink }}" target="_blank" rel="noopener noreferrer" class="button button-md outline-color-1 color-1 uppercase link">Барная карта</a>

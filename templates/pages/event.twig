@@ -255,6 +255,57 @@
 
 {# Schema.org Event строит EventSeoBuilder — разметка едет через pageSeoData.json_ld в base.twig #}
 
+{# Электронная коммерция: билет — товар. detail при открытии, add по клику, purchase по возврату
+   из банка (PayReturnAction редиректит на /events/{slug}?order=...&paid=1). #}
+<script type="application/json" id="event-ecommerce-data">
+  {{ {
+    'id': event.slug|default(''),
+    'name': e.title|default(''),
+    'price': e.priceFrom|default(e.price|default(null)),
+    'category': e.category|default('Событие'),
+    'brand': e.restaurant.name|default('Экосистема итали')
+  }|json_encode(constant('JSON_UNESCAPED_UNICODE'))|raw }}
+</script>
+<script>
+  (function () {
+    var node = document.getElementById('event-ecommerce-data');
+    if (!node) { return; }
+
+    var product;
+    try { product = JSON.parse(node.textContent); } catch (err) { return; }
+    if (!product || !product.id) { return; }
+
+    if (product.price === null || product.price === '') { delete product.price; }
+
+    function push(action, extra) {
+      if (typeof window.ymEcommerce !== 'function') { return; }
+      var body = { products: [product] };
+      if (extra) { Object.keys(extra).forEach(function (k) { body[k] = extra[k]; }); }
+      var payload = { ecommerce: { currencyCode: 'RUB' } };
+      payload.ecommerce[action] = body;
+      window.ymEcommerce(payload);
+    }
+
+    push('detail');
+
+    document.addEventListener('click', function (event) {
+      var cta = event.target.closest('.event-ticket__cta, .event-stickybar__cta, .js-buy-ticket');
+      if (!cta) { return; }
+      push('add');
+      if (typeof window.ymGoal === 'function') { window.ymGoal('ticket_click'); }
+    });
+
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('paid') === '1') {
+      var orderId = params.get('order') || '';
+      push('purchase', {
+        actionField: { id: orderId, revenue: product.price || 0 }
+      });
+      if (typeof window.ymGoal === 'function') { window.ymGoal('ticket_paid'); }
+    }
+  })();
+</script>
+
 <script>
   (function () {
     var btn = document.querySelector('.js-event-share');
