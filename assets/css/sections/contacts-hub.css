@@ -4,7 +4,7 @@
 .contacts-hub {
   background-color: var(--color-1);
   color: var(--color-2);
-  padding-block: 6.4rem 8rem;
+  padding-block: 0 8rem;
 }
 
 .contacts-hub .section__item + .section__item {
@@ -12,7 +12,7 @@
 }
 
 .contacts-hub__head {
-  padding-top: var(--header-fixed-height);
+  padding-top: calc(var(--header-fixed-height) + 2.4rem);
   border-bottom: 1px solid #e2e0de;
   padding-bottom: 4rem;
 }

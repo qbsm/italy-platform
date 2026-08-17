@@ -156,6 +156,37 @@
       </div>
     </section>
 
+    {# Соседи по городу: карточки группы между собой не связаны, а гость обычно выбирает
+       из нескольких мест рядом. Заодно распределяет вес по внутренним страницам. #}
+    {% set _city = r.address.addressLocality | default('') %}
+    {% set _all = load_json('data/json/' ~ lang_code ~ '/pages/restaurants.json') %}
+    {% set _nearby = (_all.items | default([]))
+      | map(s => (load_json('data/json/' ~ lang_code ~ '/restaurants/' ~ s ~ '.json') | default({})) | merge({'slug': s}))
+      | filter(e => e.visible | default(false)
+          and e.restaurant is defined
+          and e.slug != restaurant.slug
+          and (e.restaurant.address.addressLocality | default('')) == _city)
+      | slice(0, 4) %}
+
+    {% if _nearby is not empty %}
+      <section class="restaurant-detail__item restaurant-nearby section">
+        <div class="container-md">
+          <h2 class="restaurant-nearby__heading uppercase">Ещё в городе {{ _city }}</h2>
+          <ul class="restaurant-nearby__list">
+            {% for near in _nearby %}
+              <li class="restaurant-nearby__item">
+                <a href="{{ url('/restaurants/' ~ near.slug) }}" class="restaurant-nearby__link link">
+                  <span class="restaurant-nearby__name">{{ near.restaurant.name }}</span>
+                  <span class="restaurant-nearby__desc">{{ near.desc.short | default(near.restaurant.address.streetAddress | default('')) }}</span>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+          <a href="{{ url('/restaurants') }}" class="restaurant-nearby__all link">Все рестораны группы</a>
+        </div>
+      </section>
+    {% endif %}
+
   </main>
   {% include 'sections/footer.twig' with {'data': {
     'background': { 'src': 'data/img/ui/bg3.webp' },
