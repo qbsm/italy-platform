@@ -211,6 +211,33 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
     private function buildRestaurantFaqJsonLd(array $entity, string $langCode, array $global): ?string
     {
         $r = $entity['restaurant'] ?? [];
+
+        // Свои вопросы карточки важнее автосборки: разметка обязана совпадать с тем,
+        // что гость видит на странице, иначе поисковик считает её недостоверной.
+        $own = $entity['faq'] ?? null;
+        if (is_array($own) && $own !== []) {
+            $items = [];
+            foreach ($own as $qa) {
+                $q = trim((string) ($qa['q'] ?? ''));
+                $a = trim((string) ($qa['a'] ?? ''));
+                if ($q === '' || $a === '') {
+                    continue;
+                }
+                $items[] = [
+                    '@type' => 'Question',
+                    'name' => $q,
+                    'acceptedAnswer' => ['@type' => 'Answer', 'text' => $a],
+                ];
+            }
+            if ($items !== []) {
+                return json_encode([
+                    '@context' => 'https://schema.org',
+                    '@type' => 'FAQPage',
+                    'mainEntity' => $items,
+                ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: null;
+            }
+        }
+
         $faq = $global['restaurant-faq'][$langCode] ?? $global['restaurant-faq']['ru'] ?? null;
         if (!is_array($faq)) {
             return null;

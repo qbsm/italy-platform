@@ -1,0 +1,77 @@
+/* Развёрнутый рассказ о ресторане и вопросы гостей.
+   Карточка тёмная — цвета задаём явно, ширину строки держим читаемой. */
+
+.restaurant-story {
+  color: var(--color-1);
+  max-width: 72ch;
+}
+
+.restaurant-story__block + .restaurant-story__block {
+  margin-top: 4rem;
+}
+
+.restaurant-story__heading {
+  font-family: var(--font-1-extended);
+  font-weight: 300;
+  font-size: clamp(1.9rem, 2.6vw, 2.4rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.6rem;
+  text-wrap: balance;
+}
+
+.restaurant-story__text {
+  font-size: 1.6rem;
+  line-height: 1.65;
+  opacity: 0.85;
+  text-wrap: pretty;
+}
+
+.restaurant-story__text + .restaurant-story__text {
+  margin-top: 1.4rem;
+}
+
+/* --- Вопросы --- */
+
+.restaurant-faq {
+  color: var(--color-1);
+  max-width: 72ch;
+}
+
+.restaurant-faq__heading {
+  font-family: var(--font-1-extended);
+  font-weight: 300;
+  font-size: clamp(1.9rem, 2.6vw, 2.4rem);
+  letter-spacing: -0.01em;
+  margin-bottom: 2.4rem;
+}
+
+.restaurant-faq__list {
+  margin: 0;
+  border-top: 1px solid rgb(255 255 255 / 12%);
+}
+
+.restaurant-faq__item {
+  padding-block: 2rem;
+  border-bottom: 1px solid rgb(255 255 255 / 12%);
+}
+
+.restaurant-faq__q {
+  font-size: 1.65rem;
+  font-weight: 500;
+  margin-bottom: 0.8rem;
+}
+
+.restaurant-faq__a {
+  margin: 0;
+  font-size: 1.55rem;
+  line-height: 1.6;
+  opacity: 0.8;
+  text-wrap: pretty;
+}
+
+@media (width <= 600px) {
+  .restaurant-story__block + .restaurant-story__block {
+    margin-top: 3.2rem;
+  }
+}

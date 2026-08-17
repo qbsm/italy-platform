@@ -120,6 +120,38 @@
           </div>
         {% endif %}
 
+        {# Развёрнутый рассказ блоками: подзаголовки нужны и читателю, и поиску —
+           сплошное полотно на 500 слов не читают. #}
+        {% if restaurant.desc.blocks is defined and restaurant.desc.blocks|length > 0 %}
+          <div class="section__item restaurant-story">
+            {% for block in restaurant.desc.blocks %}
+              <div class="restaurant-story__block">
+                {% if block.heading is defined %}
+                  <h2 class="restaurant-story__heading">{{ block.heading }}</h2>
+                {% endif %}
+                {% for para in (block.text is iterable ? block.text : [block.text]) %}
+                  <p class="restaurant-story__text">{{ para|raw }}</p>
+                {% endfor %}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {# Вопросы гостей: самый цитируемый ИИ-моделями формат, ответ — первым предложением #}
+        {% if restaurant.faq is defined and restaurant.faq|length > 0 %}
+          <div class="section__item restaurant-faq">
+            <h2 class="restaurant-faq__heading uppercase">Частые вопросы</h2>
+            <dl class="restaurant-faq__list">
+              {% for qa in restaurant.faq %}
+                <div class="restaurant-faq__item">
+                  <dt class="restaurant-faq__q">{{ qa.q }}</dt>
+                  <dd class="restaurant-faq__a">{{ qa.a|raw }}</dd>
+                </div>
+              {% endfor %}
+            </dl>
+          </div>
+        {% endif %}
+
 
         {% if restaurant.staff is defined and restaurant.staff|length > 0 %}
           <div class="section__item restaurant-about__staff">
