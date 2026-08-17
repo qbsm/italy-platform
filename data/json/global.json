@@ -121,15 +121,15 @@
   "logo": {
     "white": {
       "src": "data/img/ui/logos/logo-color-1.svg",
-      "alt": "Logo"
+      "alt": "Экосистема итали"
     },
     "black": {
       "src": "data/img/ui/logos/logo-color-2.svg",
-      "alt": "Logo"
+      "alt": "Экосистема итали"
     },
     "color": {
       "src": "data/img/ui/logos/logo-color.svg",
-      "alt": "Logo"
+      "alt": "Экосистема итали"
     }
   },
   "social-channel": {

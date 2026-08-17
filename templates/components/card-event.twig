@@ -27,7 +27,7 @@
     {% if e.restaurant.name is defined %}
       <span class="card-event__place">{{ e.restaurant.name }}</span>
     {% endif %}
-    <h3 class="card-event__title font-1 weight-500 uppercase">{{ e.titleHtml is defined and e.titleHtml ? e.titleHtml|raw : e.title }}</h3>
+    <h2 class="card-event__title font-1 weight-500 uppercase">{{ e.titleHtml is defined and e.titleHtml ? e.titleHtml|raw : e.title }}</h2>
 
     {% set metaParts = [] %}
     {% if d.weekday is defined and d.weekday %}{% set metaParts = metaParts | merge([d.weekday]) %}{% endif %}
