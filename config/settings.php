@@ -44,6 +44,14 @@ if ($envDefaultLang !== false && $envDefaultLang !== '') {
 $projectConfigPath = __DIR__ . '/project.php';
 $projectConfig = is_file($projectConfigPath) ? (array) require $projectConfigPath : [];
 
+// Ключи проекта, которых ядро не знает (эквайринг, свои интеграции), доезжают в настройки
+// как есть: иначе deployment'у приходится править синкаемый settings.php руками, а следующий
+// distill затирает эту правку — так у italycommunity пропала конфигурация коллекций.
+$projectExtraSettings = array_diff_key(
+    $projectConfig,
+    array_flip(['route_map', 'collections', 'sitemap_pages', 'sitemap_dynamic', 'integrations']),
+);
+
 $imageSizesPath = __DIR__ . '/image-sizes.json';
 $image_sizes = [
     'keys' => ['800', '1600', 'raw'],
@@ -61,7 +69,7 @@ if (is_readable($imageSizesPath)) {
     }
 }
 
-return [
+return $projectExtraSettings + [
     'project_root' => $projectRoot,
     'env' => $appEnv,
     'debug' => $isDebug,
@@ -97,6 +105,7 @@ return [
         'enable' => Env::bool('FORM_GUARD_ENABLE', true),
         'trap_field' => Env::get('FORM_GUARD_TRAP_FIELD') ?: 'company_site, website',
         'min_age_sec' => Env::int('FORM_GUARD_MIN_AGE_SEC', 3),
+        // Обязательные поля формы — свойство площадки: форма подписки живёт без телефона.
         'required_fields' => Env::get('FORM_REQUIRED_FIELDS') ?: 'phone',
     ],
     // Токен формы выдаётся браузеру по запросу, а не вместе с HTML: страница, скачанная
@@ -184,40 +193,4 @@ return [
         ['rel' => 'preconnect', 'href' => 'https://mc.yandex.ru', 'crossorigin' => false],
         ['rel' => 'preconnect', 'href' => 'https://yastatic.net', 'crossorigin' => false],
     ],
-    // Интернет-эквайринг Альфа-Банка (платформа RBS, REST). Включается флагом PAYMENT_ENABLED,
-    // учётные данные магазина (логин с суффиксом -api и пароль либо token) — только из окружения.
-    'payment' => (static function () use ($appEnv, $projectRoot): array {
-        $payEnv = strtolower((string) (getenv('PAYMENT_ENV') ?: ($appEnv === 'production' ? 'prod' : 'test')));
-        $isProdGate = $payEnv === 'prod';
-        $baseUrl = rtrim((string) (getenv('PAYMENT_RETURN_BASE') ?: (getenv('APP_BASE_URL') ?: 'https://italycommunity.ru')), '/');
-        return [
-            'enabled' => in_array(strtolower((string) (getenv('PAYMENT_ENABLED') ?: '0')), ['1', 'true', 'yes', 'on'], true),
-            'env' => $payEnv,
-            'gateway' => 'alfa',
-            'api_url' => $isProdGate
-                ? 'https://pay.alfabank.ru/payment/rest'
-                : 'https://alfa.rbsuat.com/payment/rest',
-            'username' => (string) (getenv('PAYMENT_USERNAME') ?: ''),
-            'password' => (string) (getenv('PAYMENT_PASSWORD') ?: ''),
-            'token' => (string) (getenv('PAYMENT_TOKEN') ?: ''),
-            // Общий ключ контрольной суммы callback-уведомлений (ЛК банка → Callback-уведомления).
-            // Пока пуст, /pay/callback не принимает ничего: оплата подтверждается только возвратом.
-            'callback_token' => (string) (getenv('PAYMENT_CALLBACK_TOKEN') ?: ''),
-            'base_url' => $baseUrl,
-            // ISO 4217; в шлюзе Альфы рубль — 810
-            'currency' => (string) (getenv('PAYMENT_CURRENCY') ?: '810'),
-            'description' => (string) (getenv('PAYMENT_DESCRIPTION') ?: 'Покупка билета — Экосистема итали'),
-            'item_name' => (string) (getenv('PAYMENT_ITEM_NAME') ?: 'Электронный билет'),
-            'session_timeout' => (int) (getenv('PAYMENT_SESSION_TIMEOUT') ?: 1200),
-            // Корзина чека (54-ФЗ) уходит в orderBundle. Включать только когда у магазина
-            // включена фискализация на стороне банка — иначе банк отклонит регистрацию.
-            'fiscal' => [
-                'enabled' => in_array(strtolower((string) (getenv('PAYMENT_FISCAL_ENABLED') ?: '0')), ['1', 'true', 'yes', 'on'], true),
-                'tax_type' => (int) (getenv('PAYMENT_FISCAL_TAX_TYPE') ?: 0), // 0 = без НДС
-                'measure' => (string) (getenv('PAYMENT_FISCAL_MEASURE') ?: 'шт'),
-            ],
-            'orders_dir' => $projectRoot . '/var/orders',
-            'timeout' => 30,
-        ];
-    })(),
 ];
