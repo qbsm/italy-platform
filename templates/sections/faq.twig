@@ -1,0 +1,19 @@
+{# Вопросы и ответы для любой страницы. Разметку FAQPage строит SEO-слой из тех же данных —
+   видимый текст и разметка обязаны совпадать, иначе поисковик считает её недостоверной. #}
+
+{% set _items = data.items | default([]) %}
+{% if _items is not empty %}
+  <section class="faq-block section{{ data.theme | default('dark') == 'light' ? ' faq-block--light' : '' }}">
+    <div class="container">
+      <h2 class="faq-block__title font-1 uppercase">{{ data.heading | default('Частые вопросы') }}</h2>
+      <dl class="faq-block__list">
+        {% for qa in _items %}
+          <div class="faq-block__item">
+            <dt class="faq-block__q">{{ qa.q }}</dt>
+            <dd class="faq-block__a">{{ qa.a|raw }}</dd>
+          </div>
+        {% endfor %}
+      </dl>
+    </div>
+  </section>
+{% endif %}
