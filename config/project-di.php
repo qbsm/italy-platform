@@ -7,9 +7,12 @@ use App\Action\PayCreateAction;
 use App\Action\PayReturnAction;
 use App\Service\AlfaGateway;
 use App\Service\CallbackVerifier;
+use App\Service\EventSeoBuilder;
 use App\Service\MailService;
 use App\Service\OrderConfirmer;
 use App\Service\OrderStore;
+use App\Service\RestaurantSeoBuilder;
+use App\Service\SeoBuilderRegistry;
 use App\Service\TelegramAlertService;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -21,6 +24,15 @@ use Symfony\Component\Mailer\MailerInterface;
  * его не касается — раньше эти определения жили в синкаемом container.php и пропадали.
  */
 return [
+    // Реестр SEO-строителей живёт здесь, а не в синкаемом container.php: там его затирал
+    // очередной distill, и страницы ресторанов теряли title и разметку Restaurant.
+    RestaurantSeoBuilder::class => \DI\autowire(),
+    EventSeoBuilder::class => \DI\autowire(),
+    SeoBuilderRegistry::class => static fn(ContainerInterface $c) => new SeoBuilderRegistry([
+        'restaurants' => $c->get(RestaurantSeoBuilder::class),
+        'events' => $c->get(EventSeoBuilder::class),
+    ]),
+
     TelegramAlertService::class => static fn(ContainerInterface $c) => new TelegramAlertService(
         $c->get('settings')['alerts'] ?? [],
         $c->get(LoggerInterface::class),

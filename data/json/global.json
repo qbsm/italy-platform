@@ -6,12 +6,7 @@
       "direction": "ltr"
     }
   ],
-  "phones": [
-    {
-      "title": "+7 (000) 000-00-00",
-      "href": "tel:+70000000000"
-    }
-  ],
+  "phones": [],
   "nav": {
     "ru": {
       "items": [
@@ -126,15 +121,15 @@
   "logo": {
     "white": {
       "src": "data/img/ui/logos/logo-color-1.svg",
-      "alt": "Logo"
+      "alt": "Экосистема итали"
     },
     "black": {
       "src": "data/img/ui/logos/logo-color-2.svg",
-      "alt": "Logo"
+      "alt": "Экосистема итали"
     },
     "color": {
       "src": "data/img/ui/logos/logo-color.svg",
-      "alt": "Logo"
+      "alt": "Экосистема итали"
     }
   },
   "social-channel": {
@@ -294,14 +289,7 @@
       ]
     },
     "en": {
-      "items": [
-        "kids friendly",
-        "with a beautiful view",
-        "italian cuisine",
-        "breakfast",
-        "every day",
-        "pets friendly"
-      ]
+      "items": ["kids friendly", "with a beautiful view", "italian cuisine", "breakfast", "every day", "pets friendly"]
     }
   },
   "icons": {
@@ -381,6 +369,7 @@
   },
   "organization": {
     "ru": {
+      "name": "Экосистема итали",
       "description": "«Итали» (Экосистема итали) — ресторанная группа из Санкт-Петербурга, ранее известная как italy&co.: 16 ресторанов в Петербурге и Москве, а также доставка, банкеты и кейтеринг, программа лояльности и ресторанный консалтинг.",
       "slogan": "Наполняем смыслом места встреч, где каждый человек чувствует свою ценность",
       "foundingDate": "2010",

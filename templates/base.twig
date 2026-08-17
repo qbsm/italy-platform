@@ -148,57 +148,57 @@
   
   {% include 'components/scripts.twig' %}
   
-  {# Микроразметка Schema.org Organization #}
+  {# Микроразметка Schema.org Organization: данные организации живут в global.organization #}
+  {% set _org = global.organization[lang_code]|default({}) %}
+  {% set _org_name = _org.name|default('') %}
+  {% set _org_phones = [] %}
+  {% for phone in global.phones|default([]) %}
+    {% set _digits = phone.title|replace({'<span>': '', '</span>': ''})|raw %}
+    {% if _digits is not empty %}{% set _org_phones = _org_phones|merge([_digits]) %}{% endif %}
+  {% endfor %}
+  {% set _org_same_as = _org.sameAs|default([]) %}
+  {% for social in global.socials|default([]) %}
+    {% if social.href is defined and social.href starts with 'http' and social.href not in _org_same_as %}
+      {% set _org_same_as = _org_same_as|merge([social.href]) %}
+    {% endif %}
+  {% endfor %}
+  {% if _org_name is not empty %}
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "{{ site.name|default('Company') }}",
-    {% if global.logo.horizontal.black is defined %}
-    "logo": "{{ _base_secure_domain_for_seo ~ '/' ~ global.logo.horizontal.black.src }}",
-    {% endif %}
-    "url": "{{ _base_secure_domain_for_seo }}",
-    {% if global.email is defined %}
-    "email": "{{ global.email.title|replace({'<span>': '', '</span>': ''})|raw }}",
-    {% endif %}
-    {% if global.phones is defined and global.phones|length > 0 %}
-    "telephone": [
-      {% for phone in global.phones %}
-      "{{ phone.title|replace({'<span>': '', '</span>': ''})|raw }}"{% if not loop.last %},{% endif %}
-      {% endfor %}
-    ],
-    {% endif %}
-    {% if global.address[lang_code] is defined and global.address[lang_code]|length > 0 %}
-    "address": [
-      {% for address in global.address[lang_code] %}
-      {
-        "@type": "PostalAddress",
-        "streetAddress": "{{ address.title|replace({'<span>': '', '</span>': ''})|raw }}"
-      }{% if not loop.last %},{% endif %}
-      {% endfor %}
-    ],
-    {% endif %}
-    {% if global.socials is defined and global.socials|length > 0 %}
-    "sameAs": [
-      {% for social in global.socials %}
-      {% if social.visible %}
-      "{{ social.href }}"{% if not loop.last %},{% endif %}
-      {% endif %}
-      {% endfor %}
-    ]
-    {% endif %}
-  }
+  {{ {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': _base_secure_domain_for_seo ~ '/#organization',
+    'name': _org_name,
+    'legalName': _org.legalName|default(null),
+    'taxID': _org.taxID|default(null),
+    'alternateName': _org.alternateName|default([]) is empty ? null : _org.alternateName,
+    'description': _org.description|default(null),
+    'slogan': _org.slogan|default(null),
+    'foundingDate': _org.foundingDate|default(null),
+    'url': _base_secure_domain_for_seo,
+    'logo': global.logo.black.src|default(null),
+    'email': global.email.title is defined ? global.email.title|replace({'<span>': '', '</span>': ''}) : null,
+    'telephone': _org_phones is empty ? null : _org_phones,
+    'areaServed': _org.areaServed|default([]) is empty ? null : _org.areaServed,
+    'knowsAbout': _org.knowsAbout|default([]) is empty ? null : _org.knowsAbout,
+    'founder': _org.founders|default([])|map(f => {'@type': 'Person', 'name': f}),
+    'sameAs': _org_same_as is empty ? null : _org_same_as
+  }|filter(v => v is not null and v is not empty)|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_PRETTY_PRINT'))|raw }}
   </script>
 
   {# Schema.org WebSite для GEO / LLM #}
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "{{ site.name|default('Company') }}",
-    "url": "{{ _base_secure_domain_for_seo ~ '/' }}"
-  }
+  {{ {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': _base_secure_domain_for_seo ~ '/#website',
+    'name': _org_name,
+    'url': _base_secure_domain_for_seo ~ '/',
+    'inLanguage': lang_code,
+    'publisher': {'@id': _base_secure_domain_for_seo ~ '/#organization'}
+  }|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_PRETTY_PRINT'))|raw }}
   </script>
+  {% endif %}
 
   {% if breadcrumb is defined and breadcrumb is iterable and breadcrumb|length > 0 %}
   {# Schema.org BreadcrumbList для GEO / LLM #}
