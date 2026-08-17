@@ -26,6 +26,7 @@
 @import "sections/restaurants.css";
 @import "sections/restaurant-nearby.css";
 @import "sections/restaurant-story.css";
+@import "sections/group-story.css";
 @import "sections/events.css";
 
 /* Components */

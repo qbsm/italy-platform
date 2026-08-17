@@ -1,0 +1,88 @@
+/* Рассказ о группе на главной. Две колонки на широком экране: текст читается блоками,
+   а не одной простынёй во всю ширину. */
+
+.group-story {
+  /* Фон задаём явно: секция стоит между светлыми блоками главной,
+     без него белый текст ложится на белое. */
+  background-color: var(--color-7);
+  color: var(--color-1);
+  padding-block: 8rem;
+}
+
+.group-story__title {
+  font-family: var(--font-1-extended);
+  font-weight: 300;
+  font-size: clamp(2.4rem, 4.5vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 4.8rem;
+  max-width: 24ch;
+  text-wrap: balance;
+}
+
+.group-story__grid {
+  display: grid;
+  gap: 4rem 6.4rem;
+}
+
+.group-story__heading {
+  font-size: clamp(1.7rem, 2.2vw, 2rem);
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 1.4rem;
+  text-wrap: balance;
+}
+
+.group-story__text {
+  font-size: 1.6rem;
+  line-height: 1.65;
+  opacity: 0.82;
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+
+.group-story__text + .group-story__text {
+  margin-top: 1.2rem;
+}
+
+.group-story__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.4rem 3.2rem;
+  margin-top: 4.8rem;
+  padding-top: 3.2rem;
+  border-top: 1px solid rgb(255 255 255 / 14%);
+}
+
+.group-story__link {
+  font-size: 1.4rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: inherit;
+  text-decoration: none;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid transparent;
+  transition: color var(--transition-1), border-color var(--transition-1);
+}
+
+.group-story__link:hover,
+.group-story__link:focus-visible {
+  color: var(--color-3);
+  border-bottom-color: var(--color-3);
+}
+
+@media (width >= 900px) {
+  .group-story__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width <= 600px) {
+  .group-story {
+    padding-block: 5.6rem;
+  }
+
+  .group-story__title {
+    margin-bottom: 3.2rem;
+  }
+}
