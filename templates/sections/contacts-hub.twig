@@ -1,0 +1,123 @@
+{# Справочник контактов: связь с группой, направления и все точки по городам.
+   Точки читаются из коллекции ресторанов — единый источник, дублировать адреса в JSON не нужно.
+   Собираем через map/filter: значения, присвоенные внутри {% for %}, наружу не видны. #}
+
+{% set _org = global.organization[lang_code] | default({}) %}
+{% set _email = global.email.title | default('') %}
+{% set _list = load_json('data/json/' ~ lang_code ~ '/pages/restaurants.json') %}
+
+{% set _points = (_list.items | default([]))
+  | map(slug => (load_json('data/json/' ~ lang_code ~ '/restaurants/' ~ slug ~ '.json') | default({})) | merge({'slug': slug}))
+  | filter(entity => entity.visible | default(false) and entity.restaurant is defined) %}
+
+{% set _cities = data.cities | default(['Санкт-Петербург', 'Москва']) %}
+
+<section class="contacts-hub section">
+  <div class="container">
+
+    {# --- Шапка страницы: справочнику полноэкранный герой не нужен --- #}
+    {% if data.heading is defined %}
+      <div class="section__item contacts-hub__head">
+        <h1 class="contacts-hub__h1 font-1 uppercase">{{ data.heading }}</h1>
+        {% if data.lead is defined %}
+          <p class="contacts-hub__lead-copy">{{ data.lead }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {# --- Связь --- #}
+    <div class="section__item contacts-hub__lead">
+      <div class="contacts-hub__lead-text">
+        <h2 class="contacts-hub__title font-1 uppercase">Связаться с нами</h2>
+        <p class="contacts-hub__note">
+          Бронь столика, меню и часы работы — на странице нужного ресторана: у каждого свой телефон.
+          Общие вопросы, сотрудничество и предложения — на почту.
+        </p>
+      </div>
+
+      <div class="contacts-hub__channels">
+        {% if _email %}
+          <a href="mailto:{{ _email }}" class="contacts-hub__email link">{{ _email }}</a>
+        {% endif %}
+        {% if global.socials is defined and global.socials | length > 0 %}
+          <div class="contacts-hub__socials">
+            {% for social in global.socials %}
+              {% if social.href is defined %}
+                <a href="{{ social.href }}" target="_blank" rel="noopener noreferrer"
+                   class="contacts-hub__social link">{{ social.title }}</a>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {# --- Направления --- #}
+    {% set _lines = data.directions | default([]) %}
+    {% if _lines is not empty %}
+      <div class="section__item contacts-hub__directions">
+        <h2 class="contacts-hub__subtitle font-1 uppercase">По направлениям</h2>
+        <ul class="contacts-hub__lines">
+          {% for line in _lines %}
+            <li class="contacts-hub__line">
+              {% if line.href is defined and line.href %}
+                <a href="{{ line.href }}" class="contacts-hub__line-name link"
+                   {% if line.external | default(false) %}target="_blank" rel="noopener noreferrer"{% endif %}>{{ line.title }}</a>
+              {% else %}
+                <span class="contacts-hub__line-name">{{ line.title }}</span>
+              {% endif %}
+              <span class="contacts-hub__line-desc">{{ line.desc }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    {# --- Точки по городам --- #}
+    {% if _points is not empty %}
+      <div class="section__item contacts-hub__places">
+        <h2 class="contacts-hub__subtitle font-1 uppercase">Где нас найти</h2>
+
+        {% for city in _cities %}
+          {% set _inCity = _points | filter(p => (p.restaurant.address.addressLocality | default('')) == city) %}
+          {% if _inCity is not empty %}
+            <div class="contacts-hub__city">
+              <h3 class="contacts-hub__city-name">{{ city }}</h3>
+              <ul class="contacts-hub__points">
+                {% for point in _inCity %}
+                  {% set r = point.restaurant %}
+                  <li class="contacts-hub__point">
+                    <a href="{{ url('/restaurants/' ~ point.slug) }}" class="contacts-hub__point-name link">{{ r.name }}</a>
+                    <span class="contacts-hub__point-address">{{ r.address.streetAddress | default('') }}</span>
+                    {% if r.telephone.href is defined %}
+                      <a href="{{ r.telephone.href }}" class="contacts-hub__point-phone link">{{ r.telephone.title | default(r.telephone.href) }}</a>
+                    {% else %}
+                      <span class="contacts-hub__point-phone"></span>
+                    {% endif %}
+                    {% if r.hasMap is defined and r.hasMap %}
+                      <a href="{{ r.hasMap }}" target="_blank" rel="noopener noreferrer"
+                         class="contacts-hub__point-map link">На карте</a>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {# --- Реквизиты --- #}
+    {% if global.owner[lang_code] is defined or _org.foundingDate is defined %}
+      <div class="section__item contacts-hub__legal">
+        {% if global.owner[lang_code] is defined %}
+          <p>{{ global.owner[lang_code] }}</p>
+        {% endif %}
+        {% if _org.foundingDate is defined %}
+          <p>Ресторанная группа работает с {{ _org.foundingDate }} года. Основатели — {{ _org.founders | default([]) | join(' и ') }}.</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>

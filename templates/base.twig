@@ -179,6 +179,13 @@
     'logo': global.logo.black.src|default(null),
     'email': global.email.title is defined ? global.email.title|replace({'<span>': '', '</span>': ''}) : null,
     'telephone': _org_phones is empty ? null : _org_phones,
+    'contactPoint': global.email.title is defined ? [{
+      '@type': 'ContactPoint',
+      'contactType': 'customer service',
+      'email': global.email.title|replace({'<span>': '', '</span>': ''}),
+      'areaServed': 'RU',
+      'availableLanguage': ['Russian']
+    }] : null,
     'areaServed': _org.areaServed|default([]) is empty ? null : _org.areaServed,
     'knowsAbout': _org.knowsAbout|default([]) is empty ? null : _org.knowsAbout,
     'founder': _org.founders|default([])|map(f => {'@type': 'Person', 'name': f}),
