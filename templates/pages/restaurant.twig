@@ -19,7 +19,13 @@
           <div class="swiper-wrapper">
             {% for cover in restaurant.covers %}
               <div class="swiper-slide">
-                <img src="{{ url(cover.src) }}" alt="{{ cover.alt|default(r.name) }}" class="img-responsive" loading="{{ loop.first ? 'eager' : 'lazy' }}">
+                {% include 'components/picture.twig' with {
+                  image: cover,
+                  alt: cover.alt|default(r.name),
+                  class: 'img-responsive',
+                  sizes_preset: 'hero',
+                  loading: loop.first ? 'eager' : 'lazy'
+                } only %}
               </div>
             {% endfor %}
           </div>
@@ -135,7 +141,13 @@
             {% for img in galleryItems|slice(0, 4) %}
               <figure class="restaurant-about__photo">
                 <a href="{{ url(img.src) }}" class="glightbox link" data-gallery="restaurant-gallery">
-                  <img src="{{ url(img.src) }}" alt="{{ img.alt|default(r.name) }}" loading="lazy">
+                  {% include 'components/picture.twig' with {
+                    image: img,
+                    alt: img.alt|default(r.name),
+                    class: '',
+                    sizes_preset: 'card',
+                    loading: 'lazy'
+                  } only %}
                 </a>
               </figure>
             {% endfor %}
