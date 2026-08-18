@@ -24,7 +24,7 @@ return [
             'entity_url_pattern' => '/restaurants/{slug}',
             'site_name' => 'Экосистема итали',
             'prod_base_url' => 'https://italycommunity.ru',
-            'fallback_og_image' => '/data/img/seo/og.jpg?v=3',
+            'fallback_og_image' => '/data/img/seo/og.jpg?v=4',
             'list_title' => 'Рестораны',
         ],
         'events' => [
@@ -39,7 +39,7 @@ return [
             'entity_url_pattern' => '/events/{slug}',
             'site_name' => 'Экосистема итали',
             'prod_base_url' => 'https://italycommunity.ru',
-            'fallback_og_image' => '/data/img/seo/og.jpg?v=3',
+            'fallback_og_image' => '/data/img/seo/og.jpg?v=4',
             'list_title' => 'Афиша',
             // Афиша временно скрыта из выдачи: роутинг живой, из карты сайта исключена
             'sitemap' => false,
