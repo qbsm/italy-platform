@@ -149,3 +149,26 @@
 .intro .swiper-pagination-bullet {
   background: var(--color-1) !important;
 }
+
+/* Логотип в интро вставлен инлайном, чтобы круглый знак был доступен CSS:
+   при наведении на секцию он плавно наливается фирменным красным. */
+.intro__logo {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.intro__logo .logo-mark {
+  transition: fill 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.intro:hover .intro__logo .logo-mark,
+.intro:focus-within .intro__logo .logo-mark {
+  fill: #c72229;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro__logo .logo-mark {
+    transition-duration: 0.01ms;
+  }
+}
