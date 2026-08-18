@@ -30,8 +30,8 @@
       <div class="contacts-hub__lead-text">
         <h2 class="contacts-hub__title font-1 uppercase">Связаться с нами</h2>
         <p class="contacts-hub__note">
-          Бронь столика, меню и часы работы — на странице нужного ресторана: у каждого свой телефон.
-          Общие вопросы, сотрудничество и предложения — на почту.
+          Бронь столика — на странице нужного ресторана, у каждого свой телефон.
+          Общие вопросы и сотрудничество — на почту.
         </p>
       </div>
 
@@ -107,15 +107,10 @@
       </div>
     {% endif %}
 
-    {# --- Реквизиты --- #}
-    {% if global.owner[lang_code] is defined or _org.foundingDate is defined %}
+    {# Реквизиты не дублируем — они в подвале. Здесь только то, что интересно гостю. #}
+    {% if _org.foundingDate is defined %}
       <div class="section__item contacts-hub__legal">
-        {% if global.owner[lang_code] is defined %}
-          <p>{{ global.owner[lang_code] }}</p>
-        {% endif %}
-        {% if _org.foundingDate is defined %}
-          <p>Ресторанная группа работает с {{ _org.foundingDate }} года. Основатели — {{ _org.founders | default([]) | join(' и ') }}.</p>
-        {% endif %}
+        <p>Группа работает с {{ _org.foundingDate }} года. Основатели — {{ _org.founders | default([]) | join(' и ') }}.</p>
       </div>
     {% endif %}
 
