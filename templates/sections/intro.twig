@@ -23,7 +23,7 @@
                 <div class="container">
                   <div class="section__subitem empty-wrap"></div>
                   <div class="section__subitem logo-wrap">
-                    {{ inline_svg('data/img/ui/logos/logo-intro.svg', 'intro__logo img-responsive') }}
+                    {{ inline_svg('data/img/ui/logos/logo-intro-color.svg', 'intro__logo img-responsive') }}
                   </div>
                   <div class="section__subitem heading-wrap">
                     {% if slide.heading is defined %}
@@ -42,7 +42,7 @@
             <div class="section__item logo-heading-wrap">
               <div class="container">
                 <div class="section__subitem logo-wrap">
-                  {{ inline_svg('data/img/ui/logos/logo-intro.svg', 'intro__logo img-responsive') }}
+                  {{ inline_svg('data/img/ui/logos/logo-intro-color.svg', 'intro__logo img-responsive') }}
                 </div>
                 <div class="section__subitem heading-wrap">
                   {% if data.heading is defined %}
@@ -59,3 +59,5 @@
     <div class="swiper-button-prev"></div>
   </div>
 </section>
+
+{% include 'components/logo-flow.twig' %}
