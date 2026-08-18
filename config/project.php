@@ -41,6 +41,8 @@ return [
             'prod_base_url' => 'https://italycommunity.ru',
             'fallback_og_image' => '/data/img/seo/og.jpg?v=3',
             'list_title' => 'Афиша',
+            // Афиша временно скрыта из выдачи: роутинг живой, из карты сайта исключена
+            'sitemap' => false,
         ],
     ],
     'sitemap_pages' => [
@@ -50,6 +52,5 @@ return [
         'policy',
         'agree',
         'restaurants-list',
-        'events-list',
     ],
 ];

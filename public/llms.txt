@@ -47,7 +47,6 @@
 - О группе: https://italycommunity.ru/about
 - Рестораны: https://italycommunity.ru/restaurants
 - Страница ресторана: https://italycommunity.ru/restaurants/{slug}
-- Афиша событий: https://italycommunity.ru/events
 - Контакты: https://italycommunity.ru/contacts
 - Политика обработки персональных данных: https://italycommunity.ru/policy
 - Пользовательское соглашение: https://italycommunity.ru/agree

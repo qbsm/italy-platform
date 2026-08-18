@@ -43,6 +43,11 @@ final class EventSeoBuilder implements SeoBuilderInterface
             ['property' => 'og:description', 'content' => $desc],
             ['property' => 'og:site_name', 'content' => $siteName],
         ];
+        // Раздел, скрытый из карты сайта, не должен попадать и в индекс: ссылка остаётся живой
+        if (array_key_exists('sitemap', $config) && !$config['sitemap']) {
+            array_unshift($meta, ['name' => 'robots', 'content' => 'noindex, follow']);
+        }
+
         if ($ogImage !== '') {
             $meta[] = ['property' => 'og:image', 'content' => $ogImage];
             $meta[] = ['property' => 'og:image:secure_url', 'content' => $ogImage];
