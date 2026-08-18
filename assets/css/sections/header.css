@@ -98,3 +98,57 @@
   text-align: right;
 }
 
+
+/* Перетекание логотипа между интро и шапкой (включает logo-flow.twig).
+   Пока скрипт не отработал, шапка ведёт себя как прежде. */
+.logo-flow-on .header .section__item.logo-wrap {
+  opacity: 1;
+}
+
+.logo-flow-on .header__logo {
+  transform: translate3d(var(--logo-flow-x, 0), var(--logo-flow-y, 0), 0) scale(var(--logo-flow-scale, 1));
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Знак в интро гасим: на экране остаётся один логотип — тот, что переезжает */
+.logo-flow-on .intro__logo {
+  opacity: 0;
+}
+
+/* Пока логотип «в интро», он не должен перекрываться шапкой и ловить клики мимо */
+.logo-flow-on .header .section__item.logo-wrap {
+  pointer-events: none;
+}
+
+.logo-flow-on.logo-flow-docked .header .section__item.logo-wrap {
+  pointer-events: auto;
+}
+
+/* Круг перетекающего знака повторяет состояние интро */
+.logo-flow-on .header__logo .logo-mark,
+.logo-flow-on .header__logo .logo-figure {
+  transition: fill 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.logo-flow-on:not(.logo-flow-docked) .header__logo .logo-mark {
+  fill: #fff;
+}
+
+.logo-flow-on:not(.logo-flow-docked) .header__logo .logo-figure {
+  fill: var(--color-7);
+}
+
+.logo-flow-on:not(.logo-flow-docked) .intro:hover ~ * .header__logo .logo-mark {
+  fill: #c72229;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-flow-on .header__logo {
+    transform: none;
+  }
+
+  .logo-flow-on .intro__logo {
+    opacity: 1;
+  }
+}

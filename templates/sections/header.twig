@@ -1,8 +1,8 @@
 <header class="header js-header{{ page_id != 'index' ? ' header-logo-visible' : '' }}">
   <div class="container">
     <div class="section__item logo-wrap">
-      <a href="/" class="link header__logo">
-        <img src="{{ url('data/img/ui/logos/logo-intro-color.svg') }}" alt="Экосистема итали" class="img-responsive">
+      <a href="/" class="link header__logo" aria-label="Экосистема итали">
+        {{ inline_svg('data/img/ui/logos/logo-intro-color.svg', 'header__logo-svg img-responsive') }}
       </a>
     </div>
     <div class="section__item actions-wrap">
