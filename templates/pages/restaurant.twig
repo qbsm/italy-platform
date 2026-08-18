@@ -120,6 +120,41 @@
           </div>
         {% endif %}
 
+        {% if restaurant.staff is defined and restaurant.staff|length > 0 %}
+          <div class="section__item restaurant-about__staff">
+            <h2 class="restaurant-staff__heading uppercase">Команда</h2>
+            <ul class="restaurant-staff__list">
+              {% for member in restaurant.staff %}
+                <li class="restaurant-staff__item">
+                  <span class="restaurant-staff__role">{{ member.role }}</span>
+                  <span class="restaurant-staff__name">{{ member.name }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
+        {% set galleryItems = restaurant.gallery|default(restaurant.covers|default([])) %}
+        {% if galleryItems|length > 0 %}
+          <div class="section__item restaurant-about__gallery" id="restaurantGallery">
+            {% for img in galleryItems|slice(0, 4) %}
+              <figure class="restaurant-about__photo">
+                <a href="{{ url(img.src) }}" class="glightbox link" data-gallery="restaurant-gallery">
+                  {% include 'components/picture.twig' with {
+                    image: img,
+                    alt: img.alt|default(r.name),
+                    class: '',
+                    sizes_preset: 'card',
+                    loading: 'lazy'
+                  } only %}
+                </a>
+              </figure>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {# Справка для поиска и ИИ-ответов: подробности и вопросы гостей — ниже галереи,
+           чтобы не растягивать основной рассказ о ресторане. #}
         {# Развёрнутый рассказ блоками: подзаголовки нужны и читателю, и поиску —
            сплошное полотно на 500 слов не читают. #}
         {% if restaurant.desc.blocks is defined and restaurant.desc.blocks|length > 0 %}
@@ -153,38 +188,6 @@
         {% endif %}
 
 
-        {% if restaurant.staff is defined and restaurant.staff|length > 0 %}
-          <div class="section__item restaurant-about__staff">
-            <h2 class="restaurant-staff__heading uppercase">Команда</h2>
-            <ul class="restaurant-staff__list">
-              {% for member in restaurant.staff %}
-                <li class="restaurant-staff__item">
-                  <span class="restaurant-staff__role">{{ member.role }}</span>
-                  <span class="restaurant-staff__name">{{ member.name }}</span>
-                </li>
-              {% endfor %}
-            </ul>
-          </div>
-        {% endif %}
-
-        {% set galleryItems = restaurant.gallery|default(restaurant.covers|default([])) %}
-        {% if galleryItems|length > 0 %}
-          <div class="section__item restaurant-about__gallery" id="restaurantGallery">
-            {% for img in galleryItems|slice(0, 4) %}
-              <figure class="restaurant-about__photo">
-                <a href="{{ url(img.src) }}" class="glightbox link" data-gallery="restaurant-gallery">
-                  {% include 'components/picture.twig' with {
-                    image: img,
-                    alt: img.alt|default(r.name),
-                    class: '',
-                    sizes_preset: 'card',
-                    loading: 'lazy'
-                  } only %}
-                </a>
-              </figure>
-            {% endfor %}
-          </div>
-        {% endif %}
       </div>
     </section>
 
