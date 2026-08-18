@@ -193,5 +193,115 @@
     "from": "/italiani",
     "to": "/restaurants/italiani",
     "status": 301
+  },
+  {
+    "from": "/restaurants/bolshaya-morskaya",
+    "to": "/restaurants/italy-bolshaya-morskaya",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/bolshoy",
+    "to": "/restaurants/italy-bolshoy",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/moskovskiy",
+    "to": "/restaurants/italy-moskovskiy",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/vilenskiy",
+    "to": "/restaurants/italy-vilenskiy",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/jam",
+    "to": "/restaurants/jam-cafe",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/jamcafe",
+    "to": "/restaurants/jam-cafe",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/joli",
+    "to": "/restaurants/joli-grand-bistrot",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/joli-spb",
+    "to": "/restaurants/joli-grand-bistrot",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/joli-msk",
+    "to": "/restaurants/joli-moscow",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/juan",
+    "to": "/restaurants/juan-cantina-espanola",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/juan-spb",
+    "to": "/restaurants/juan-cantina-espanola",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/juan-msk",
+    "to": "/restaurants/juan-moscow",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/salone",
+    "to": "/restaurants/salone-pasta-bar",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/salone-spb",
+    "to": "/restaurants/salone-pasta-bar",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/salone-moscow",
+    "to": "/restaurants/salone-pasta-bar-moscow",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/salone-msk",
+    "to": "/restaurants/salone-pasta-bar-moscow",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/medved",
+    "to": "/restaurants/bear",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/legendary-bear",
+    "to": "/restaurants/bear",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/atelie",
+    "to": "/restaurants/atelier",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/goosegoose",
+    "to": "/restaurants/goose-goose",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/goose",
+    "to": "/restaurants/goose-goose",
+    "status": 301
+  },
+  {
+    "from": "/restaurants/gusgus",
+    "to": "/restaurants/goose-goose",
+    "status": 301
   }
 ]
