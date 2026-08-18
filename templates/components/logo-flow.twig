@@ -46,7 +46,8 @@
       headerLogo.style.setProperty('--logo-flow-y', (geom.dy * k).toFixed(2) + 'px');
       headerLogo.style.setProperty('--logo-flow-scale', (1 + (geom.scale - 1) * k).toFixed(4));
       headerLogo.style.setProperty('--logo-flow-progress', eased.toFixed(3));
-      root.classList.toggle('logo-flow-docked', p > 0.985);
+      // Цвет знака переключаем раньше, чем он доедет: так смена успевает пройти плавно
+      root.classList.toggle('logo-flow-docked', p > 0.62);
     }
 
     function start() {
