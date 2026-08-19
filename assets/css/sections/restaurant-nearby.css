@@ -44,6 +44,7 @@
 .restaurant-nearby__link:hover .restaurant-nearby__name,
 .restaurant-nearby__link:focus-visible .restaurant-nearby__name {
   text-decoration: underline;
+  text-decoration-color: var(--color-3);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.25em;
 }
@@ -67,14 +68,14 @@
   text-transform: uppercase;
   text-decoration: none;
   color: inherit;
-  border-bottom: 1px solid var(--color-3);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-3) 40%, transparent);
   padding-bottom: 0.4rem;
   transition: color var(--transition-1);
 }
 
 .restaurant-nearby__all:hover,
 .restaurant-nearby__all:focus-visible {
-  border-bottom-color: currentcolor;
+  border-bottom-color: var(--color-3);
 }
 
 @media (width <= 600px) {

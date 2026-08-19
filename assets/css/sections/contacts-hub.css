@@ -77,14 +77,14 @@
   letter-spacing: -0.02em;
   color: var(--color-2);
   text-decoration: none;
-  border-bottom: 1px solid var(--color-3);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-3) 40%, transparent);
   padding-bottom: 0.4rem;
   transition: color var(--transition-1);
 }
 
 .contacts-hub__email:hover,
 .contacts-hub__email:focus-visible {
-  border-bottom-color: currentcolor;
+  border-bottom-color: var(--color-3);
 }
 
 .contacts-hub__socials {
@@ -106,6 +106,7 @@
 .contacts-hub__social:hover,
 .contacts-hub__social:focus-visible {
   text-decoration: underline;
+  text-decoration-color: var(--color-3);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.25em;
 }
@@ -139,6 +140,7 @@
 a.contacts-hub__line-name:hover,
 a.contacts-hub__line-name:focus-visible {
   text-decoration: underline;
+  text-decoration-color: var(--color-3);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.25em;
 }
@@ -192,6 +194,7 @@ a.contacts-hub__line-name:focus-visible {
 .contacts-hub__point-name:hover,
 .contacts-hub__point-name:focus-visible {
   text-decoration: underline;
+  text-decoration-color: var(--color-3);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.25em;
 }
@@ -213,6 +216,7 @@ a.contacts-hub__line-name:focus-visible {
 a.contacts-hub__point-phone:hover,
 a.contacts-hub__point-phone:focus-visible {
   text-decoration: underline;
+  text-decoration-color: var(--color-3);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.25em;
 }
@@ -230,6 +234,7 @@ a.contacts-hub__point-phone:focus-visible {
 .contacts-hub__point-map:hover,
 .contacts-hub__point-map:focus-visible {
   text-decoration: underline;
+  text-decoration-color: var(--color-3);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.25em;
 }
