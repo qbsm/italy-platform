@@ -32,7 +32,8 @@
     "servesCuisine": ["Испанская кухня", "Мексиканская кухня"],
     "menuLink": "/data/catalogs/juan-moscow-menu.pdf",
     "barMenuLink": "/data/catalogs/juan-moscow-bar.pdf",
-    "priceRange": "₽₽"
+    "priceRange": "₽₽",
+    "bookingPoint": "910032"
   },
   "desc": {
     "short": "Испано-мексиканская кантина — портал в бесконечную фиесту",
