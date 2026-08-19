@@ -37,12 +37,14 @@
   padding-block: 1.8rem;
   text-decoration: none;
   color: inherit;
-  transition: color var(--transition-1);
+  transition: text-decoration-color var(--transition-1);
 }
 
 .restaurant-nearby__link:hover,
 .restaurant-nearby__link:focus-visible {
-  color: var(--color-3);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
 }
 
 .restaurant-nearby__name {
@@ -71,7 +73,7 @@
 
 .restaurant-nearby__all:hover,
 .restaurant-nearby__all:focus-visible {
-  color: var(--color-3);
+  border-bottom-color: currentcolor;
 }
 
 @media (width <= 600px) {

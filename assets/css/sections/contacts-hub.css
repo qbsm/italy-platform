@@ -84,7 +84,7 @@
 
 .contacts-hub__email:hover,
 .contacts-hub__email:focus-visible {
-  color: var(--color-3);
+  border-bottom-color: currentcolor;
 }
 
 .contacts-hub__socials {
@@ -105,7 +105,9 @@
 
 .contacts-hub__social:hover,
 .contacts-hub__social:focus-visible {
-  color: var(--color-3);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
 }
 
 /* --- Направления --- */
@@ -136,7 +138,9 @@
 
 a.contacts-hub__line-name:hover,
 a.contacts-hub__line-name:focus-visible {
-  color: var(--color-3);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
 }
 
 .contacts-hub__line-desc {
@@ -187,7 +191,9 @@ a.contacts-hub__line-name:focus-visible {
 
 .contacts-hub__point-name:hover,
 .contacts-hub__point-name:focus-visible {
-  color: var(--color-3);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
 }
 
 .contacts-hub__point-address {
@@ -206,7 +212,9 @@ a.contacts-hub__line-name:focus-visible {
 
 a.contacts-hub__point-phone:hover,
 a.contacts-hub__point-phone:focus-visible {
-  color: var(--color-3);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
 }
 
 .contacts-hub__point-map {
@@ -221,7 +229,9 @@ a.contacts-hub__point-phone:focus-visible {
 
 .contacts-hub__point-map:hover,
 .contacts-hub__point-map:focus-visible {
-  color: var(--color-3);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
 }
 
 /* --- Реквизиты --- */

@@ -55,8 +55,7 @@
 
 .group-story__text a:hover,
 .group-story__text a:focus-visible {
-  color: var(--color-3);
-  border-bottom-color: var(--color-3);
+  border-bottom-color: currentcolor;
 }
 
 .group-story__links {
@@ -81,8 +80,7 @@
 
 .group-story__link:hover,
 .group-story__link:focus-visible {
-  color: var(--color-3);
-  border-bottom-color: var(--color-3);
+  border-bottom-color: currentcolor;
 }
 
 @media (width >= 900px) {
