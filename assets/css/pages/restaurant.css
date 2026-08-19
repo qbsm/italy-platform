@@ -356,25 +356,34 @@ body:has(.restaurant-detail) {
   color: var(--color-1);
 }
 
+/* Галерея. Телефон: лента одинаковых кадров с листанием вбок — два десятка снимков
+   в столбик отжимают вниз и вопросы гостей, и соседние рестораны. Планшет и десктоп:
+   ряды разной крупности — целый кадр, половины, трети, четверти. Ширины расставляет
+   шаблон, ряды по построению закрываются целиком. */
 .restaurant-about__gallery {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.6rem;
+  grid-auto-flow: column;
+  grid-auto-columns: 76%;
+  gap: 0.8rem;
+  padding-bottom: 0.4rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
 
-  @media (--sm) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-  }
+.restaurant-about__gallery::-webkit-scrollbar {
+  display: none;
+}
 
-  @media (--lg) {
-    gap: 2.4rem;
-  }
+.restaurant-about__gallery .restaurant-about__photo {
+  scroll-snap-align: center;
 }
 
 .restaurant-about__photo {
   margin: 0;
-  aspect-ratio: 4 / 3;
   overflow: hidden;
+  aspect-ratio: 4 / 3;
   border-radius: 1.6rem;
 
   @media (--lg) {
@@ -383,10 +392,10 @@ body:has(.restaurant-detail) {
 }
 
 .restaurant-about__photo img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
 
 .restaurant-about__photo > a {
@@ -395,114 +404,100 @@ body:has(.restaurant-detail) {
   height: 100%;
 }
 
-.restaurant-about__gallery:not(.restaurant-about__gallery--dense) .restaurant-about__photo:nth-child(3n+1) {
-  @media (--lg) {
-    grid-column: span 2;
-    aspect-ratio: 16 / 9;
-  }
+/* Переключатель «показать ещё» — чекбокс, без единой строчки JS. */
+.restaurant-about__gallery-toggle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
 }
 
-/* Съёмка у ресторанов разного объёма, и показывать её нужно по-разному.
-
-   Телефон: лента одинаковых кадров с листанием вбок — двадцать снимков в столбик
-   отжимают вниз и вопросы гостей, и соседние рестораны.
-   Планшет: ровная сетка.
-   Десктоп: мозаика — крупные кадры вперемешку с обычными. Сколько крупных, считает
-   шаблон: их число подобрано так, чтобы занятая площадь делилась на число колонок и
-   в конце не оставалось дыр. */
-.restaurant-about__gallery--dense {
-  grid-auto-flow: column;
-  grid-auto-columns: 76%;
-  grid-template-columns: none;
-  gap: 0.8rem;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  padding-bottom: 0.4rem;
-}
-
-.restaurant-about__gallery--dense::-webkit-scrollbar {
+.restaurant-about__gallery-more {
   display: none;
 }
 
-.restaurant-about__gallery--dense .restaurant-about__photo {
-  scroll-snap-align: center;
-}
-
 @media (--sm) {
-  .restaurant-about__gallery--dense {
+  .restaurant-about__gallery {
     grid-auto-flow: row;
     grid-auto-columns: auto;
-    grid-template-columns: repeat(var(--gallery-cols-sm, 2), 1fr);
+    grid-template-columns: repeat(12, 1fr);
     gap: 1.6rem;
+    padding-bottom: 0;
     overflow-x: visible;
     scroll-snap-type: none;
   }
 
-  /* Одинокий кадр в последнем ряду разворачивается во всю ширину. */
-  .restaurant-about__gallery--tail-sm .restaurant-about__photo:last-child {
-    grid-column: 1 / -1;
+  .restaurant-about__photo--w12 {
+    grid-column: span 12;
     aspect-ratio: 21 / 9;
+  }
+
+  .restaurant-about__photo--w6 {
+    grid-column: span 6;
+    aspect-ratio: 3 / 2;
+  }
+
+  .restaurant-about__photo--w4 {
+    grid-column: span 4;
+    aspect-ratio: 4 / 3;
+  }
+
+  /* На планшете четверти встают по две в ряд: вчетвером на такой ширине кадры
+     превращаются в почтовые марки. */
+  .restaurant-about__photo--w3 {
+    grid-column: span 6;
+    aspect-ratio: 3 / 2;
+  }
+
+  /* Свёрнутая галерея показывает первые шесть кадров — ровно три ряда. */
+  .restaurant-about__gallery--collapsible .restaurant-about__photo:nth-child(n + 7) {
+    display: none;
+  }
+
+  .restaurant-about__gallery-toggle:checked ~ .restaurant-about__gallery--collapsible .restaurant-about__photo:nth-child(n + 7) {
+    display: block;
+  }
+
+  .restaurant-about__gallery-more {
+    display: block;
+    width: fit-content;
+    margin-top: 2.4rem;
+    padding: 1.4rem 2.8rem;
+    border: 1px solid rgb(255 255 255 / 25%);
+    border-radius: 999px;
+    color: inherit;
+    font-size: 1.4rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color var(--transition-1);
+  }
+
+  .restaurant-about__gallery-more:hover {
+    border-color: var(--color-3);
+  }
+
+  .restaurant-about__gallery-more-close {
+    display: none;
+  }
+
+  .restaurant-about__gallery-toggle:checked ~ .restaurant-about__gallery-more .restaurant-about__gallery-more-open {
+    display: none;
+  }
+
+  .restaurant-about__gallery-toggle:checked ~ .restaurant-about__gallery-more .restaurant-about__gallery-more-close {
+    display: inline;
   }
 }
 
 @media (--lg) {
-  .restaurant-about__gallery--dense {
-    grid-template-columns: repeat(var(--gallery-cols-lg, 4), 1fr);
+  .restaurant-about__gallery {
     gap: 2rem;
   }
 
-  /* Мозаика держится на одинаковой высоте строк: иначе крупный кадр, занимающий две
-     строки, растягивает их по-своему и в сетке появляются провалы. Высоту строки считаем
-     от ширины самой сетки — контейнерные единицы дают это без JS. Раскладку не отдаём
-     авторазмещению: порядок кадров в шаблоне уже собран так, что ряды закрываются целиком. */
-  .restaurant-about__gallery--mosaic {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-  }
-
-  /* Место каждого кадра задано шаблоном — переменные приходят инлайном. Высоту ряда
-     держат обычные кадры своим соотношением сторон, крупный занимает две строки. */
-  .restaurant-about__gallery--mosaic .restaurant-about__photo {
-    grid-column: var(--gc, auto) / span var(--gcs, 1);
-    grid-row: var(--gr, auto) / span var(--grs, 1);
-
-    /* Растянутым кадрам в хвосте шаблон подбирает своё соотношение: полоса во всю ширину
-       с пропорцией обычного кадра была бы высотой в пол-экрана. */
-    aspect-ratio: var(--ar, 4 / 3);
-  }
-
-  /* Крупный кадр не должен задавать высоту рядов — иначе его снимок растягивает строку
-     под свой оригинал, и соседние ячейки повисают с зазором. Содержимое выводим из потока:
-     высоту диктуют обычные кадры, а крупный растягивается ровно на две строки. */
-  .restaurant-about__gallery--mosaic .restaurant-about__photo--wide {
-    position: relative;
-    aspect-ratio: auto;
-    min-height: 0;
-  }
-
-  .restaurant-about__gallery--mosaic .restaurant-about__photo--wide > a {
-    position: absolute;
-    inset: 0;
-  }
-
-  .restaurant-about__gallery--mosaic .restaurant-about__photo--wide {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-
-  .restaurant-about__gallery--mosaic .restaurant-about__photo--half {
-    grid-column: span 2;
-  }
-
-  .restaurant-about__gallery--mosaic .restaurant-about__photo--full {
-    grid-column: 1 / -1;
-  }
-
-  .restaurant-about__gallery--tail-sm .restaurant-about__photo:last-child {
-    grid-column: auto;
-    aspect-ratio: 4 / 3;
+  .restaurant-about__photo--w3 {
+    grid-column: span 3;
+    aspect-ratio: 1 / 1;
   }
 }
-
