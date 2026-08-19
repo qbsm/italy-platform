@@ -117,7 +117,6 @@ return static function (): ContainerInterface {
             );
             $env->addGlobal('base_url', $baseUrl);
             $env->addGlobal('global', $global);
-            $env->addGlobal('payment_enabled', (bool) ($settings['payment']['enabled'] ?? false));
 
             return $twig;
         },
@@ -177,17 +176,11 @@ return static function (): ContainerInterface {
             return new Mailer(Transport::fromDsn($dsn));
         },
 
-        \App\Service\TelegramAlertService::class => static fn(ContainerInterface $c) => new \App\Service\TelegramAlertService(
-            $c->get('settings')['alerts'] ?? [],
-            $c->get(LoggerInterface::class),
-        ),
-
         MailService::class => static function (ContainerInterface $c): MailService {
             return new MailService(
                 $c->get(MailerInterface::class),
                 $c->get(LoggerInterface::class),
                 $c->get('settings')['mail'] ?? [],
-                $c->get(\App\Service\TelegramAlertService::class),
             );
         },
 
@@ -275,23 +268,19 @@ return static function (): ContainerInterface {
         ApiSendAction::class => \DI\autowire()
             ->constructorParameter('formGuard', \DI\factory(static fn($c) => $c->get('settings')['form_guard'] ?? [])),
         ApiWidgetRescueAction::class => \DI\autowire(),
-        \App\Service\AlfaGateway::class => static fn(ContainerInterface $c) => new \App\Service\AlfaGateway(
-            $c->get('settings')['payment'] ?? [],
-            $c->get(LoggerInterface::class),
-        ),
-        \App\Service\OrderStore::class => static fn(ContainerInterface $c) => new \App\Service\OrderStore(
-            (string) ($c->get('settings')['payment']['orders_dir'] ?? ''),
-            $c->get(LoggerInterface::class),
-        ),
-        \App\Service\CallbackVerifier::class => static fn(ContainerInterface $c) => new \App\Service\CallbackVerifier(
-            (string) ($c->get('settings')['payment']['callback_token'] ?? ''),
-        ),
-        \App\Service\OrderConfirmer::class => \DI\autowire(),
-        \App\Action\PayCreateAction::class => \DI\autowire()
-            ->constructorParameter('settings', \DI\get('settings')),
-        \App\Action\PayReturnAction::class => \DI\autowire(),
-        \App\Action\PayCallbackAction::class => \DI\autowire(),
     ]);
+
+    // Свои сервисы деплоймента (эквайринг, отдельные SEO-строители, интеграции) описываются
+    // в config/project-di.php и подмешиваются здесь. Без этой точки расширения такие
+    // определения приходилось вписывать в синкаемый container.php, и следующий distill их
+    // затирал — именно так у italycommunity пропал реестр SEO ресторанов.
+    $projectDiPath = __DIR__ . '/project-di.php';
+    if (is_file($projectDiPath)) {
+        $projectDefinitions = require $projectDiPath;
+        if (is_array($projectDefinitions) && $projectDefinitions !== []) {
+            $builder->addDefinitions($projectDefinitions);
+        }
+    }
 
     return $builder->build();
 };

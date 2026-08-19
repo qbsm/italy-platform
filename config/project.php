@@ -53,4 +53,42 @@ return [
         'agree',
         'restaurants-list',
     ],
+
+    // Эквайринг Альфа-Банка — специфика деплоймента: ядро о нём не знает, настройки
+    // доезжают в settings через passthrough project.php.
+    'payment' => (static function () use ($appEnv, $projectRoot): array {
+        $payEnv = strtolower((string) (getenv('PAYMENT_ENV') ?: ($appEnv === 'production' ? 'prod' : 'test')));
+        $isProdGate = $payEnv === 'prod';
+        $baseUrl = rtrim((string) (getenv('PAYMENT_RETURN_BASE') ?: (getenv('APP_BASE_URL') ?: 'https://italycommunity.ru')), '/');
+        return [
+            'enabled' => in_array(strtolower((string) (getenv('PAYMENT_ENABLED') ?: '0')), ['1', 'true', 'yes', 'on'], true),
+            'env' => $payEnv,
+            'gateway' => 'alfa',
+            'api_url' => $isProdGate
+                ? 'https://pay.alfabank.ru/payment/rest'
+                : 'https://alfa.rbsuat.com/payment/rest',
+            'username' => (string) (getenv('PAYMENT_USERNAME') ?: ''),
+            'password' => (string) (getenv('PAYMENT_PASSWORD') ?: ''),
+            'token' => (string) (getenv('PAYMENT_TOKEN') ?: ''),
+            // Общий ключ контрольной суммы callback-уведомлений (ЛК банка → Callback-уведомления).
+            // Пока пуст, /pay/callback не принимает ничего: оплата подтверждается только возвратом.
+            'callback_token' => (string) (getenv('PAYMENT_CALLBACK_TOKEN') ?: ''),
+            'base_url' => $baseUrl,
+            // ISO 4217; в шлюзе Альфы рубль — 810
+            'currency' => (string) (getenv('PAYMENT_CURRENCY') ?: '810'),
+            'description' => (string) (getenv('PAYMENT_DESCRIPTION') ?: 'Покупка билета — Экосистема итали'),
+            'item_name' => (string) (getenv('PAYMENT_ITEM_NAME') ?: 'Электронный билет'),
+            'session_timeout' => (int) (getenv('PAYMENT_SESSION_TIMEOUT') ?: 1200),
+            // Корзина чека (54-ФЗ) уходит в orderBundle. Включать только когда у магазина
+            // включена фискализация на стороне банка — иначе банк отклонит регистрацию.
+            'fiscal' => [
+                'enabled' => in_array(strtolower((string) (getenv('PAYMENT_FISCAL_ENABLED') ?: '0')), ['1', 'true', 'yes', 'on'], true),
+                'tax_type' => (int) (getenv('PAYMENT_FISCAL_TAX_TYPE') ?: 0), // 0 = без НДС
+                'measure' => (string) (getenv('PAYMENT_FISCAL_MEASURE') ?: 'шт'),
+            ],
+            'orders_dir' => $projectRoot . '/var/orders',
+            'timeout' => 30,
+        ];
+    })(),
+
 ];
