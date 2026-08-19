@@ -395,34 +395,114 @@ body:has(.restaurant-detail) {
   height: 100%;
 }
 
-.restaurant-about__gallery .restaurant-about__photo:nth-child(3n+1) {
+.restaurant-about__gallery:not(.restaurant-about__gallery--dense) .restaurant-about__photo:nth-child(3n+1) {
   @media (--lg) {
     grid-column: span 2;
     aspect-ratio: 16 / 9;
   }
 }
 
-/* Съёмки у ресторанов разного объёма: где кадров больше шести, широкие акценты
-   растянули бы блок на десяток экранов — там сетка становится ровной и плотнее. */
-.restaurant-about__gallery--dense {
-  /* На телефоне два десятка кадров в одну колонку — это лента на десять экранов,
-     за которой уже не видно ни вопросов гостей, ни соседних ресторанов. */
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.8rem;
+/* Съёмка у ресторанов разного объёма, и показывать её нужно по-разному.
 
-  @media (--sm) {
+   Телефон: лента одинаковых кадров с листанием вбок — двадцать снимков в столбик
+   отжимают вниз и вопросы гостей, и соседние рестораны.
+   Планшет: ровная сетка.
+   Десктоп: мозаика — крупные кадры вперемешку с обычными. Сколько крупных, считает
+   шаблон: их число подобрано так, чтобы занятая площадь делилась на число колонок и
+   в конце не оставалось дыр. */
+.restaurant-about__gallery--dense {
+  grid-auto-flow: column;
+  grid-auto-columns: 76%;
+  grid-template-columns: none;
+  gap: 0.8rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: 0.4rem;
+}
+
+.restaurant-about__gallery--dense::-webkit-scrollbar {
+  display: none;
+}
+
+.restaurant-about__gallery--dense .restaurant-about__photo {
+  scroll-snap-align: center;
+}
+
+@media (--sm) {
+  .restaurant-about__gallery--dense {
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    grid-template-columns: repeat(var(--gallery-cols-sm, 2), 1fr);
     gap: 1.6rem;
+    overflow-x: visible;
+    scroll-snap-type: none;
   }
 
-  @media (--lg) {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+  /* Одинокий кадр в последнем ряду разворачивается во всю ширину. */
+  .restaurant-about__gallery--tail-sm .restaurant-about__photo:last-child {
+    grid-column: 1 / -1;
+    aspect-ratio: 21 / 9;
   }
 }
 
-.restaurant-about__gallery--dense .restaurant-about__photo:nth-child(3n+1) {
-  @media (--lg) {
+@media (--lg) {
+  .restaurant-about__gallery--dense {
+    grid-template-columns: repeat(var(--gallery-cols-lg, 4), 1fr);
+    gap: 2rem;
+  }
+
+  /* Мозаика держится на одинаковой высоте строк: иначе крупный кадр, занимающий две
+     строки, растягивает их по-своему и в сетке появляются провалы. Высоту строки считаем
+     от ширины самой сетки — контейнерные единицы дают это без JS. Раскладку не отдаём
+     авторазмещению: порядок кадров в шаблоне уже собран так, что ряды закрываются целиком. */
+  .restaurant-about__gallery--mosaic {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+
+  /* Место каждого кадра задано шаблоном — переменные приходят инлайном. Высоту ряда
+     держат обычные кадры своим соотношением сторон, крупный занимает две строки. */
+  .restaurant-about__gallery--mosaic .restaurant-about__photo {
+    grid-column: var(--gc, auto) / span var(--gcs, 1);
+    grid-row: var(--gr, auto) / span var(--grs, 1);
+
+    /* Растянутым кадрам в хвосте шаблон подбирает своё соотношение: полоса во всю ширину
+       с пропорцией обычного кадра была бы высотой в пол-экрана. */
+    aspect-ratio: var(--ar, 4 / 3);
+  }
+
+  /* Крупный кадр не должен задавать высоту рядов — иначе его снимок растягивает строку
+     под свой оригинал, и соседние ячейки повисают с зазором. Содержимое выводим из потока:
+     высоту диктуют обычные кадры, а крупный растягивается ровно на две строки. */
+  .restaurant-about__gallery--mosaic .restaurant-about__photo--wide {
+    position: relative;
+    aspect-ratio: auto;
+    min-height: 0;
+  }
+
+  .restaurant-about__gallery--mosaic .restaurant-about__photo--wide > a {
+    position: absolute;
+    inset: 0;
+  }
+
+  .restaurant-about__gallery--mosaic .restaurant-about__photo--wide {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .restaurant-about__gallery--mosaic .restaurant-about__photo--half {
+    grid-column: span 2;
+  }
+
+  .restaurant-about__gallery--mosaic .restaurant-about__photo--full {
+    grid-column: 1 / -1;
+  }
+
+  .restaurant-about__gallery--tail-sm .restaurant-about__photo:last-child {
     grid-column: auto;
     aspect-ratio: 4 / 3;
   }
 }
+

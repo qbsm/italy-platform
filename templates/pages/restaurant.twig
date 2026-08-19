@@ -135,13 +135,74 @@
         {% endif %}
 
         {% set galleryItems = restaurant.gallery|default(restaurant.covers|default([])) %}
-        {% if galleryItems|length > 0 %}
-          <div class="section__item restaurant-about__gallery{{ galleryItems|length > 6 ? ' restaurant-about__gallery--dense' : '' }}" id="restaurantGallery">
+        {% set galleryCount = galleryItems|length %}
+        {% set galleryDense = galleryCount > 6 %}
+
+        {# Мозаика на десктопе собирается блоками по пять кадров: один крупный (2×2) и четыре
+           обычных ровно закрывают два ряда из четырёх колонок — дыр не остаётся по построению,
+           без надежды на авторазмещение. Крупный встаёт то слева, то справа: в чётных блоках он
+           первый, в нечётных — третий, и порядок элементов сам ставит его в нужное место.
+           Хвост короче пяти кадров дотягивается растяжением последних: один на всю ширину,
+           два по половине, три — последний вдвое. #}
+        {% set mosaicBlocks = galleryDense ? (galleryCount / 5)|round(0, 'floor') : 0 %}
+        {% set mosaicTail = galleryDense ? galleryCount % 5 : 0 %}
+        {% set mosaicHead = mosaicBlocks * 5 %}
+
+        {# Планшет: ровная сетка; одинокий кадр в последнем ряду растягивается во всю ширину. #}
+        {% set colsSm = galleryDense and galleryCount % 3 != 1 ? 3 : 2 %}
+
+        {% set galleryClass = galleryDense ? ' restaurant-about__gallery--dense' : '' %}
+        {% if galleryDense and mosaicBlocks > 0 %}
+          {% set galleryClass = galleryClass ~ ' restaurant-about__gallery--mosaic' %}
+        {% endif %}
+        {% if galleryDense and galleryCount % colsSm == 1 %}
+          {% set galleryClass = galleryClass ~ ' restaurant-about__gallery--tail-sm' %}
+        {% endif %}
+
+        {% if galleryCount > 0 %}
+          <div class="section__item restaurant-about__gallery{{ galleryClass }}" id="restaurantGallery"
+               style="--gallery-cols-sm: {{ colsSm }};">
             {% for img in galleryItems %}
               {# Во весь экран открываем собранный webp, а не исходник: raw лежит не у каждого
                  кадра, а где лежит — весит в разы больше. #}
               {% set fullSrc = image_largest(img.src)|default(img.src) %}
-              <figure class="restaurant-about__photo">
+              {# Координаты кадра в мозаике считаем сами: неявное размещение не возвращается
+                 на пропущенные ячейки и оставляет провалы. Блок из пяти кадров занимает два
+                 ряда, крупный в чётных блоках слева, в нечётных справа. #}
+              {% set inBlock = loop.index0 < mosaicHead %}
+              {% set blockNo = (loop.index0 / 5)|round(0, 'floor') %}
+              {% set pos = loop.index0 % 5 %}
+              {% set rowBase = blockNo * 2 + 1 %}
+              {% set tailRow = mosaicBlocks * 2 + 1 %}
+              {% set j = loop.index0 - mosaicHead %}
+
+              {% set gc = 1 %}{% set gr = 1 %}{% set gcs = 1 %}{% set grs = 1 %}{% set ar = '' %}
+              {% if inBlock and blockNo % 2 == 0 %}
+                {% set gc = pos == 0 ? 1 : (pos == 1 or pos == 3 ? 3 : 4) %}
+                {% set gr = pos == 0 ? rowBase : (pos < 3 ? rowBase : rowBase + 1) %}
+                {% set gcs = pos == 0 ? 2 : 1 %}
+                {% set grs = pos == 0 ? 2 : 1 %}
+              {% elseif inBlock %}
+                {% set gc = pos == 2 ? 3 : (pos == 0 or pos == 3 ? 1 : 2) %}
+                {% set gr = pos < 3 ? rowBase : rowBase + 1 %}
+                {% set gcs = pos == 2 ? 2 : 1 %}
+                {% set grs = pos == 2 ? 2 : 1 %}
+              {% else %}
+                {% set gr = tailRow %}
+                {% if mosaicTail == 1 %}
+                  {% set gc = 1 %}{% set gcs = 4 %}{% set ar = '3 / 1' %}
+                {% elseif mosaicTail == 2 %}
+                  {% set gc = j == 0 ? 1 : 3 %}{% set gcs = 2 %}{% set ar = '16 / 9' %}
+                {% elseif mosaicTail == 3 %}
+                  {% set gc = j + 1 %}{% set gcs = j == 2 ? 2 : 1 %}
+                  {% set ar = j == 2 ? '2.8 / 1' : '' %}
+                {% else %}
+                  {% set gc = j + 1 %}
+                {% endif %}
+              {% endif %}
+
+              <figure class="restaurant-about__photo{{ inBlock and gcs == 2 and grs == 2 ? ' restaurant-about__photo--wide' : '' }}"
+                      style="--gc: {{ gc }}; --gr: {{ gr }}; --gcs: {{ gcs }}; --grs: {{ grs }};{{ ar ? ' --ar: ' ~ ar ~ ';' : '' }}">
                 <a href="{{ url(fullSrc) }}" class="glightbox link" data-gallery="restaurant-gallery"
                    aria-label="{{ img.alt|default(r.name) }}">
                   {% include 'components/picture.twig' with {
