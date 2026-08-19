@@ -1,5 +1,7 @@
 <?php
 
+use App\Support\Env;
+
 $projectRoot = dirname(__DIR__);
 
 // APP_ENV: production | development — разделение окружений (кэш Twig, уровень логов)
@@ -37,7 +39,16 @@ if ($envDefaultLang !== false && $envDefaultLang !== '') {
     $default_lang = (string) $envDefaultLang;
 }
 
+$yandex_metric_ids = array_values(array_filter(array_map(
+    static fn(string $id): int => (int) trim($id),
+    explode(',', (string) (getenv('YANDEX_METRIC_ID') ?: ''))
+)));
+
 // Ключи и ширины для адаптивных изображений (picture.twig, tools/build) — единый источник
+// Проектная конфигурация (route_map, collections, sitemap_pages, integrations)
+$projectConfigPath = __DIR__ . '/project.php';
+$projectConfig = is_file($projectConfigPath) ? (array) require $projectConfigPath : [];
+
 $imageSizesPath = __DIR__ . '/image-sizes.json';
 $image_sizes = [
     'keys' => ['800', '1600', 'raw'],
@@ -61,42 +72,56 @@ return [
     'debug' => $isDebug,
     'default_lang' => $default_lang,
     'available_langs' => $available_langs,
-    'yandex_metric_id' => (int) (getenv('YANDEX_METRIC_ID') ?: 0),
-    // slug в URL => page_id (файл в data/json/{lang}/pages/{page_id}.json)
-    'route_map' => [
-        'restaurants' => 'restaurants-list',
-    ],
-    // Конфигурация коллекций — generic loader (loadEntity/loadEntitySlugs)
-    // и per-collection SEO (seo_builder реализует SeoBuilderInterface)
-    'collections' => [
-        'restaurants' => [
-            'data_dir' => 'restaurants',          // data/json/{lang}/restaurants/{slug}.json
-            'item_key' => 'restaurant',           // ключ внутри entity (валидируется на existence)
-            'nav_slug' => 'restaurants',          // префикс URL и breadcrumb
-            'list_page_id' => 'restaurants-list', // pages/restaurants-list.json
-            'slugs_source' => 'items',
-            'template' => 'pages/restaurant.twig',
-            'extras_key' => 'restaurant',         // ключ в template ($restaurant)
-            'og_type' => 'website',
-            'entity_url_pattern' => '/restaurants/{slug}',
-            'site_name' => 'Экосистема итали',
-            'prod_base_url' => 'https://italycommunity.ru',
-            'fallback_og_image' => '/data/img/seo/og.webp?v=1',
-            'list_title' => 'Рестораны',
-        ],
-    ],
-    // page_id страниц для sitemap.xml (без 404). Задаётся под проект.
-    'sitemap_pages' => [
-        'index',
-        'contacts',
-        'policy',
-        'agree',
-        'restaurants-list',
-    ],
-    // Rate limiting для POST /api/send (по IP, файловое хранилище в cache/rate_limit)
+    // YANDEX_METRIC_ID принимает один счётчик или несколько через запятую: у площадки
+    // может быть свой счётчик и общий счётчик сети. Первый остаётся основным — он уходит
+    // в appConfig, по нему JS шлёт цели.
+    'yandex_metric_id' => $yandex_metric_ids[0] ?? 0,
+    'yandex_metric_ids' => $yandex_metric_ids,
+    // slug в URL => page_id (из project.php)
+    'route_map' => (array) ($projectConfig['route_map'] ?? []),
+    // Конфигурация коллекций (из project.php)
+    'collections' => (array) ($projectConfig['collections'] ?? []),
+    // page_id страниц для sitemap.xml (из project.php)
+    'sitemap_pages' => (array) ($projectConfig['sitemap_pages'] ?? ['index']),
+    // Динамические подпути для sitemap (из project.php): page => {data_page, list_key, value_key, slugger}
+    'sitemap_dynamic_pages' => (array) ($projectConfig['sitemap_dynamic_pages'] ?? []),
+    // Rate limiting публичных POST-эндпоинтов (по IP, файловое хранилище в cache/rate_limit).
+    // paths — список путей под лимитом; deployment дополняет своими (например оплатой).
     'rate_limit_api_send' => [
         'max_requests' => 10,
         'window_seconds' => 60,
+        'paths' => ['/api/send', '/api/widget-rescue'],
+    ],
+    // Отсев роботов на форме. Значения зашиты в ядро и работают без .env; переопределяются
+    // переменными точечно. Выключатель нужен для разбора жалоб «форма не отправляется»:
+    // при `false` отказ не выносится, но срабатывание всё равно пишется в лог.
+    //
+    // trap_field принимает несколько имён через запятую: у части сайтов форм две и ловушки в
+    // них исторически названы по-разному. Ловим любое заполненное — робот не разбирает, какое
+    // из полей «настоящее».
+    //
+    // min_age_sec — единственный источник порога «набрано слишком быстро»; form_token берёт
+    // его отсюда, чтобы выданный токен и проверка на отправке не разъезжались.
+    'form_guard' => [
+        'enable' => Env::bool('FORM_GUARD_ENABLE', true),
+        'trap_field' => Env::get('FORM_GUARD_TRAP_FIELD') ?: 'company_site, website',
+        'min_age_sec' => Env::int('FORM_GUARD_MIN_AGE_SEC', 3),
+        'required_fields' => Env::get('FORM_REQUIRED_FIELDS') ?: 'phone',
+    ],
+    // Токен формы выдаётся браузеру по запросу, а не вместе с HTML: страница, скачанная
+    // роботом, не даёт возможности отправить заявку.
+    'form_token' => [
+        'max_age' => 7200,
+        'secret_file' => $cacheDir . '/form-token-secret',
+    ],
+    // Капча Yandex SmartCaptcha. По умолчанию выключена: на большинстве сайтов роботов
+    // отсекают токен формы и ловушка, а лишний барьер стоит конверсии. Включается точечно —
+    // там, где спам действительно идёт.
+    'captcha' => [
+        'enable' => Env::bool('CAPTCHA_ENABLE'),
+        'client_key' => Env::get('CAPTCHA_CLIENT_KEY'),
+        'server_key' => Env::get('CAPTCHA_SERVER_KEY'),
+        'timeout' => Env::int('CAPTCHA_TIMEOUT', 5),
     ],
     'cors' => [
         'allowed_origins' => [], // например ['https://example.com'] или ['*'] для любого
@@ -105,11 +130,48 @@ return [
         'allow_credentials' => false,
     ],
     'mail' => [
-        'dsn' => (string) (getenv('MAILER_DSN') ?: 'sendmail://default'),
-        'to' => (string) (getenv('MAIL_TO') ?: ''),
-        'from' => (string) (getenv('MAIL_FROM') ?: 'noreply@localhost'),
-        'from_name' => (string) (getenv('MAIL_FROM_NAME') ?: ''),
-        'subject_prefix' => (string) (getenv('MAIL_SUBJECT_PREFIX') ?: ''),
+        // Пусто — флага в .env нет, поведение прежнее: канал включён, если задан адрес.
+        'enable' => Env::get('MAIL_ENABLE'),
+        'dsn' => Env::get('MAIL_DSN') ?: 'sendmail://default',
+        'to' => Env::get('MAIL_TO'),
+        'from' => Env::get('MAIL_FROM') ?: 'noreply@localhost',
+        'from_name' => Env::get('MAIL_FROM_NAME'),
+        'subject_prefix' => Env::get('MAIL_SUBJECT_PREFIX'),
+    ],
+    // Резервный сбор заявок (rescue-канал): дублирует заявку в наш сервис, который сначала её
+    // сохраняет, а потом раздаёт по каналам с повторами — упавший канал не теряет лид.
+    // Подтверждение отправителя — по домену: заявку шлёт бэкенд, значит с адреса, на который
+    // домен резолвится. Секрета в .env нет; ключ нужен только хостингам вне нашего периметра.
+    'rescue' => [
+        'enable' => Env::bool('RESCUE_ENABLE'),
+        'url' => Env::get('RESCUE_URL') ?: 'https://api.ismart.pro/v1/rescue',
+        'site' => Env::get('RESCUE_SITE'),
+        'key' => Env::get('RESCUE_KEY'),
+        'timeout' => Env::int('RESCUE_TIMEOUT', 3),
+    ],
+
+    'calltouch' => [
+        'enable' => Env::bool('CALLTOUCH_ENABLE'),
+        'route_key' => Env::get('CALLTOUCH_ROUTE_KEY'),
+        'token' => Env::get('CALLTOUCH_TOKEN'),
+        // Числовой ID личного кабинета (Интеграции → Отправка данных во внешние
+        // системы → API). Включает режим регистрации заявки — без токена.
+        'site_id' => Env::get('CALLTOUCH_SITE_ID'),
+        'timeout' => Env::int('CALLTOUCH_TIMEOUT', 10),
+    ],
+    'telegram' => [
+        'enable' => Env::bool('TELEGRAM_ENABLE'),
+        'bot_token' => Env::get('TELEGRAM_BOT_TOKEN'),
+        'chat_id' => Env::get('TELEGRAM_CHAT_ID'),
+        'timeout' => Env::int('TELEGRAM_TIMEOUT', 10),
+    ],
+    'google_sheets' => [
+        'enable' => Env::bool('SHEETS_ENABLE'),
+        'spreadsheet_id' => Env::get('SHEETS_SPREADSHEET_ID'),
+        'sheet_name' => Env::get('SHEETS_SHEET_NAME') ?: 'Заявки',
+        'credentials_path' => Env::get('SHEETS_CREDENTIALS_PATH')
+            ?: 'config/secrets/google-service-account.json',
+        'timeout' => Env::int('SHEETS_TIMEOUT', 10),
     ],
     'errors' => require __DIR__ . '/errors.php',
     'twig' => [
@@ -127,4 +189,44 @@ return [
         'logs' => $projectRoot . '/logs',
     ],
     'image_sizes' => $image_sizes,
+    'resource_hints' => [
+        ['rel' => 'preconnect', 'href' => 'https://mc.yandex.ru', 'crossorigin' => false],
+        ['rel' => 'preconnect', 'href' => 'https://yastatic.net', 'crossorigin' => false],
+    ],
+    // Интернет-эквайринг Альфа-Банка (платформа RBS, REST). Включается флагом PAYMENT_ENABLED,
+    // учётные данные магазина (логин с суффиксом -api и пароль либо token) — только из окружения.
+    'payment' => (static function () use ($appEnv, $projectRoot): array {
+        $payEnv = strtolower((string) (getenv('PAYMENT_ENV') ?: ($appEnv === 'production' ? 'prod' : 'test')));
+        $isProdGate = $payEnv === 'prod';
+        $baseUrl = rtrim((string) (getenv('PAYMENT_RETURN_BASE') ?: (getenv('APP_BASE_URL') ?: 'https://italycommunity.ru')), '/');
+        return [
+            'enabled' => in_array(strtolower((string) (getenv('PAYMENT_ENABLED') ?: '0')), ['1', 'true', 'yes', 'on'], true),
+            'env' => $payEnv,
+            'gateway' => 'alfa',
+            'api_url' => $isProdGate
+                ? 'https://pay.alfabank.ru/payment/rest'
+                : 'https://alfa.rbsuat.com/payment/rest',
+            'username' => (string) (getenv('PAYMENT_USERNAME') ?: ''),
+            'password' => (string) (getenv('PAYMENT_PASSWORD') ?: ''),
+            'token' => (string) (getenv('PAYMENT_TOKEN') ?: ''),
+            // Общий ключ контрольной суммы callback-уведомлений (ЛК банка → Callback-уведомления).
+            // Пока пуст, /pay/callback не принимает ничего: оплата подтверждается только возвратом.
+            'callback_token' => (string) (getenv('PAYMENT_CALLBACK_TOKEN') ?: ''),
+            'base_url' => $baseUrl,
+            // ISO 4217; в шлюзе Альфы рубль — 810
+            'currency' => (string) (getenv('PAYMENT_CURRENCY') ?: '810'),
+            'description' => (string) (getenv('PAYMENT_DESCRIPTION') ?: 'Покупка билета — Экосистема итали'),
+            'item_name' => (string) (getenv('PAYMENT_ITEM_NAME') ?: 'Электронный билет'),
+            'session_timeout' => (int) (getenv('PAYMENT_SESSION_TIMEOUT') ?: 1200),
+            // Корзина чека (54-ФЗ) уходит в orderBundle. Включать только когда у магазина
+            // включена фискализация на стороне банка — иначе банк отклонит регистрацию.
+            'fiscal' => [
+                'enabled' => in_array(strtolower((string) (getenv('PAYMENT_FISCAL_ENABLED') ?: '0')), ['1', 'true', 'yes', 'on'], true),
+                'tax_type' => (int) (getenv('PAYMENT_FISCAL_TAX_TYPE') ?: 0), // 0 = без НДС
+                'measure' => (string) (getenv('PAYMENT_FISCAL_MEASURE') ?: 'шт'),
+            ],
+            'orders_dir' => $projectRoot . '/var/orders',
+            'timeout' => 30,
+        ];
+    })(),
 ];

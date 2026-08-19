@@ -1,0 +1,33 @@
+{# Рассказ о группе на главной: странице нужен текст, который можно прочитать и процитировать,
+   а не только визуальный ряд. Блоки с подзаголовками — и читателю, и поиску. #}
+
+<section class="group-story section">
+  <div class="container">
+    {% if data.heading is defined %}
+      <h2 class="group-story__title font-1 uppercase">{{ data.heading }}</h2>
+    {% endif %}
+
+    <div class="group-story__grid">
+      {% for block in data.blocks | default([]) %}
+        <div class="group-story__block">
+          {% if block.heading is defined %}
+            <h3 class="group-story__heading">{{ block.heading }}</h3>
+          {% endif %}
+          {% for para in (block.text is iterable ? block.text : [block.text]) %}
+            <p class="group-story__text">{{ para|raw }}</p>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+
+    {% if data.links is defined and data.links|length > 0 %}
+      <div class="group-story__links">
+        {% for link in data.links %}
+          <a href="{{ link.href starts with 'http' ? link.href : url(link.href) }}"
+             class="group-story__link link"
+             {% if link.external | default(false) %}target="_blank" rel="noopener noreferrer"{% endif %}>{{ link.title }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>

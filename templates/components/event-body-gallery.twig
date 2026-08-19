@@ -1,0 +1,14 @@
+{# Галерея события: пары 50/50 + каждый третий слайд компактным центрированным блоком.
+   data: {covers[{src, alt}]} — первый cover страницы (hero) сюда не передаётся #}
+{% if data.covers | length > 0 %}
+  <div class="event-block event-gallery" id="eventGallery">
+    {% for img in data.covers %}
+      {% set dim = image_dimensions(img.src) %}
+      <figure class="event-gallery__figure">
+        <a href="{{ url(img.src) }}" class="glightbox link" data-gallery="event-gallery">
+          <img src="{{ url(img.src) }}" alt="{{ img.alt | default('') }}" loading="lazy"{% if dim %} width="{{ dim.width }}" height="{{ dim.height }}"{% endif %}>
+        </a>
+      </figure>
+    {% endfor %}
+  </div>
+{% endif %}

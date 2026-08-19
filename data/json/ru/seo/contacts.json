@@ -4,7 +4,7 @@
   "meta": [
     {
       "name": "description",
-      "content": "Контакты экосистемы итали: адреса ресторанов, телефоны, форма для связи. Сотрудничество, франшиза, проектирование, банкеты и кейтеринг."
+      "content": "Контакты «Итали»: 17 ресторанов, баров и кафе в Санкт-Петербурге и Москве — адреса, телефоны и часы работы каждой точки. Банкеты, консалтинг, работа в группе."
     },
     {
       "property": "og:url",
@@ -20,7 +20,7 @@
     },
     {
       "property": "og:description",
-      "content": "Контакты экосистемы итали: адреса ресторанов, телефоны, форма для связи. Сотрудничество, франшиза, проектирование, банкеты и кейтеринг."
+      "content": "Контакты «Итали»: 17 ресторанов, баров и кафе в Санкт-Петербурге и Москве — адреса, телефоны и часы работы каждой точки. Банкеты, консалтинг, работа в группе."
     },
     {
       "property": "og:site_name",
@@ -28,11 +28,24 @@
     },
     {
       "property": "og:image",
-      "content": "https://italycommunity.ru/data/img/seo/og.webp?v=1"
+      "content": "https://italycommunity.ru/data/img/seo/og.jpg?v=4"
     },
     {
       "property": "og:image:secure_url",
-      "content": "https://italycommunity.ru/data/img/seo/og.webp?v=1"
+      "content": "https://italycommunity.ru/data/img/seo/og.jpg?v=4"
+    },
+    {
+      "property": "og:image:type",
+      "content": "image/jpeg"
+    },
+    {
+      "property": "og:image:width",
+      "content": "1200"
+    },
+    {
+      "property": "og:image:height",
+      "content": "630"
     }
-  ]
+  ],
+  "json_ld": "{\"@context\": \"https://schema.org\", \"@type\": \"ContactPage\", \"@id\": \"https://italycommunity.ru/contacts#contactpage\", \"url\": \"https://italycommunity.ru/contacts\", \"name\": \"Контакты — Экосистема итали\", \"description\": \"Контакты «Итали»: 17 ресторанов, баров и кафе в Санкт-Петербурге и Москве — адреса, телефоны и часы работы каждой точки. Банкеты, консалтинг, работа в группе.\", \"about\": {\"@id\": \"https://italycommunity.ru/#organization\"}, \"isPartOf\": {\"@id\": \"https://italycommunity.ru/#website\"}}"
 }

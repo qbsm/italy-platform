@@ -6,12 +6,7 @@
       "direction": "ltr"
     }
   ],
-  "phones": [
-    {
-      "title": "+7 (000) 000-00-00",
-      "href": "tel:+70000000000"
-    }
-  ],
+  "phones": [],
   "nav": {
     "ru": {
       "items": [
@@ -23,6 +18,15 @@
         {
           "title": "Рестораны",
           "href": "/restaurants"
+        },
+        {
+          "title": "Афиша",
+          "href": "/events",
+          "visible": false
+        },
+        {
+          "title": "О нас",
+          "href": "/about"
         },
         {
           "title": "Программа лояльности",
@@ -51,7 +55,7 @@
         },
         {
           "title": "Работай с нами",
-          "href": "https://spb.hh.ru/employer/983791?tab=DESCRIPTION",
+          "href": "https://italycommunity.online/work",
           "target": "_blank"
         },
         {
@@ -99,7 +103,7 @@
         },
         {
           "title": "Work with us",
-          "href": "https://spb.hh.ru/employer/983791?tab=DESCRIPTION",
+          "href": "https://italycommunity.online/work",
           "target": "_blank"
         },
         {
@@ -111,21 +115,21 @@
     }
   },
   "email": {
-    "title": "info@example.com",
-    "href": "mailto:info@example.com"
+    "title": "info@italycommunity.ru",
+    "href": "mailto:info@italycommunity.ru"
   },
   "logo": {
     "white": {
       "src": "data/img/ui/logos/logo-color-1.svg",
-      "alt": "Logo"
+      "alt": "Экосистема итали"
     },
     "black": {
       "src": "data/img/ui/logos/logo-color-2.svg",
-      "alt": "Logo"
+      "alt": "Экосистема итали"
     },
     "color": {
       "src": "data/img/ui/logos/logo-color.svg",
-      "alt": "Logo"
+      "alt": "Экосистема итали"
     }
   },
   "social-channel": {
@@ -183,6 +187,9 @@
   "copyright": {
     "ru": "Все права защищены.",
     "en": "All rights reserved."
+  },
+  "owner": {
+    "ru": "Права на сайт принадлежат ООО «ТЭД» (ИНН 7842232975, ОГРН 1257800112635)."
   },
   "form-callback": {
     "placeholder": {
@@ -282,14 +289,7 @@
       ]
     },
     "en": {
-      "items": [
-        "kids friendly",
-        "with a beautiful view",
-        "italian cuisine",
-        "breakfast",
-        "every day",
-        "pets friendly"
-      ]
+      "items": ["kids friendly", "with a beautiful view", "italian cuisine", "breakfast", "every day", "pets friendly"]
     }
   },
   "icons": {
@@ -356,6 +356,46 @@
         "title": "Accept",
         "class": "button button-sm outline-color-2 button-animated animation-shift uppercase link nowrap js-cookie"
       }
+    }
+  },
+  "restaurant-faq": {
+    "ru": {
+      "where": "Где находится ресторан?",
+      "hours": "Какие часы работы?",
+      "cuisine": "Какая кухня в ресторане?",
+      "contact": "Как забронировать столик или связаться с рестораном?",
+      "price": "Какой средний чек?"
+    }
+  },
+  "organization": {
+    "ru": {
+      "name": "Экосистема итали",
+      "description": "«Итали» — ресторанная группа из Санкт-Петербурга, ранее известная как italy&co.: 17 ресторанов в Петербурге и Москве, а также доставка, банкеты и кейтеринг, программа лояльности и ресторанный консалтинг.",
+      "slogan": "Наполняем смыслом места встреч, где каждый человек чувствует свою ценность",
+      "foundingDate": "2010",
+      "legalName": "ООО «ТЭД»",
+      "taxID": "7842232975",
+      "alternateName": [
+        "italy&co.",
+        "italy&co",
+        "Italy&Co",
+        "Italy & Co",
+        "итали энд ко",
+        "Итали",
+        "Экосистема Итали",
+        "Ресторанная группа «Итали»"
+      ],
+      "areaServed": ["Санкт-Петербург", "Москва"],
+      "founders": ["Михаил Соколов", "Тимур Дмитриев"],
+      "sameAs": ["https://italycommunity.online", "https://italyco.rest"],
+      "knowsAbout": [
+        "итальянская кухня",
+        "рестораны Санкт-Петербурга",
+        "рестораны Москвы",
+        "банкеты и кейтеринг",
+        "ресторанный консалтинг",
+        "гостеприимство"
+      ]
     }
   }
 }

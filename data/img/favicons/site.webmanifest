@@ -1,21 +1,19 @@
 {
-  "name": "MyWebSite",
-  "short_name": "MySite",
+  "name": "Итали",
+  "short_name": "italy",
   "icons": [
     {
-      "src": "/web-app-manifest-192x192.png",
+      "src": "/data/img/favicons/android-chrome-192x192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
+      "type": "image/png"
     },
     {
-      "src": "/web-app-manifest-512x512.png",
+      "src": "/data/img/favicons/android-chrome-512x512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "type": "image/png"
     }
   ],
-  "theme_color": "#000000",
-  "background_color": "#000000",
+  "theme_color": "#C72229",
+  "background_color": "#ffffff",
   "display": "standalone"
 }

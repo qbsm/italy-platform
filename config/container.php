@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Action\ApiFormTokenAction;
 use App\Action\ApiSendAction;
+use App\Action\ApiWidgetRescueAction;
 use App\Action\HealthAction;
 use App\Action\PageAction;
 use App\Action\SitemapAction;
@@ -14,8 +16,18 @@ use App\Middleware\RateLimitMiddleware;
 use App\Middleware\RedirectMiddleware;
 use App\Middleware\RequestDurationMiddleware;
 use App\Middleware\SecurityHeadersMiddleware;
+use App\Notification\Channel\RescueChannel;
+use App\Notification\Channel\CallTouchChannel;
+use App\Notification\Channel\GoogleSheetsChannel;
+use App\Notification\Channel\MailChannel;
+use App\Notification\Channel\TelegramChannel;
+use App\Notification\NotificationDispatcher;
+use App\Security\CaptchaVerifier;
+use App\Support\FormToken;
 use App\Service\DataLoaderService;
+use App\Service\DefaultSeoBuilder;
 use App\Service\MailService;
+use App\Service\EventSeoBuilder;
 use App\Service\RestaurantSeoBuilder;
 use App\Service\SeoBuilderRegistry;
 use App\Twig\AssetExtension;
@@ -35,6 +47,8 @@ use Slim\Views\Twig;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Twig\Extension\DebugExtension;
 use Twig\Extension\StringLoaderExtension;
 
@@ -52,7 +66,7 @@ return static function (): ContainerInterface {
         LoggerInterface::class => static function () use ($settings): LoggerInterface {
             $logDir = (string) ($settings['paths']['logs'] ?? '');
             if ($logDir !== '' && !is_dir($logDir)) {
-                @mkdir($logDir, 0755, true);
+                @mkdir($logDir, 0o755, true);
             }
 
             $logger = new Logger('app');
@@ -72,7 +86,7 @@ return static function (): ContainerInterface {
             $baseDir = (string) $settings['project_root'];
             $baseUrl = rtrim((string) ($_ENV['APP_BASE_URL'] ?? $_SERVER['APP_BASE_URL'] ?? getenv('APP_BASE_URL') ?: ''), '/');
             if ($baseUrl === '') {
-                // За прокси схема приходит в X-Forwarded-Proto; иначе HTTPS-флаг или http
+                // За прокси схема приходит в X-Forwarded-Proto; иначе HTTPS
                 $proto = (string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '');
                 $https = ($proto === 'https' || (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')) ? 'https://' : 'http://';
                 $host = (string) ($_SERVER['HTTP_HOST'] ?? 'localhost');
@@ -80,7 +94,7 @@ return static function (): ContainerInterface {
                 $basePath = $scriptDir === '/' || $scriptDir === '.' ? '' : rtrim($scriptDir, '/');
                 $baseUrl = $https . $host . $basePath;
             }
-            // В production всегда https (иначе mixed content / CSP блокирует ассеты)
+            // В production всегда https для baseUrl (иначе mixed content и CSP блокирует CSS/JS)
             if (($settings['env'] ?? '') === 'production' && str_starts_with($baseUrl, 'http://')) {
                 $baseUrl = 'https://' . substr($baseUrl, 7);
             }
@@ -103,6 +117,7 @@ return static function (): ContainerInterface {
             );
             $env->addGlobal('base_url', $baseUrl);
             $env->addGlobal('global', $global);
+            $env->addGlobal('payment_enabled', (bool) ($settings['payment']['enabled'] ?? false));
 
             return $twig;
         },
@@ -114,9 +129,31 @@ return static function (): ContainerInterface {
         RequestDurationMiddleware::class => \DI\autowire(),
 
         HealthAction::class => \DI\autowire(),
+
+        // SEO Strategy: реестр builder'ов по типу коллекции + DefaultSeoBuilder как fallback.
+        // Deployments расширяют через config-override этого binding'а, добавляя свои Builder'ы:
+        //   SeoBuilderRegistry::class => static fn(ContainerInterface $c) => new SeoBuilderRegistry(
+        //       ['restaurants' => $c->get(RestaurantSeoBuilder::class)],
+        //       $c->get(DefaultSeoBuilder::class),
+        //   ),
+        DefaultSeoBuilder::class => \DI\autowire(),
+        // projectRoot нужен билдерам, чтобы проверить наличие JPEG-версии картинки для соцсетей
+        RestaurantSeoBuilder::class => static fn(ContainerInterface $c) => new RestaurantSeoBuilder(
+            (string) ($c->get('settings')['project_root'] ?? '')
+        ),
+        EventSeoBuilder::class => static fn(ContainerInterface $c) => new EventSeoBuilder(
+            (string) ($c->get('settings')['project_root'] ?? '')
+        ),
+        // Реестр отдаёт null для неизвестного типа — generic-ветку держит сам PageAction.
+        SeoBuilderRegistry::class => static fn(ContainerInterface $c) => new SeoBuilderRegistry([
+            'restaurants' => $c->get(RestaurantSeoBuilder::class),
+            'events' => $c->get(EventSeoBuilder::class),
+        ]),
+
         PageAction::class => \DI\autowire()
             ->constructorParameter('settings', \DI\get('settings'))
-            ->constructorParameter('dispatcher', \DI\get(EventDispatcherInterface::class)),
+            ->constructorParameter('dispatcher', \DI\get(EventDispatcherInterface::class))
+            ->constructorParameter('seoBuilderRegistry', \DI\get(SeoBuilderRegistry::class)),
         SitemapAction::class => \DI\autowire()->constructorParameter('settings', \DI\get('settings')),
         ServerErrorHandler::class => \DI\autowire()->constructorParameter('displayErrorDetails', \DI\get('displayErrorDetails')),
         HttpErrorHandler::class => \DI\autowire()->constructorParameter('errorMap', \DI\get('errorMap')),
@@ -140,19 +177,120 @@ return static function (): ContainerInterface {
             return new Mailer(Transport::fromDsn($dsn));
         },
 
+        \App\Service\TelegramAlertService::class => static fn(ContainerInterface $c) => new \App\Service\TelegramAlertService(
+            $c->get('settings')['alerts'] ?? [],
+            $c->get(LoggerInterface::class),
+        ),
+
         MailService::class => static function (ContainerInterface $c): MailService {
             return new MailService(
                 $c->get(MailerInterface::class),
                 $c->get(LoggerInterface::class),
                 $c->get('settings')['mail'] ?? [],
+                $c->get(\App\Service\TelegramAlertService::class),
             );
         },
 
-        ApiSendAction::class => \DI\autowire(),
-        RestaurantSeoBuilder::class => \DI\autowire(),
-        SeoBuilderRegistry::class => static fn(ContainerInterface $c) => new SeoBuilderRegistry([
-            'restaurants' => $c->get(RestaurantSeoBuilder::class),
-        ]),
+        HttpClientInterface::class => static fn() => HttpClient::create(),
+
+        MailChannel::class => static fn(ContainerInterface $c) => new MailChannel(
+            $c->get(MailService::class),
+            $c->get('settings')['mail'] ?? [],
+        ),
+
+        CallTouchChannel::class => static fn(ContainerInterface $c) => new CallTouchChannel(
+            $c->get(HttpClientInterface::class),
+            $c->get(LoggerInterface::class),
+            $c->get('settings')['calltouch'] ?? [],
+        ),
+
+        TelegramChannel::class => static fn(ContainerInterface $c) => new TelegramChannel(
+            $c->get(HttpClientInterface::class),
+            $c->get(LoggerInterface::class),
+            $c->get('settings')['telegram'] ?? [],
+        ),
+
+        GoogleSheetsChannel::class => static fn(ContainerInterface $c) => new GoogleSheetsChannel(
+            $c->get(HttpClientInterface::class),
+            $c->get(LoggerInterface::class),
+            $c->get('settings')['google_sheets'] ?? [],
+            (string) ($c->get('settings')['project_root'] ?? ''),
+        ),
+
+        RescueChannel::class => static fn(ContainerInterface $c) => new RescueChannel(
+            $c->get(HttpClientInterface::class),
+            $c->get(LoggerInterface::class),
+            $c->get('settings')['rescue'] ?? [],
+        ),
+
+        NotificationDispatcher::class => static fn(ContainerInterface $c) => new NotificationDispatcher(
+            [
+                $c->get(RescueChannel::class),
+                $c->get(MailChannel::class),
+                $c->get(CallTouchChannel::class),
+                $c->get(TelegramChannel::class),
+                $c->get(GoogleSheetsChannel::class),
+            ],
+            $c->get(LoggerInterface::class),
+        ),
+
+        // Секрет подписи живёт в cache и заводится сам: иначе каждый deployment пришлось бы
+        // править вручную, а забытый ключ означал бы неотправляемые формы.
+        FormToken::class => static function (ContainerInterface $c) {
+            $settings = $c->get('settings');
+            $config = (array) ($settings['form_token'] ?? []);
+            $file = (string) ($config['secret_file'] ?? '');
+            $secret = (string) (getenv('APP_SECRET') ?: '');
+
+            if ($secret === '' && $file !== '') {
+                if (is_file($file)) {
+                    $secret = trim((string) file_get_contents($file));
+                }
+                if ($secret === '') {
+                    $secret = bin2hex(random_bytes(32));
+                    @mkdir(dirname($file), 0o775, true);
+                    @file_put_contents($file, $secret, LOCK_EX);
+                    @chmod($file, 0o600);
+                }
+            }
+
+            // Порог «слишком быстро» — общий с ловушкой: две настройки одного смысла рано или
+            // поздно разъезжаются, и тогда токен выдан с одним порогом, а проверен по другому.
+            $guard = (array) ($settings['form_guard'] ?? []);
+
+            return new FormToken(
+                $secret !== '' ? $secret : 'insecure-fallback',
+                (int) ($guard['min_age_sec'] ?? 3),
+                (int) ($config['max_age'] ?? 7200),
+            );
+        },
+
+        CaptchaVerifier::class => static fn(ContainerInterface $c) => new CaptchaVerifier(
+            $c->get(HttpClientInterface::class),
+            $c->get(LoggerInterface::class),
+            $c->get('settings')['captcha'] ?? [],
+        ),
+
+        ApiFormTokenAction::class => \DI\autowire(),
+        ApiSendAction::class => \DI\autowire()
+            ->constructorParameter('formGuard', \DI\factory(static fn($c) => $c->get('settings')['form_guard'] ?? [])),
+        ApiWidgetRescueAction::class => \DI\autowire(),
+        \App\Service\AlfaGateway::class => static fn(ContainerInterface $c) => new \App\Service\AlfaGateway(
+            $c->get('settings')['payment'] ?? [],
+            $c->get(LoggerInterface::class),
+        ),
+        \App\Service\OrderStore::class => static fn(ContainerInterface $c) => new \App\Service\OrderStore(
+            (string) ($c->get('settings')['payment']['orders_dir'] ?? ''),
+            $c->get(LoggerInterface::class),
+        ),
+        \App\Service\CallbackVerifier::class => static fn(ContainerInterface $c) => new \App\Service\CallbackVerifier(
+            (string) ($c->get('settings')['payment']['callback_token'] ?? ''),
+        ),
+        \App\Service\OrderConfirmer::class => \DI\autowire(),
+        \App\Action\PayCreateAction::class => \DI\autowire()
+            ->constructorParameter('settings', \DI\get('settings')),
+        \App\Action\PayReturnAction::class => \DI\autowire(),
+        \App\Action\PayCallbackAction::class => \DI\autowire(),
     ]);
 
     return $builder->build();

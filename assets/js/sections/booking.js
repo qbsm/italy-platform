@@ -1,8 +1,9 @@
 import { onReady } from '../base/init.js';
 
 // Виджет онлайн-бронирования столов Remarked — логика как на старом сайте.
-// Кнопки: .js-button-booking (шапка, все рестораны, выбор в модалке) и .widget__point__N (страница ресторана,
-// текущий ресторан первым). Грузим виджет ЛЕНИВО по первому клику — не тянем ~137 КБ на каждой странице.
+// Кнопки: .js-button-booking (шапка, все рестораны, выбор в модалке) и .widget__point__N (страница
+// ресторана и карточки каталога /restaurants — своя точка первой в списке). Грузим виджет ЛЕНИВО по
+// первому клику — не тянем ~137 КБ на каждой странице.
 // Точки ресторанов (bookingPoint) отдаёт components/remarked-points.twig (#remarked-points).
 onReady(() => {
   const pointsEl = document.getElementById('remarked-points');
@@ -19,22 +20,11 @@ onReady(() => {
     return;
   }
 
-  // Текущий ресторан, если на странице есть кнопка .widget__point__N
-  let currentPoint = null;
-  const pointBtn = document.querySelector('[class*="widget__point__"]');
-  if (pointBtn) {
-    const m = pointBtn.className.match(/widget__point__(\d+)/);
-    if (m) {
-      currentPoint = parseInt(m[1], 10);
-    }
-  }
-
   // Конфиг виджета — как на старом сайте
   const langEn = {
     'en-US': { thanksText: 'Thank you!<br>We are looking forward to your visit!' },
     'ru-RU': {
-      messageBusy:
-        'Oops! Сегодня мы не бронируем онлайн, пожалуйста, позвоните в ресторан и мы поищем свободный стол.',
+      messageBusy: 'Oops! Сегодня мы не бронируем онлайн, пожалуйста, позвоните в ресторан и мы поищем свободный стол.',
       errorMessageBusy:
         'Вы уже забронировали стол на сегодня, если нужно внести изменения в ваш резерв, свяжитесь, пожалуйста, с рестораном',
     },
@@ -96,14 +86,22 @@ onReady(() => {
     if (typeof window.widgetArea !== 'function') return;
     // Шапка — все рестораны
     window.widgetArea({ ...baseCfg, booking: points, button: '.js-button-booking' });
-    // Страница ресторана — текущий ресторан первым
-    if (currentPoint) {
-      const current = points.find((p) => p.point === currentPoint);
-      if (current) {
-        const sorted = [current, ...points.filter((p) => p.point !== currentPoint)];
-        window.widgetArea({ ...baseCfg, booking: sorted, button: `.widget__point__${currentPoint}` });
-      }
-    }
+    // Кнопки конкретных ресторанов: страница ресторана — одна точка, каталог /restaurants — у каждой
+    // карточки своя. Биндим widgetArea на каждую точку, встреченную на странице.
+    const seen = new Set();
+    document.querySelectorAll('[class*="widget__point__"]').forEach((el) => {
+      const m = el.className.match(/widget__point__(\d+)/);
+      if (!m) return;
+      const pt = parseInt(m[1], 10);
+      if (seen.has(pt)) return;
+      seen.add(pt);
+      const current = points.find((p) => p.point === pt);
+      if (!current) return;
+      const sorted = [current, ...points.filter((p) => p.point !== pt)];
+      // requiredSelect выключен: свой ресторан уже выбран первым (как на старом сайте),
+      // плейсхолдер «Выберите ресторан» нужен только в общей модалке шапки
+      window.widgetArea({ ...baseCfg, requiredSelect: false, booking: sorted, button: `.widget__point__${pt}` });
+    });
     watchSuccess();
   };
 

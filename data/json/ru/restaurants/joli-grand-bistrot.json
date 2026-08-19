@@ -22,16 +22,17 @@
         "hours": "09:00–00:00"
       }
     ],
+    "hoursNotes": [
+      "Завтраки до 12:30. Основное меню с 13:00.",
+      "С 12:30 до 13:00 — небольшая пауза на кухне. Команда готовит основное меню к запуску. В это время подаём напитки, десерты и свежую выпечку из нашей пекарни."
+    ],
     "geo": {
       "@type": "GeoCoordinates",
       "latitude": "59.94141",
       "longitude": "30.36109"
     },
     "hasMap": "https://yandex.ru/maps/?pt=30.36109,59.94141&z=17&l=map",
-    "servesCuisine": [
-      "Французская кухня",
-      "Итальянская кухня"
-    ],
+    "servesCuisine": ["Французская кухня", "Итальянская кухня"],
     "priceRange": "₽₽",
     "menuLink": "https://atelierfamily.ru/joli-menu",
     "bookingPoint": "910025"
@@ -42,15 +43,11 @@
       "«Joli» в переводе с французского означает прекрасный. Grand Bistrot — ироничное объяснение нашей задумки соединить формат бистро (простой гастрономии и сервиса) с парадным образом локации и культурным кодом французского шика.",
       "Основная идея, заложенная в этот проект, — воспроизведение атмосферы натурального сада, созданного самой природой, от которого веет чувством тёплой ностальгии.",
       "В Joli также функционируют два внутренних проекта: самобытная пекарня и цветочная лавка с необычными и сезонными композициями."
-    ]
+    ],
+    "blocks": []
   },
   "loyalty": false,
-  "tags": [
-    "с красивым видом",
-    "завтраки",
-    "на каждый день",
-    "можно с животными"
-  ],
+  "tags": ["с красивым видом", "завтраки", "на каждый день", "можно с животными"],
   "covers": [
     {
       "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/1.jpg",
@@ -87,11 +84,11 @@
   ],
   "icons": [
     {
-      "src": "data/img/restaurants/joli-grand-bistrot/icons/icon-color-1.svg",
+      "src": "data/img/restaurants/joli-grand-bistrot/icons/icon-color-1.svg?v=2",
       "alt": "Joli СПб белая иконка"
     },
     {
-      "src": "data/img/restaurants/joli-grand-bistrot/icons/icon-color-2.svg",
+      "src": "data/img/restaurants/joli-grand-bistrot/icons/icon-color-2.svg?v=2",
       "alt": "Joli СПб чёрная иконка"
     }
   ],
@@ -111,6 +108,43 @@
     {
       "role": "Шеф-повар",
       "name": "Павел Скворцов"
+    }
+  ],
+  "metaTitle": "Joli Санкт-Петербург — ресторан-сад на улице Восстания",
+  "faq": [
+    {
+      "q": "Что означает название Joli?",
+      "a": "По-французски joli — «прекрасный». Добавка Grand Bistrot иронично описывает идею: простая кухня бистро в парадной обстановке."
+    },
+    {
+      "q": "Какая кухня в ресторане?",
+      "a": "Французская и итальянская — обе традиции построены на простых продуктах, что подходит формату бистро."
+    },
+    {
+      "q": "Можно ли прийти с собакой?",
+      "a": "Да, Joli — заведение группы, куда пускают с животными."
+    }
+  ],
+  "gallery": [
+    {
+      "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/1.jpg",
+      "alt": "Joli Санкт‑Петербург, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/2.jpg",
+      "alt": "Joli Санкт‑Петербург, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/3.jpg",
+      "alt": "Joli Санкт‑Петербург, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/4.jpg",
+      "alt": "Joli Санкт‑Петербург, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/5.jpg",
+      "alt": "Joli Санкт‑Петербург, Санкт-Петербург"
     }
   ]
 }

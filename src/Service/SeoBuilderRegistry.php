@@ -18,8 +18,7 @@ final class SeoBuilderRegistry
      */
     public function __construct(
         private array $builders = []
-    ) {
-    }
+    ) {}
 
     public function get(string $type): ?SeoBuilderInterface
     {

@@ -1,0 +1,67 @@
+/* Блок вопросов и ответов. Две темы: тёмная по умолчанию и светлая для страниц на белом. */
+
+.faq-block {
+  background-color: var(--color-7);
+  color: var(--color-1);
+  padding-block: 7.2rem;
+}
+
+.faq-block--light {
+  background-color: var(--color-1);
+  color: var(--color-2);
+}
+
+.faq-block__title {
+  font-family: var(--font-1-extended);
+  font-weight: 300;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 3.6rem;
+}
+
+.faq-block__list {
+  margin: 0;
+  max-width: 78ch;
+  border-top: 1px solid rgb(255 255 255 / 14%);
+}
+
+.faq-block--light .faq-block__list {
+  border-top-color: #e2e0de;
+}
+
+.faq-block__item {
+  padding-block: 2.2rem;
+  border-bottom: 1px solid rgb(255 255 255 / 14%);
+}
+
+.faq-block--light .faq-block__item {
+  border-bottom-color: #e2e0de;
+}
+
+.faq-block__q {
+  font-size: 1.7rem;
+  font-weight: 500;
+  line-height: 1.3;
+  margin-bottom: 0.9rem;
+  text-wrap: balance;
+}
+
+.faq-block__a {
+  margin: 0;
+  font-size: 1.55rem;
+  line-height: 1.65;
+  opacity: 0.82;
+  text-wrap: pretty;
+}
+
+.faq-block--light .faq-block__a {
+  opacity: 1;
+  color: #4a4a4a;
+}
+
+@media (width <= 600px) {
+  .faq-block {
+    padding-block: 5.6rem;
+  }
+}

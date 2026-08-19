@@ -1,0 +1,18 @@
+{
+    "event_slug": "uzhin-v-osobnyake",
+    "event_title": "Ужин братьев Мясниковых при свечах",
+    "event_date": "23 августа 19:00",
+    "name": "Тест Клод",
+    "phone": "+79990000000",
+    "email": "llm@ismart.pro",
+    "tickets": 1,
+    "unit_price": 15000,
+    "amount": 1500000,
+    "currency": "643",
+    "request_id": "282e70cd337a17ac4f22b915e23e25a4",
+    "id": "f67bedb30556501d6eeefc87",
+    "status": "pending",
+    "trans_id": "ZkrwguEXSKRQzlR97RypgkeQrSA=",
+    "created_at": 1785225496,
+    "updated_at": 1785225496
+}

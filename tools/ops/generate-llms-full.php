@@ -27,7 +27,7 @@ if (is_readable($configPath)) {
 
 $collections = (array) ($config['collections'] ?? []);
 $title = (string) ($config['title'] ?? 'Platform');
-$intro = (string) ($config['intro'] ?? 'Детальная информация о разделах экосистемы.');
+$intro = (string) ($config['intro'] ?? 'Детальная информация о разделах платформы.');
 
 $globalPath = $dataDir . '/global.json';
 $langs = ['ru'];

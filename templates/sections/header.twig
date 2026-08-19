@@ -1,8 +1,8 @@
 <header class="header js-header{{ page_id != 'index' ? ' header-logo-visible' : '' }}">
   <div class="container">
     <div class="section__item logo-wrap">
-      <a href="/" class="link header__logo">
-        <img src="{{ url('data/img/ui/logos/logo-intro-color.svg') }}" alt="Logo" class="img-responsive">
+      <a href="/" class="link header__logo" aria-label="Экосистема итали">
+        {{ inline_svg('data/img/ui/logos/logo-intro-color.svg', 'header__logo-svg img-responsive') }}
       </a>
     </div>
     <div class="section__item actions-wrap">
@@ -15,7 +15,7 @@
           <span>{{ global.app[lang_code].title }}</span>
           <span>{{ global.app[lang_code].brand }}</span>
         </span>
-        <a href="{{ global.app.href }}" target="_blank" rel="noopener" class="button button-sm bg-color-8 color-2 button-download">
+        <a href="{{ global.app.href }}" target="_blank" rel="noopener" data-ym-goal="app_download" class="button button-sm bg-color-8 color-2 button-download">
           <span>{{ global.app[lang_code].button }}</span>
         </a>
       </div>

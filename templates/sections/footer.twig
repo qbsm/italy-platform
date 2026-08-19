@@ -48,6 +48,11 @@
           <a href="{{ url(global.agree[lang_code].href) }}" class="link footer__disclaimer-link">{{ global.agree[lang_code].title }}</a>
         {% endif %}
       </div>
+      {% if global.owner[lang_code] is defined %}
+        <div class="section__subitem owner-wrap">
+          <span class="footer__owner">{{ global.owner[lang_code] }}</span>
+        </div>
+      {% endif %}
       <div class="section__subitem copyright-wrap">
         {% if global.copyright[lang_code] is defined %}
           <span class="footer__copyright">© 2020-{{ "now"|date("Y") }}. {{ global.copyright[lang_code] }}</span>

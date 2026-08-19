@@ -131,6 +131,22 @@ body:has(.restaurant-detail) {
   }
 }
 
+.restaurant-intro__hours-note {
+  margin: 0;
+  max-width: 52rem;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  opacity: 0.85;
+
+  @media (--lg) {
+    font-size: 1.5rem;
+  }
+}
+
+.restaurant-intro__hours-row + .restaurant-intro__hours-note {
+  margin-top: 0.4rem;
+}
+
 .restaurant-intro__hours-title {
   display: flex;
   align-items: center;
@@ -380,5 +396,30 @@ body:has(.restaurant-detail) {
   @media (--lg) {
     grid-column: span 2;
     aspect-ratio: 16 / 9;
+  }
+}
+
+/* Съёмки у ресторанов разного объёма: где кадров больше шести, широкие акценты
+   растянули бы блок на десяток экранов — там сетка становится ровной и плотнее. */
+.restaurant-about__gallery--dense {
+  /* На телефоне два десятка кадров в одну колонку — это лента на десять экранов,
+     за которой уже не видно ни вопросов гостей, ни соседних ресторанов. */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.8rem;
+
+  @media (--sm) {
+    gap: 1.6rem;
+  }
+
+  @media (--lg) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+.restaurant-about__gallery--dense .restaurant-about__photo:nth-child(3n+1) {
+  @media (--lg) {
+    grid-column: auto;
+    aspect-ratio: 4 / 3;
   }
 }

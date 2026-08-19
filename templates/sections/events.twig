@@ -1,0 +1,32 @@
+<section class="events section">
+  <div class="container">
+    {% if data.heading is defined %}
+      <div class="section__item heading-wrap">
+        {% include 'components/heading.twig' with {'item': data.heading} %}
+      </div>
+    {% endif %}
+    {% if data.lead is defined and data.lead %}
+      <div class="section__item events__lead-wrap">
+        <p class="events__lead">{{ data.lead }}</p>
+      </div>
+    {% endif %}
+
+    {% set eventsList = load_json('data/json/' ~ lang_code ~ '/pages/events.json') %}
+    {% if eventsList and eventsList.items is not empty %}
+      <div class="section__item events__grid">
+        {% for slug in eventsList.items %}
+          {% set event = load_json('data/json/' ~ lang_code ~ '/events/' ~ slug ~ '.json') %}
+          {% if event and (event.visible is not defined or event.visible) %}
+            <div class="section__subitem events__cell">
+              {% include 'components/card-event.twig' with {'item': event} %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="section__item events__empty">
+        <p>Ближайшие события скоро появятся. Следите за анонсами.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>

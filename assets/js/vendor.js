@@ -13,11 +13,10 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import 'swiper/css/effect-fade';
 import 'glightbox/dist/css/glightbox.css';
-import 'animate.css';
 
 // Import JS
 import GLightbox from 'glightbox/dist/js/glightbox.min.js';
-import Inputmask from 'inputmask/dist/inputmask.min.js';
+import Inputmask from 'inputmask/lib/inputmask.js';
 
 // Делаем Swiper доступным глобально
 window.Swiper = Swiper;

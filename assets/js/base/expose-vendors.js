@@ -1,7 +1,7 @@
 import Swiper from 'swiper';
 import GLightbox from 'glightbox';
 import $ from 'jquery';
-import Inputmask from 'inputmask';
+import Inputmask from 'inputmask/lib/inputmask.js';
 
 // Явно присваиваем библиотеки к глобальному объекту window,
 // если они еще не были определены

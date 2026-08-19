@@ -1,0 +1,79 @@
+{# Форма заказа билета на событие. data.event — объект события (event.*), data.button.title — текст кнопки #}
+{% set formId = 'formTicket' ~ random(1000000) %}
+{% set e = data.event | default({}) %}
+{% set d = e.date | default({}) %}
+{% set hasPrice = e.priceFrom is defined and e.priceFrom %}
+<form class="form-callback form-ticket js-form-callback" novalidate method="post" action="" id="{{ formId }}"{% if hasPrice %} data-price="{{ e.priceFrom }}" data-currency="{{ e.currency | default('₽') }}"{% endif %}>
+  <div class="form-callback__container form-ticket__container">
+    {% if e.title is defined and e.title %}
+      <div class="form-callback__item form-ticket-item-summary">
+        <div class="form-ticket__summary">
+          <div class="form-ticket__summary-main">
+            <span class="form-ticket__summary-title">{{ e.title }}</span>
+            <span class="form-ticket__summary-meta">{% if d.day is defined %}{{ d.day }} {{ d.month | default('') }}{% if d.time is defined and d.time %}, {{ d.time }}{% endif %}{% endif %}{% if e.restaurant.name is defined %} · {{ e.restaurant.name }}{% endif %}{% if e.seatsLeft is defined and e.seatsLeft is not null and e.seatsLeft > 0 and e.seatsLeft <= 20 %} · осталось мест: {{ e.seatsLeft }}{% endif %}</span>
+          </div>
+          {% if hasPrice %}
+            <div class="form-ticket__summary-price">
+              <span>участие</span>
+              <b>от {{ e.priceFrom | number_format(0, '', ' ') }} {{ e.currency | default('₽') }}</b>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+    <div class="form-callback__item form-ticket-item-name">
+      <label class="form-ticket__label" for="{{ formId }}Name">Имя</label>
+      <input id="{{ formId }}Name" type="text" class="form-callback__input" name="name" autocomplete="name" placeholder="{{ global['form-callback'].placeholder[lang_code].name }}" aria-required="true">
+    </div>
+    <div class="form-callback__item form-ticket-item-phone">
+      <label class="form-ticket__label" for="{{ formId }}Phone">Телефон</label>
+      <input id="{{ formId }}Phone" type="tel" class="form-callback__input" name="phone" inputmode="tel" autocomplete="tel" placeholder="+7 (999) 123-45-67">
+    </div>
+    <div class="form-callback__item form-ticket-item-email">
+      <label class="form-ticket__label" for="{{ formId }}Email">E-mail</label>
+      <input id="{{ formId }}Email" type="email" class="form-callback__input" name="email" inputmode="email" autocomplete="email" placeholder="{{ global['form-callback'].placeholder[lang_code].email }}" aria-required="true">
+    </div>
+    <div class="form-callback__item form-ticket-item-tickets">
+      <span class="form-ticket__label" id="{{ formId }}TicketsLabel">Количество мест</span>
+      <div class="form-ticket__qty">
+        <button type="button" class="form-ticket__qty-btn js-qty-step" data-step="-1" aria-label="Меньше мест">&minus;</button>
+        <input id="{{ formId }}Tickets" type="number" class="form-callback__input form-ticket__qty-input" name="tickets" value="1" min="1" step="1" inputmode="numeric" aria-labelledby="{{ formId }}TicketsLabel">
+        <button type="button" class="form-ticket__qty-btn js-qty-step" data-step="1" aria-label="Больше мест">+</button>
+      </div>
+    </div>
+    {% if hasPrice %}
+      <div class="form-callback__item form-ticket-item-total">
+        <span class="form-ticket__total" aria-live="polite">Итого <b class="js-ticket-total">от {{ e.priceFrom | number_format(0, '', ' ') }} {{ e.currency | default('₽') }}</b></span>
+      </div>
+    {% endif %}
+    <div class="form-callback__item form-callback-item-policy">
+      <label class="form-callback__custom-checkbox">
+        <input id="{{ formId }}Policy" type="checkbox" name="policy" class="form-callback__checkbox" aria-required="true">
+        <span class="form-callback__checkmark" aria-hidden="true"></span>
+        <span class="form-callback__placeholder">{{ global['form-callback'].label[lang_code].policy }}</span>
+      </label>
+    </div>
+    <div class="form-callback__item form-callback-item-hidden">
+      <input type="hidden" name="event" value="{{ e.title | default('') }}{% if d.day is defined %} — {{ d.day }} {{ d.month | default('') }}{% if d.time is defined %}, {{ d.time }}{% endif %}{% endif %}">
+      <input type="hidden" name="current_url" value="">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token | default('') }}">
+    </div>
+    <div class="form-callback__item button-wrap">
+      <button class="button button-md bg-color-3 color-1 button-rounded uppercase link form-ticket__submit" type="submit">
+        {% if data.button is defined and data.button.title is defined %}
+          {{ data.button.title }}
+        {% else %}
+          Купить билет
+        {% endif %}
+      </button>
+    </div>
+    {% if global['form-callback'].rules[lang_code].policy is defined and global['form-callback'].rules[lang_code].policy %}
+      <div class="form-callback__item form-callback-item-rules rules-wrap">
+        <span class="form-callback__rules">{{ global['form-callback'].rules[lang_code].policy | raw }}</span>
+      </div>
+    {% endif %}
+    <div class="form-callback__item form-callback__error hidden" aria-live="polite" aria-atomic="true">
+      <span id="{{ formId }}Error" class="form-callback__error-text" role="alert" aria-live="assertive">{{ global['form-callback'].error[lang_code].title }}</span>
+    </div>
+  </div>
+</form>

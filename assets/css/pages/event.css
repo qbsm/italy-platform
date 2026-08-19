@@ -1,0 +1,1034 @@
+/* ============================================
+   Page: event detail (страница события)
+   ============================================ */
+
+.event-detail {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-2);
+  color: var(--color-1);
+}
+
+/* ---------- HERO ---------- */
+
+.event-hero {
+  position: relative;
+  min-height: 46rem;
+  display: flex;
+  align-items: flex-end;
+
+  @media (--md) {
+    min-height: 64rem;
+  }
+}
+
+.event-hero__media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--color-7);
+}
+
+.event-hero__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.event-hero__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgb(0 0 0 / 92%) 0%, rgb(0 0 0 / 40%) 40%, rgb(0 0 0 / 10%) 100%);
+}
+
+.event-hero__overlay {
+  position: relative;
+  width: 100%;
+  padding: 4rem 0 4.4rem;
+
+  @media (--md) {
+    padding: 6rem 0 6.4rem;
+  }
+}
+
+.event-hero__content {
+  max-width: 82rem;
+  color: var(--color-1);
+}
+
+.event-hero__eyebrow {
+  display: inline-block;
+  padding: 0.6rem 1.4rem;
+  margin-bottom: 1.8rem;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-2);
+  background: var(--color-1);
+  border-radius: 10rem;
+}
+
+.event-hero__title {
+  font-size: 3.6rem;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+
+  @media (--sm) {
+    font-size: 5.2rem;
+  }
+
+  @media (--lg) {
+    font-size: 6.4rem;
+  }
+}
+
+.event-hero__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem 2.8rem;
+  margin-top: 2.4rem;
+  font-size: 1.6rem;
+
+  @media (--sm) {
+    font-size: 1.8rem;
+  }
+}
+
+.event-hero__fact {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  color: rgb(255 255 255 / 92%);
+}
+
+.event-hero__fact-icon {
+  display: inline-flex;
+  color: inherit;
+  opacity: 0.7;
+}
+
+/* ---------- BODY + STICKY TICKET ---------- */
+
+.event-body {
+  background: var(--color-2);
+}
+
+.event-body__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+
+  @media (--md) {
+    grid-template-columns: minmax(0, 1fr) 36rem;
+    gap: 5rem;
+    align-items: start;
+  }
+}
+
+/* Ритм левой колонки — через gap на родителе (конвенция платформы), без своих margin у блоков.
+   У <p> нет глобального reset — браузерные margin ломают ритм, обнуляем в пределах колонки */
+.event-body__main {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+}
+
+.event-body__main p {
+  margin: 0;
+}
+
+.event-body__intro {
+  display: grid;
+  gap: 1.4rem;
+}
+
+.event-body__place {
+  font-size: 1.4rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-6);
+}
+
+.event-body__lead {
+  font-size: 2rem;
+  line-height: 1.5;
+  font-weight: 500;
+  color: var(--color-1);
+
+  @media (--sm) {
+    font-size: 2.4rem;
+  }
+}
+
+.event-body__text {
+  font-size: 1.7rem;
+  line-height: 1.7;
+  color: var(--color-6);
+}
+
+.event-body__text p + p {
+  margin-top: 1.4rem;
+}
+
+/* ---- Content blocks ---- */
+
+.event-block {
+  margin-top: 0; /* ритм задаёт gap родителя .event-body__main */
+}
+
+.event-block__heading {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--color-6);
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid rgb(255 255 255 / 16%);
+  margin-bottom: 2rem;
+}
+
+/* Программа */
+
+.event-program {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.event-program__item {
+  display: flex;
+  gap: 2rem;
+  padding: 1.4rem 0;
+  border-bottom: 1px solid rgb(255 255 255 / 16%);
+  font-size: 1.7rem;
+}
+
+.event-program__item:last-child {
+  border-bottom: 0;
+}
+
+.event-program__time {
+  flex-shrink: 0;
+  min-width: 6rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-1);
+}
+
+.event-program__title {
+  color: var(--color-6);
+}
+
+/* В стоимость входит — список с тематическими иконками */
+
+.event-includes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.4rem 3rem;
+}
+
+.event-includes__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.2rem;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  color: var(--color-1);
+}
+
+.event-includes__mark {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  color: var(--color-2);
+  background: var(--color-1);
+}
+
+/* Крупные заголовки разделов и акцентные абзацы (референс vechervosobnyake-italy.ru) */
+
+.event-body__section {
+  display: grid;
+  gap: 1.6rem;
+}
+
+.event-h2 {
+  display: block; /* глобальный reset делает h1-h6 inline-block — бокс сжимается и text-align:center не центрирует по колонке */
+  width: 100%;
+  font-family: var(--font-1-extended);
+  font-size: 2em;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0;
+
+  @media (--sm) {
+    font-size: 2.57em;
+  }
+}
+
+
+.event-accent {
+  margin: 0;
+  text-align: center;
+  font-size: 1.43em;
+  line-height: 1.65;
+
+  @media (--sm) {
+    font-size: 1.57em;
+  }
+}
+
+.event-accent p {
+  max-width: 66ch;
+  margin: 0 auto;
+}
+
+.event-accent::before,
+.event-accent::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin: 0 auto;
+  background: var(--color-border);
+}
+
+.event-accent::before { margin-bottom: 2.4rem; }
+.event-accent::after { margin-top: 2.4rem; }
+
+/* Меню вечера — по референсу лендинга vechervosobnyake-italy.ru:
+   тёмный фон страницы, светлый текст, центрированные заголовки с золотыми линиями */
+
+.event-menu {
+  display: grid;
+  gap: 1.6rem;
+}
+
+.event-menu__intro {
+  font-size: 1.21em;
+  line-height: 1.7;
+  color: var(--color-6);
+}
+
+.event-menu__groups {
+  display: grid;
+  gap: 3.6rem;
+}
+
+.event-menu__group {
+  text-align: center;
+}
+
+.event-menu__group-title {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  margin: 0 0 1.8rem;
+  font-family: var(--font-1-extended);
+  font-size: 1.5em;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--color-1);
+  white-space: nowrap;
+}
+
+.event-menu__group-title::before,
+.event-menu__group-title::after {
+  content: "";
+  flex: 1 1 0;
+  height: 1px;
+  background: #c44c01;
+}
+
+.event-menu__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1.1rem;
+  justify-items: center;
+}
+
+.event-menu__item {
+  max-width: 46ch;
+  line-height: 1.5;
+  color: var(--color-1);
+}
+
+.event-menu__more {
+  display: contents; /* группы наследуют сетку .event-menu__groups */
+}
+
+.event-menu__more[hidden] {
+  display: none;
+}
+
+.event-menu__toggle {
+  justify-self: center;
+  padding: 1.2rem 2.8rem;
+  background: none;
+  border: 1px solid #c44c01;
+  border-radius: 2.4rem;
+  color: var(--color-1);
+  font: inherit;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--transition-1);
+}
+
+.event-menu__toggle:hover {
+  border-color: var(--color-3);
+  background: rgb(230 89 1 / 10%);
+}
+
+.event-menu__full {
+  display: inline-block;
+  color: var(--color-1);
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
+/* Галерея */
+
+.event-gallery {
+  /* асимметричная сетка: узкая (портрет) + широкая (ландшафт), затем слайд во всю ширину */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+
+  @media (--sm) {
+    grid-template-columns: 2fr 3fr;
+    gap: 1.6rem;
+  }
+}
+
+.event-gallery__figure {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 1.2rem;
+  height: 32rem;
+
+  @media (--sm) {
+    height: 52rem;
+  }
+}
+
+.event-gallery__figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition-2);
+}
+
+.event-gallery__figure:hover img {
+  transform: scale(1.05);
+}
+
+/* каждый третий слайд (карта прохода) — самостоятельный центрированный блок
+   с естественными пропорциями изображения, как на референсе */
+.event-gallery__figure:nth-child(3n) {
+  grid-column: 1 / -1;
+  height: auto;
+  aspect-ratio: auto;
+  max-width: 72rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.event-gallery__figure:nth-child(3n) img {
+  height: auto;
+  object-fit: unset;
+}
+
+.event-gallery__figure .glightbox {
+  /* инлайновая ссылка не даёт высоту img — растягиваем на весь figure */
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.event-gallery__figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition-2);
+}
+
+.event-gallery__figure:hover img {
+  transform: scale(1.05);
+}
+
+/* ---- Sticky ticket card ---- */
+
+/* На мобиле карточка дублирует форму брони (сводка+CTA) — показываем только на десктопе */
+.event-ticket {
+  display: none;
+
+  @media (--md) {
+    /* липкая шапка 12rem высотой + воздух */
+    display: block;
+    position: sticky;
+    top: 14.4rem;
+  }
+}
+
+.event-ticket__card {
+  padding: 2.6rem 2.4rem;
+  background: var(--color-7);
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 1.8rem;
+}
+
+.event-ticket__date {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgb(255 255 255 / 16%);
+}
+
+.event-ticket__date-day {
+  font-family: var(--font-1);
+  font-weight: 600;
+  font-size: 4.4rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-1);
+}
+
+.event-ticket__date-rest {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.event-ticket__date-month {
+  font-size: 1.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-1);
+}
+
+.event-ticket__date-weekday {
+  font-size: 1.4rem;
+  color: var(--color-6);
+}
+
+.event-ticket__facts {
+  list-style: none;
+  margin: 0 0 2rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.event-ticket__facts li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.6rem;
+  font-size: 1.5rem;
+}
+
+.event-ticket__facts span {
+  color: var(--color-6);
+}
+
+.event-ticket__facts b {
+  font-weight: 500;
+  text-align: right;
+  color: var(--color-1);
+}
+
+.event-ticket__seats {
+  font-weight: 600;
+}
+
+.event-ticket__price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  padding: 1.8rem 0;
+  margin-bottom: 1.8rem;
+  border-top: 1px solid rgb(255 255 255 / 16%);
+  border-bottom: 1px solid rgb(255 255 255 / 16%);
+}
+
+.event-ticket__price-label {
+  font-size: 1.4rem;
+  color: var(--color-6);
+}
+
+.event-ticket__price-value {
+  font-weight: 600;
+  font-size: 2.8rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-1);
+}
+
+.event-ticket__price-value--tba {
+  font-size: 1.7rem;
+  font-weight: 500;
+  color: var(--color-6);
+}
+
+.event-ticket__cta {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+/* Длинный текст («В лист ожидания» и т.п.) не ломает кнопку фикс-высоты */
+.event-ticket__cta.button {
+  height: auto;
+  min-height: 5rem;
+  padding-block: 1.2rem;
+  text-align: center;
+}
+
+.event-ticket__share {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  width: 100%;
+  margin-top: 1.2rem;
+  padding: 1rem;
+  font-size: 1.4rem;
+  color: var(--color-6);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: var(--transition-1);
+}
+
+.event-ticket__share:hover {
+  color: var(--color-1);
+}
+
+/* ---------- Оформление ---------- */
+
+.event-buy {
+  background: var(--color-2);
+  color: var(--color-1);
+  padding-top: 0; /* .section даёт 6rem сверху, а event-body уже даёт 6rem снизу — двойной зазор */
+}
+
+/* заголовок, подводка и форма — по центру ЛЕВОЙ колонки двухколоночного блока выше
+   (контент сужается на ширину aside 36rem + gap 5rem) */
+.event-buy .container {
+  display: grid;
+  gap: 3.2rem;
+}
+
+.event-buy .heading-wrap {
+  text-align: center;
+  display: grid;
+  gap: 1.4rem;
+}
+
+@media (--md) {
+  .event-buy .section__item {
+    width: calc(100% - 41rem);
+  }
+
+  /* карточку формы центрируем по той же левой колонке:
+     max-width+margin:auto центрировали её по всему контейнеру */
+  .event-buy .event-buy__form {
+    margin-left: max(0rem, calc((100% - 41rem - 76rem) / 2));
+    margin-right: 0;
+    margin-top: 0;
+  }
+}
+
+.event-buy__heading {
+  font-family: var(--font-1-extended);
+  font-size: 2em;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+
+  @media (--sm) {
+    font-size: 2.57em;
+  }
+}
+
+.event-buy__sub {
+  max-width: 72ch;
+  margin: 0 auto;
+  font-size: 1.14em;
+  line-height: 1.6;
+  color: var(--color-6);
+}
+
+/* Панель формы — как карточка билета в aside */
+
+.event-buy__form {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 2.4rem 2rem;
+  background: var(--color-7);
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 1.8rem;
+
+  @media (--sm) {
+    padding: 3.2rem 3.6rem;
+  }
+}
+
+/* Тёмная форма: поля-боксы с видимыми лейблами */
+
+.event-buy .form-callback .form-callback__input {
+  padding: 1.3rem 1.6rem;
+  color: var(--color-1);
+  caret-color: var(--color-1);
+  background-color: rgb(255 255 255 / 6%);
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 1rem;
+  transition: var(--transition-1);
+}
+
+.event-buy .form-callback .form-callback__input::placeholder {
+  color: rgb(255 255 255 / 55%);
+  opacity: 1;
+}
+
+.event-buy .form-callback .form-callback__input:focus {
+  background-color: rgb(255 255 255 / 9%);
+  border-color: rgb(255 255 255 / 60%);
+}
+
+.event-buy .form-callback__item.error .form-callback__input {
+  border-color: var(--color-error);
+}
+
+.form-ticket__label {
+  display: block;
+  margin-bottom: 0.7rem;
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+  color: var(--color-6);
+}
+
+/* Сводка: что бронируем */
+
+.form-ticket__summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.6rem 2.4rem;
+  flex-wrap: wrap;
+  padding-bottom: 1.8rem;
+  border-bottom: 1px solid rgb(255 255 255 / 16%);
+}
+
+.form-ticket__summary-title {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.form-ticket__summary-meta {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 1.4rem;
+  color: var(--color-6);
+}
+
+.form-ticket__summary-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.2;
+}
+
+.form-ticket__summary-price span {
+  font-size: 1.2rem;
+  color: var(--color-6);
+}
+
+.form-ticket__summary-price b {
+  font-weight: 600;
+  font-size: 1.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Итого — лейбл и цена по базовой линии */
+
+.form-ticket__total {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  font-size: 1.5rem;
+  color: var(--color-6);
+}
+
+.form-ticket__total b {
+  vertical-align: baseline;
+  font-weight: 600;
+  font-size: 2rem;
+  color: var(--color-1);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Кнопка — денежное действие на всю ширину */
+
+.event-buy .form-ticket__submit {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Сообщение об успехе на тёмном */
+
+.event-buy .form-callback__success-title {
+  color: var(--color-1);
+}
+
+.event-buy .form-callback__success-text {
+  color: var(--color-6);
+}
+
+.event-buy .form-callback .form-callback__select {
+  background-image: url("/data/img/ui/icons/icon-triangle-down-color-1.svg");
+  background-repeat: no-repeat;
+  background-position: right 1.4rem center;
+  background-size: 1rem 1rem;
+  padding-right: 3.8rem;
+}
+
+.event-buy .form-callback .form-callback__select:invalid {
+  color: rgb(255 255 255 / 55%);
+}
+
+.event-buy .form-callback .form-callback__select option {
+  color: var(--color-2);
+  background: var(--color-1);
+}
+
+.event-buy .form-callback__custom-checkbox .form-callback__checkmark {
+  border-color: var(--color-1);
+}
+
+.event-buy .form-callback__checkmark::after {
+  background: var(--color-1);
+}
+
+.event-buy .form-callback__placeholder {
+  color: var(--color-6);
+}
+
+.event-buy .form-callback__rules {
+  color: var(--color-6);
+}
+
+.event-buy .form-callback__input:focus-visible,
+.event-buy .form-callback .form-callback__checkbox:focus-visible + .form-callback__checkmark,
+.event-buy .form-callback button:focus-visible {
+  outline-color: var(--color-1);
+}
+
+/* Форма заказа билета: свои grid-области поверх базовой формы */
+
+.form-ticket__container {
+  gap: 1.8rem;
+  grid-template-areas:
+    "summary"
+    "name"
+    "phone"
+    "email"
+    "tickets"
+    "total"
+    "button"
+    "policy"
+    "rules"
+    "error";
+
+  @media (--sm) {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2.4rem;
+    grid-template-areas:
+      "summary summary"
+      "name phone"
+      "email tickets"
+      "total total"
+      "button button"
+      "policy policy"
+      "rules rules"
+      "error error";
+  }
+}
+
+.form-callback__item.form-ticket-item-summary {
+  grid-area: summary;
+}
+
+.form-callback__item.form-ticket-item-total {
+  grid-area: total;
+}
+
+.form-callback__item.form-ticket-item-name {
+  grid-area: name;
+}
+
+.form-callback__item.form-ticket-item-phone {
+  grid-area: phone;
+}
+
+.form-callback__item.form-ticket-item-email {
+  grid-area: email;
+}
+
+.form-callback__item.form-ticket-item-tickets {
+  grid-area: tickets;
+}
+
+/* Приписка про оплату: во всю ширину формы, крупнее */
+.form-callback__item.form-ticket-pay-note {
+  grid-column: 1 / -1;
+}
+
+.form-ticket-pay-note .form-callback__rules {
+  font-size: 0.93em;
+  line-height: 1.5;
+}
+
+/* Количество мест: степпер −/+ */
+
+.form-ticket__qty {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0.6rem;
+  background: rgb(255 255 255 / 6%);
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 1rem;
+}
+
+.form-ticket__qty-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--color-1);
+  background: transparent;
+  border: 1px solid rgb(255 255 255 / 25%);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transition-1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .form-ticket__qty-btn:hover {
+    background: var(--color-1);
+    color: var(--color-2);
+  }
+}
+
+.form-ticket__qty-btn:disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.event-buy .form-callback .form-ticket__qty-input {
+  width: 6rem;
+  padding: 0.4rem 0;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  appearance: textfield;
+}
+
+.form-ticket__qty-input::-webkit-outer-spin-button,
+.form-ticket__qty-input::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+#page-content:has(.event-detail) {
+  background: var(--color-2);
+}
+
+/* ---------- Mobile sticky bar ---------- */
+
+.event-stickybar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-index-3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.6rem;
+  padding: 1.2rem 1.6rem calc(1.2rem + env(safe-area-inset-bottom));
+  background: var(--color-7);
+  border-top: 1px solid rgb(255 255 255 / 14%);
+  transform: translateY(0);
+  transition: var(--transition-1);
+
+  @media (--md) {
+    display: none;
+  }
+}
+
+.event-stickybar.is-hidden {
+  transform: translateY(120%);
+}
+
+.event-stickybar__price {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.event-stickybar__label {
+  font-size: 1.2rem;
+  color: var(--color-6);
+}
+
+.event-stickybar__value {
+  font-weight: 600;
+  font-size: 1.9rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-1);
+}
+
+.event-stickybar__cta {
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-event,
+  .card-event__img,
+  .event-gallery__figure img,
+  .event-stickybar {
+    transition: none;
+  }
+}

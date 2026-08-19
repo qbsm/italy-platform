@@ -19,7 +19,13 @@
           <div class="swiper-wrapper">
             {% for cover in restaurant.covers %}
               <div class="swiper-slide">
-                <img src="{{ url(cover.src) }}" alt="{{ cover.alt|default(r.name) }}" class="img-responsive" loading="{{ loop.first ? 'eager' : 'lazy' }}">
+                {% include 'components/picture.twig' with {
+                  image: cover,
+                  alt: cover.alt|default(r.name),
+                  class: 'img-responsive',
+                  sizes_preset: 'hero',
+                  loading: loop.first ? 'eager' : 'lazy'
+                } only %}
               </div>
             {% endfor %}
           </div>
@@ -42,22 +48,34 @@
                 {% endif %}
               </div>
 
-              {% if r.openingHours is defined and r.openingHours|length > 0 %}
+              {% set _hours = r.openingHours | default([]) %}
+              {% if r.openingHoursFrom is defined and ("now"|date("Ymd")) >= (r.openingHoursFrom.date|date("Ymd")) %}
+                {% set _hours = r.openingHoursFrom.list %}
+              {% endif %}
+              {% if _hours|length > 0 %}
                 <div class="restaurant-intro__hours">
                   <div class="restaurant-intro__hours-title">
                     <span class="restaurant-intro__hours-icon" aria-hidden="true"></span>
                     <span>Часы работы:</span>
                   </div>
-                  {% for h in r.openingHours %}
+                  {% for h in _hours %}
                     <div class="restaurant-intro__hours-row">{{ h.days }}: {{ h.hours }}</div>
                   {% endfor %}
+                  {% if r.hoursNotes is defined and r.hoursNotes|length > 0 %}
+                    {% for note in r.hoursNotes %}
+                      <p class="restaurant-intro__hours-note">{{ note }}</p>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               {% endif %}
 
-              {% if r.bookingPoint is defined or r.menuLink is defined %}
+              {% if r.bookingPoint is defined or r.menuLink is defined or r.barMenuLink is defined %}
                 <div class="restaurant-intro__actions">
                   {% if r.menuLink is defined and r.menuLink %}
-                    <a href="{{ r.menuLink }}" target="_blank" rel="noopener noreferrer" class="button button-md outline-color-1 color-1 uppercase link">Меню</a>
+                    <a href="{{ r.menuLink }}" target="_blank" rel="noopener noreferrer" data-ym-goal="menu_click" class="button button-md outline-color-1 color-1 uppercase link">Меню</a>
+                  {% endif %}
+                  {% if r.barMenuLink is defined and r.barMenuLink %}
+                    <a href="{{ r.barMenuLink }}" target="_blank" rel="noopener noreferrer" class="button button-md outline-color-1 color-1 uppercase link">Барная карта</a>
                   {% endif %}
                   {% if r.bookingPoint is defined and r.bookingPoint %}
                     <button type="button" class="button button-md bg-color-1 color-2 uppercase link widget__point__{{ r.bookingPoint }}">Забронировать</button>
@@ -97,11 +115,10 @@
           {% set descParas = restaurant.desc.full is iterable ? restaurant.desc.full : [restaurant.desc.full] %}
           <div class="section__item desc-wrap">
             {% for para in descParas %}
-              <p class="restaurant-about__col">{{ para }}</p>
+              <p class="restaurant-about__col">{{ para|raw }}</p>
             {% endfor %}
           </div>
         {% endif %}
-
 
         {% if restaurant.staff is defined and restaurant.staff|length > 0 %}
           <div class="section__item restaurant-about__staff">
@@ -119,18 +136,95 @@
 
         {% set galleryItems = restaurant.gallery|default(restaurant.covers|default([])) %}
         {% if galleryItems|length > 0 %}
-          <div class="section__item restaurant-about__gallery" id="restaurantGallery">
-            {% for img in galleryItems|slice(0, 4) %}
+          <div class="section__item restaurant-about__gallery{{ galleryItems|length > 6 ? ' restaurant-about__gallery--dense' : '' }}" id="restaurantGallery">
+            {% for img in galleryItems %}
+              {# Во весь экран открываем собранный webp, а не исходник: raw лежит не у каждого
+                 кадра, а где лежит — весит в разы больше. #}
+              {% set fullSrc = image_largest(img.src)|default(img.src) %}
               <figure class="restaurant-about__photo">
-                <a href="{{ url(img.src) }}" class="glightbox link" data-gallery="restaurant-gallery">
-                  <img src="{{ url(img.src) }}" alt="{{ img.alt|default(r.name) }}" loading="lazy">
+                <a href="{{ url(fullSrc) }}" class="glightbox link" data-gallery="restaurant-gallery"
+                   aria-label="{{ img.alt|default(r.name) }}">
+                  {% include 'components/picture.twig' with {
+                    image: img,
+                    alt: img.alt|default(r.name),
+                    class: '',
+                    sizes_preset: 'card',
+                    loading: 'lazy'
+                  } only %}
                 </a>
               </figure>
             {% endfor %}
           </div>
         {% endif %}
+
+        {# Справка для поиска и ИИ-ответов: подробности и вопросы гостей — ниже галереи,
+           чтобы не растягивать основной рассказ о ресторане. #}
+        {# Развёрнутый рассказ блоками: подзаголовки нужны и читателю, и поиску —
+           сплошное полотно на 500 слов не читают. #}
+        {% if restaurant.desc.blocks is defined and restaurant.desc.blocks|length > 0 %}
+          <div class="section__item restaurant-story">
+            {% for block in restaurant.desc.blocks %}
+              <div class="restaurant-story__block">
+                {% if block.heading is defined %}
+                  <h2 class="restaurant-story__heading">{{ block.heading }}</h2>
+                {% endif %}
+                {% for para in (block.text is iterable ? block.text : [block.text]) %}
+                  <p class="restaurant-story__text">{{ para|raw }}</p>
+                {% endfor %}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {# Вопросы гостей: самый цитируемый ИИ-моделями формат, ответ — первым предложением #}
+        {% if restaurant.faq is defined and restaurant.faq|length > 0 %}
+          <div class="section__item restaurant-faq">
+            <h2 class="restaurant-faq__heading uppercase">Частые вопросы</h2>
+            <dl class="restaurant-faq__list">
+              {% for qa in restaurant.faq %}
+                <div class="restaurant-faq__item">
+                  <dt class="restaurant-faq__q">{{ qa.q }}</dt>
+                  <dd class="restaurant-faq__a">{{ qa.a|raw }}</dd>
+                </div>
+              {% endfor %}
+            </dl>
+          </div>
+        {% endif %}
+
+
       </div>
     </section>
+
+    {# Соседи по городу: карточки группы между собой не связаны, а гость обычно выбирает
+       из нескольких мест рядом. Заодно распределяет вес по внутренним страницам. #}
+    {% set _city = r.address.addressLocality | default('') %}
+    {% set _all = load_json('data/json/' ~ lang_code ~ '/pages/restaurants.json') %}
+    {% set _nearby = (_all.items | default([]))
+      | map(s => (load_json('data/json/' ~ lang_code ~ '/restaurants/' ~ s ~ '.json') | default({})) | merge({'slug': s}))
+      | filter(e => e.visible | default(false)
+          and e.restaurant is defined
+          and e.slug != restaurant.slug
+          and (e.restaurant.address.addressLocality | default('')) == _city)
+      | slice(0, 4) %}
+
+    {% if _nearby is not empty %}
+      <section class="restaurant-detail__item restaurant-nearby section">
+        <div class="container-md">
+          <h2 class="restaurant-nearby__heading uppercase">Ещё в городе {{ _city }}</h2>
+          <ul class="restaurant-nearby__list">
+            {% for near in _nearby %}
+              <li class="restaurant-nearby__item">
+                <a href="{{ url('/restaurants/' ~ near.slug) }}" class="restaurant-nearby__link link">
+                  <span class="restaurant-nearby__name">{{ near.restaurant.name }}</span>
+                  <span class="restaurant-nearby__desc">{{ near.desc.short | default(near.restaurant.address.streetAddress | default('')) }}</span>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+          <a href="{{ url('/restaurants') }}" class="restaurant-nearby__all link">Все рестораны группы</a>
+        </div>
+      </section>
+    {% endif %}
 
   </main>
   {% include 'sections/footer.twig' with {'data': {

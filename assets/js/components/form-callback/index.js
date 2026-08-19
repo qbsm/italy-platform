@@ -1,8 +1,12 @@
 import { FormApi } from './api.js';
+import { primeFormToken, primeAllTokenFields, ensureFormToken, refreshFormToken } from './token.js';
+import { formTitle } from './form-title.js';
 import { FormValidator } from './validation.js';
+import { PhoneMask } from './mask.js';
 import { FormUI } from './ui.js';
 import { I18n, resolveLang } from './i18n.js';
-import { DEFAULT_ERROR_TEXTS, DEFAULT_LANG } from './constants.js';
+import { COUNTRY_CODES, DEFAULT_ERROR_TEXTS, DEFAULT_LANG } from './constants.js';
+import { normalizePhone } from './validation.js';
 
 export class CallbackForm {
   constructor(formElement, config = {}) {
@@ -13,16 +17,19 @@ export class CallbackForm {
     this.i18n = new I18n(config.messages || {}, this.lang);
     this.validator = new FormValidator(this.form, this.i18n);
     this.ui = new FormUI(formElement, this.i18n);
-    this.mask = null;
+    this.mask = new PhoneMask(formElement.querySelector('input[name="phone"]'), this.lang, COUNTRY_CODES);
     this.isSubmitting = false;
     this.abortController = null;
     this._boundHandleSubmit = this._handleSubmit.bind(this);
     this._boundHandleInput = this._handleInput.bind(this);
     this._boundHandlePolicyChange = this._handlePolicyChange.bind(this);
+    this._boundHandleFileChange = this._handleFileChange.bind(this);
   }
 
   init() {
+    this.mask.init();
     this._setCurrentUrl();
+    primeFormToken(this.form);
     this.form.addEventListener('submit', this._boundHandleSubmit);
     this.form.addEventListener('input', this._boundHandleInput);
 
@@ -30,6 +37,11 @@ export class CallbackForm {
     if (policyField) {
       policyField.addEventListener('change', this._boundHandlePolicyChange);
     }
+
+    // Обработка file-инпутов
+    this.form.querySelectorAll('.form-callback__file-input').forEach((fileInput) => {
+      fileInput.addEventListener('change', this._boundHandleFileChange);
+    });
 
     this.form.dataset.callbackFormInitialized = '1';
   }
@@ -39,12 +51,16 @@ export class CallbackForm {
     if (policyField) {
       policyField.removeEventListener('change', this._boundHandlePolicyChange);
     }
+    this.form.querySelectorAll('.form-callback__file-input').forEach((fileInput) => {
+      fileInput.removeEventListener('change', this._boundHandleFileChange);
+    });
     this.form.removeEventListener('submit', this._boundHandleSubmit);
     this.form.removeEventListener('input', this._boundHandleInput);
     if (this.abortController) {
       this.abortController.abort();
       this.abortController = null;
     }
+    this.mask.destroy();
     delete this.form.dataset.callbackFormInitialized;
   }
 
@@ -62,13 +78,14 @@ export class CallbackForm {
       Object.keys(validation.errors).forEach((fieldName) => {
         const field = this.form.querySelector(`[name="${fieldName}"]`);
         if (field) {
-          const fieldToMark = fieldName === 'policy' ? field.closest('.form-callback__item') || field : field;
+          const fieldToMark = fieldName === 'policy' ? field.closest('.form-callback__field') || field : field;
           this.ui.markFieldAsError(fieldToMark);
         }
       });
       this.ui.showFormError(
         validation.firstError || this.i18n.get('error', 'form_errors', DEFAULT_ERROR_TEXTS[this.lang].form_errors)
       );
+      this._reportOutcome('validation_failed', validation.firstError || '');
       return;
     }
 
@@ -80,7 +97,11 @@ export class CallbackForm {
     try {
       this._setCurrentUrl();
       const formData = this._buildFormData();
-      const response = await this.api.send(formData, this.abortController.signal);
+      if (this.form.dataset.ismartSession) {
+        formData.set('idempotency_key', this.form.dataset.ismartSession);
+      }
+      await ensureFormToken(formData, this.form);
+      const response = await this._sendWithRetry(formData);
 
       if (response.processing === true) {
         this._handleSuccess(formData, {
@@ -96,12 +117,22 @@ export class CallbackForm {
       hasSucceeded = true;
     } catch (error) {
       if (error && error.name === 'AbortError') {
+        this._reportOutcome('network_error', 'timeout');
         return;
       }
+
+      const status = error && typeof error.status === 'number' ? error.status : null;
+      let outcome = 'js_error';
+      if (status === 0) outcome = 'network_error';
+      else if (status) outcome = `http_${status}`;
+      this._reportOutcome(outcome, (error && error.message) || '');
 
       this._handleError(error);
     } finally {
       this.isSubmitting = false;
+      if (hasSucceeded) {
+        this._reportOutcome('sent');
+      }
       if (!hasSucceeded) {
         this.ui.setErrorState();
       }
@@ -109,12 +140,18 @@ export class CallbackForm {
     }
   }
 
+  _reportOutcome(outcome, error = '') {
+    this.form.dispatchEvent(new CustomEvent('ismart:send-result', { bubbles: true, detail: { outcome, error } }));
+  }
+
   _handleInput(event) {
     const target = event.target;
     if (!(target instanceof HTMLElement)) {
       return;
     }
-    const field = target.closest('input[name="email"], input[name="name"], input[name="city"]');
+    const field = target.closest(
+      '.form-callback__control, .form-callback__file-input, .form-callback__checkbox-input, .form-callback__radio-input'
+    );
     if (field) {
       this.ui.clearFieldError(field);
     }
@@ -126,9 +163,40 @@ export class CallbackForm {
       return;
     }
     if (target.checked) {
-      const container = target.closest('.form-callback__item') || target;
+      const container = target.closest('.form-callback__field') || target;
       this.ui.clearFieldError(container);
     }
+  }
+
+  _handleFileChange(event) {
+    const input = event.target;
+    if (!(input instanceof HTMLInputElement) || input.type !== 'file') {
+      return;
+    }
+
+    // Очищаем ошибку поля
+    this.ui.clearFieldError(input);
+
+    // Обновляем список файлов
+    const fieldContainer = input.closest('.form-callback__field');
+    const fileList = fieldContainer ? fieldContainer.querySelector('.js-file-list') : null;
+    if (!fileList) {
+      return;
+    }
+
+    fileList.textContent = '';
+
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
+
+    Array.from(input.files).forEach((file) => {
+      const item = document.createElement('span');
+      item.className = 'form-callback__file-item';
+      const sizeMb = (file.size / 1024 / 1024).toFixed(1);
+      item.textContent = `${file.name} (${sizeMb} МБ)`;
+      fileList.appendChild(item);
+    });
   }
 
   _setCurrentUrl() {
@@ -138,11 +206,55 @@ export class CallbackForm {
     }
   }
 
+  /**
+   * Заявка не должна теряться из-за нашей же защиты: если сервер не принял токен (вкладка
+   * висела сутки, токен просрочен, ответ на выдачу не дошёл), берём свежий, выжидаем
+   * положенный возраст и отправляем ещё раз. Ключ идемпотентности тот же, дубля не будет.
+   */
+  async _sendWithRetry(formData) {
+    try {
+      return await this.api.send(formData, this.abortController.signal);
+    } catch (error) {
+      if (!error || error.code !== 'TOKEN_INVALID') throw error;
+
+      const token = await refreshFormToken();
+      if (!token) throw error;
+
+      formData.set('form_token', token);
+      const wait = Number(error.retryAfter) > 0 ? Number(error.retryAfter) : 3;
+      await new Promise((resolve) => setTimeout(resolve, (wait + 0.5) * 1000));
+      return this.api.send(formData, this.abortController.signal);
+    }
+  }
+
   _buildFormData() {
     const formData = new FormData(this.form);
+    const phoneField = this.form.querySelector('input[name="phone"]');
+    if (phoneField) {
+      // Номер берём из скрытого поля, которое ведёт маска: там цифры, посчитанные из того же
+      // ввода, что и показанный формат. Разбирать показанное второй раз на сервере — значит
+      // держать второй разборщик, который рано или поздно разойдётся с первым.
+      const digits = String(formData.get('phone_digits') || '');
+      formData.set('phone', digits || normalizePhone(phoneField.value));
+      // Показанное едет рядом и дальше приёмника не идёт: по расхождению с цифрами видно,
+      // что поле меняли мимо маски, — иначе про такое узнаёшь от заказчика.
+      formData.set('phone_shown', phoneField.value);
+      formData.delete('phone_digits');
+    }
 
     const policyField = this.form.querySelector('input[name="policy"]');
     formData.set('policy', policyField && policyField.checked ? 'on' : 'off');
+
+    // Форму могли открыть не кнопкой — тогда названия неоткуда взяться, и в заявке остаётся
+    // пустая графа. Подставляем то, что видит человек: заголовок модалки или секции.
+    const named = ['form_name', 'source', 'subject'].some((key) => {
+      const value = formData.get(key);
+      return typeof value === 'string' && value.trim() !== '';
+    });
+    if (!named) {
+      const title = formTitle(this.form);
+      if (title) formData.set('form_name', title);
+    }
 
     formData.set('lang', this.lang);
 
@@ -169,6 +281,7 @@ export class CallbackForm {
     );
 
     this.form.reset();
+    this.mask.reset();
     this.ui.clearErrors();
     this.ui.setSuccessState();
   }
@@ -183,7 +296,7 @@ export class CallbackForm {
       Object.entries(error.errors).forEach(([fieldName]) => {
         const field = this.form.querySelector(`[name="${fieldName}"]`);
         if (field) {
-          const fieldToMark = fieldName === 'policy' ? field.closest('.form-callback__item') || field : field;
+          const fieldToMark = fieldName === 'policy' ? field.closest('.form-callback__field') || field : field;
           this.ui.markFieldAsError(fieldToMark);
         }
       });
@@ -249,4 +362,5 @@ function bootstrapCallbackForms() {
 }
 
 window.initCallbackForms = initCallbackForms;
+primeAllTokenFields();
 document.addEventListener('DOMContentLoaded', bootstrapCallbackForms);

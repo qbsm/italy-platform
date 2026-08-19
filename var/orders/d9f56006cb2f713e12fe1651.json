@@ -1,0 +1,18 @@
+{
+    "event_slug": "uzhin-v-osobnyake",
+    "event_title": "Ужин братьев Мясниковых при свечах",
+    "event_date": "23 августа 19:00",
+    "name": "Проверка",
+    "phone": "79990000000",
+    "email": "leads@ismart.pro",
+    "tickets": 1,
+    "unit_price": 15000,
+    "amount": 1500000,
+    "currency": "810",
+    "request_id": "3483989829697a5dcf44bf10f987827d",
+    "id": "d9f56006cb2f713e12fe1651",
+    "status": "pending",
+    "bank_order_id": "03654772-918c-7a0e-8399-200b02714702",
+    "created_at": 1786111761,
+    "updated_at": 1786111761
+}

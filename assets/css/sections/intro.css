@@ -149,3 +149,43 @@
 .intro .swiper-pagination-bullet {
   background: var(--color-1) !important;
 }
+
+/* Логотип в интро — цветная версия из шапки: круг и фигурка отдельными элементами,
+   поэтому при наведении их можно перекрасить, а не показывать сквозь вырез фон. */
+.intro__logo {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.intro__logo .logo-mark,
+.intro__logo .logo-figure {
+  transition: fill 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Покой: белый круг, тёмная фигурка */
+.intro__logo .logo-mark {
+  fill: #fff;
+}
+
+.intro__logo .logo-figure {
+  fill: var(--color-7);
+}
+
+/* Наведение: как в шапке — фирменный красный с белой фигуркой */
+.intro:hover .intro__logo .logo-mark,
+.intro:focus-within .intro__logo .logo-mark {
+  fill: #c72229;
+}
+
+.intro:hover .intro__logo .logo-figure,
+.intro:focus-within .intro__logo .logo-figure {
+  fill: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro__logo .logo-mark,
+  .intro__logo .logo-figure {
+    transition-duration: 0.01ms;
+  }
+}

@@ -7,6 +7,17 @@ use Twig\Error\Error;
 
 final class SeoService
 {
+    /**
+     * Рекурсивно рендерит Twig-шаблоны внутри SEO-данных.
+     *
+     * Строковые значения обрабатываются как Twig-шаблоны с переданным контекстом.
+     * При ошибке рендеринга возвращает исходные данные без изменений.
+     *
+     * @param array<string,mixed>|null $seoData SEO-данные (title, meta, json_ld)
+     * @param array<string,mixed>      $context Контекст для Twig (pageData, global, settings и др.)
+     * @param Environment              $twig    Twig-окружение для createTemplate
+     * @return array<string,mixed>|null Обработанные SEO-данные или null
+     */
     public function processTemplates(?array $seoData, array $context, Environment $twig): ?array
     {
         if ($seoData === null) {

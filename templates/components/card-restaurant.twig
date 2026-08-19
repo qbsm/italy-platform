@@ -42,9 +42,13 @@
               <img src="{{ url(logo.src) }}" alt="{{ logo.alt | default(name) }}"
                    class="card__logo img-responsive" loading="lazy">
             {% endif %}
-            {% for paragraph in descParagraphs %}
-              <p class="card-restaurant-slide__text">{{ paragraph }}</p>
-            {% endfor %}
+            {# Обёртка клампит длинные описания (Joli СПб, Salone — 500+ симв.),
+               иначе текст вылезал поверх лого за пределы карточки #}
+            <div class="card-restaurant-slide__desc">
+              {% for paragraph in descParagraphs %}
+                <p class="card-restaurant-slide__text">{{ paragraph }}</p>
+              {% endfor %}
+            </div>
           </div>
         {% endif %}
 
@@ -58,8 +62,12 @@
               {% if r.address is defined and r.address.streetAddress %}
                 <p class="card-restaurant-slide__line">{{ r.address.streetAddress }}</p>
               {% endif %}
-              {% if r.openingHours is defined and r.openingHours|length > 0 %}
-                {% for h in r.openingHours %}
+              {% set _hours = r.openingHours | default([]) %}
+              {% if r.openingHoursFrom is defined and ("now"|date("Ymd")) >= (r.openingHoursFrom.date|date("Ymd")) %}
+                {% set _hours = r.openingHoursFrom.list %}
+              {% endif %}
+              {% if _hours|length > 0 %}
+                {% for h in _hours %}
                   <p class="card-restaurant-slide__line">{{ h.days }} {{ h.hours }}</p>
                 {% endfor %}
               {% endif %}
@@ -106,11 +114,14 @@
       </div>
     {% endif %}
     {% if buttons.booking is defined %}
+      {# bookingPoint ресторана превращает кнопку в виджет Remarked (assets/js/sections/booking.js);
+         без точки — прежнее поведение (bookingLink или неактивная кнопка) #}
+      {% set cardBookingPoint = r.bookingPoint | default(null) %}
       <div class="card__subitem button-wrap">
         {% include 'components/button.twig' with {'item': {
-          'class': buttons.booking.class,
+          'class': buttons.booking.class ~ (cardBookingPoint ? ' widget__point__' ~ cardBookingPoint : ''),
           'title': buttons.booking.title,
-          'href': item.restaurant.bookingLink | default(null)
+          'href': cardBookingPoint ? null : (item.restaurant.bookingLink | default(null))
         }} %}
       </div>
     {% endif %}
