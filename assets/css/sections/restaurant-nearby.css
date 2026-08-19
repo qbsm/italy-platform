@@ -40,8 +40,9 @@
   transition: text-decoration-color var(--transition-1);
 }
 
-.restaurant-nearby__link:hover,
-.restaurant-nearby__link:focus-visible {
+/* Подчёркиваем только название: строка целиком, вместе с описанием, читается как помарка. */
+.restaurant-nearby__link:hover .restaurant-nearby__name,
+.restaurant-nearby__link:focus-visible .restaurant-nearby__name {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.25em;
