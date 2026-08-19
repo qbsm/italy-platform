@@ -136,10 +136,14 @@
 
         {% set galleryItems = restaurant.gallery|default(restaurant.covers|default([])) %}
         {% if galleryItems|length > 0 %}
-          <div class="section__item restaurant-about__gallery" id="restaurantGallery">
-            {% for img in galleryItems|slice(0, 4) %}
+          <div class="section__item restaurant-about__gallery{{ galleryItems|length > 6 ? ' restaurant-about__gallery--dense' : '' }}" id="restaurantGallery">
+            {% for img in galleryItems %}
+              {# Во весь экран открываем собранный webp, а не исходник: raw лежит не у каждого
+                 кадра, а где лежит — весит в разы больше. #}
+              {% set fullSrc = image_largest(img.src)|default(img.src) %}
               <figure class="restaurant-about__photo">
-                <a href="{{ url(img.src) }}" class="glightbox link" data-gallery="restaurant-gallery">
+                <a href="{{ url(fullSrc) }}" class="glightbox link" data-gallery="restaurant-gallery"
+                   aria-label="{{ img.alt|default(r.name) }}">
                   {% include 'components/picture.twig' with {
                     image: img,
                     alt: img.alt|default(r.name),

@@ -120,5 +120,27 @@
       "q": "Есть ли такой же ресторан в Петербурге?",
       "a": "Да, Juan работает и в Петербурге на улице Восстания, 45Б — там же летом открывается терраса с шезлонгами."
     }
+  ],
+  "gallery": [
+    {
+      "src": "data/img/restaurants/juan-moscow/covers/raw/1.jpg",
+      "alt": "Juan Москва, Москва"
+    },
+    {
+      "src": "data/img/restaurants/juan-moscow/covers/raw/2.jpg",
+      "alt": "Juan Москва, Москва"
+    },
+    {
+      "src": "data/img/restaurants/juan-moscow/covers/raw/3.jpg",
+      "alt": "Juan Москва, Москва"
+    },
+    {
+      "src": "data/img/restaurants/juan-moscow/covers/raw/4.jpg",
+      "alt": "Juan Москва, Москва"
+    },
+    {
+      "src": "data/img/restaurants/juan-moscow/covers/raw/5.jpg",
+      "alt": "Juan Москва, Москва"
+    }
   ]
 }

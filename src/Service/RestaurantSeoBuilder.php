@@ -140,27 +140,60 @@ final class RestaurantSeoBuilder implements SeoBuilderInterface
      */
     private function collectImages(array $entity, string $prodBase, string $fallback): array
     {
+        // Галерея полнее обложек: в ней вся съёмка заведения, а обложки — только первые кадры.
+        $source = !empty($entity['gallery']) && is_array($entity['gallery'])
+            ? $entity['gallery']
+            : (!empty($entity['covers']) && is_array($entity['covers']) ? $entity['covers'] : []);
+
         $images = [];
-        if (!empty($entity['covers']) && is_array($entity['covers'])) {
-            foreach ($entity['covers'] as $cover) {
-                $src = is_array($cover) ? (string) ($cover['src'] ?? '') : '';
-                if ($src === '') {
-                    continue;
-                }
-                if (str_starts_with($src, 'http://') || str_starts_with($src, 'https://')) {
-                    $images[] = $src;
-                    continue;
-                }
-                $pos = strpos($src, '/data/');
-                $relPath = $pos !== false ? substr($src, $pos) : '/' . ltrim($src, '/');
-                $images[] = $prodBase . $relPath;
+        foreach ($source as $item) {
+            $src = is_array($item) ? (string) ($item['src'] ?? '') : '';
+            if ($src === '') {
+                continue;
             }
+            // Пути сюда приходят и относительными, и уже абсолютными — резолвить нужно оба:
+            // иначе абсолютный проскакивает в разметку исходником, которого нет на диске.
+            if (str_starts_with($src, 'http://') || str_starts_with($src, 'https://')) {
+                $absolute = $src;
+            } else {
+                $pos = strpos($src, '/data/');
+                $absolute = $prodBase . ($pos !== false ? substr($src, $pos) : '/' . ltrim($src, '/'));
+            }
+            $url = $this->resolveBuiltImage($absolute, $prodBase);
+            if ($url === '') {
+                continue;
+            }
+            $images[] = $url;
         }
         if ($images === [] && $fallback !== '') {
             $images[] = $fallback;
         }
 
         return array_values(array_unique($images));
+    }
+
+    /**
+     * Отдаёт URL кадра, который действительно лежит на диске.
+     *
+     * В данных снимок указан исходником (`covers/raw/12.jpg`), но исходники хранятся
+     * не для всех кадров — собранные размеры есть всегда. Ссылка на отсутствующий файл
+     * в разметке хуже её отсутствия, поэтому берём готовый webp, а исходник — только
+     * если он на месте.
+     */
+    private function resolveBuiltImage(string $url, string $prodBase): string
+    {
+        foreach (['1600', '800'] as $size) {
+            $candidate = preg_replace(
+                '#/raw/([^/]+)\.(jpe?g|png|webp|avif)$#i',
+                '/' . $size . '/$1.webp',
+                $url
+            );
+            if ($candidate !== null && $candidate !== $url && $this->existsLocally($candidate, $prodBase)) {
+                return $candidate;
+            }
+        }
+
+        return $this->existsLocally($url, $prodBase) ? $url : '';
     }
 
     /**

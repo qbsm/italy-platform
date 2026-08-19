@@ -124,5 +124,27 @@
       "q": "Можно ли прийти с собакой?",
       "a": "Да, Joli — заведение группы, куда пускают с животными."
     }
+  ],
+  "gallery": [
+    {
+      "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/1.jpg",
+      "alt": "Joli Санкт‑Петербург, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/2.jpg",
+      "alt": "Joli Санкт‑Петербург, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/3.jpg",
+      "alt": "Joli Санкт‑Петербург, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/4.jpg",
+      "alt": "Joli Санкт‑Петербург, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/5.jpg",
+      "alt": "Joli Санкт‑Петербург, Санкт-Петербург"
+    }
   ]
 }

@@ -114,5 +114,27 @@
       "q": "Можно ли с собакой?",
       "a": "Да, Salone на Фонтанке — заведение группы, куда пускают с животными."
     }
+  ],
+  "gallery": [
+    {
+      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/1.jpg",
+      "alt": "Salone pasta&bar Санкт-Петербург, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/2.jpg",
+      "alt": "Salone pasta&bar Санкт-Петербург, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/3.jpg",
+      "alt": "Salone pasta&bar Санкт-Петербург, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/4.jpg",
+      "alt": "Salone pasta&bar Санкт-Петербург, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/5.jpg",
+      "alt": "Salone pasta&bar Санкт-Петербург, Санкт-Петербург"
+    }
   ]
 }

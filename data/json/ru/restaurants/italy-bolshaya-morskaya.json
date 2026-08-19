@@ -144,5 +144,27 @@
       "q": "Какой график работы?",
       "a": "Ежедневно с 10:00 до 23:00."
     }
+  ],
+  "gallery": [
+    {
+      "src": "data/img/restaurants/italy-bolshaya-morskaya/covers/raw/1.jpg",
+      "alt": "«Итали» на Большой Морской, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/italy-bolshaya-morskaya/covers/raw/2.jpg",
+      "alt": "«Итали» на Большой Морской, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/italy-bolshaya-morskaya/covers/raw/3.jpg",
+      "alt": "«Итали» на Большой Морской, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/italy-bolshaya-morskaya/covers/raw/4.jpg",
+      "alt": "«Итали» на Большой Морской, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/italy-bolshaya-morskaya/covers/raw/5.jpg",
+      "alt": "«Итали» на Большой Морской, Санкт-Петербург"
+    }
   ]
 }

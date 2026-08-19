@@ -147,5 +147,23 @@
       "q": "До скольки работает бар?",
       "a": "В пятницу и субботу — до 00:00, в остальные дни — до 23:00. Бар работает вместе с кухней, зайти можно и без ужина."
     }
+  ],
+  "gallery": [
+    {
+      "src": "data/img/restaurants/hitch/covers/raw/1.jpg",
+      "alt": "«ХИТЧ», Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/hitch/covers/raw/2.jpg",
+      "alt": "«ХИТЧ», Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/hitch/covers/raw/3.jpg",
+      "alt": "«ХИТЧ», Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/hitch/covers/raw/4.jpg",
+      "alt": "«ХИТЧ», Санкт-Петербург"
+    }
   ]
 }

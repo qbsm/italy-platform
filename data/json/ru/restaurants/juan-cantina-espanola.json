@@ -133,5 +133,27 @@
       "q": "Можно ли с собакой?",
       "a": "Да, Juan в Петербурге — заведение группы, куда пускают с животными."
     }
+  ],
+  "gallery": [
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/1.jpg",
+      "alt": "Juan Санкт-Петербург, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/2.jpg",
+      "alt": "Juan Санкт-Петербург, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/3.jpg",
+      "alt": "Juan Санкт-Петербург, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/4.jpg",
+      "alt": "Juan Санкт-Петербург, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/5.jpg",
+      "alt": "Juan Санкт-Петербург, Санкт-Петербург"
+    }
   ]
 }

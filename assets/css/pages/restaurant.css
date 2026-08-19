@@ -398,3 +398,18 @@ body:has(.restaurant-detail) {
     aspect-ratio: 16 / 9;
   }
 }
+
+/* Съёмки у ресторанов разного объёма: где кадров больше шести, широкие акценты
+   растянули бы блок на десяток экранов — там сетка становится ровной и плотнее. */
+.restaurant-about__gallery--dense {
+  @media (--lg) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.restaurant-about__gallery--dense .restaurant-about__photo:nth-child(3n+1) {
+  @media (--lg) {
+    grid-column: auto;
+    aspect-ratio: 4 / 3;
+  }
+}

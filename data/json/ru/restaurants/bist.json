@@ -168,5 +168,83 @@
       "q": "До скольки работает кухня в выходные?",
       "a": "В пятницу и субботу — до 00:00, в воскресенье — до 23:00."
     }
+  ],
+  "gallery": [
+    {
+      "src": "data/img/restaurants/bist/covers/raw/1.jpg",
+      "alt": "Столик у окна — Bist, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/2.jpg",
+      "alt": "Барная стойка — Bist, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/3.jpg",
+      "alt": "Столик у окна с росписью — Bist, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/4.jpg",
+      "alt": "Сервировка с цветами — Bist, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/5.jpg",
+      "alt": "Бокалы и лимоны — Bist, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/14.jpg",
+      "alt": "Зелёные диваны и роспись — Bist, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/15.jpg",
+      "alt": "Барная стойка с люстрами — Bist, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/16.jpg",
+      "alt": "Бар — Bist, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/17.jpg",
+      "alt": "Столик у шторы — Bist, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/18.jpg",
+      "alt": "Зал с диванами — Bist, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/19.jpg",
+      "alt": "Зал с белыми скатертями — Bist, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/20.jpg",
+      "alt": "Зал с исторической плиткой — Bist, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/21.jpg",
+      "alt": "Витрина с бутылками — Bist, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/22.jpg",
+      "alt": "Длинный стол — Bist, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/23.jpg",
+      "alt": "Столик у окна — Bist, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/24.jpg",
+      "alt": "Зал с растениями — Bist, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/25.jpg",
+      "alt": "Зал при свечах — Bist, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/26.jpg",
+      "alt": "Зал с росписью — Bist, Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/bist/covers/raw/27.jpg",
+      "alt": "Деликатесы на столе — Bist, Санкт-Петербург"
+    }
   ]
 }

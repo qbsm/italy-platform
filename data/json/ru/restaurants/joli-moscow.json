@@ -130,5 +130,47 @@
       "q": "Что рядом?",
       "a": "В том же квартале Lucky работает московский Juan — испано-мексиканская кантина той же группы."
     }
+  ],
+  "gallery": [
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/1.jpg",
+      "alt": "Зал при свечах — Joli Москва, Москва"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/2.jpg",
+      "alt": "Столик у окна — Joli Москва, Москва"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/3.jpg",
+      "alt": "Стол в саду — Joli Москва, Москва"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/4.jpg",
+      "alt": "Вино и черешня — Joli Москва, Москва"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/5.jpg",
+      "alt": "Сервировка с зеленью — Joli Москва, Москва"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/6.jpg",
+      "alt": "Яблоня в саду — Joli Москва, Москва"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/7.jpg",
+      "alt": "Черешня и вино — Joli Москва, Москва"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/8.jpg",
+      "alt": "Люстра — Joli Москва, Москва"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/9.jpg",
+      "alt": "Стопки салфеток — Joli Москва, Москва"
+    },
+    {
+      "src": "data/img/restaurants/joli-moscow/covers/raw/10.jpg",
+      "alt": "Текстиль — Joli Москва, Москва"
+    }
   ]
 }

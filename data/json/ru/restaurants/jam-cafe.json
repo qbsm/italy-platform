@@ -146,5 +146,43 @@
       "q": "Успею ли после спектакля в Мариинском?",
       "a": "Да: в будни и воскресенье кафе работает до 00:00, в пятницу и субботу — до 01:00."
     }
+  ],
+  "gallery": [
+    {
+      "src": "data/img/restaurants/jam-cafe/covers/raw/1.jpg",
+      "alt": "Терраса — «Джем кафе», Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/jam-cafe/covers/raw/2.jpg",
+      "alt": "Каре ягнёнка — «Джем кафе», Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/jam-cafe/covers/raw/3.jpg",
+      "alt": "Зал под сводами — «Джем кафе», Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/jam-cafe/covers/raw/4.jpg",
+      "alt": "Лазанья — «Джем кафе», Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/jam-cafe/covers/raw/5.jpg",
+      "alt": "Закуски — «Джем кафе», Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/jam-cafe/covers/raw/6.jpg",
+      "alt": "Зал под сводами — «Джем кафе», Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/jam-cafe/covers/raw/7.jpg",
+      "alt": "Терраса сверху — «Джем кафе», Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/jam-cafe/covers/raw/8.jpg",
+      "alt": "Терраса сверху — «Джем кафе», Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/jam-cafe/covers/raw/9.jpg",
+      "alt": "Терраса у парка — «Джем кафе», Санкт-Петербург"
+    }
   ]
 }

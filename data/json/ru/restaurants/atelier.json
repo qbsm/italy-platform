@@ -139,5 +139,27 @@
       "q": "Можно ли с собакой?",
       "a": "Да, «Ателье тапас и бар» — заведение группы, куда можно с животными."
     }
+  ],
+  "gallery": [
+    {
+      "src": "data/img/restaurants/atelier/covers/raw/1.jpg",
+      "alt": "«Ателье тапас и бар», Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/atelier/covers/raw/2.jpg",
+      "alt": "«Ателье тапас и бар», Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/atelier/covers/raw/3.jpg",
+      "alt": "«Ателье тапас и бар», Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/atelier/covers/raw/4.jpg",
+      "alt": "«Ателье тапас и бар», Санкт-Петербург"
+    },
+    {
+      "src": "data/img/restaurants/atelier/covers/raw/5.jpg",
+      "alt": "«Ателье тапас и бар», Санкт-Петербург"
+    }
   ]
 }
