@@ -36,6 +36,7 @@ class DataExtension extends AbstractExtension
             new TwigFunction('image_fallback', [$this, 'imageFallback']),
             new TwigFunction('image_largest', [$this, 'imageLargest']),
             new TwigFunction('gallery_layout', [$this, 'galleryLayout']),
+            new TwigFunction('gallery_visible_count', [$this, 'galleryVisibleCount']),
             new TwigFunction('city_to_slug', [CitySlugger::class, 'slug']),
             new TwigFunction('resolve_city_by_slug', [$this, 'resolveCityBySlug']),
             new TwigFunction('resolve_section_meta', [$this, 'resolveSectionMeta']),
@@ -306,6 +307,37 @@ class DataExtension extends AbstractExtension
             }
         }
         return $largest;
+    }
+
+    /**
+     * Сколько кадров галереи показать до кнопки «показать ещё».
+     *
+     * Резать по счёту нельзя: если обрыв приходится на середину ряда, последний видимый
+     * кадр повисает один. Отсчитываем целыми рядами — ширины кадров заданы в данных.
+     *
+     * @param array<int, mixed> $items
+     */
+    public function galleryVisibleCount(array $items, int $rows = 3): int
+    {
+        $shown = 0;
+        $filled = 0;
+        $width = 0;
+
+        foreach ($items as $item) {
+            $span = is_array($item) ? (int) ($item['span'] ?? 4) : 4;
+            $shown++;
+            $width += $span;
+
+            if ($width >= 12) {
+                $filled++;
+                $width = 0;
+                if ($filled >= $rows) {
+                    return $shown;
+                }
+            }
+        }
+
+        return $shown;
     }
 
     /**

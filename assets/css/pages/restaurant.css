@@ -452,12 +452,13 @@ body:has(.restaurant-detail) {
     aspect-ratio: 3 / 2;
   }
 
-  /* Свёрнутая галерея показывает первые шесть кадров — ровно три ряда. */
-  .restaurant-about__gallery--collapsible .restaurant-about__photo:nth-child(n + 7) {
+  /* Свёрнутая галерея показывает первые три ряда целиком: где обрыв придётся на середину
+     ряда, последний кадр повис бы один. Кадры за обрезом помечены в шаблоне. */
+  .restaurant-about__gallery--collapsible .restaurant-about__photo--extra {
     display: none;
   }
 
-  .restaurant-about__gallery-toggle:checked ~ .restaurant-about__gallery--collapsible .restaurant-about__photo:nth-child(n + 7) {
+  .restaurant-about__gallery-block:has(.restaurant-about__gallery-toggle:checked) .restaurant-about__photo--extra {
     display: block;
   }
 
@@ -484,11 +485,11 @@ body:has(.restaurant-detail) {
     display: none;
   }
 
-  .restaurant-about__gallery-toggle:checked ~ .restaurant-about__gallery-more .restaurant-about__gallery-more-open {
+  .restaurant-about__gallery-block:has(.restaurant-about__gallery-toggle:checked) .restaurant-about__gallery-more-open {
     display: none;
   }
 
-  .restaurant-about__gallery-toggle:checked ~ .restaurant-about__gallery-more .restaurant-about__gallery-more-close {
+  .restaurant-about__gallery-block:has(.restaurant-about__gallery-toggle:checked) .restaurant-about__gallery-more-close {
     display: inline;
   }
 }

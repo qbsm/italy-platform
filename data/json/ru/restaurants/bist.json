@@ -199,27 +199,27 @@
     {
       "src": "data/img/restaurants/bist/covers/raw/15.jpg",
       "alt": "Барная стойка с люстрами — Bist, Санкт-Петербург",
-      "span": 3
+      "span": 6
     },
     {
       "src": "data/img/restaurants/bist/covers/raw/16.jpg",
       "alt": "Бар — Bist, Санкт-Петербург",
-      "span": 3
+      "span": 6
     },
     {
       "src": "data/img/restaurants/bist/covers/raw/17.jpg",
       "alt": "Столик у шторы — Bist, Санкт-Петербург",
-      "span": 3
+      "span": 4
     },
     {
       "src": "data/img/restaurants/bist/covers/raw/18.jpg",
       "alt": "Зал с диванами — Bist, Санкт-Петербург",
-      "span": 3
+      "span": 4
     },
     {
       "src": "data/img/restaurants/bist/covers/raw/19.jpg",
       "alt": "Зал с белыми скатертями — Bist, Санкт-Петербург",
-      "span": 6
+      "span": 4
     },
     {
       "src": "data/img/restaurants/bist/covers/raw/20.jpg",
@@ -229,7 +229,7 @@
     {
       "src": "data/img/restaurants/bist/covers/raw/21.jpg",
       "alt": "Витрина с бутылками — Bist, Санкт-Петербург",
-      "span": 4
+      "span": 6
     },
     {
       "src": "data/img/restaurants/bist/covers/raw/22.jpg",
@@ -244,22 +244,22 @@
     {
       "src": "data/img/restaurants/bist/covers/raw/24.jpg",
       "alt": "Зал с растениями — Bist, Санкт-Петербург",
-      "span": 3
+      "span": 4
     },
     {
       "src": "data/img/restaurants/bist/covers/raw/25.jpg",
       "alt": "Зал при свечах — Bist, Санкт-Петербург",
-      "span": 3
+      "span": 4
     },
     {
       "src": "data/img/restaurants/bist/covers/raw/26.jpg",
       "alt": "Зал с росписью — Bist, Санкт-Петербург",
-      "span": 3
+      "span": 4
     },
     {
       "src": "data/img/restaurants/bist/covers/raw/27.jpg",
       "alt": "Деликатесы на столе — Bist, Санкт-Петербург",
-      "span": 3
+      "span": 4
     }
   ]
 }

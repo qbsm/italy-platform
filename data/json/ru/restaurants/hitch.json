@@ -146,24 +146,24 @@
   ],
   "gallery": [
     {
-      "src": "data/img/restaurants/hitch/covers/raw/1.jpg",
-      "alt": "«ХИТЧ», Санкт-Петербург",
-      "span": 6
-    },
-    {
-      "src": "data/img/restaurants/hitch/covers/raw/2.jpg",
-      "alt": "«ХИТЧ», Санкт-Петербург",
-      "span": 6
-    },
-    {
       "src": "data/img/restaurants/hitch/covers/raw/3.jpg",
-      "alt": "«ХИТЧ», Санкт-Петербург",
-      "span": 6
+      "alt": "Зал у панорамного окна — «ХИТЧ», Санкт-Петербург",
+      "span": 12
+    },
+    {
+      "src": "data/img/restaurants/hitch/covers/raw/1.jpg",
+      "alt": "Стейки при свечах — «ХИТЧ», Санкт-Петербург",
+      "span": 4
     },
     {
       "src": "data/img/restaurants/hitch/covers/raw/4.jpg",
-      "alt": "«ХИТЧ», Санкт-Петербург",
-      "span": 6
+      "alt": "Стейк на подаче — «ХИТЧ», Санкт-Петербург",
+      "span": 4
+    },
+    {
+      "src": "data/img/restaurants/hitch/covers/raw/2.jpg",
+      "alt": "Гости за ужином — «ХИТЧ», Санкт-Петербург",
+      "span": 4
     }
   ]
 }

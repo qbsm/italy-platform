@@ -184,7 +184,7 @@
     {
       "src": "data/img/restaurants/italy-vilenskiy/covers/raw/9.jpg",
       "alt": "Зал под аркой — «Итали» в Виленском, Санкт-Петербург",
-      "span": 4
+      "span": 12
     },
     {
       "src": "data/img/restaurants/italy-vilenskiy/covers/raw/10.jpg",
@@ -199,22 +199,22 @@
     {
       "src": "data/img/restaurants/italy-vilenskiy/covers/raw/12.jpg",
       "alt": "Зал с диванами — «Итали» в Виленском, Санкт-Петербург",
-      "span": 3
+      "span": 4
     },
     {
       "src": "data/img/restaurants/italy-vilenskiy/covers/raw/13.jpg",
       "alt": "Сервированные столы — «Итали» в Виленском, Санкт-Петербург",
-      "span": 3
+      "span": 4
     },
     {
       "src": "data/img/restaurants/italy-vilenskiy/covers/raw/14.jpg",
       "alt": "Зал с растениями — «Итали» в Виленском, Санкт-Петербург",
-      "span": 3
+      "span": 4
     },
     {
       "src": "data/img/restaurants/italy-vilenskiy/covers/raw/15.jpg",
       "alt": "Зал с белыми скатертями — «Итали» в Виленском, Санкт-Петербург",
-      "span": 3
+      "span": 4
     }
   ]
 }

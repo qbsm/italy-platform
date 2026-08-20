@@ -157,7 +157,7 @@
     {
       "src": "data/img/restaurants/goose-goose/covers/raw/4.jpg",
       "alt": "Сырники и паста — Goosegoose, Санкт-Петербург",
-      "span": 4
+      "span": 12
     },
     {
       "src": "data/img/restaurants/goose-goose/covers/raw/5.jpg",
@@ -172,22 +172,22 @@
     {
       "src": "data/img/restaurants/goose-goose/covers/raw/7.jpg",
       "alt": "Лаунж-зона — Goosegoose, Санкт-Петербург",
-      "span": 3
+      "span": 4
     },
     {
       "src": "data/img/restaurants/goose-goose/covers/raw/8.jpg",
       "alt": "Длинный стол — Goosegoose, Санкт-Петербург",
-      "span": 3
+      "span": 4
     },
     {
       "src": "data/img/restaurants/goose-goose/covers/raw/9.jpg",
       "alt": "Веранда — Goosegoose, Санкт-Петербург",
-      "span": 3
+      "span": 4
     },
     {
       "src": "data/img/restaurants/goose-goose/covers/raw/10.jpg",
       "alt": "Веранда со стеклянной крышей — Goosegoose, Санкт-Петербург",
-      "span": 3
+      "span": 4
     }
   ]
 }

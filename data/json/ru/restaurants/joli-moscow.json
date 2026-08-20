@@ -112,7 +112,7 @@
     {
       "src": "data/img/restaurants/joli-moscow/covers/raw/4.jpg",
       "alt": "Вино и черешня — Joli Москва, Москва",
-      "span": 4
+      "span": 12
     },
     {
       "src": "data/img/restaurants/joli-moscow/covers/raw/5.jpg",
@@ -127,22 +127,22 @@
     {
       "src": "data/img/restaurants/joli-moscow/covers/raw/7.jpg",
       "alt": "Черешня и вино — Joli Москва, Москва",
-      "span": 3
+      "span": 4
     },
     {
       "src": "data/img/restaurants/joli-moscow/covers/raw/8.jpg",
       "alt": "Люстра — Joli Москва, Москва",
-      "span": 3
+      "span": 4
     },
     {
       "src": "data/img/restaurants/joli-moscow/covers/raw/9.jpg",
       "alt": "Стопки салфеток — Joli Москва, Москва",
-      "span": 3
+      "span": 4
     },
     {
       "src": "data/img/restaurants/joli-moscow/covers/raw/10.jpg",
       "alt": "Текстиль — Joli Москва, Москва",
-      "span": 3
+      "span": 4
     }
   ]
 }

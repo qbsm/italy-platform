@@ -140,19 +140,19 @@
         {# Ширина кадра задана в данных полем span: 12 — во всю ширину, 6 — половина,
            4 — треть, 3 — четверть. Ряды складываются потоком, пропорция ячейки — в CSS,
            поэтому кадры одного размера в ряду всегда одной высоты. #}
-        {% set collapsible = galleryCount > 10 %}
+        {% set visibleCount = gallery_visible_count(galleryItems, 3) %}
+        {% set collapsible = galleryCount > visibleCount + 1 %}
 
         {% if galleryCount > 0 %}
-          {% if collapsible %}
-            <input type="checkbox" id="galleryMore" class="restaurant-about__gallery-toggle">
-          {% endif %}
-
-          <div class="section__item restaurant-about__gallery{{ collapsible ? ' restaurant-about__gallery--collapsible' : '' }}" id="restaurantGallery">
+          {# Чекбокс стоит рядом с кнопкой, а не перед галереей: иначе при нажатии браузер
+             уводит фокус наверх и страница прыгает. Связь состояния и кадров — через :has(). #}
+          <div class="section__item restaurant-about__gallery-block">
+          <div class="restaurant-about__gallery{{ collapsible ? ' restaurant-about__gallery--collapsible' : '' }}" id="restaurantGallery">
             {% for img in galleryItems %}
               {# Во весь экран открываем собранный webp, а не исходник: raw лежит не у каждого
                  кадра, а где лежит — весит в разы больше. #}
               {% set fullSrc = image_largest(img.src)|default(img.src) %}
-              <figure class="restaurant-about__photo restaurant-about__photo--w{{ img.span|default(4) }}">
+              <figure class="restaurant-about__photo restaurant-about__photo--w{{ img.span|default(4) }}{{ collapsible and loop.index0 >= visibleCount ? ' restaurant-about__photo--extra' : '' }}">
                 <a href="{{ url(fullSrc) }}" class="glightbox link" data-gallery="restaurant-gallery"
                    aria-label="{{ img.alt|default(r.name) }}">
                   {% include 'components/picture.twig' with {
@@ -168,11 +168,13 @@
           </div>
 
           {% if collapsible %}
-            <label for="galleryMore" class="section__item restaurant-about__gallery-more">
-              <span class="restaurant-about__gallery-more-open">Показать ещё {{ galleryCount - 6 }} фото</span>
+            <input type="checkbox" id="galleryMore" class="restaurant-about__gallery-toggle">
+            <label for="galleryMore" class="restaurant-about__gallery-more">
+              <span class="restaurant-about__gallery-more-open">Показать ещё {{ galleryCount - visibleCount }} фото</span>
               <span class="restaurant-about__gallery-more-close">Свернуть галерею</span>
             </label>
           {% endif %}
+          </div>
         {% endif %}
 
         {# Справка для поиска и ИИ-ответов: подробности и вопросы гостей — ниже галереи,
