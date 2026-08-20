@@ -428,25 +428,41 @@ body:has(.restaurant-detail) {
     scroll-snap-type: none;
   }
 
+  /* Ширину и соотношение сторон кадру назначает раскладка: внутри ряда высота одна,
+     поэтому ряд читается как одна полоса, а крупность кадров в нём разная. */
+  .restaurant-about__photo {
+    grid-column: span var(--photo-span, 4);
+    aspect-ratio: var(--photo-ratio, 4 / 3);
+  }
+
+  /* Высоту ряда задаёт первый кадр, остальные тянутся до неё: ширина ячейки включает
+     зазоры, поэтому одинаковое соотношение дало бы разную высоту. */
+  .restaurant-about__photo--follow {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
   .restaurant-about__photo--w12 {
-    grid-column: span 12;
-    aspect-ratio: 21 / 9;
+    --photo-span: 12;
+  }
+
+  .restaurant-about__photo--w8 {
+    --photo-span: 8;
   }
 
   .restaurant-about__photo--w6 {
-    grid-column: span 6;
-    aspect-ratio: 3 / 2;
+    --photo-span: 6;
   }
 
   .restaurant-about__photo--w4 {
-    grid-column: span 4;
-    aspect-ratio: 4 / 3;
+    --photo-span: 4;
   }
 
   /* На планшете четверти встают по две в ряд: вчетвером на такой ширине кадры
      превращаются в почтовые марки. */
   .restaurant-about__photo--w3 {
-    grid-column: span 6;
+    --photo-span: 6;
+
     aspect-ratio: 3 / 2;
   }
 
@@ -497,7 +513,8 @@ body:has(.restaurant-detail) {
   }
 
   .restaurant-about__photo--w3 {
-    grid-column: span 3;
-    aspect-ratio: 1 / 1;
+    --photo-span: 3;
+
+    aspect-ratio: var(--photo-ratio, 1 / 1);
   }
 }

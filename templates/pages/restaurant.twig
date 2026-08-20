@@ -137,28 +137,14 @@
         {% set galleryItems = restaurant.gallery|default(restaurant.covers|default([])) %}
         {% set galleryCount = galleryItems|length %}
 
-        {# Ритм раскладки: ряд из одного кадра во всю ширину, ряд из половин, ряд из третей,
-           ряд из четвертей. Ряды однородные — при двух десятках снимков пёстрая мозаика
-           начинает рябить, а ровные ряды разной крупности читаются спокойно.
-           Цикл из десяти кадров занимает три ряда двенадцатиколоночной сетки; для остатка
-           подобраны раскладки, которые тоже закрывают ряды целиком. #}
-        {% set cycle = [12, 6, 6, 4, 4, 4, 3, 3, 3, 3] %}
-        {% set tails = {
-          1: [12],
-          2: [6, 6],
-          3: [4, 4, 4],
-          4: [3, 3, 3, 3],
-          5: [12, 3, 3, 3, 3],
-          6: [12, 6, 6, 4, 4, 4],
-          7: [12, 6, 6, 3, 3, 3, 3],
-          8: [12, 4, 4, 4, 3, 3, 3, 3],
-          9: [6, 6, 4, 4, 4, 3, 3, 3, 3]
-        } %}
-        {% set fullCycles = (galleryCount / 10)|round(0, 'floor') %}
-        {% set restCount = galleryCount % 10 %}
+        {# Раскладку считает ядро: ряды смешанные — крупный кадр рядом с мелкими, а не
+           «все по трети». Внутри ряда высота одна, ряды закрываются целиком при любом
+           количестве снимков. #}
+        {% set galleryLayout = gallery_layout(galleryCount) %}
 
-        {# Съёмок бывает и два десятка: показываем первые шесть — ровно три ряда, — остальное
-           открывается по кнопке. На телефоне лента и так листается, там прячем только кнопку. #}
+        {# Съёмок бывает и два десятка: показываем первые шесть — это ровно три ряда, —
+           остальное открывается кнопкой. На телефоне лента листается и так, там прячем
+           только кнопку. #}
         {% set collapsible = galleryCount > 10 %}
 
         {% if galleryCount > 0 %}
@@ -168,13 +154,12 @@
 
           <div class="section__item restaurant-about__gallery{{ collapsible ? ' restaurant-about__gallery--collapsible' : '' }}" id="restaurantGallery">
             {% for img in galleryItems %}
-              {% set span = loop.index0 < fullCycles * 10
-                ? cycle[loop.index0 % 10]
-                : tails[restCount][loop.index0 - fullCycles * 10] %}
+              {% set cell = galleryLayout[loop.index0]|default({'span': 4, 'lead': true, 'ratio': '4 / 3'}) %}
               {# Во весь экран открываем собранный webp, а не исходник: raw лежит не у каждого
                  кадра, а где лежит — весит в разы больше. #}
               {% set fullSrc = image_largest(img.src)|default(img.src) %}
-              <figure class="restaurant-about__photo restaurant-about__photo--w{{ span }}">
+              <figure class="restaurant-about__photo restaurant-about__photo--w{{ cell.span }}{{ cell.lead ? '' : ' restaurant-about__photo--follow' }}"
+                      {% if cell.ratio %}style="--photo-ratio: {{ cell.ratio }};"{% endif %}>
                 <a href="{{ url(fullSrc) }}" class="glightbox link" data-gallery="restaurant-gallery"
                    aria-label="{{ img.alt|default(r.name) }}">
                   {% include 'components/picture.twig' with {

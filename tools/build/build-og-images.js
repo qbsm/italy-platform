@@ -24,8 +24,49 @@ const OG_QUALITY = 82;
 
 const SOURCES = {
   events: 'data/img/events/*/hero.{webp,jpg,jpeg,png}',
-  restaurants: 'data/img/restaurants/*/covers/raw/1.{jpg,jpeg,png,webp}',
 };
+
+// Обложка карточки — не всегда файл с именем 1: её задают данные. Читаем первый кадр из
+// covers и делаем превью именно для него, иначе в мессенджер уедет чужая картинка.
+function coversFromData(lang = 'ru') {
+  const dir = path.join(projectRoot, 'data/json', lang, 'restaurants');
+  if (!fs.existsSync(dir)) return [];
+
+  const out = [];
+  for (const file of fs.readdirSync(dir)) {
+    if (!file.endsWith('.json')) continue;
+    try {
+      const data = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8'));
+      const first = Array.isArray(data.covers) ? data.covers[0] : null;
+      const src = first && typeof first.src === 'string' ? first.src : '';
+      if (src) out.push(path.join(projectRoot, src));
+    } catch {
+      // битый JSON — не повод валить сборку картинок
+    }
+  }
+  return out;
+}
+
+// Исходника может не быть: часть съёмки отдали уже подготовленной. Берём самый крупный
+// собранный вариант того же кадра.
+function resolveSource(file) {
+  if (fs.existsSync(file)) return file;
+
+  const base = path.basename(file, path.extname(file));
+  const coversDir = path.dirname(path.dirname(file));
+  let best = null;
+  let bestSize = 0;
+  for (const size of ['2560', '1920', '1600', '1280', '800', '400']) {
+    for (const ext of ['webp', 'avif', 'jpg']) {
+      const candidate = path.join(coversDir, size, `${base}.${ext}`);
+      if (fs.existsSync(candidate) && Number(size) > bestSize) {
+        best = candidate;
+        bestSize = Number(size);
+      }
+    }
+  }
+  return best;
+}
 
 function ogPathFor(src) {
   const dir = path.dirname(src);
@@ -40,9 +81,11 @@ function isFresh(src, out) {
 
 async function build(src, force) {
   const out = ogPathFor(src);
-  if (!force && isFresh(src, out)) return { out, skipped: true };
+  const real = resolveSource(src);
+  if (!real) return { out, skipped: true };
+  if (!force && isFresh(real, out)) return { out, skipped: true };
 
-  await sharp(src)
+  await sharp(real)
     .resize(OG_WIDTH, OG_HEIGHT, { fit: 'cover', position: 'attention' })
     .jpeg({ quality: OG_QUALITY, progressive: true, mozjpeg: true })
     .toFile(path.join(projectRoot, 'tmp-og.jpg'));
@@ -56,11 +99,12 @@ async function main() {
   const force = args.includes('--force');
   const filters = args.filter((a) => !a.startsWith('--'));
 
+  const wantRestaurants = !filters.length || filters.includes('restaurants');
   const groups = filters.length
     ? filters.filter((f) => SOURCES[f])
     : Object.keys(SOURCES);
 
-  if (!groups.length) {
+  if (!groups.length && !wantRestaurants) {
     console.error(`Неизвестный фильтр. Доступные: ${Object.keys(SOURCES).join(', ')}`);
     process.exit(1);
   }
@@ -74,6 +118,22 @@ async function main() {
     const files = await glob(pattern, { nodir: true });
 
     for (const src of files) {
+      if (src.endsWith('-og.jpg')) continue;
+      try {
+        const res = await build(src, force);
+        if (res.skipped) skipped += 1;
+        else {
+          created += 1;
+          console.log(`og: ${path.relative(projectRoot, res.out)}`);
+        }
+      } catch (err) {
+        failed.push(`${path.relative(projectRoot, src)}: ${err.message}`);
+      }
+    }
+  }
+
+  if (wantRestaurants) {
+    for (const src of coversFromData()) {
       if (src.endsWith('-og.jpg')) continue;
       try {
         const res = await build(src, force);

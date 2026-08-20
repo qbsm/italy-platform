@@ -50,24 +50,16 @@
   "tags": ["с красивым видом", "завтраки", "на каждый день", "можно с животными"],
   "covers": [
     {
-      "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/1.jpg",
-      "alt": "Joli Grand Bistrot"
-    },
-    {
       "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/2.jpg",
-      "alt": "Joli Grand Bistrot"
-    },
-    {
-      "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/3.jpg",
-      "alt": "Joli Grand Bistrot"
+      "alt": "Joli Санкт‑Петербург, Санкт-Петербург"
     },
     {
       "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/4.jpg",
-      "alt": "Joli Grand Bistrot"
+      "alt": "Joli Санкт‑Петербург, Санкт-Петербург"
     },
     {
       "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/5.jpg",
-      "alt": "Joli Grand Bistrot"
+      "alt": "Joli Санкт‑Петербург, Санкт-Петербург"
     }
   ],
   "logos": [
