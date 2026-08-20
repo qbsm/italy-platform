@@ -353,6 +353,13 @@
               },
               "items": [
                 {
+                  "title": "SAAN — авторский проект доходной недвижимости",
+                  "cover": "data/img/navigation/banners/banner-saan.webp",
+                  "href": "https://saan-park.ru/?utm_source=italy_baner&utm_medium=site&utm_campaign=diner&utm_term=20_08",
+                  "target": "_blank",
+                  "hideFrom": "2026-09-20"
+                },
+                {
                   "title": "Ужин братьев Мясниковых при свечах",
                   "cover": "data/img/navigation/banners/banner-5.webp",
                   "href": "https://vechervosobnyake-italy.ru",
