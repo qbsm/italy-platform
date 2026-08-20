@@ -360,11 +360,23 @@ body:has(.restaurant-detail) {
    в столбик отжимают вниз и вопросы гостей, и соседние рестораны. Планшет и десктоп:
    ряды разной крупности — целый кадр, половины, трети, четверти. Ширины расставляет
    шаблон, ряды по построению закрываются целиком. */
+.restaurant-about__gallery-block {
+  --gallery-gap: 0.8rem;
+
+  @media (--sm) {
+    --gallery-gap: 1.6rem;
+  }
+
+  @media (--lg) {
+    --gallery-gap: 2rem;
+  }
+}
+
 .restaurant-about__gallery {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 76%;
-  gap: 0.8rem;
+  gap: var(--gallery-gap);
   padding-bottom: 0.4rem;
   overflow-x: auto;
   overscroll-behavior-x: contain;
@@ -422,7 +434,6 @@ body:has(.restaurant-detail) {
     grid-auto-flow: row;
     grid-auto-columns: auto;
     grid-template-columns: repeat(12, 1fr);
-    gap: 1.6rem;
     padding-bottom: 0;
     overflow-x: visible;
     scroll-snap-type: none;
@@ -463,22 +474,11 @@ body:has(.restaurant-detail) {
   }
 
   .restaurant-about__gallery-more {
-    display: block;
+    display: inline-flex;
     width: fit-content;
-    margin-top: 1.6rem;
-    padding: 1.4rem 2.8rem;
-    border: 1px solid rgb(255 255 255 / 25%);
-    border-radius: 999px;
-    color: inherit;
-    font-size: 1.4rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: border-color var(--transition-1);
-  }
 
-  .restaurant-about__gallery-more:hover {
-    border-color: var(--color-3);
+    /* Отступ до кнопки равен зазору между кадрами — кнопка читается как часть сетки. */
+    margin-top: var(--gallery-gap);
   }
 
   .restaurant-about__gallery-more-close {
@@ -495,10 +495,6 @@ body:has(.restaurant-detail) {
 }
 
 @media (--lg) {
-  .restaurant-about__gallery {
-    gap: 2rem;
-  }
-
   .restaurant-about__photo--w3 {
     grid-column: span 3;
     aspect-ratio: 1 / 1;
