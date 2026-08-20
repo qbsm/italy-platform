@@ -116,23 +116,28 @@
   "gallery": [
     {
       "src": "data/img/restaurants/juan-moscow/covers/raw/1.jpg",
-      "alt": "Juan Москва, Москва"
+      "alt": "Juan Москва, Москва",
+      "span": 6
     },
     {
       "src": "data/img/restaurants/juan-moscow/covers/raw/2.jpg",
-      "alt": "Juan Москва, Москва"
+      "alt": "Juan Москва, Москва",
+      "span": 6
     },
     {
       "src": "data/img/restaurants/juan-moscow/covers/raw/3.jpg",
-      "alt": "Juan Москва, Москва"
+      "alt": "Juan Москва, Москва",
+      "span": 4
     },
     {
       "src": "data/img/restaurants/juan-moscow/covers/raw/4.jpg",
-      "alt": "Juan Москва, Москва"
+      "alt": "Juan Москва, Москва",
+      "span": 4
     },
     {
       "src": "data/img/restaurants/juan-moscow/covers/raw/5.jpg",
-      "alt": "Juan Москва, Москва"
+      "alt": "Juan Москва, Москва",
+      "span": 4
     }
   ]
 }

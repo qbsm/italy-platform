@@ -96,43 +96,53 @@
   "gallery": [
     {
       "src": "data/img/restaurants/joli-moscow/covers/raw/1.jpg",
-      "alt": "Зал при свечах — Joli Москва, Москва"
+      "alt": "Зал при свечах — Joli Москва, Москва",
+      "span": 12
     },
     {
       "src": "data/img/restaurants/joli-moscow/covers/raw/2.jpg",
-      "alt": "Столик у окна — Joli Москва, Москва"
+      "alt": "Столик у окна — Joli Москва, Москва",
+      "span": 6
     },
     {
       "src": "data/img/restaurants/joli-moscow/covers/raw/3.jpg",
-      "alt": "Стол в саду — Joli Москва, Москва"
+      "alt": "Стол в саду — Joli Москва, Москва",
+      "span": 6
     },
     {
       "src": "data/img/restaurants/joli-moscow/covers/raw/4.jpg",
-      "alt": "Вино и черешня — Joli Москва, Москва"
+      "alt": "Вино и черешня — Joli Москва, Москва",
+      "span": 4
     },
     {
       "src": "data/img/restaurants/joli-moscow/covers/raw/5.jpg",
-      "alt": "Сервировка с зеленью — Joli Москва, Москва"
+      "alt": "Сервировка с зеленью — Joli Москва, Москва",
+      "span": 4
     },
     {
       "src": "data/img/restaurants/joli-moscow/covers/raw/6.jpg",
-      "alt": "Яблоня в саду — Joli Москва, Москва"
+      "alt": "Яблоня в саду — Joli Москва, Москва",
+      "span": 4
     },
     {
       "src": "data/img/restaurants/joli-moscow/covers/raw/7.jpg",
-      "alt": "Черешня и вино — Joli Москва, Москва"
+      "alt": "Черешня и вино — Joli Москва, Москва",
+      "span": 3
     },
     {
       "src": "data/img/restaurants/joli-moscow/covers/raw/8.jpg",
-      "alt": "Люстра — Joli Москва, Москва"
+      "alt": "Люстра — Joli Москва, Москва",
+      "span": 3
     },
     {
       "src": "data/img/restaurants/joli-moscow/covers/raw/9.jpg",
-      "alt": "Стопки салфеток — Joli Москва, Москва"
+      "alt": "Стопки салфеток — Joli Москва, Москва",
+      "span": 3
     },
     {
       "src": "data/img/restaurants/joli-moscow/covers/raw/10.jpg",
-      "alt": "Текстиль — Joli Москва, Москва"
+      "alt": "Текстиль — Joli Москва, Москва",
+      "span": 3
     }
   ]
 }

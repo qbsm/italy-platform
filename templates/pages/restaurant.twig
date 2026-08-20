@@ -137,14 +137,9 @@
         {% set galleryItems = restaurant.gallery|default(restaurant.covers|default([])) %}
         {% set galleryCount = galleryItems|length %}
 
-        {# Раскладку считает ядро: ряды смешанные — крупный кадр рядом с мелкими, а не
-           «все по трети». Внутри ряда высота одна, ряды закрываются целиком при любом
-           количестве снимков. #}
-        {% set galleryLayout = gallery_layout(galleryItems) %}
-
-        {# Съёмок бывает и два десятка: показываем первые шесть — это ровно три ряда, —
-           остальное открывается кнопкой. На телефоне лента листается и так, там прячем
-           только кнопку. #}
+        {# Ширина кадра задана в данных полем span: 12 — во всю ширину, 6 — половина,
+           4 — треть, 3 — четверть. Ряды складываются потоком, пропорция ячейки — в CSS,
+           поэтому кадры одного размера в ряду всегда одной высоты. #}
         {% set collapsible = galleryCount > 10 %}
 
         {% if galleryCount > 0 %}
@@ -154,12 +149,10 @@
 
           <div class="section__item restaurant-about__gallery{{ collapsible ? ' restaurant-about__gallery--collapsible' : '' }}" id="restaurantGallery">
             {% for img in galleryItems %}
-              {% set cell = galleryLayout[loop.index0]|default({'span': 4, 'lead': true, 'ratio': '4 / 3'}) %}
               {# Во весь экран открываем собранный webp, а не исходник: raw лежит не у каждого
                  кадра, а где лежит — весит в разы больше. #}
               {% set fullSrc = image_largest(img.src)|default(img.src) %}
-              <figure class="restaurant-about__photo restaurant-about__photo--w{{ cell.span }}{{ cell.lead ? '' : ' restaurant-about__photo--follow' }}"
-                      {% if cell.ratio %}style="--photo-ratio: {{ cell.ratio }};"{% endif %}>
+              <figure class="restaurant-about__photo restaurant-about__photo--w{{ img.span|default(4) }}">
                 <a href="{{ url(fullSrc) }}" class="glightbox link" data-gallery="restaurant-gallery"
                    aria-label="{{ img.alt|default(r.name) }}">
                   {% include 'components/picture.twig' with {

@@ -143,23 +143,28 @@
   "gallery": [
     {
       "src": "data/img/restaurants/italy-bolshoy/covers/raw/1.jpg",
-      "alt": "«Итали» на Большом, Санкт-Петербург"
+      "alt": "«Итали» на Большом, Санкт-Петербург",
+      "span": 6
     },
     {
       "src": "data/img/restaurants/italy-bolshoy/covers/raw/2.jpg",
-      "alt": "«Итали» на Большом, Санкт-Петербург"
+      "alt": "«Итали» на Большом, Санкт-Петербург",
+      "span": 6
     },
     {
       "src": "data/img/restaurants/italy-bolshoy/covers/raw/3.jpg",
-      "alt": "«Итали» на Большом, Санкт-Петербург"
+      "alt": "«Итали» на Большом, Санкт-Петербург",
+      "span": 4
     },
     {
       "src": "data/img/restaurants/italy-bolshoy/covers/raw/4.jpg",
-      "alt": "«Итали» на Большом, Санкт-Петербург"
+      "alt": "«Итали» на Большом, Санкт-Петербург",
+      "span": 4
     },
     {
       "src": "data/img/restaurants/italy-bolshoy/covers/raw/5.jpg",
-      "alt": "«Итали» на Большом, Санкт-Петербург"
+      "alt": "«Итали» на Большом, Санкт-Петербург",
+      "span": 4
     }
   ]
 }

@@ -397,8 +397,8 @@ class DataExtension extends AbstractExtension
             2 => [$pick(2)],
             3 => [$pick(3)],
             4 => [$pick(2), $pick(2)],  // не четыре марки в ряд, а две пары крупных
-            5 => [$pick(1), $pick(4)],
-            6 => [$pick(2), $pick(4)],
+            5 => [$pick(2), $pick(3)],  // пара и тройка читаются лучше, чем полоса и четыре марки
+            6 => [$pick(3), $pick(3)],
             7 => [$pick(3), $pick(4)],
             8 => [$pick(4), $pick(4)],
             9 => [$pick(2), $pick(3), $pick(4)],

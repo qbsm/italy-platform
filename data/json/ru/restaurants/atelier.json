@@ -143,23 +143,28 @@
   "gallery": [
     {
       "src": "data/img/restaurants/atelier/covers/raw/1.jpg",
-      "alt": "«Ателье тапас и бар», Санкт-Петербург"
+      "alt": "«Ателье тапас и бар», Санкт-Петербург",
+      "span": 6
     },
     {
       "src": "data/img/restaurants/atelier/covers/raw/2.jpg",
-      "alt": "«Ателье тапас и бар», Санкт-Петербург"
+      "alt": "«Ателье тапас и бар», Санкт-Петербург",
+      "span": 6
     },
     {
       "src": "data/img/restaurants/atelier/covers/raw/3.jpg",
-      "alt": "«Ателье тапас и бар», Санкт-Петербург"
+      "alt": "«Ателье тапас и бар», Санкт-Петербург",
+      "span": 4
     },
     {
       "src": "data/img/restaurants/atelier/covers/raw/4.jpg",
-      "alt": "«Ателье тапас и бар», Санкт-Петербург"
+      "alt": "«Ателье тапас и бар», Санкт-Петербург",
+      "span": 4
     },
     {
       "src": "data/img/restaurants/atelier/covers/raw/5.jpg",
-      "alt": "«Ателье тапас и бар», Санкт-Петербург"
+      "alt": "«Ателье тапас и бар», Санкт-Петербург",
+      "span": 4
     }
   ]
 }

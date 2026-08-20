@@ -150,39 +150,48 @@
   "gallery": [
     {
       "src": "data/img/restaurants/jam-cafe/covers/raw/1.jpg",
-      "alt": "Терраса — «Джем кафе», Санкт-Петербург"
+      "alt": "Терраса — «Джем кафе», Санкт-Петербург",
+      "span": 6
     },
     {
       "src": "data/img/restaurants/jam-cafe/covers/raw/2.jpg",
-      "alt": "Каре ягнёнка — «Джем кафе», Санкт-Петербург"
+      "alt": "Каре ягнёнка — «Джем кафе», Санкт-Петербург",
+      "span": 6
     },
     {
       "src": "data/img/restaurants/jam-cafe/covers/raw/3.jpg",
-      "alt": "Зал под сводами — «Джем кафе», Санкт-Петербург"
+      "alt": "Зал под сводами — «Джем кафе», Санкт-Петербург",
+      "span": 4
     },
     {
       "src": "data/img/restaurants/jam-cafe/covers/raw/4.jpg",
-      "alt": "Лазанья — «Джем кафе», Санкт-Петербург"
+      "alt": "Лазанья — «Джем кафе», Санкт-Петербург",
+      "span": 4
     },
     {
       "src": "data/img/restaurants/jam-cafe/covers/raw/5.jpg",
-      "alt": "Закуски — «Джем кафе», Санкт-Петербург"
+      "alt": "Закуски — «Джем кафе», Санкт-Петербург",
+      "span": 4
     },
     {
       "src": "data/img/restaurants/jam-cafe/covers/raw/6.jpg",
-      "alt": "Зал под сводами — «Джем кафе», Санкт-Петербург"
+      "alt": "Зал под сводами — «Джем кафе», Санкт-Петербург",
+      "span": 3
     },
     {
       "src": "data/img/restaurants/jam-cafe/covers/raw/7.jpg",
-      "alt": "Терраса сверху — «Джем кафе», Санкт-Петербург"
+      "alt": "Терраса сверху — «Джем кафе», Санкт-Петербург",
+      "span": 3
     },
     {
       "src": "data/img/restaurants/jam-cafe/covers/raw/8.jpg",
-      "alt": "Терраса сверху — «Джем кафе», Санкт-Петербург"
+      "alt": "Терраса сверху — «Джем кафе», Санкт-Петербург",
+      "span": 3
     },
     {
       "src": "data/img/restaurants/jam-cafe/covers/raw/9.jpg",
-      "alt": "Терраса у парка — «Джем кафе», Санкт-Петербург"
+      "alt": "Терраса у парка — «Джем кафе», Санкт-Петербург",
+      "span": 3
     }
   ]
 }

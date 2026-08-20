@@ -155,55 +155,68 @@
   "gallery": [
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/1.jpg",
-      "alt": "Стол с блюдами у окна — Salone pasta&bar Москва, Москва"
+      "alt": "Стол с блюдами у окна — Salone pasta&bar Москва, Москва",
+      "span": 12
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/2.jpg",
-      "alt": "Коктейль с лимонами — Salone pasta&bar Москва, Москва"
+      "alt": "Коктейль с лимонами — Salone pasta&bar Москва, Москва",
+      "span": 6
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/3.jpg",
-      "alt": "Блюда крупным планом — Salone pasta&bar Москва, Москва"
+      "alt": "Блюда крупным планом — Salone pasta&bar Москва, Москва",
+      "span": 6
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/4.jpg",
-      "alt": "Тортеллини с мясом — Salone pasta&bar Москва, Москва"
+      "alt": "Тортеллини с мясом — Salone pasta&bar Москва, Москва",
+      "span": 4
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/5.jpg",
-      "alt": "Паста со скампи — Salone pasta&bar Москва, Москва"
+      "alt": "Паста со скампи — Salone pasta&bar Москва, Москва",
+      "span": 4
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/6.jpg",
-      "alt": "Зал с высокими окнами — Salone pasta&bar Москва, Москва"
+      "alt": "Зал с высокими окнами — Salone pasta&bar Москва, Москва",
+      "span": 4
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/7.jpg",
-      "alt": "Зал с барной стойкой — Salone pasta&bar Москва, Москва"
+      "alt": "Зал с барной стойкой — Salone pasta&bar Москва, Москва",
+      "span": 4
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/8.jpg",
-      "alt": "Вино и лимоны на столе — Salone pasta&bar Москва, Москва"
+      "alt": "Вино и лимоны на столе — Salone pasta&bar Москва, Москва",
+      "span": 4
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/9.jpg",
-      "alt": "Шеф натирает сыр — Salone pasta&bar Москва, Москва"
+      "alt": "Шеф натирает сыр — Salone pasta&bar Москва, Москва",
+      "span": 4
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/10.jpg",
-      "alt": "Блюда на столе — Salone pasta&bar Москва, Москва"
+      "alt": "Блюда на столе — Salone pasta&bar Москва, Москва",
+      "span": 3
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/11.jpg",
-      "alt": "Паста у окна — Salone pasta&bar Москва, Москва"
+      "alt": "Паста у окна — Salone pasta&bar Москва, Москва",
+      "span": 3
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/12.jpg",
-      "alt": "Накрытый стол с вином — Salone pasta&bar Москва, Москва"
+      "alt": "Накрытый стол с вином — Salone pasta&bar Москва, Москва",
+      "span": 3
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/13.jpg",
-      "alt": "Карпаччо и бокал вина — Salone pasta&bar Москва, Москва"
+      "alt": "Карпаччо и бокал вина — Salone pasta&bar Москва, Москва",
+      "span": 3
     }
   ]
 }
