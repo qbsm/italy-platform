@@ -21,6 +21,7 @@
   --fc-font: var(--font-1);
   --fc-text: var(--color-2);
   --fc-label: var(--color-5);
+
   /* Состояния вынесены в переменные: площадка с тёмной темой не может переопределить
      жёстко прописанный цвет, и у неё метка светилась жёлтым, а галочка терялась. */
   --fc-label-active: var(--color-5);
@@ -901,4 +902,36 @@
 
 .form-callback__grid {
   grid-template-columns: 1fr;
+}
+
+/* Поля этой площадки — линия под текстом, а не рамка по периметру: так форма выглядела
+   до перевода на общий компонент и так она держится рядом с остальной вёрсткой сайта.
+   Переопределяем только сами контролы: рамка чекбокса и зоны файлов приходит из ядра. */
+.form-callback__control {
+  padding-inline: 0;
+  background: transparent;
+  border: none;
+  border-bottom: var(--fc-border);
+  border-radius: 0;
+}
+
+.form-callback__control:hover {
+  background: transparent;
+  border-bottom-color: var(--fc-border-hover);
+}
+
+.form-callback__control:focus {
+  border-bottom-color: var(--color-1);
+}
+
+/* Подсказка внутри поля начинается от того же края, что и вводимый текст. */
+.form-callback--hint .form-callback__label {
+  left: 0;
+  max-width: calc(100% - 4rem);
+}
+
+/* Стрелка селекта прижимается к правому краю поля, а не к внутреннему отступу. */
+.form-callback__control.control-select {
+  padding-right: 2.4rem;
+  background-position: right center;
 }
