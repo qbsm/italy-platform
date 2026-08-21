@@ -4,6 +4,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
+    "venueId": 48,
     "name": "Juan Москва",
     "telephone": {
       "title": "+7 (925) 404-11-12",

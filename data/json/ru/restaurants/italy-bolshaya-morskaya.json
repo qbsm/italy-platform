@@ -4,6 +4,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
+    "venueId": 35,
     "name": "«Итали» на Большой Морской",
     "telephone": {
       "title": "+7 (921) 944-03-00",

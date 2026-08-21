@@ -4,6 +4,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
+    "venueId": 44,
     "name": "Joli Москва",
     "address": {
       "@type": "PostalAddress",

@@ -4,6 +4,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
+    "venueId": 42,
     "name": "Бар «Легендарный медведь»",
     "telephone": {
       "title": "+7 (911) 928-37-27",
@@ -19,11 +20,15 @@
     "openingHours": [
       {
         "days": "Пн-Чт",
-        "hours": "16:00–01:00"
+        "hours": "10:00–01:00"
       },
       {
         "days": "Пт-Сб",
-        "hours": "16:00–02:00"
+        "hours": "10:00–02:00"
+      },
+      {
+        "days": "Вс",
+        "hours": "10:00–01:00"
       }
     ],
     "geo": {

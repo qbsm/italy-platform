@@ -4,6 +4,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
+    "venueId": 38,
     "name": "«Италиани»",
     "telephone": {
       "title": "+7 (931) 396-76-05",

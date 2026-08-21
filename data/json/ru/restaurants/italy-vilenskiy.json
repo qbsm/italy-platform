@@ -4,6 +4,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
+    "venueId": 3,
     "name": "«Итали» в Виленском",
     "telephone": {
       "title": "+7 (812) 906-65-58",
@@ -18,12 +19,16 @@
     },
     "openingHours": [
       {
-        "days": "Вс-Чт",
+        "days": "Пн-Чт",
         "hours": "09:00–23:00"
       },
       {
         "days": "Пт-Сб",
         "hours": "09:00–00:00"
+      },
+      {
+        "days": "Вс",
+        "hours": "09:00–23:00"
       }
     ],
     "geo": {

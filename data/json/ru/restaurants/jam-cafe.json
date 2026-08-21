@@ -4,6 +4,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
+    "venueId": 33,
     "name": "«Джем кафе»",
     "telephone": {
       "title": "+7 (981) 963-11-17",
@@ -22,7 +23,7 @@
         "hours": "08:30–00:00"
       },
       {
-        "days": "Пт, Сб",
+        "days": "Пт-Сб",
         "hours": "08:30–01:00"
       },
       {
@@ -36,9 +37,7 @@
       "longitude": "30.29483"
     },
     "hasMap": "https://yandex.ru/maps/?pt=30.29483,59.92224&z=17&l=map",
-    "servesCuisine": [
-      "Французская кухня"
-    ],
+    "servesCuisine": ["Французская кухня"],
     "priceRange": "₽₽",
     "menuLink": "https://atelierfamily.ru/jam-menu",
     "bookingPoint": "230800"
@@ -59,13 +58,7 @@
     ]
   },
   "loyalty": false,
-  "tags": [
-    "рады детям",
-    "с красивым видом",
-    "завтраки",
-    "на каждый день",
-    "можно с животными"
-  ],
+  "tags": ["рады детям", "с красивым видом", "завтраки", "на каждый день", "можно с животными"],
   "covers": [
     {
       "src": "data/img/restaurants/jam-cafe/covers/raw/1.jpg",

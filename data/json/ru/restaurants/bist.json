@@ -4,6 +4,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
+    "venueId": 17,
     "name": "Bist",
     "telephone": {
       "title": "+7 (931) 994-75-15",
@@ -19,15 +20,15 @@
     "openingHours": [
       {
         "days": "Пн-Чт",
-        "hours": "9:00–23:00"
+        "hours": "09:00–23:00"
       },
       {
         "days": "Пт",
-        "hours": "9:00–00:00"
+        "hours": "09:00–01:00"
       },
       {
         "days": "Сб",
-        "hours": "10:00–00:00"
+        "hours": "10:00–01:00"
       },
       {
         "days": "Вс",

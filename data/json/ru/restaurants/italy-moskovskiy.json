@@ -4,6 +4,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
+    "venueId": 15,
     "name": "«Итали» на Московском",
     "telephone": {
       "title": "+7 (931) 954-61-97",

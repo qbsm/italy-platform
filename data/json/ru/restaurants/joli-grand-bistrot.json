@@ -4,6 +4,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
+    "venueId": 32,
     "name": "Joli Санкт‑Петербург",
     "telephone": {
       "title": "+7 (931) 380-22-06",

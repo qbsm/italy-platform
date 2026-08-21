@@ -4,6 +4,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
+    "venueId": 31,
     "name": "Juan Санкт-Петербург",
     "telephone": {
       "title": "+7 (929) 111-45-55",
@@ -18,12 +19,16 @@
     },
     "openingHours": [
       {
-        "days": "Пн-Чт, Вс",
+        "days": "Пн-Чт",
         "hours": "13:00–01:00"
       },
       {
         "days": "Пт-Сб",
         "hours": "13:00–02:00"
+      },
+      {
+        "days": "Вс",
+        "hours": "13:00–01:00"
       }
     ],
     "geo": {
