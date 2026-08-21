@@ -1,113 +1,173 @@
 {% set formId = 'formCallback' ~ random(1000000) %}
+{% set formConfig = global['form-callback'] %}
+{% set fields = data.fields | default(formConfig.fields | default([])) %}
+
 <form class="form-callback js-form-callback" novalidate method="post" action="" id="{{ formId }}">
   <div class="form-callback__trap" aria-hidden="true">
     <input type="text" name="company_site" tabindex="-1" autocomplete="off">
   </div>
   <input type="hidden" name="form_token" value="">
-  <div class="form-callback__container">
-    <div class="form-callback__item form-callback-item-email">
-      <input id="{{ formId }}Email" type="email" class="form-callback__input" name="email" inputmode="email" autocomplete="email" placeholder="{{ global['form-callback'].placeholder[lang_code].email }}" aria-required="true" aria-label="{{ global['form-callback'].label[lang_code].email }}">
-    </div>
-    <div class="form-callback__item form-callback-item-name">
-      <input id="{{ formId }}Name" type="text" class="form-callback__input" name="name" autocomplete="name" placeholder="{{ global['form-callback'].placeholder[lang_code].name }}" aria-required="true" aria-label="{{ global['form-callback'].label[lang_code].name }}">
-    </div>
-    <div class="form-callback__item form-callback-item-city">
-      <select id="{{ formId }}City" class="form-callback__input form-callback__select" name="city" required aria-required="true" aria-label="{{ global['form-callback'].label[lang_code].city }}">
-        <option value="" disabled selected>{{ global['form-callback'].placeholder[lang_code].city }}</option>
-        <option value="Санкт-Петербург">Санкт-Петербург</option>
-        <option value="Москва">Москва</option>
-      </select>
-    </div>
-    <div class="form-callback__item form-callback-item-policy">
-      <label class="form-callback__custom-checkbox">
-        <input id="{{ formId }}Policy" type="checkbox" name="policy" class="form-callback__checkbox" aria-required="true">
-        <span class="form-callback__checkmark" aria-hidden="true"></span>
-        <span class="form-callback__placeholder">{{ global['form-callback'].label[lang_code].policy }}</span>
-      </label>
-    </div>
-    <div class="form-callback__item form-callback-item-hidden">
-      <input type="hidden" name="current_url" value="">
-    </div>
-    <div class="form-callback__item button-wrap">
-      <button class="button button-sm bg-color-1 color-2 button-animated animation-shift link" type="submit">
-        {% if data.button is defined and data.button.title is defined %}
-          {{ data.button.title }}
+  <div class="form-callback__grid">
+
+    {% for field in fields %}
+      {% set fieldId = formId ~ '_' ~ field.name %}
+      {% set fieldLabel = formConfig.label[lang_code][field.name] | default('') %}
+      {% set fieldPlaceholder = formConfig.placeholder[lang_code][field.name] | default('') %}
+      {% set isRequired = field.validation.required | default(false) %}
+
+      {# --- Hidden --- #}
+      {% if field.type == 'hidden' %}
+        {% if field.name == 'csrf_token' %}
+        {% elseif field.name == 'current_url' %}
+          <input type="hidden" name="current_url" value="">
         {% else %}
-          {{ global['form-callback'].button[lang_code].title }}
+          <input type="hidden" name="{{ field.name }}" value="{{ field.value | default('') }}">
         {% endif %}
+
+      {# --- Checkbox --- #}
+      {% elseif field.type == 'checkbox' %}
+        <div class="form-callback__field field-checkbox">
+          <label class="form-callback__checkbox-wrap" for="{{ fieldId }}">
+            <input id="{{ fieldId }}" type="checkbox" name="{{ field.name }}" class="form-callback__checkbox-input"{% if isRequired %} aria-required="true"{% endif %}>
+            <span class="form-callback__checkbox-box" aria-hidden="true">
+              <svg class="form-callback__checkbox-icon" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 5L4.5 8.5L11 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="form-callback__checkbox-text">{{ fieldLabel | raw }}</span>
+          </label>
+          <span class="form-callback__error-msg" aria-live="polite"></span>
+        </div>
+
+      {# --- Select --- #}
+      {% elseif field.type == 'select' %}
+        <div class="form-callback__field">
+          <div class="form-callback__input-wrap">
+            <select id="{{ fieldId }}" name="{{ field.name }}" class="form-callback__control control-select"{% if isRequired %} aria-required="true"{% endif %}>
+              {# Первой строкой — подсказка: без неё список открывается уже выбранным, и человек
+                 не понимает, что выбор за ним. Значение пустое, отправить её нельзя. #}
+              {% if fieldPlaceholder %}
+                <option value="" disabled selected>{{ fieldPlaceholder }}</option>
+              {% endif %}
+              {% for option in field.options | default([]) %}
+                <option value="{{ option.value }}">{{ option.label[lang_code] | default(option.label.ru | default('')) }}</option>
+              {% endfor %}
+            </select>
+            <label class="form-callback__label" for="{{ fieldId }}">
+              {{ fieldLabel }}{% if isRequired %}<span class="form-callback__asterisk">*</span>{% endif %}
+            </label>
+
+          </div>
+          <span class="form-callback__error-msg" aria-live="polite"></span>
+        </div>
+
+      {# --- Textarea --- #}
+      {% elseif field.type == 'textarea' %}
+        <div class="form-callback__field field-full">
+          <div class="form-callback__input-wrap">
+            <textarea id="{{ fieldId }}" name="{{ field.name }}" class="form-callback__control control-textarea" placeholder=" "{% if isRequired %} aria-required="true"{% endif %}{% if field.validation.maxLength is defined %} maxlength="{{ field.validation.maxLength }}"{% endif %}></textarea>
+            <label class="form-callback__label" for="{{ fieldId }}">
+              {{ fieldLabel }}{% if isRequired %}<span class="form-callback__asterisk">*</span>{% endif %}
+            </label>
+
+          </div>
+          <span class="form-callback__error-msg" aria-live="polite"></span>
+        </div>
+
+      {# --- File --- #}
+      {% elseif field.type == 'file' %}
+        <div class="form-callback__field field-full">
+          <label class="form-callback__file-zone" for="{{ fieldId }}">
+            <input id="{{ fieldId }}" type="file" name="{{ field.name }}" class="form-callback__file-input"{% if field.accept is defined %} accept="{{ field.accept }}"{% endif %}{% if field.multiple | default(false) %} multiple{% endif %}{% if isRequired %} aria-required="true"{% endif %}>
+            <span class="form-callback__file-icon" aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 16V8M12 8L9 11M12 8L15 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12Z" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+            </span>
+            <span class="form-callback__file-text">
+              <span class="form-callback__file-title">{{ fieldLabel }}</span>
+              <span class="form-callback__file-hint">{{ formConfig.placeholder[lang_code][field.name] | default('Нажмите или перетащите файлы') }}</span>
+            </span>
+          </label>
+          <span class="form-callback__file-list js-file-list"></span>
+          <span class="form-callback__error-msg" aria-live="polite"></span>
+        </div>
+
+      {# --- Radio --- #}
+      {% elseif field.type == 'radio' %}
+        <fieldset class="form-callback__field field-full"{% if isRequired %} aria-required="true"{% endif %}>
+          <legend class="form-callback__legend">
+            {{ fieldLabel }}{% if isRequired %}<span class="form-callback__asterisk">*</span>{% endif %}
+          </legend>
+          <div class="form-callback__radio-group">
+            {% for option in field.options | default([]) %}
+              {% set optionId = fieldId ~ '_' ~ loop.index0 %}
+              <label class="form-callback__radio-item" for="{{ optionId }}">
+                <input id="{{ optionId }}" type="radio" name="{{ field.name }}" value="{{ option.value }}" class="form-callback__radio-input">
+                <span class="form-callback__radio-dot" aria-hidden="true"></span>
+                <span class="form-callback__radio-text">{{ option.label[lang_code] | default(option.label.ru | default('')) }}</span>
+              </label>
+            {% endfor %}
+          </div>
+          <span class="form-callback__error-msg" aria-live="polite"></span>
+        </fieldset>
+
+      {# --- Default: input (text, email, tel, number) --- #}
+      {% else %}
+        <div class="form-callback__field">
+          <div class="form-callback__input-wrap">
+            <input id="{{ fieldId }}" type="{{ field.type | default('text') }}" class="form-callback__control" name="{{ field.name }}" placeholder=" "{% if field.inputmode is defined %} inputmode="{{ field.inputmode }}"{% endif %}{% if field.autocomplete is defined %} autocomplete="{{ field.autocomplete }}"{% endif %}{% if isRequired %} aria-required="true"{% endif %}{% if field.validation.maxLength is defined %} maxlength="{{ field.validation.maxLength }}"{% endif %}>
+            <label class="form-callback__label" for="{{ fieldId }}">
+              {{ fieldLabel }}{% if isRequired %}<span class="form-callback__asterisk">*</span>{% endif %}
+            </label>
+
+          </div>
+          <span class="form-callback__error-msg" aria-live="polite"></span>
+        </div>
+      {% endif %}
+
+    {% endfor %}
+
+    {# --- Submit --- #}
+    <div class="form-callback__field field-submit">
+      <button class="button button-md button-3 form-callback__submit" type="submit">
+        <span class="form-callback__submit-text">
+          {% if data.button is defined and data.button.title is defined %}
+            {{ data.button.title }}
+          {% else %}
+            {{ formConfig.button[lang_code].title }}
+          {% endif %}
+        </span>
+        <span class="form-callback__submit-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="form-callback__submit-spinner" aria-hidden="true"></span>
       </button>
     </div>
-    {% if global['form-callback'].rules[lang_code].policy is defined and global['form-callback'].rules[lang_code].policy %}
-      <div class="form-callback__item form-callback-item-rules rules-wrap">
-        <span class="form-callback__rules">{{ global['form-callback'].rules[lang_code].policy | raw }}</span>
-      </div>
+
+    {# --- Rules: не показываем, если есть чекбокс policy --- #}
+    {% set hasPolicyCheckbox = false %}
+    {% for field in fields %}
+      {% if field.type == 'checkbox' and field.name == 'policy' %}
+        {% set hasPolicyCheckbox = true %}
+      {% endif %}
+    {% endfor %}
+    {% if not hasPolicyCheckbox %}
+    <div class="form-callback__field field-full field-rules">
+      <span class="form-callback__rules-text">{{ formConfig.rules[lang_code].policy | raw }}</span>
+    </div>
     {% endif %}
-    <div class="form-callback__item form-callback__error hidden" aria-live="polite" aria-atomic="true">
-      <span id="{{ formId }}Error" class="form-callback__error-text" role="alert" aria-live="assertive">{{ global['form-callback'].error[lang_code].title }}</span>
+
+    {# --- Error banner --- #}
+    <div class="form-callback__field field-full form-callback__error-banner hidden" aria-live="polite" aria-atomic="true">
+      <span id="{{ formId }}Error" class="form-callback__error-text" role="alert" aria-live="assertive">{{ formConfig.error[lang_code].title }}</span>
     </div>
   </div>
 </form>
 
-{# Маячок попыток: нарочно inline и отдельно от бандла — он обязан пережить смерть JS
-   и увезти «нажал, а запроса нет» в приёмник. Поля — только при отмеченном согласии.
-   Скрипт один на страницу, сколько бы форм ни отрендерилось. #}
-<script>
-(function () {
-  if (window.__ismartAttempt) return;
-  window.__ismartAttempt = 1;
-  var EP = 'https://api.ismart.pro/v1/attempt';
-  function sid() {
-    try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID().replace(/-/g, ''); } catch (e) {}
-    return 'a' + Date.now().toString(36) + Math.random().toString(36).slice(2, 12);
-  }
-  function send(o) {
-    try {
-      var b = JSON.stringify(o);
-      if (navigator.sendBeacon) { navigator.sendBeacon(EP, new Blob([b], { type: 'text/plain' })); }
-      else if (window.fetch) { fetch(EP, { method: 'POST', body: b, keepalive: true }); }
-    } catch (e) {}
-  }
-  function ensure(f) {
-    if (!f.dataset.ismartSession) f.dataset.ismartSession = sid();
-    return f.dataset.ismartSession;
-  }
-  function onStart(e) {
-    var t = e.target;
-    var f = t && t.closest ? t.closest('form.js-form-callback') : null;
-    if (!f || f.dataset.ismartStarted) return;
-    f.dataset.ismartStarted = '1';
-    send({ kind: 'form_start', session_id: ensure(f), page_url: location.href });
-  }
-  ['pointerdown', 'focusin', 'keydown'].forEach(function (n) { document.addEventListener(n, onStart, true); });
-  document.addEventListener('submit', function (e) {
-    var f = e.target;
-    if (!f || !f.matches || !f.matches('form.js-form-callback')) return;
-    var d = { kind: 'attempt', session_id: ensure(f), page_url: location.href };
-    var consent = f.querySelector('input[name="policy"]');
-    // Поля снимаем независимо от галки согласия: согласие на обработку человек уже дал
-    // баннером на входе, а забытая галка — не отказ, а причина, по которой заявка не ушла.
-    // Раньше номер тут не собирался, попытка выглядела пустой формой и до вкладки
-    // «Не смог отправить» не доходила — человек уходил, а звонить было некому.
-    var fields = {};
-    ['phone', 'name', 'email'].forEach(function (n) {
-      var i = f.querySelector('[name="' + n + '"]');
-      if (i && i.value) fields[n] = i.value;
-    });
-    d.fields = fields;
-
-    // Состояние галки едет рядом: менеджеру видно, почему заявка осталась попыткой.
-    if (consent && !consent.checked) d.fields = Object.assign(d.fields || {}, { policy: 'не отмечено' });
-    send(d);
-  }, true);
-  document.addEventListener('ismart:send-result', function (e) {
-    var f = e.target;
-    var det = e.detail || {};
-    if (!f || !f.dataset || !f.dataset.ismartSession) return;
-    send({ kind: 'result', session_id: f.dataset.ismartSession, outcome: det.outcome || '', error: det.error || '' });
-    if (det.outcome === 'sent') { delete f.dataset.ismartSession; delete f.dataset.ismartStarted; }
-  }, true);
-})();
-</script>
-
-{# Маячок попыток: отдельным партиалом, чтобы правки ядра доезжали синком. #}
+{# Маячок попыток отдельным партиалом: кастомные формы деплойментов подключают его
+   одной строкой, и синк платформы обновляет маячок у всех сразу. #}
 {% include 'components/attempt-beacon.twig' %}

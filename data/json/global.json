@@ -275,7 +275,62 @@
       "en": {
         "title": "Privacy Policy"
       }
-    }
+    },
+    "fields": [
+      {
+        "type": "email",
+        "name": "email",
+        "inputmode": "email",
+        "autocomplete": "email",
+        "validation": {
+          "required": true,
+          "validator": "email"
+        }
+      },
+      {
+        "type": "text",
+        "name": "name",
+        "autocomplete": "name",
+        "validation": {
+          "required": true,
+          "minLength": 2
+        }
+      },
+      {
+        "type": "select",
+        "name": "city",
+        "options": [
+          {
+            "value": "Санкт-Петербург",
+            "label": {
+              "ru": "Санкт-Петербург",
+              "en": "Saint Petersburg"
+            }
+          },
+          {
+            "value": "Москва",
+            "label": {
+              "ru": "Москва",
+              "en": "Moscow"
+            }
+          }
+        ],
+        "validation": {
+          "required": true
+        }
+      },
+      {
+        "type": "checkbox",
+        "name": "policy",
+        "validation": {
+          "required": true
+        }
+      },
+      {
+        "type": "hidden",
+        "name": "current_url"
+      }
+    ]
   },
   "filter": {
     "ru": {
@@ -289,7 +344,14 @@
       ]
     },
     "en": {
-      "items": ["kids friendly", "with a beautiful view", "italian cuisine", "breakfast", "every day", "pets friendly"]
+      "items": [
+        "kids friendly",
+        "with a beautiful view",
+        "italian cuisine",
+        "breakfast",
+        "every day",
+        "pets friendly"
+      ]
     }
   },
   "icons": {
@@ -385,9 +447,18 @@
         "Экосистема Итали",
         "Гастрономическое сообщество «Итали»"
       ],
-      "areaServed": ["Санкт-Петербург", "Москва"],
-      "founders": ["Михаил Соколов", "Тимур Дмитриев"],
-      "sameAs": ["https://italycommunity.online", "https://italyco.rest"],
+      "areaServed": [
+        "Санкт-Петербург",
+        "Москва"
+      ],
+      "founders": [
+        "Михаил Соколов",
+        "Тимур Дмитриев"
+      ],
+      "sameAs": [
+        "https://italycommunity.online",
+        "https://italyco.rest"
+      ],
       "knowsAbout": [
         "итальянская кухня",
         "рестораны Санкт-Петербурга",
