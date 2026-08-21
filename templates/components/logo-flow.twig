@@ -20,6 +20,29 @@
              intro.querySelector('.intro__logo');
     }
 
+    // Знак сначала доезжает и замирает — и только потом наливается цветом. Раньше класс
+    // ставился в тот же момент, когда заканчивалось движение, и перекраска читалась как
+    // часть переезда. Полсекунды: знак успевает замереть, но ожидание не тянется.
+    var dockTimer = null;
+
+    function setDocked(on) {
+      if (on) {
+        if (dockTimer === null && !root.classList.contains('logo-flow-docked')) {
+          dockTimer = setTimeout(function () {
+            dockTimer = null;
+            root.classList.add('logo-flow-docked');
+          }, 550);
+        }
+        return;
+      }
+
+      if (dockTimer !== null) {
+        clearTimeout(dockTimer);
+        dockTimer = null;
+      }
+      root.classList.remove('logo-flow-docked');
+    }
+
     function apply() {
       var introLogo = currentIntroLogo();
       if (!introLogo) { return; }
@@ -42,10 +65,9 @@
       headerLogo.style.setProperty('--logo-flow-y', (dy * k).toFixed(2) + 'px');
       headerLogo.style.setProperty('--logo-flow-scale', (1 + (scale - 1) * k).toFixed(4));
 
-      if (Math.abs(p - last) > 0.01) {
+      if (Math.abs(p - last) > 0.005) {
         last = p;
-        // Цвет знака переключаем раньше, чем он доедет: смена успевает пройти плавно
-        root.classList.toggle('logo-flow-docked', p > 0.62);
+        setDocked(p >= 0.999);
       }
     }
 
