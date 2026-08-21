@@ -131,7 +131,7 @@
     {
       "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/1.jpg",
       "alt": "Juan Санкт-Петербург, Санкт-Петербург",
-      "span": 6
+      "span": 12
     },
     {
       "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/2.jpg",
@@ -141,17 +141,17 @@
     {
       "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/3.jpg",
       "alt": "Juan Санкт-Петербург, Санкт-Петербург",
-      "span": 4
+      "span": 6
     },
     {
       "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/4.jpg",
       "alt": "Juan Санкт-Петербург, Санкт-Петербург",
-      "span": 4
+      "span": 6
     },
     {
       "src": "data/img/restaurants/juan-cantina-espanola/covers/raw/5.jpg",
       "alt": "Juan Санкт-Петербург, Санкт-Петербург",
-      "span": 4
+      "span": 6
     }
   ]
 }

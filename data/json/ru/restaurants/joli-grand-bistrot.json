@@ -122,7 +122,7 @@
     {
       "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/1.jpg",
       "alt": "Joli Санкт‑Петербург, Санкт-Петербург",
-      "span": 6
+      "span": 12
     },
     {
       "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/2.jpg",
@@ -132,17 +132,17 @@
     {
       "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/3.jpg",
       "alt": "Joli Санкт‑Петербург, Санкт-Петербург",
-      "span": 4
+      "span": 6
     },
     {
       "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/4.jpg",
       "alt": "Joli Санкт‑Петербург, Санкт-Петербург",
-      "span": 4
+      "span": 6
     },
     {
       "src": "data/img/restaurants/joli-grand-bistrot/covers/raw/5.jpg",
       "alt": "Joli Санкт‑Петербург, Санкт-Петербург",
-      "span": 4
+      "span": 6
     }
   ]
 }

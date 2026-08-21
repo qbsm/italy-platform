@@ -146,7 +146,7 @@
     {
       "src": "data/img/restaurants/italy-bolshaya-morskaya/covers/raw/1.jpg",
       "alt": "«Итали» на Большой Морской, Санкт-Петербург",
-      "span": 6
+      "span": 12
     },
     {
       "src": "data/img/restaurants/italy-bolshaya-morskaya/covers/raw/2.jpg",
@@ -156,17 +156,17 @@
     {
       "src": "data/img/restaurants/italy-bolshaya-morskaya/covers/raw/3.jpg",
       "alt": "«Итали» на Большой Морской, Санкт-Петербург",
-      "span": 4
+      "span": 6
     },
     {
       "src": "data/img/restaurants/italy-bolshaya-morskaya/covers/raw/4.jpg",
       "alt": "«Итали» на Большой Морской, Санкт-Петербург",
-      "span": 4
+      "span": 6
     },
     {
       "src": "data/img/restaurants/italy-bolshaya-morskaya/covers/raw/5.jpg",
       "alt": "«Итали» на Большой Морской, Санкт-Петербург",
-      "span": 4
+      "span": 6
     }
   ]
 }

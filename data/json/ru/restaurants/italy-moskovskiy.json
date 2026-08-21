@@ -148,12 +148,12 @@
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/2.jpg",
       "alt": "Паста с прошутто — «Итали» на Московском, Санкт-Петербург",
-      "span": 6
+      "span": 4
     },
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/3.jpg",
       "alt": "Сервировка с цветами — «Итали» на Московском, Санкт-Петербург",
-      "span": 6
+      "span": 4
     },
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/4.jpg",
@@ -163,22 +163,22 @@
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/5.jpg",
       "alt": "Вид на зал с антресоли — «Итали» на Московском, Санкт-Петербург",
-      "span": 4
+      "span": 6
     },
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/6.jpg",
       "alt": "Зал с красной стеной — «Итали» на Московском, Санкт-Петербург",
-      "span": 4
+      "span": 6
     },
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/7.jpg",
       "alt": "Зал с зеленью — «Итали» на Московском, Санкт-Петербург",
-      "span": 6
+      "span": 4
     },
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/8.jpg",
       "alt": "Зал с барной стойкой — «Итали» на Московском, Санкт-Петербург",
-      "span": 6
+      "span": 4
     },
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/9.jpg",
@@ -188,37 +188,37 @@
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/10.jpg",
       "alt": "Светлый зал с диваном — «Итали» на Московском, Санкт-Петербург",
-      "span": 4
+      "span": 6
     },
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/11.jpg",
       "alt": "Зал с деревянными ламелями — «Итали» на Московском, Санкт-Петербург",
-      "span": 4
+      "span": 6
     },
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/12.jpg",
       "alt": "Столики у окна — «Итали» на Московском, Санкт-Петербург",
-      "span": 12
+      "span": 4
     },
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/13.jpg",
       "alt": "Зал с растениями — «Итали» на Московском, Санкт-Петербург",
-      "span": 6
+      "span": 4
     },
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/14.jpg",
       "alt": "Фасад ресторана — «Итали» на Московском, Санкт-Петербург",
-      "span": 6
+      "span": 4
     },
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/15.jpg",
       "alt": "Сервированный стол — «Итали» на Московском, Санкт-Петербург",
-      "span": 4
+      "span": 6
     },
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/16.jpg",
       "alt": "Зал с ламелями — «Итали» на Московском, Санкт-Петербург",
-      "span": 4
+      "span": 6
     },
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/17.jpg",
@@ -228,12 +228,12 @@
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/18.jpg",
       "alt": "Круглые столы — «Итали» на Московском, Санкт-Петербург",
-      "span": 12
+      "span": 4
     },
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/19.jpg",
       "alt": "Длинный банкетный стол — «Итали» на Московском, Санкт-Петербург",
-      "span": 6
+      "span": 4
     },
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/20.jpg",
@@ -243,7 +243,7 @@
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/21.jpg",
       "alt": "Банкетный зал — «Итали» на Московском, Санкт-Петербург",
-      "span": 4
+      "span": 6
     },
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/22.jpg",
@@ -258,7 +258,7 @@
     {
       "src": "data/img/restaurants/italy-moskovskiy/covers/raw/24.jpg",
       "alt": "Открытая кухня — «Итали» на Московском, Санкт-Петербург",
-      "span": 3
+      "span": 4
     }
   ]
 }

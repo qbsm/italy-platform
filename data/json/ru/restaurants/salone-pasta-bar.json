@@ -124,7 +124,7 @@
     {
       "src": "data/img/restaurants/salone-pasta-bar/covers/raw/1.jpg",
       "alt": "Salone pasta&bar Санкт-Петербург, Санкт-Петербург",
-      "span": 6
+      "span": 12
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar/covers/raw/2.jpg",
@@ -134,17 +134,17 @@
     {
       "src": "data/img/restaurants/salone-pasta-bar/covers/raw/3.jpg",
       "alt": "Salone pasta&bar Санкт-Петербург, Санкт-Петербург",
-      "span": 4
+      "span": 6
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar/covers/raw/4.jpg",
       "alt": "Salone pasta&bar Санкт-Петербург, Санкт-Петербург",
-      "span": 4
+      "span": 6
     },
     {
       "src": "data/img/restaurants/salone-pasta-bar/covers/raw/5.jpg",
       "alt": "Salone pasta&bar Санкт-Петербург, Санкт-Петербург",
-      "span": 4
+      "span": 6
     }
   ]
 }
