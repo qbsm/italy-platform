@@ -77,6 +77,8 @@ return [
     // в appConfig, по нему JS шлёт цели.
     'yandex_metric_id' => $yandex_metric_ids[0] ?? 0,
     'yandex_metric_ids' => $yandex_metric_ids,
+    // Имя сайта: подставляется в <title>, если у страницы нет своего заголовка
+    'site_name' => (string) ($projectConfig['site_name'] ?? ''),
     // slug в URL => page_id (из project.php)
     'route_map' => (array) ($projectConfig['route_map'] ?? []),
     // Конфигурация коллекций (из project.php)

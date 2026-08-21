@@ -7,6 +7,8 @@ declare(strict_types=1);
  * До синка ядра значения жили прямо в settings.php — ядро платформы читает их отсюда.
  */
 return [
+    'site_name' => 'Экосистема итали',
+
     'route_map' => [
         'restaurants' => 'restaurants-list',
         'events' => 'events-list',
