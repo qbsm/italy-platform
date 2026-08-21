@@ -20,6 +20,29 @@
              intro.querySelector('.intro__logo');
     }
 
+    // Знак сначала доезжает и замирает — и только потом наливается цветом. Раньше класс
+    // ставился в тот же момент, когда заканчивалось движение, и перекраска читалась как
+    // часть переезда. Пауза короткая, но её хватает, чтобы глаз увидел два разных события.
+    var dockTimer = null;
+
+    function setDocked(on) {
+      if (on) {
+        if (dockTimer === null && !root.classList.contains('logo-flow-docked')) {
+          dockTimer = setTimeout(function () {
+            dockTimer = null;
+            root.classList.add('logo-flow-docked');
+          }, 320);
+        }
+        return;
+      }
+
+      if (dockTimer !== null) {
+        clearTimeout(dockTimer);
+        dockTimer = null;
+      }
+      root.classList.remove('logo-flow-docked');
+    }
+
     function apply() {
       var introLogo = currentIntroLogo();
       if (!introLogo) { return; }
@@ -44,9 +67,7 @@
 
       if (Math.abs(p - last) > 0.005) {
         last = p;
-        // Цвет знака меняется только когда знак уже на месте в шапке: смена по дороге
-        // читается как мигание, а не как приезд.
-        root.classList.toggle('logo-flow-docked', p >= 0.999);
+        setDocked(p >= 0.999);
       }
     }
 
