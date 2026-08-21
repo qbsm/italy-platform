@@ -128,7 +128,9 @@
 /* Круг перетекающего знака повторяет состояние интро */
 .logo-flow-on .header__logo .logo-mark,
 .logo-flow-on .header__logo .logo-figure {
-  transition: fill 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  /* Небольшая задержка: сначала знак останавливается в шапке, и только потом наливается
+     цветом — иначе перекраска смазывается движением. */
+  transition: fill 0.35s cubic-bezier(0.22, 1, 0.36, 1) 0.12s;
 }
 
 .logo-flow-on:not(.logo-flow-docked) .header__logo .logo-mark {
