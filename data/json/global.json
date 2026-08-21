@@ -330,7 +330,8 @@
         "type": "hidden",
         "name": "current_url"
       }
-    ]
+    ],
+    "labelStyle": "hint"
   },
   "filter": {
     "ru": {

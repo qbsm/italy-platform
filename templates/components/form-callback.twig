@@ -1,8 +1,11 @@
 {% set formId = 'formCallback' ~ random(1000000) %}
 {% set formConfig = global['form-callback'] %}
 {% set fields = data.fields | default(formConfig.fields | default([])) %}
+{# Оформление подписей: 'label' — плавающая метка (по умолчанию), 'hint' — подсказка внутри
+   поля, как на площадках, где так задуман дизайн. Логика и разметка от этого не меняются. #}
+{% set labelStyle = data.labelStyle | default(formConfig.labelStyle | default('label')) %}
 
-<form class="form-callback js-form-callback" novalidate method="post" action="" id="{{ formId }}">
+<form class="form-callback js-form-callback{% if labelStyle == 'hint' %} form-callback--hint{% endif %}" novalidate method="post" action="" id="{{ formId }}">
   <div class="form-callback__trap" aria-hidden="true">
     <input type="text" name="company_site" tabindex="-1" autocomplete="off">
   </div>
@@ -54,7 +57,8 @@
               {% endfor %}
             </select>
             <label class="form-callback__label" for="{{ fieldId }}">
-              {{ fieldLabel }}{% if isRequired %}<span class="form-callback__asterisk">*</span>{% endif %}
+              {# Подсказка внутри поля обычно написана примером («ваша@почта.ru»), метка — словом. #}
+              {{ labelStyle == 'hint' ? (fieldPlaceholder | default(fieldLabel)) : fieldLabel }}{% if isRequired %}<span class="form-callback__asterisk">*</span>{% endif %}
             </label>
 
           </div>
@@ -67,7 +71,8 @@
           <div class="form-callback__input-wrap">
             <textarea id="{{ fieldId }}" name="{{ field.name }}" class="form-callback__control control-textarea" placeholder=" "{% if isRequired %} aria-required="true"{% endif %}{% if field.validation.maxLength is defined %} maxlength="{{ field.validation.maxLength }}"{% endif %}></textarea>
             <label class="form-callback__label" for="{{ fieldId }}">
-              {{ fieldLabel }}{% if isRequired %}<span class="form-callback__asterisk">*</span>{% endif %}
+              {# Подсказка внутри поля обычно написана примером («ваша@почта.ru»), метка — словом. #}
+              {{ labelStyle == 'hint' ? (fieldPlaceholder | default(fieldLabel)) : fieldLabel }}{% if isRequired %}<span class="form-callback__asterisk">*</span>{% endif %}
             </label>
 
           </div>
@@ -119,7 +124,8 @@
           <div class="form-callback__input-wrap">
             <input id="{{ fieldId }}" type="{{ field.type | default('text') }}" class="form-callback__control" name="{{ field.name }}" placeholder=" "{% if field.inputmode is defined %} inputmode="{{ field.inputmode }}"{% endif %}{% if field.autocomplete is defined %} autocomplete="{{ field.autocomplete }}"{% endif %}{% if isRequired %} aria-required="true"{% endif %}{% if field.validation.maxLength is defined %} maxlength="{{ field.validation.maxLength }}"{% endif %}>
             <label class="form-callback__label" for="{{ fieldId }}">
-              {{ fieldLabel }}{% if isRequired %}<span class="form-callback__asterisk">*</span>{% endif %}
+              {# Подсказка внутри поля обычно написана примером («ваша@почта.ru»), метка — словом. #}
+              {{ labelStyle == 'hint' ? (fieldPlaceholder | default(fieldLabel)) : fieldLabel }}{% if isRequired %}<span class="form-callback__asterisk">*</span>{% endif %}
             </label>
 
           </div>
