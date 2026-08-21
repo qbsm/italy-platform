@@ -4,6 +4,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
+    "venueId": 40,
     "name": "«ХИТЧ»",
     "telephone": {
       "title": "+7 (921) 919-01-79",

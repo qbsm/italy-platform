@@ -4,6 +4,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
+    "venueId": 28,
     "name": "Salone pasta&bar Санкт-Петербург",
     "nameHtml": "Salone pasta&amp;bar<br>Санкт-Петербург",
     "telephone": {
@@ -19,12 +20,16 @@
     },
     "openingHours": [
       {
-        "days": "Вс-Чт",
-        "hours": "12:00–01:00"
+        "days": "Пн-Чт",
+        "hours": "12:00–00:00"
       },
       {
         "days": "Пт-Сб",
         "hours": "12:00–02:00"
+      },
+      {
+        "days": "Вс",
+        "hours": "12:00–00:00"
       }
     ],
     "geo": {

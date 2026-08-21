@@ -4,6 +4,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
+    "venueId": 22,
     "name": "«Итали» на Большом",
     "telephone": {
       "title": "+7 (812) 900-63-33",

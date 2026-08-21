@@ -4,6 +4,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
+    "venueId": 29,
     "name": "Salone pasta&bar Москва",
     "telephone": {
       "title": "+7 (929) 926-11-99",

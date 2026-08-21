@@ -4,6 +4,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
+    "venueId": 30,
     "name": "«Ателье тапас и бар»",
     "telephone": {
       "title": "+7 (812) 904-08-55",
@@ -18,12 +19,16 @@
     },
     "openingHours": [
       {
-        "days": "Вс-Чт",
+        "days": "Пн-Чт",
         "hours": "13:00–23:00"
       },
       {
         "days": "Пт-Сб",
-        "hours": "13:00–01:00"
+        "hours": "13:00–02:00"
+      },
+      {
+        "days": "Вс",
+        "hours": "13:00–23:00"
       }
     ],
     "geo": {

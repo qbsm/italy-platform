@@ -4,6 +4,7 @@
   "visible": true,
   "restaurant": {
     "@type": "Restaurant",
+    "venueId": 33,
     "name": "«Джем кафе»",
     "telephone": {
       "title": "+7 (981) 963-11-17",
@@ -19,19 +20,15 @@
     "openingHours": [
       {
         "days": "Пн-Чт",
-        "hours": "12:00–00:00"
+        "hours": "08:30–00:00"
       },
       {
-        "days": "Пт",
-        "hours": "12:00–01:00"
-      },
-      {
-        "days": "Сб",
-        "hours": "10:00–01:00"
+        "days": "Пт-Сб",
+        "hours": "08:30–01:00"
       },
       {
         "days": "Вс",
-        "hours": "10:00–00:00"
+        "hours": "08:30–00:00"
       }
     ],
     "geo": {
