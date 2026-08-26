@@ -1,144 +1,149 @@
 {
-  "metaDescription": "Juan Москва — испано-мексиканская кантина на 2-й Звенигородской, 12с22: тапас, тако, паэлья и мескаль-бар. Открыто ежедневно с 12:00 до 00:00.",
-  "slug": "juan-moscow",
-  "visible": true,
-  "restaurant": {
-    "@type": "Restaurant",
-    "venueId": 48,
-    "name": "Juan Москва",
-    "telephone": {
-      "title": "+7 (925) 404-11-12",
-      "href": "tel:+79254041112"
+    "metaDescription": "Juan Москва — испано-мексиканская кантина на 2-й Звенигородской, 12с22: тапас, тако, паэлья и мескаль-бар. Открыто ежедневно с 12:00 до 00:00.",
+    "slug": "juan-moscow",
+    "visible": true,
+    "restaurant": {
+        "@type": "Restaurant",
+        "venueId": 48,
+        "name": "Juan Москва",
+        "telephone": {
+            "title": "+7 (925) 404-11-12",
+            "href": "tel:+79254041112"
+        },
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "2-я Звенигородская ул., 12 стр 22",
+            "addressLocality": "Москва",
+            "addressRegion": "Москва",
+            "addressCountry": "RU"
+        },
+        "openingHours": [
+            {
+                "days": "Пн-Вс",
+                "hours": "09:00–00:00"
+            }
+        ],
+        "hoursNotes": [],
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "55.762338",
+            "longitude": "37.556649"
+        },
+        "hasMap": "https://yandex.ru/maps/?pt=37.556649,55.762338&z=17&l=map",
+        "servesCuisine": [
+            "Испанская кухня",
+            "Мексиканская кухня"
+        ],
+        "menuLink": "/data/catalogs/juan-moscow-menu.pdf",
+        "barMenuLink": "/data/catalogs/juan-moscow-bar.pdf",
+        "priceRange": "₽₽",
+        "bookingPoint": "910032"
     },
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "2-я Звенигородская ул., 12 стр 22",
-      "addressLocality": "Москва",
-      "addressRegion": "Москва",
-      "addressCountry": "RU"
+    "desc": {
+        "short": "Испано-мексиканская кантина — портал в бесконечную фиесту",
+        "heading": "Мы уже открылись! Новое стильное заведение в Москве",
+        "full": [
+            "В столице открывает свои двери новая испано-мексиканская кантина — портал в бесконечную фиесту. Juan Cantina Espanola — это визуализация воспоминаний о солнечных днях, проведённых в путешествиях по Мексике и югу Испании.<br><br>Витражные узоры и мозаика, остроконечные арки, изразцовая плитка навевают воспоминания об аутентичных улочках и уникальной архитектуре. Пышные тропические растения, вазы с яркими цветами, связки жгучих перцев над барной стойкой и натуральный мрамор в оформлении создают ощущение кусочка испано-мексиканского лета в центре столицы."
+        ],
+        "blocks": [
+            {
+                "heading": "Каждый день до полуночи",
+                "text": [
+                    "Ресторан работает ежедневно с полудня до полуночи. Адрес — 2-я Звенигородская улица, 12 строение 22."
+                ]
+            }
+        ]
     },
-    "openingHours": [
-      {
-        "days": "Пн-Вс",
-        "hours": "12:00–00:00"
-      }
+    "loyalty": false,
+    "tags": [],
+    "covers": [
+        {
+            "src": "data/img/restaurants/juan-moscow/covers/raw/1.jpg",
+            "alt": "Интерьер Juan Москва: витражи и связки перцев над барной стойкой"
+        },
+        {
+            "src": "data/img/restaurants/juan-moscow/covers/raw/2.jpg",
+            "alt": "Стол в Juan Москва: тако, паэлья, батат фри и пинчос"
+        },
+        {
+            "src": "data/img/restaurants/juan-moscow/covers/raw/3.jpg",
+            "alt": "Тако и лимонад на террасе Juan Москва"
+        },
+        {
+            "src": "data/img/restaurants/juan-moscow/covers/raw/4.jpg",
+            "alt": "Коктейли Juan Москва на фоне фирменной арки"
+        },
+        {
+            "src": "data/img/restaurants/juan-moscow/covers/raw/5.jpg",
+            "alt": "Паэлья Juan Москва в фирменном деревянном лотке"
+        }
     ],
-    "hoursNotes": [],
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": "55.762338",
-      "longitude": "37.556649"
-    },
-    "hasMap": "https://yandex.ru/maps/?pt=37.556649,55.762338&z=17&l=map",
-    "servesCuisine": ["Испанская кухня", "Мексиканская кухня"],
-    "menuLink": "/data/catalogs/juan-moscow-menu.pdf",
-    "barMenuLink": "/data/catalogs/juan-moscow-bar.pdf",
-    "priceRange": "₽₽",
-    "bookingPoint": "910032"
-  },
-  "desc": {
-    "short": "Испано-мексиканская кантина — портал в бесконечную фиесту",
-    "heading": "Мы уже открылись! Новое стильное заведение в Москве",
-    "full": [
-      "В столице открывает свои двери новая испано-мексиканская кантина — портал в бесконечную фиесту. Juan Cantina Espanola — это визуализация воспоминаний о солнечных днях, проведённых в путешествиях по Мексике и югу Испании.<br><br>Витражные узоры и мозаика, остроконечные арки, изразцовая плитка навевают воспоминания об аутентичных улочках и уникальной архитектуре. Пышные тропические растения, вазы с яркими цветами, связки жгучих перцев над барной стойкой и натуральный мрамор в оформлении создают ощущение кусочка испано-мексиканского лета в центре столицы."
+    "logos": [
+        {
+            "src": "data/img/restaurants/juan-moscow/logos/logo-color-1.svg",
+            "alt": "Juan Москва белый лого",
+            "height": "7.4rem"
+        },
+        {
+            "src": "data/img/restaurants/juan-moscow/logos/logo-color-2.svg",
+            "alt": "Juan Москва чёрный лого",
+            "height": "7.4rem"
+        }
     ],
-    "blocks": [
-      {
-        "heading": "Каждый день до полуночи",
-        "text": ["Ресторан работает ежедневно с полудня до полуночи. Адрес — 2-я Звенигородская улица, 12 строение 22."]
-      }
+    "icons": [
+        {
+            "src": "data/img/restaurants/juan-cantina-espanola/icons/icon-color-1.svg",
+            "alt": "Juan Москва белая иконка"
+        },
+        {
+            "src": "data/img/restaurants/juan-cantina-espanola/icons/icon-color-2.svg",
+            "alt": "Juan Москва чёрная иконка"
+        }
+    ],
+    "metaTitle": "Juan Москва — испано-мексиканская кантина на 2-й Звенигородской",
+    "faq": [
+        {
+            "q": "Какая кухня в Juan Москва?",
+            "a": "Испанская и мексиканская — формат кантины, где кухня и бар равноправны."
+        },
+        {
+            "q": "Какой график работы?",
+            "a": "Ежедневно с 12:00 до 00:00."
+        },
+        {
+            "q": "Где это находится?",
+            "a": "2-я Звенигородская улица, 12 строение 22. В том же квартале работает московский Joli."
+        },
+        {
+            "q": "Есть ли такой же ресторан в Петербурге?",
+            "a": "Да, Juan работает и в Петербурге на улице Восстания, 45Б — там же летом открывается терраса с шезлонгами."
+        }
+    ],
+    "gallery": [
+        {
+            "src": "data/img/restaurants/juan-moscow/covers/raw/1.jpg",
+            "alt": "Juan Москва, Москва",
+            "span": 12
+        },
+        {
+            "src": "data/img/restaurants/juan-moscow/covers/raw/2.jpg",
+            "alt": "Juan Москва, Москва",
+            "span": 6
+        },
+        {
+            "src": "data/img/restaurants/juan-moscow/covers/raw/3.jpg",
+            "alt": "Juan Москва, Москва",
+            "span": 6
+        },
+        {
+            "src": "data/img/restaurants/juan-moscow/covers/raw/4.jpg",
+            "alt": "Juan Москва, Москва",
+            "span": 6
+        },
+        {
+            "src": "data/img/restaurants/juan-moscow/covers/raw/5.jpg",
+            "alt": "Juan Москва, Москва",
+            "span": 6
+        }
     ]
-  },
-  "loyalty": false,
-  "tags": [],
-  "covers": [
-    {
-      "src": "data/img/restaurants/juan-moscow/covers/raw/1.jpg",
-      "alt": "Интерьер Juan Москва: витражи и связки перцев над барной стойкой"
-    },
-    {
-      "src": "data/img/restaurants/juan-moscow/covers/raw/2.jpg",
-      "alt": "Стол в Juan Москва: тако, паэлья, батат фри и пинчос"
-    },
-    {
-      "src": "data/img/restaurants/juan-moscow/covers/raw/3.jpg",
-      "alt": "Тако и лимонад на террасе Juan Москва"
-    },
-    {
-      "src": "data/img/restaurants/juan-moscow/covers/raw/4.jpg",
-      "alt": "Коктейли Juan Москва на фоне фирменной арки"
-    },
-    {
-      "src": "data/img/restaurants/juan-moscow/covers/raw/5.jpg",
-      "alt": "Паэлья Juan Москва в фирменном деревянном лотке"
-    }
-  ],
-  "logos": [
-    {
-      "src": "data/img/restaurants/juan-moscow/logos/logo-color-1.svg",
-      "alt": "Juan Москва белый лого",
-      "height": "7.4rem"
-    },
-    {
-      "src": "data/img/restaurants/juan-moscow/logos/logo-color-2.svg",
-      "alt": "Juan Москва чёрный лого",
-      "height": "7.4rem"
-    }
-  ],
-  "icons": [
-    {
-      "src": "data/img/restaurants/juan-cantina-espanola/icons/icon-color-1.svg",
-      "alt": "Juan Москва белая иконка"
-    },
-    {
-      "src": "data/img/restaurants/juan-cantina-espanola/icons/icon-color-2.svg",
-      "alt": "Juan Москва чёрная иконка"
-    }
-  ],
-  "metaTitle": "Juan Москва — испано-мексиканская кантина на 2-й Звенигородской",
-  "faq": [
-    {
-      "q": "Какая кухня в Juan Москва?",
-      "a": "Испанская и мексиканская — формат кантины, где кухня и бар равноправны."
-    },
-    {
-      "q": "Какой график работы?",
-      "a": "Ежедневно с 12:00 до 00:00."
-    },
-    {
-      "q": "Где это находится?",
-      "a": "2-я Звенигородская улица, 12 строение 22. В том же квартале работает московский Joli."
-    },
-    {
-      "q": "Есть ли такой же ресторан в Петербурге?",
-      "a": "Да, Juan работает и в Петербурге на улице Восстания, 45Б — там же летом открывается терраса с шезлонгами."
-    }
-  ],
-  "gallery": [
-    {
-      "src": "data/img/restaurants/juan-moscow/covers/raw/1.jpg",
-      "alt": "Juan Москва, Москва",
-      "span": 12
-    },
-    {
-      "src": "data/img/restaurants/juan-moscow/covers/raw/2.jpg",
-      "alt": "Juan Москва, Москва",
-      "span": 6
-    },
-    {
-      "src": "data/img/restaurants/juan-moscow/covers/raw/3.jpg",
-      "alt": "Juan Москва, Москва",
-      "span": 6
-    },
-    {
-      "src": "data/img/restaurants/juan-moscow/covers/raw/4.jpg",
-      "alt": "Juan Москва, Москва",
-      "span": 6
-    },
-    {
-      "src": "data/img/restaurants/juan-moscow/covers/raw/5.jpg",
-      "alt": "Juan Москва, Москва",
-      "span": 6
-    }
-  ]
 }
