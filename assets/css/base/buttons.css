@@ -181,19 +181,27 @@
     background: color-mix(in srgb, var(--color-2), white 30%);
 }
 
-.button.bg-color-3 {
-    /* затемнённый оттенок бренд-оранжевого (--color-3) под белый текст: контраст 4.79:1 (WCAG AA) */
+.button.bg-color-3,
+.button.button-3 {
+    /* затемнённый оттенок бренд-оранжевого (--color-3) под белый текст: контраст 4.79:1 (WCAG AA).
+       button-3 — акцентный класс платформы: его шлёт form-callback, и без правила кнопка
+       оставалась прозрачной, одним текстом со стрелкой. */
     background: #c44c01;
     color: var(--color-1);
+    border-color: #c44c01;
 }
 
-.button.bg-color-3:hover {
+.button.bg-color-3:hover,
+.button.button-3:hover {
     background: color-mix(in srgb, #c44c01, white 10%);
+    border-color: color-mix(in srgb, #c44c01, white 10%);
 }
 
 .button.bg-color-3:active,
-.button.bg-color-3.active {
+.button.bg-color-3.active,
+.button.button-3:active {
     background: color-mix(in srgb, #c44c01, black 20%);
+    border-color: color-mix(in srgb, #c44c01, black 20%);
 }
 
 .button.bg-color-6 {
