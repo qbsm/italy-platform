@@ -1,0 +1,46 @@
+<section class="error">
+  <div class="section__item cover-wrap">
+    {% if data.image is defined %}
+      {% include 'components/picture.twig' with {
+        image: data.image,
+        alt: data.image_alt|default(''),
+        class: 'img-responsive error__img',
+        style: 'width: 100%; height: 100%; object-fit: cover;',
+        picture_style: 'display: block; width: 100%; height: 100%;',
+        sizes_preset: 'hero',
+        loading: 'eager'
+      } %}
+    {% endif %}
+    <div class="section__subitem scrim" aria-hidden="true"></div>
+  </div>
+
+  <div class="section__item content-wrap">
+    <div class="container">
+      <div class="error__content">
+        {% if data.code is defined %}
+          <span class="section__subitem error__code" aria-hidden="true">{{ data.code|replace({'0': '<span class="error__code-zero">0</span>'})|raw }}</span>
+        {% endif %}
+
+        {% if data.heading is defined %}
+          <div class="section__subitem error__heading-wrap">
+            {% include 'components/heading.twig' with {'item': data.heading} %}
+          </div>
+        {% endif %}
+
+        {% if data.text is defined %}
+          <p class="section__subitem error__text">{{ data.text|raw }}</p>
+        {% endif %}
+
+        {% if data.actions is defined and data.actions|length > 0 %}
+          <nav class="section__subitem error__actions" aria-label="{{ data.actions_label|default('Куда пойти дальше') }}">
+            {% for action in data.actions %}
+              <a href="{{ action.href starts with 'http' ? action.href : url(action.href) }}"
+                 class="{{ action.class|default('button button-md outline-color-1 color-1 uppercase link') }}"
+                 {% if action.target is defined %}target="{{ action.target }}" rel="noopener"{% endif %}>{{ action.title }}</a>
+            {% endfor %}
+          </nav>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

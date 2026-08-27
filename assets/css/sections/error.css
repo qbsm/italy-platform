@@ -1,0 +1,171 @@
+/* Страница ошибки: фотография зала во всю площадь, поверх — код ошибки и маршруты возврата.
+   Кадр обязателен: без него страница выпадает из фирменного языка сайта, где каждый экран держит фото. */
+
+.error {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: calc(100svh - var(--header-fixed-height));
+  margin-top: calc(-1 * var(--header-fixed-height));
+  padding-top: var(--header-fixed-height);
+  background-color: var(--color-2);
+  color: var(--color-1);
+  overflow: clip;
+
+  @media (--lg) {
+    align-items: center;
+  }
+}
+
+.error .section__item.cover-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.error .error__img {
+  animation: error-cover-in 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Затемнение: слева под текст, снизу под кнопки. Кадр остаётся читаемым справа,
+   где стоит роспись зала. */
+.error .section__subitem.scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to right,
+      rgb(0 0 0 / 80%) 0%,
+      rgb(0 0 0 / 58%) 34%,
+      rgb(0 0 0 / 18%) 70%,
+      rgb(0 0 0 / 30%) 100%
+    ),
+    linear-gradient(to top, rgb(0 0 0 / 78%) 0%, rgb(0 0 0 / 0%) 52%);
+}
+
+@media (width <= 767px) {
+  .error .section__subitem.scrim {
+    background: linear-gradient(
+      to top,
+      rgb(0 0 0 / 88%) 0%,
+      rgb(0 0 0 / 64%) 42%,
+      rgb(0 0 0 / 28%) 78%,
+      rgb(0 0 0 / 45%) 100%
+    );
+  }
+}
+
+.error .section__item.content-wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding-block: 6rem 8rem;
+
+  @media (--lg) {
+    padding-block: 10rem;
+  }
+}
+
+.error__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 62rem;
+}
+
+.error__code {
+  display: block;
+  font-family: var(--font-1-extended);
+  font-weight: 300;
+  font-size: clamp(9rem, 17vw, 20rem);
+  line-height: 0.82;
+  letter-spacing: -0.03em;
+  margin-bottom: 2.4rem;
+
+  @media (--lg) {
+    margin-bottom: 3.2rem;
+  }
+}
+
+/* Ноль забирает фирменный оранжевый — та же нота, что у круглых «О» на главной. */
+.error__code-zero {
+  font-size: inherit;
+  color: var(--color-3);
+}
+
+.error__heading-wrap .heading {
+  font-size: clamp(2.4rem, 3.4vw, 4.2rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.error__text {
+  margin: 1.6rem 0 0;
+  max-width: 46ch;
+  font-size: clamp(1.6rem, 1.3vw, 1.8rem);
+  line-height: 1.6;
+  color: rgb(255 255 255 / 84%);
+  text-wrap: pretty;
+}
+
+.error__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-top: 3.2rem;
+
+  @media (--lg) {
+    margin-top: 4rem;
+  }
+}
+
+.error__actions .button {
+  flex-shrink: 0;
+}
+
+/* Появление: кадр подъезжает, блоки текста поднимаются лесенкой. Базовое состояние —
+   видимое, анимация только усиливает его (иначе на страницах без анимации блок пуст). */
+.error .error__code,
+.error .error__heading-wrap,
+.error .error__text,
+.error .error__actions {
+  animation: error-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.error .error__code { animation-delay: 0.1s; }
+.error .error__heading-wrap { animation-delay: 0.18s; }
+.error .error__text { animation-delay: 0.26s; }
+.error .error__actions { animation-delay: 0.34s; }
+
+@keyframes error-cover-in {
+  from {
+    transform: scale(1.07);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes error-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.8rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .error .error__img,
+  .error .error__code,
+  .error .error__heading-wrap,
+  .error .error__text,
+  .error .error__actions {
+    animation: none;
+  }
+}

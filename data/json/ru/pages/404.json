@@ -6,24 +6,51 @@
       "data": {}
     },
     {
-      "name": "promo",
+      "name": "error",
       "data": {
         "code": "404",
+        "image": {
+          "horizontal": {
+            "800": "data/img/intro/800/desk-bull.webp",
+            "1280": "data/img/intro/1280/desk-bull.webp",
+            "1600": "data/img/intro/1600/desk-bull.webp",
+            "1920": "data/img/intro/1920/desk-bull.webp",
+            "2560": "data/img/intro/2560/desk-bull.webp"
+          },
+          "vertical": {
+            "400": "data/img/intro/400/mob-bull.webp",
+            "800": "data/img/intro/800/mob-bull.webp",
+            "1600": "data/img/intro/1600/mob-bull.webp"
+          }
+        },
+        "image_alt": "Накрытый стол в пустом зале ресторана итали: скатерть, бокалы, живые цветы",
         "heading": {
           "tag": "h1",
           "class": "heading font-1 weight-300 uppercase",
-          "title": "Страница не найдена"
+          "title": "Такой страницы в меню нет"
         },
-        "text": "Кажется, эта страница пропала со стола. Вернитесь на главную или загляните к нам в гости.",
+        "text": "Возможно, её убрали из карты или в ссылке опечатка. Но стол уже накрыт — выбирайте, куда пойти.",
+        "actions_label": "Куда пойти дальше",
         "actions": [
           {
             "title": "На главную",
             "href": "/",
-            "class": "button button-md bg-color-1 color-2 uppercase link"
+            "class": "button button-md bg-color-3 color-1 uppercase link"
           },
           {
             "title": "Рестораны",
             "href": "/restaurants",
+            "class": "button button-md outline-color-1 color-1 uppercase link"
+          },
+          {
+            "title": "Доставка",
+            "href": "https://italytouch.ru",
+            "target": "_blank",
+            "class": "button button-md outline-color-1 color-1 uppercase link"
+          },
+          {
+            "title": "Контакты",
+            "href": "/contacts",
             "class": "button button-md outline-color-1 color-1 uppercase link"
           }
         ]
