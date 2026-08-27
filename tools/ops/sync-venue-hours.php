@@ -11,6 +11,9 @@ declare(strict_types=1);
  *
  * Карточка сайта связана с заведением полем restaurant.venueId.
  *
+ * Если в карточке стоит restaurant.hoursSource = "manual", часы заданы вручную и синхронизация
+ * их не трогает: так держим заведения, где расписание в системе доставки отстаёт от реального.
+ *
  * Запуск:
  *   php tools/ops/sync-venue-hours.php            — показать расхождения, ничего не менять
  *   php tools/ops/sync-venue-hours.php --apply    — записать часы в JSON
@@ -99,6 +102,12 @@ foreach (glob($root . '/data/json/ru/restaurants/*.json') ?: [] as $file) {
     $slug = basename($file, '.json');
     $data = json_decode((string) file_get_contents($file), true);
     if (!is_array($data) || !isset($data['restaurant'])) {
+        continue;
+    }
+
+    if (($data['restaurant']['hoursSource'] ?? null) === 'manual') {
+        $skipped++;
+        $report[] = sprintf('  %-26s часы заданы вручную, система не перезаписывает', $slug);
         continue;
     }
 
