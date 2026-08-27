@@ -1,149 +1,149 @@
 {
-  "metaDescription": "Joli Москва в ЖК Lucky (2-я Звенигородская, 12с21) — французский Grand Bistrot с пекарней, цветочной лавкой и яблоневым садом Jardin de Joli.",
-  "slug": "joli-moscow",
-  "visible": true,
-  "restaurant": {
-    "@type": "Restaurant",
-    "venueId": 44,
-    "name": "Joli Москва",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "ЖК Lucky, 2-я Звенигородская, 12с21",
-      "addressLocality": "Москва",
-      "addressRegion": "Москва",
-      "addressCountry": "RU"
+    "metaDescription": "Joli Москва в ЖК Lucky (2-я Звенигородская, 12с21) — французский Grand Bistrot с пекарней, цветочной лавкой и яблоневым садом Jardin de Joli.",
+    "slug": "joli-moscow",
+    "visible": true,
+    "restaurant": {
+        "@type": "Restaurant",
+        "venueId": 44,
+        "name": "Joli Москва",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "ЖК Lucky, 2-я Звенигородская, 12с21",
+            "addressLocality": "Москва",
+            "addressRegion": "Москва",
+            "addressCountry": "RU"
+        },
+        "openingHours": [
+            {
+                "days": "Пн-Вс",
+                "hours": "09:00–00:00"
+            }
+        ],
+        "bookingPoint": "910029"
     },
-    "openingHours": [
-      {
-        "days": "Пн-Вс",
-        "hours": "12:00–00:00"
-      }
-    ],
-    "bookingPoint": "910029"
-  },
-  "desc": {
-    "short": "Ресторан с пекарней, цветочной лавкой и яблоневым садом",
-    "full": [
-      "Joli Grand Bistrot – современное французское гранд-бистро в историческом здании бывшей фабрики братьев Мамонтовых в квартале Lucky. Joli в переводе с французского – «прекрасный», а Grand Bistrot – ироничное переосмысление классического формата, где непринуждённость бистро соединяется с элегантностью.<br><br>Интерьер, созданный Евгением Неймандом, переосмысливает эстетику модерна через природные мотивы. Высокие потолки, панорамное арочное окно, открытая кухня, росписи по мотивам Анри Руссо и авторские световые композиции создают атмосферу современного парижского бистро. При входе гостей встречают резной фасад собственной кондитерской и цветочная лавка Flowerna, создавая ощущение небольшой французской улицы внутри исторического здания. Продолжением пространства является терраса с яблоневым садом.<br><br>В основе кухни Joli – французские гастрономические традиции и современный европейский подход. Бренд-шеф Виктор Кислинский и шеф-повар Вадим Борисихин создают понятную и выразительную кухню: тартары, салаты, пасту, рыбу и мясо. За десертную карту отвечает шеф-кондитер Андрей Сокольников — в ней авторское прочтение классики и фирменные десерты Joli: «Золотой орешек», каштановый медовик и тарт с клубникой.<br><br>Бар Joli объединяет классические коктейли и авторские напитки шеф-бармена Александра Некрасова. В винной карте – около 250 этикеток с акцентом на Францию. Особое место занимает Шампань, включая Domaine Jacques Selosse, Dom Pérignon, Ruinart и Louis Roederer. Многие позиции доступны по бокалам."
-    ],
-    "blocks": [
-      {
-        "heading": "Пекарня, цветы и яблоневый сад",
-        "text": [
-          "Как и в петербургском Joli, внутри работают самостоятельные проекты: собственная пекарня и цветочная лавка. Отдельная особенность московского адреса — яблоневый сад."
+    "desc": {
+        "short": "Ресторан с пекарней, цветочной лавкой и яблоневым садом",
+        "full": [
+            "Joli Grand Bistrot – современное французское гранд-бистро в историческом здании бывшей фабрики братьев Мамонтовых в квартале Lucky. Joli в переводе с французского – «прекрасный», а Grand Bistrot – ироничное переосмысление классического формата, где непринуждённость бистро соединяется с элегантностью.<br><br>Интерьер, созданный Евгением Неймандом, переосмысливает эстетику модерна через природные мотивы. Высокие потолки, панорамное арочное окно, открытая кухня, росписи по мотивам Анри Руссо и авторские световые композиции создают атмосферу современного парижского бистро. При входе гостей встречают резной фасад собственной кондитерской и цветочная лавка Flowerna, создавая ощущение небольшой французской улицы внутри исторического здания. Продолжением пространства является терраса с яблоневым садом.<br><br>В основе кухни Joli – французские гастрономические традиции и современный европейский подход. Бренд-шеф Виктор Кислинский и шеф-повар Вадим Борисихин создают понятную и выразительную кухню: тартары, салаты, пасту, рыбу и мясо. За десертную карту отвечает шеф-кондитер Андрей Сокольников — в ней авторское прочтение классики и фирменные десерты Joli: «Золотой орешек», каштановый медовик и тарт с клубникой.<br><br>Бар Joli объединяет классические коктейли и авторские напитки шеф-бармена Александра Некрасова. В винной карте – около 250 этикеток с акцентом на Францию. Особое место занимает Шампань, включая Domaine Jacques Selosse, Dom Pérignon, Ruinart и Louis Roederer. Многие позиции доступны по бокалам."
+        ],
+        "blocks": [
+            {
+                "heading": "Пекарня, цветы и яблоневый сад",
+                "text": [
+                    "Как и в петербургском Joli, внутри работают самостоятельные проекты: собственная пекарня и цветочная лавка. Отдельная особенность московского адреса — яблоневый сад."
+                ]
+            }
         ]
-      }
+    },
+    "loyalty": false,
+    "tags": [],
+    "covers": [
+        {
+            "src": "data/img/restaurants/joli-moscow/covers/raw/1.jpg",
+            "alt": "Joli Москва — зал ресторана"
+        },
+        {
+            "src": "data/img/restaurants/joli-moscow/covers/raw/2.jpg",
+            "alt": "Joli Москва — интерьер"
+        },
+        {
+            "src": "data/img/restaurants/joli-moscow/covers/raw/5.jpg",
+            "alt": "Joli Москва — сервировка стола"
+        }
+    ],
+    "logos": [
+        {
+            "src": "data/img/restaurants/joli-moscow/logos/logo-color-1.svg",
+            "alt": "Joli Москва белый лого",
+            "height": "7.2rem"
+        },
+        {
+            "src": "data/img/restaurants/joli-moscow/logos/logo-color-2.svg",
+            "alt": "Joli Москва чёрный лого",
+            "height": "7.2rem"
+        }
+    ],
+    "icons": [
+        {
+            "src": "data/img/restaurants/joli-moscow/icons/icon-color-1.svg?v=2",
+            "alt": "Joli Москва белая иконка"
+        },
+        {
+            "src": "data/img/restaurants/joli-moscow/icons/icon-color-2.svg?v=2",
+            "alt": "Joli Москва чёрная иконка"
+        }
+    ],
+    "staff": [
+        {
+            "role": "Бренд-шеф",
+            "name": "Виктор Кислинский"
+        }
+    ],
+    "metaTitle": "Joli Москва — ресторан с пекарней в ЖК Lucky",
+    "faq": [
+        {
+            "q": "Что за здание занимает ресторан?",
+            "a": "Историческое здание бывшей фабрики братьев Мамонтовых в квартале Lucky. Интерьер создал Евгений Нейманд, переосмыслив эстетику модерна."
+        },
+        {
+            "q": "Какой график работы?",
+            "a": "Ежедневно с 12:00 до 00:00."
+        },
+        {
+            "q": "Что рядом?",
+            "a": "В том же квартале Lucky работает московский Juan — испано-мексиканская кантина той же группы."
+        }
+    ],
+    "gallery": [
+        {
+            "src": "data/img/restaurants/joli-moscow/covers/raw/1.jpg",
+            "alt": "Зал при свечах — Joli Москва, Москва",
+            "span": 12
+        },
+        {
+            "src": "data/img/restaurants/joli-moscow/covers/raw/2.jpg",
+            "alt": "Столик у окна — Joli Москва, Москва",
+            "span": 4
+        },
+        {
+            "src": "data/img/restaurants/joli-moscow/covers/raw/3.jpg",
+            "alt": "Стол в саду — Joli Москва, Москва",
+            "span": 4
+        },
+        {
+            "src": "data/img/restaurants/joli-moscow/covers/raw/4.jpg",
+            "alt": "Вино и черешня — Joli Москва, Москва",
+            "span": 4
+        },
+        {
+            "src": "data/img/restaurants/joli-moscow/covers/raw/5.jpg",
+            "alt": "Сервировка с зеленью — Joli Москва, Москва",
+            "span": 6
+        },
+        {
+            "src": "data/img/restaurants/joli-moscow/covers/raw/6.jpg",
+            "alt": "Яблоня в саду — Joli Москва, Москва",
+            "span": 6
+        },
+        {
+            "src": "data/img/restaurants/joli-moscow/covers/raw/7.jpg",
+            "alt": "Черешня и вино — Joli Москва, Москва",
+            "span": 6
+        },
+        {
+            "src": "data/img/restaurants/joli-moscow/covers/raw/8.jpg",
+            "alt": "Люстра — Joli Москва, Москва",
+            "span": 6
+        },
+        {
+            "src": "data/img/restaurants/joli-moscow/covers/raw/9.jpg",
+            "alt": "Стопки салфеток — Joli Москва, Москва",
+            "span": 6
+        },
+        {
+            "src": "data/img/restaurants/joli-moscow/covers/raw/10.jpg",
+            "alt": "Текстиль — Joli Москва, Москва",
+            "span": 6
+        }
     ]
-  },
-  "loyalty": false,
-  "tags": [],
-  "covers": [
-    {
-      "src": "data/img/restaurants/joli-moscow/covers/raw/1.jpg",
-      "alt": "Joli Москва — зал ресторана"
-    },
-    {
-      "src": "data/img/restaurants/joli-moscow/covers/raw/2.jpg",
-      "alt": "Joli Москва — интерьер"
-    },
-    {
-      "src": "data/img/restaurants/joli-moscow/covers/raw/5.jpg",
-      "alt": "Joli Москва — сервировка стола"
-    }
-  ],
-  "logos": [
-    {
-      "src": "data/img/restaurants/joli-moscow/logos/logo-color-1.svg",
-      "alt": "Joli Москва белый лого",
-      "height": "7.2rem"
-    },
-    {
-      "src": "data/img/restaurants/joli-moscow/logos/logo-color-2.svg",
-      "alt": "Joli Москва чёрный лого",
-      "height": "7.2rem"
-    }
-  ],
-  "icons": [
-    {
-      "src": "data/img/restaurants/joli-moscow/icons/icon-color-1.svg?v=2",
-      "alt": "Joli Москва белая иконка"
-    },
-    {
-      "src": "data/img/restaurants/joli-moscow/icons/icon-color-2.svg?v=2",
-      "alt": "Joli Москва чёрная иконка"
-    }
-  ],
-  "staff": [
-    {
-      "role": "Бренд-шеф",
-      "name": "Виктор Кислинский"
-    }
-  ],
-  "metaTitle": "Joli Москва — ресторан с пекарней в ЖК Lucky",
-  "faq": [
-    {
-      "q": "Что за здание занимает ресторан?",
-      "a": "Историческое здание бывшей фабрики братьев Мамонтовых в квартале Lucky. Интерьер создал Евгений Нейманд, переосмыслив эстетику модерна."
-    },
-    {
-      "q": "Какой график работы?",
-      "a": "Ежедневно с 12:00 до 00:00."
-    },
-    {
-      "q": "Что рядом?",
-      "a": "В том же квартале Lucky работает московский Juan — испано-мексиканская кантина той же группы."
-    }
-  ],
-  "gallery": [
-    {
-      "src": "data/img/restaurants/joli-moscow/covers/raw/1.jpg",
-      "alt": "Зал при свечах — Joli Москва, Москва",
-      "span": 12
-    },
-    {
-      "src": "data/img/restaurants/joli-moscow/covers/raw/2.jpg",
-      "alt": "Столик у окна — Joli Москва, Москва",
-      "span": 4
-    },
-    {
-      "src": "data/img/restaurants/joli-moscow/covers/raw/3.jpg",
-      "alt": "Стол в саду — Joli Москва, Москва",
-      "span": 4
-    },
-    {
-      "src": "data/img/restaurants/joli-moscow/covers/raw/4.jpg",
-      "alt": "Вино и черешня — Joli Москва, Москва",
-      "span": 4
-    },
-    {
-      "src": "data/img/restaurants/joli-moscow/covers/raw/5.jpg",
-      "alt": "Сервировка с зеленью — Joli Москва, Москва",
-      "span": 6
-    },
-    {
-      "src": "data/img/restaurants/joli-moscow/covers/raw/6.jpg",
-      "alt": "Яблоня в саду — Joli Москва, Москва",
-      "span": 6
-    },
-    {
-      "src": "data/img/restaurants/joli-moscow/covers/raw/7.jpg",
-      "alt": "Черешня и вино — Joli Москва, Москва",
-      "span": 6
-    },
-    {
-      "src": "data/img/restaurants/joli-moscow/covers/raw/8.jpg",
-      "alt": "Люстра — Joli Москва, Москва",
-      "span": 6
-    },
-    {
-      "src": "data/img/restaurants/joli-moscow/covers/raw/9.jpg",
-      "alt": "Стопки салфеток — Joli Москва, Москва",
-      "span": 6
-    },
-    {
-      "src": "data/img/restaurants/joli-moscow/covers/raw/10.jpg",
-      "alt": "Текстиль — Joli Москва, Москва",
-      "span": 6
-    }
-  ]
 }
