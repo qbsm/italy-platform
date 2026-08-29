@@ -31,7 +31,6 @@
         "hours": "13:00–00:00"
       }
     ],
-    "hoursSource": "manual",
     "geo": {
       "@type": "GeoCoordinates",
       "latitude": "59.96162",
