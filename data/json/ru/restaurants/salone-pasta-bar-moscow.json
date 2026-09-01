@@ -1,223 +1,227 @@
 {
-  "metaDescription": "Salone pasta&bar Москва на Малой Дмитровке, 18Ас3 — гастрозвезда Петербурга с культом пасты. Итальянская кухня, вино и атмосфера la dolce vita.",
-  "slug": "salone-pasta-bar-moscow",
-  "visible": true,
-  "restaurant": {
-    "@type": "Restaurant",
-    "venueId": 29,
-    "name": "Salone pasta&bar Москва",
-    "telephone": {
-      "title": "+7 (929) 926-11-99",
-      "href": "tel:+79299261199"
+    "metaDescription": "Salone pasta&bar Москва на Малой Дмитровке, 18Ас3 — гастрозвезда Петербурга с культом пасты. Итальянская кухня, вино и атмосфера la dolce vita.",
+    "slug": "salone-pasta-bar-moscow",
+    "visible": true,
+    "restaurant": {
+        "@type": "Restaurant",
+        "venueId": 29,
+        "name": "Salone pasta&bar Москва",
+        "telephone": {
+            "title": "+7 (929) 926-11-99",
+            "href": "tel:+79299261199"
+        },
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Малая Дмитровка, 18Ас3",
+            "addressLocality": "Москва",
+            "addressRegion": "Москва",
+            "addressCountry": "RU"
+        },
+        "openingHours": [
+            {
+                "days": "Пн-Чт",
+                "hours": "09:00–00:00"
+            },
+            {
+                "days": "Пт-Сб",
+                "hours": "09:00–01:00"
+            },
+            {
+                "days": "Вс",
+                "hours": "10:00–00:00"
+            }
+        ],
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "55.76731",
+            "longitude": "37.60943"
+        },
+        "hasMap": "https://yandex.ru/maps/?pt=37.60943,55.76731&z=17&l=map",
+        "servesCuisine": [
+            "Итальянская кухня"
+        ],
+        "priceRange": "₽₽",
+        "menuLink": "https://atelierfamily.ru/salone-menu",
+        "bookingPoint": "770070"
     },
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Малая Дмитровка, 18Ас3",
-      "addressLocality": "Москва",
-      "addressRegion": "Москва",
-      "addressCountry": "RU"
+    "desc": {
+        "short": "Гастрозвезда Петербурга в Москве и место, в котором царит культ пасты",
+        "full": "Заведение, в котором влюблены в еду, музыку, кино, искусство и саму жизнь, а потому вплели эту страсть в каждую деталь — от винтажной мебели и фресок в стиле Ренессанса до ироничных работ современных художников.",
+        "blocks": [
+            {
+                "heading": "Петербургская гастрозвезда в Москве",
+                "text": [
+                    "Московский Salone — продолжение петербургского проекта с тем же культом пасты в основе. Формат перенесён целиком: домашнее тесто, обширный бар и внимание к деталям зала."
+                ]
+            },
+            {
+                "heading": "Ренессанс и современное искусство",
+                "text": [
+                    "Интерьер собран из вещей, которые обычно не ставят рядом: винтажная мебель, фрески в духе Ренессанса и ироничные работы современных художников. Получается пространство, в котором есть на что смотреть между переменами блюд."
+                ]
+            },
+            {
+                "heading": "С девяти утра на Малой Дмитровке",
+                "text": [
+                    "В отличие от петербургского адреса, московский Salone открывается в девять утра в будни и в десять в выходные — здесь есть завтраки. В пятницу и субботу зал работает до часа ночи."
+                ]
+            }
+        ]
     },
-    "openingHours": [
-      {
-        "days": "Пн-Чт",
-        "hours": "09:00–00:00"
-      },
-      {
-        "days": "Пт",
-        "hours": "09:00–01:00"
-      },
-      {
-        "days": "Сб",
-        "hours": "10:00–01:00"
-      },
-      {
-        "days": "Вс",
-        "hours": "10:00–00:00"
-      }
+    "loyalty": false,
+    "tags": [
+        "рады детям",
+        "итальянская кухня",
+        "завтраки",
+        "на каждый день",
+        "можно с животными"
     ],
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": "55.76731",
-      "longitude": "37.60943"
-    },
-    "hasMap": "https://yandex.ru/maps/?pt=37.60943,55.76731&z=17&l=map",
-    "servesCuisine": ["Итальянская кухня"],
-    "priceRange": "₽₽",
-    "menuLink": "https://atelierfamily.ru/salone-menu",
-    "bookingPoint": "770070"
-  },
-  "desc": {
-    "short": "Гастрозвезда Петербурга в Москве и место, в котором царит культ пасты",
-    "full": "Заведение, в котором влюблены в еду, музыку, кино, искусство и саму жизнь, а потому вплели эту страсть в каждую деталь — от винтажной мебели и фресок в стиле Ренессанса до ироничных работ современных художников.",
-    "blocks": [
-      {
-        "heading": "Петербургская гастрозвезда в Москве",
-        "text": [
-          "Московский Salone — продолжение петербургского проекта с тем же культом пасты в основе. Формат перенесён целиком: домашнее тесто, обширный бар и внимание к деталям зала."
-        ]
-      },
-      {
-        "heading": "Ренессанс и современное искусство",
-        "text": [
-          "Интерьер собран из вещей, которые обычно не ставят рядом: винтажная мебель, фрески в духе Ренессанса и ироничные работы современных художников. Получается пространство, в котором есть на что смотреть между переменами блюд."
-        ]
-      },
-      {
-        "heading": "С девяти утра на Малой Дмитровке",
-        "text": [
-          "В отличие от петербургского адреса, московский Salone открывается в девять утра в будни и в десять в выходные — здесь есть завтраки. В пятницу и субботу зал работает до часа ночи."
-        ]
-      }
+    "covers": [
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/6.jpg",
+            "alt": "Зал с высокими окнами — Salone pasta&bar Москва, Москва"
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/7.jpg",
+            "alt": "Зал с барной стойкой — Salone pasta&bar Москва, Москва"
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/12.jpg",
+            "alt": "Накрытый стол с вином — Salone pasta&bar Москва, Москва"
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/8.jpg",
+            "alt": "Вино и лимоны на столе — Salone pasta&bar Москва, Москва"
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/11.jpg",
+            "alt": "Паста у окна — Salone pasta&bar Москва, Москва"
+        }
+    ],
+    "logos": [
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/logos/logo-color-1.svg",
+            "alt": "Salone pasta&bar Москва белый лого",
+            "height": "6.0rem"
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/logos/logo-color-2.svg",
+            "alt": "Salone pasta&bar Москва чёрный лого",
+            "height": "6.0rem"
+        }
+    ],
+    "icons": [
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/icons/icon-color-1.svg",
+            "alt": "Salone pasta&bar Москва белая иконка"
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/icons/icon-color-2.svg",
+            "alt": "Salone pasta&bar Москва чёрная иконка"
+        }
+    ],
+    "staff": [
+        {
+            "role": "Управляющий",
+            "name": "Маргарита Васильева"
+        },
+        {
+            "role": "Бренд-шеф",
+            "name": "Денис Лукьяненко"
+        },
+        {
+            "role": "Шеф-повар",
+            "name": "Андрей Полищук"
+        }
+    ],
+    "metaTitle": "Salone pasta&bar Москва — паста-бар на Малой Дмитровке",
+    "faq": [
+        {
+            "q": "Чем московский Salone отличается от петербургского?",
+            "a": "Основа та же — культ пасты и сильный бар. Отличия в графике: в Москве есть завтраки, ресторан открывается в 9:00 в будни. И в интерьере: винтаж, ренессансные фрески и современное искусство."
+        },
+        {
+            "q": "Со скольки работают завтраки?",
+            "a": "С 9:00 с понедельника по четверг и в пятницу, с 10:00 в субботу и воскресенье."
+        },
+        {
+            "q": "Где находится ресторан?",
+            "a": "Малая Дмитровка, 18Ас3 — несколько минут от Пушкинской площади."
+        },
+        {
+            "q": "Можно ли с детьми и с собакой?",
+            "a": "Да, ресторан отмечен и как место, где рады детям, и как место, куда можно с животными."
+        },
+        {
+            "q": "До скольки открыто в выходные?",
+            "a": "В пятницу и субботу — до 01:00, в воскресенье — до 00:00."
+        }
+    ],
+    "gallery": [
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/1.jpg",
+            "alt": "Стол с блюдами у окна — Salone pasta&bar Москва, Москва",
+            "span": 12
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/2.jpg",
+            "alt": "Коктейль с лимонами — Salone pasta&bar Москва, Москва",
+            "span": 4
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/3.jpg",
+            "alt": "Блюда крупным планом — Salone pasta&bar Москва, Москва",
+            "span": 4
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/4.jpg",
+            "alt": "Тортеллини с мясом — Salone pasta&bar Москва, Москва",
+            "span": 4
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/5.jpg",
+            "alt": "Паста со скампи — Salone pasta&bar Москва, Москва",
+            "span": 6
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/6.jpg",
+            "alt": "Зал с высокими окнами — Salone pasta&bar Москва, Москва",
+            "span": 6
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/7.jpg",
+            "alt": "Зал с барной стойкой — Salone pasta&bar Москва, Москва",
+            "span": 4
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/8.jpg",
+            "alt": "Вино и лимоны на столе — Salone pasta&bar Москва, Москва",
+            "span": 4
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/9.jpg",
+            "alt": "Шеф натирает сыр — Salone pasta&bar Москва, Москва",
+            "span": 4
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/10.jpg",
+            "alt": "Блюда на столе — Salone pasta&bar Москва, Москва",
+            "span": 6
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/11.jpg",
+            "alt": "Паста у окна — Salone pasta&bar Москва, Москва",
+            "span": 6
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/12.jpg",
+            "alt": "Накрытый стол с вином — Salone pasta&bar Москва, Москва",
+            "span": 6
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/13.jpg",
+            "alt": "Карпаччо и бокал вина — Salone pasta&bar Москва, Москва",
+            "span": 6
+        }
     ]
-  },
-  "loyalty": false,
-  "tags": ["рады детям", "итальянская кухня", "завтраки", "на каждый день", "можно с животными"],
-  "covers": [
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/6.jpg",
-      "alt": "Зал с высокими окнами — Salone pasta&bar Москва, Москва"
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/7.jpg",
-      "alt": "Зал с барной стойкой — Salone pasta&bar Москва, Москва"
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/12.jpg",
-      "alt": "Накрытый стол с вином — Salone pasta&bar Москва, Москва"
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/8.jpg",
-      "alt": "Вино и лимоны на столе — Salone pasta&bar Москва, Москва"
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/11.jpg",
-      "alt": "Паста у окна — Salone pasta&bar Москва, Москва"
-    }
-  ],
-  "logos": [
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/logos/logo-color-1.svg",
-      "alt": "Salone pasta&bar Москва белый лого",
-      "height": "6.0rem"
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/logos/logo-color-2.svg",
-      "alt": "Salone pasta&bar Москва чёрный лого",
-      "height": "6.0rem"
-    }
-  ],
-  "icons": [
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/icons/icon-color-1.svg",
-      "alt": "Salone pasta&bar Москва белая иконка"
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/icons/icon-color-2.svg",
-      "alt": "Salone pasta&bar Москва чёрная иконка"
-    }
-  ],
-  "staff": [
-    {
-      "role": "Управляющий",
-      "name": "Маргарита Васильева"
-    },
-    {
-      "role": "Бренд-шеф",
-      "name": "Денис Лукьяненко"
-    },
-    {
-      "role": "Шеф-повар",
-      "name": "Андрей Полищук"
-    }
-  ],
-  "metaTitle": "Salone pasta&bar Москва — паста-бар на Малой Дмитровке",
-  "faq": [
-    {
-      "q": "Чем московский Salone отличается от петербургского?",
-      "a": "Основа та же — культ пасты и сильный бар. Отличия в графике: в Москве есть завтраки, ресторан открывается в 9:00 в будни. И в интерьере: винтаж, ренессансные фрески и современное искусство."
-    },
-    {
-      "q": "Со скольки работают завтраки?",
-      "a": "С 9:00 с понедельника по четверг и в пятницу, с 10:00 в субботу и воскресенье."
-    },
-    {
-      "q": "Где находится ресторан?",
-      "a": "Малая Дмитровка, 18Ас3 — несколько минут от Пушкинской площади."
-    },
-    {
-      "q": "Можно ли с детьми и с собакой?",
-      "a": "Да, ресторан отмечен и как место, где рады детям, и как место, куда можно с животными."
-    },
-    {
-      "q": "До скольки открыто в выходные?",
-      "a": "В пятницу и субботу — до 01:00, в воскресенье — до 00:00."
-    }
-  ],
-  "gallery": [
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/1.jpg",
-      "alt": "Стол с блюдами у окна — Salone pasta&bar Москва, Москва",
-      "span": 12
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/2.jpg",
-      "alt": "Коктейль с лимонами — Salone pasta&bar Москва, Москва",
-      "span": 4
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/3.jpg",
-      "alt": "Блюда крупным планом — Salone pasta&bar Москва, Москва",
-      "span": 4
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/4.jpg",
-      "alt": "Тортеллини с мясом — Salone pasta&bar Москва, Москва",
-      "span": 4
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/5.jpg",
-      "alt": "Паста со скампи — Salone pasta&bar Москва, Москва",
-      "span": 6
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/6.jpg",
-      "alt": "Зал с высокими окнами — Salone pasta&bar Москва, Москва",
-      "span": 6
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/7.jpg",
-      "alt": "Зал с барной стойкой — Salone pasta&bar Москва, Москва",
-      "span": 4
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/8.jpg",
-      "alt": "Вино и лимоны на столе — Salone pasta&bar Москва, Москва",
-      "span": 4
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/9.jpg",
-      "alt": "Шеф натирает сыр — Salone pasta&bar Москва, Москва",
-      "span": 4
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/10.jpg",
-      "alt": "Блюда на столе — Salone pasta&bar Москва, Москва",
-      "span": 6
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/11.jpg",
-      "alt": "Паста у окна — Salone pasta&bar Москва, Москва",
-      "span": 6
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/12.jpg",
-      "alt": "Накрытый стол с вином — Salone pasta&bar Москва, Москва",
-      "span": 6
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar-moscow/covers/raw/13.jpg",
-      "alt": "Карпаччо и бокал вина — Salone pasta&bar Москва, Москва",
-      "span": 6
-    }
-  ]
 }
