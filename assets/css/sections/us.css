@@ -158,8 +158,14 @@
   gap: 5rem;
 
   @media (--lg) {
-    flex-direction: row;
-    justify-content: space-between;
+    /* Равные колонки и равные промежутки: раньше justify-content: space-between
+       давал рваную сетку — колонки под широкие подписи получались разной ширины,
+       и зазор между «17» и «20+» визуально был больше остальных. Сетка из четырёх
+       равных треков (minmax(0,1fr)) выравнивает левые края чисел с одним шагом. */
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 5rem;
+    align-items: start;
   }
 }
 

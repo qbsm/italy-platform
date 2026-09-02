@@ -16,15 +16,19 @@
   display: inline-block;
   font-family: var(--font-1-extended);
   font-weight: 500;
-  font-size: 6em;
+  /* Размер в rem (от корня 10px), а не в em: em наследует базовый font-size
+     родительских обёрток колонки, из-за чего числа с более широкими подписями
+     ('ресторанов и баров') рисовались другого кегля. rem даёт всем четырём
+     числам (16, 17, 20+, 1000+) один размер независимо от каскада. */
+  font-size: 8.4rem;
   line-height: 0.9;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 
   @media (--lg) {
-    /* Плавный рост от 6em (≈1200px) до 8em (≈1600px): на планшете и узком
+    /* Плавный рост от 9.6rem (≈1200px) до 12.8rem (≈1600px): на планшете и узком
        десктопе число уменьшается и не упирается в край. nowrap не трогаем. */
-    font-size: clamp(6em, 8vw, 8em);
+    font-size: clamp(9.6rem, 8vw, 12.8rem);
   }
 }
 
