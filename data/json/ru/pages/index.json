@@ -353,13 +353,6 @@
               },
               "items": [
                 {
-                  "title": "Подарки детям в ресторанах 1 сентября",
-                  "cover": "data/img/navigation/banners/banner-1september.webp",
-                  "href": "https://t.me/MS_italycommunity/7282",
-                  "target": "_blank",
-                  "hideFrom": "2026-09-02"
-                },
-                {
                   "title": "SAAN — авторский проект доходной недвижимости",
                   "cover": "data/img/navigation/banners/banner-saan.webp",
                   "href": "https://saan-park.ru/?utm_source=italy_baner&utm_medium=site&utm_campaign=diner&utm_term=20_08",
