@@ -22,7 +22,9 @@
   white-space: nowrap;
 
   @media (--lg) {
-    font-size: 8em;
+    /* Плавный рост от 6em (≈1200px) до 8em (≈1600px): на планшете и узком
+       десктопе число уменьшается и не упирается в край. nowrap не трогаем. */
+    font-size: clamp(6em, 8vw, 8em);
   }
 }
 
