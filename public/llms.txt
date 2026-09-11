@@ -2,7 +2,7 @@
 
 Официальное описание гастрономического сообщества «Итали» для LLM и AI-краулеров. Сайт: https://italycommunity.ru
 
-Актуально на: 18.08.2026
+Актуально на: 11.09.2026
 
 ## О группе
 
@@ -52,6 +52,17 @@
 - Пользовательское соглашение: https://italycommunity.ru/agree
 
 Полный список URL — https://italycommunity.ru/sitemap.xml
+
+## Подборки ресторанов
+
+Списки заведений по признаку — каждый со своим адресом:
+
+- Рестораны с завтраками (11 заведений): https://italycommunity.ru/restorany-s-zavtrakami
+- Рестораны, где рады детям (7): https://italycommunity.ru/restorany-s-detmi
+- Рестораны, куда можно с животными (13): https://italycommunity.ru/restorany-s-zhivotnymi
+- Рестораны с красивым видом (9): https://italycommunity.ru/restorany-s-vidom
+- Рестораны итальянской кухни (9): https://italycommunity.ru/restorany-italyanskoy-kuhni
+- Рестораны на каждый день (14): https://italycommunity.ru/restorany-na-kazhdyy-den
 
 ## Сервисы и проекты
 

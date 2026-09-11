@@ -303,5 +303,20 @@
     "from": "/restaurants/gusgus",
     "to": "/restaurants/goose-goose",
     "status": 301
+  },
+  {
+    "from": "/hitch-moskovskiy",
+    "to": "/restaurants/hitch",
+    "status": 301
+  },
+  {
+    "from": "/italycommunity",
+    "to": "/",
+    "status": 301
+  },
+  {
+    "from": "/giallo",
+    "to": "/restaurants",
+    "status": 301
   }
 ]
