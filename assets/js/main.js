@@ -50,7 +50,6 @@ import { initLeadContext } from './components/lead-context.js';
 import { initFunnel } from './components/funnel.js';
 
 // --- Pages ---
-import './pages/restaurants.js';
 import './pages/restaurant.js';
 import './pages/event.js';
 import './pages/404.js';

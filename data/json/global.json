@@ -342,17 +342,18 @@
         "завтраки",
         "на каждый день",
         "можно с животными"
-      ]
+      ],
+      "pages": {
+        "рады детям": "/restorany-s-detmi",
+        "с красивым видом": "/restorany-s-vidom",
+        "итальянская кухня": "/restorany-italyanskoy-kuhni",
+        "завтраки": "/restorany-s-zavtrakami",
+        "на каждый день": "/restorany-na-kazhdyy-den",
+        "можно с животными": "/restorany-s-zhivotnymi"
+      }
     },
     "en": {
-      "items": [
-        "kids friendly",
-        "with a beautiful view",
-        "italian cuisine",
-        "breakfast",
-        "every day",
-        "pets friendly"
-      ]
+      "items": ["kids friendly", "with a beautiful view", "italian cuisine", "breakfast", "every day", "pets friendly"]
     }
   },
   "icons": {
@@ -448,18 +449,9 @@
         "Экосистема Итали",
         "Гастрономическое сообщество «Итали»"
       ],
-      "areaServed": [
-        "Санкт-Петербург",
-        "Москва"
-      ],
-      "founders": [
-        "Михаил Соколов",
-        "Тимур Дмитриев"
-      ],
-      "sameAs": [
-        "https://italycommunity.online",
-        "https://italyco.rest"
-      ],
+      "areaServed": ["Санкт-Петербург", "Москва"],
+      "founders": ["Михаил Соколов", "Тимур Дмитриев"],
+      "sameAs": ["https://italycommunity.online", "https://italyco.rest"],
       "knowsAbout": [
         "итальянская кухня",
         "рестораны Санкт-Петербурга",

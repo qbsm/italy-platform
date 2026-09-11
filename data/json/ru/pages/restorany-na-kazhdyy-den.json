@@ -1,0 +1,48 @@
+{
+  "name": "restorany-na-kazhdyy-den",
+  "sections": [
+    {
+      "name": "header",
+      "visible": true,
+      "data": {}
+    },
+    {
+      "name": "restaurants",
+      "visible": true,
+      "data": {
+        "heading": {
+          "tag": "h1",
+          "class": "heading weight-400 uppercase",
+          "title": "Рестораны на каждый день"
+        },
+        "tag": {
+          "class": "button bg-color-6 button-tag button-sm button-rounded nowrap"
+        },
+        "buttons": {
+          "booking": {
+            "class": "button bg-color-2 color-1 button-md nowrap",
+            "title": "Забронировать"
+          },
+          "menu": {
+            "class": "button outline-color-2 button-md nowrap",
+            "title": "Подробнее"
+          }
+        },
+        "intro": "Четырнадцать мест, куда приходят не по случаю, а просто поесть — рядом с домом, работой или прогулкой.",
+        "filter_tag": "на каждый день"
+      }
+    },
+    {
+      "name": "footer",
+      "visible": true,
+      "data": {
+        "background": {
+          "src": "data/img/ui/bg3.webp"
+        },
+        "form": {
+          "heading": "Получить консультацию"
+        }
+      }
+    }
+  ]
+}

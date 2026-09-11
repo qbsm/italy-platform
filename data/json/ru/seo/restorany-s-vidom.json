@@ -1,0 +1,50 @@
+{
+  "name": "restorany-s-vidom",
+  "title": "Рестораны с красивым видом — где поужинать с панорамой в Петербурге",
+  "meta": [
+    {
+      "name": "description",
+      "content": "Рестораны экосистемы итали с видом и особенными залами: панорама Петроградки, фрески и витражи Bist, фотогеничный двор «Джем кафе». Адреса, часы работы, бронирование."
+    },
+    {
+      "property": "og:url",
+      "content": "https://italycommunity.ru/restorany-s-vidom"
+    },
+    {
+      "property": "og:type",
+      "content": "website"
+    },
+    {
+      "property": "og:title",
+      "content": "Рестораны с красивым видом — где поужинать с панорамой в Петербурге"
+    },
+    {
+      "property": "og:description",
+      "content": "Рестораны экосистемы итали с видом и особенными залами: панорама Петроградки, фрески и витражи Bist, фотогеничный двор «Джем кафе». Адреса, часы работы, бронирование."
+    },
+    {
+      "property": "og:site_name",
+      "content": "Экосистема итали"
+    },
+    {
+      "property": "og:image",
+      "content": "https://italycommunity.ru/data/img/seo/og.jpg?v=4"
+    },
+    {
+      "property": "og:image:secure_url",
+      "content": "https://italycommunity.ru/data/img/seo/og.jpg?v=4"
+    },
+    {
+      "property": "og:image:type",
+      "content": "image/jpeg"
+    },
+    {
+      "property": "og:image:width",
+      "content": "1200"
+    },
+    {
+      "property": "og:image:height",
+      "content": "630"
+    }
+  ]
+}

@@ -22,6 +22,18 @@
   }
 }
 
+/* Вводный абзац подборки: объясняет, по какому признаку собран список */
+.restaurants .section__item.restaurants__intro {
+  max-width: 68rem;
+  margin-top: 1.6rem;
+  color: var(--color-2);
+  opacity: .8;
+}
+
+.restaurants .section__item.restaurants__intro p {
+  margin: 0;
+}
+
 .restaurants .section__item.tags-wrap {
   display: flex;
   justify-content: flex-start;

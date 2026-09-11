@@ -1,0 +1,48 @@
+{
+  "name": "restorany-s-zhivotnymi",
+  "sections": [
+    {
+      "name": "header",
+      "visible": true,
+      "data": {}
+    },
+    {
+      "name": "restaurants",
+      "visible": true,
+      "data": {
+        "heading": {
+          "tag": "h1",
+          "class": "heading weight-400 uppercase",
+          "title": "Рестораны, куда можно с животными"
+        },
+        "tag": {
+          "class": "button bg-color-6 button-tag button-sm button-rounded nowrap"
+        },
+        "buttons": {
+          "booking": {
+            "class": "button bg-color-2 color-1 button-md nowrap",
+            "title": "Забронировать"
+          },
+          "menu": {
+            "class": "button outline-color-2 button-md nowrap",
+            "title": "Подробнее"
+          }
+        },
+        "intro": "Тринадцать заведений группы пускают гостей с питомцами — от тратторий «Итали» в центре Петербурга до Salone pasta&bar в Москве.",
+        "filter_tag": "можно с животными"
+      }
+    },
+    {
+      "name": "footer",
+      "visible": true,
+      "data": {
+        "background": {
+          "src": "data/img/ui/bg3.webp"
+        },
+        "form": {
+          "heading": "Получить консультацию"
+        }
+      }
+    }
+  ]
+}

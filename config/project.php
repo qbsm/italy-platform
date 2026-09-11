@@ -54,5 +54,12 @@ return [
         'policy',
         'agree',
         'restaurants-list',
+        // Подборки ресторанов по признакам: у каждого фильтра каталога свой адрес и SEO
+        'restorany-s-zavtrakami',
+        'restorany-s-detmi',
+        'restorany-s-zhivotnymi',
+        'restorany-s-vidom',
+        'restorany-italyanskoy-kuhni',
+        'restorany-na-kazhdyy-den',
     ],
 ];

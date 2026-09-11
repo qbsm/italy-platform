@@ -1,0 +1,50 @@
+{
+  "name": "restorany-s-zavtrakami",
+  "title": "Завтраки в ресторанах итали — где позавтракать в Петербурге и Москве",
+  "meta": [
+    {
+      "name": "description",
+      "content": "Одиннадцать ресторанов экосистемы итали, где подают завтраки: адреса, часы работы и бронирование. Завтраки в постоянном меню «Итали», Bist и «Италиани», утреннее меню «Джем кафе»."
+    },
+    {
+      "property": "og:url",
+      "content": "https://italycommunity.ru/restorany-s-zavtrakami"
+    },
+    {
+      "property": "og:type",
+      "content": "website"
+    },
+    {
+      "property": "og:title",
+      "content": "Завтраки в ресторанах итали — где позавтракать в Петербурге и Москве"
+    },
+    {
+      "property": "og:description",
+      "content": "Одиннадцать ресторанов экосистемы итали, где подают завтраки: адреса, часы работы и бронирование. Завтраки в постоянном меню «Итали», Bist и «Италиани», утреннее меню «Джем кафе»."
+    },
+    {
+      "property": "og:site_name",
+      "content": "Экосистема итали"
+    },
+    {
+      "property": "og:image",
+      "content": "https://italycommunity.ru/data/img/seo/og.jpg?v=4"
+    },
+    {
+      "property": "og:image:secure_url",
+      "content": "https://italycommunity.ru/data/img/seo/og.jpg?v=4"
+    },
+    {
+      "property": "og:image:type",
+      "content": "image/jpeg"
+    },
+    {
+      "property": "og:image:width",
+      "content": "1200"
+    },
+    {
+      "property": "og:image:height",
+      "content": "630"
+    }
+  ]
+}

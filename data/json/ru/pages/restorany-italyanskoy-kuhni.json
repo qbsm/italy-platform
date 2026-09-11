@@ -1,0 +1,48 @@
+{
+  "name": "restorany-italyanskoy-kuhni",
+  "sections": [
+    {
+      "name": "header",
+      "visible": true,
+      "data": {}
+    },
+    {
+      "name": "restaurants",
+      "visible": true,
+      "data": {
+        "heading": {
+          "tag": "h1",
+          "class": "heading weight-400 uppercase",
+          "title": "Рестораны итальянской кухни"
+        },
+        "tag": {
+          "class": "button bg-color-6 button-tag button-sm button-rounded nowrap"
+        },
+        "buttons": {
+          "booking": {
+            "class": "button bg-color-2 color-1 button-md nowrap",
+            "title": "Забронировать"
+          },
+          "menu": {
+            "class": "button outline-color-2 button-md nowrap",
+            "title": "Подробнее"
+          }
+        },
+        "intro": "Девять заведений с итальянской кухней: четыре траттории «Итали», паста-бары Salone в Петербурге и Москве, тосканский Bist, «Италиани» на Невском и Goosegoose.",
+        "filter_tag": "итальянская кухня"
+      }
+    },
+    {
+      "name": "footer",
+      "visible": true,
+      "data": {
+        "background": {
+          "src": "data/img/ui/bg3.webp"
+        },
+        "form": {
+          "heading": "Получить консультацию"
+        }
+      }
+    }
+  ]
+}

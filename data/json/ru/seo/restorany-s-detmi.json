@@ -1,0 +1,50 @@
+{
+  "name": "restorany-s-detmi",
+  "title": "Рестораны, где рады детям — куда пойти с ребёнком в Петербурге и Москве",
+  "meta": [
+    {
+      "name": "description",
+      "content": "Рестораны экосистемы итали, куда приходят с детьми: детское пространство у Парка Победы, детская комната в Виленском, семейные залы в центре Петербурга и в Москве."
+    },
+    {
+      "property": "og:url",
+      "content": "https://italycommunity.ru/restorany-s-detmi"
+    },
+    {
+      "property": "og:type",
+      "content": "website"
+    },
+    {
+      "property": "og:title",
+      "content": "Рестораны, где рады детям — куда пойти с ребёнком в Петербурге и Москве"
+    },
+    {
+      "property": "og:description",
+      "content": "Рестораны экосистемы итали, куда приходят с детьми: детское пространство у Парка Победы, детская комната в Виленском, семейные залы в центре Петербурга и в Москве."
+    },
+    {
+      "property": "og:site_name",
+      "content": "Экосистема итали"
+    },
+    {
+      "property": "og:image",
+      "content": "https://italycommunity.ru/data/img/seo/og.jpg?v=4"
+    },
+    {
+      "property": "og:image:secure_url",
+      "content": "https://italycommunity.ru/data/img/seo/og.jpg?v=4"
+    },
+    {
+      "property": "og:image:type",
+      "content": "image/jpeg"
+    },
+    {
+      "property": "og:image:width",
+      "content": "1200"
+    },
+    {
+      "property": "og:image:height",
+      "content": "630"
+    }
+  ]
+}

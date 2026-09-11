@@ -1,0 +1,48 @@
+{
+  "name": "restorany-s-vidom",
+  "sections": [
+    {
+      "name": "header",
+      "visible": true,
+      "data": {}
+    },
+    {
+      "name": "restaurants",
+      "visible": true,
+      "data": {
+        "heading": {
+          "tag": "h1",
+          "class": "heading weight-400 uppercase",
+          "title": "Рестораны с красивым видом"
+        },
+        "tag": {
+          "class": "button bg-color-6 button-tag button-sm button-rounded nowrap"
+        },
+        "buttons": {
+          "booking": {
+            "class": "button bg-color-2 color-1 button-md nowrap",
+            "title": "Забронировать"
+          },
+          "menu": {
+            "class": "button outline-color-2 button-md nowrap",
+            "title": "Подробнее"
+          }
+        },
+        "intro": "Девять залов, ради которых стоит прийти и без повода: панорама Петроградки из «Итали» на Большом, фрески и витражи Bist, двор «Джем кафе».",
+        "filter_tag": "с красивым видом"
+      }
+    },
+    {
+      "name": "footer",
+      "visible": true,
+      "data": {
+        "background": {
+          "src": "data/img/ui/bg3.webp"
+        },
+        "form": {
+          "heading": "Получить консультацию"
+        }
+      }
+    }
+  ]
+}

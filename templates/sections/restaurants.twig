@@ -1,8 +1,19 @@
+{# Каталог ресторанов и подборки по признакам.
+   Чипы признаков — ссылки на страницы подборок (global.filter[lang].pages): у каждой подборки свой
+   адрес, заголовок и описание, поэтому поиск видит их как отдельные страницы. На странице подборки
+   data.filter_tag задан — карточки отбираются на сервере, активный чип ведёт обратно в общий каталог. #}
+{% set activeTag = data.filter_tag | default(null) %}
+{% set tagPages = global.filter[lang_code].pages | default({}) %}
 <section class="restaurants section">
   <div class="container">
     {% if data.heading is defined %}
       <div class="section__item heading-wrap">
         {% include 'components/heading.twig' with {'item': data.heading} %}
+      </div>
+    {% endif %}
+    {% if data.intro is defined and data.intro %}
+      <div class="section__item restaurants__intro">
+        <p>{{ data.intro | raw }}</p>
       </div>
     {% endif %}
   </div>
@@ -11,13 +22,17 @@
     {% if tags is not empty %}
       <div class="section__item tags-wrap">
         {% for tag in tags %}
-          <div class="section__subitem button-wrap">
-            {% include 'components/button.twig' with {'item': {
-              'class': data.tag.class,
-              'title': tag,
-              'data_tag': tag
-            }} %}
-          </div>
+          {% set tagUrl = tagPages[tag] | default(null) %}
+          {% if tagUrl %}
+            {% set isActive = activeTag == tag %}
+            <div class="section__subitem button-wrap">
+              {% include 'components/button.twig' with {'item': {
+                'class': (data.tag.class ~ (isActive ? ' active' : '')) | trim,
+                'title': tag,
+                'href': isActive ? '/restaurants' : tagUrl
+              }} %}
+            </div>
+          {% endif %}
         {% endfor %}
       </div>
     {% endif %}
@@ -30,9 +45,12 @@
         {% for slug in restaurantsList.items %}
           {% set restaurant = load_json('data/json/' ~ lang_code ~ '/restaurants/' ~ slug ~ '.json') %}
           {% if restaurant and restaurant.visible | default(false) %}
-            <div class="section__subitem card-restaurant-wrap" data-tags="{{ restaurant.tags | default([]) | join(',') }}">
-              {% include 'components/card-restaurant.twig' with {'item': restaurant, 'buttons': data.buttons | default(null)} %}
-            </div>
+            {% set tagsOfCard = restaurant.tags | default([]) %}
+            {% if activeTag is null or activeTag in tagsOfCard %}
+              <div class="section__subitem card-restaurant-wrap" data-tags="{{ tagsOfCard | join(',') }}">
+                {% include 'components/card-restaurant.twig' with {'item': restaurant, 'buttons': data.buttons | default(null)} %}
+              </div>
+            {% endif %}
           {% endif %}
         {% endfor %}
       </div>
