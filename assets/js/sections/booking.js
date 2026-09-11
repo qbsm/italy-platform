@@ -2,8 +2,10 @@ import { onReady } from '../base/init.js';
 
 // Виджет онлайн-бронирования столов Remarked — логика как на старом сайте.
 // Кнопки: .js-button-booking (шапка, все рестораны, выбор в модалке) и .widget__point__N (страница
-// ресторана и карточки каталога /restaurants — своя точка первой в списке). Грузим виджет ЛЕНИВО по
-// первому клику — не тянем ~137 КБ на каждой странице.
+// ресторана и карточки каталога /restaurants — своя точка первой в списке). Виджет тянется со
+// стороннего домена (~137 КБ + форма), поэтому грузим его не сразу с документом, а по первому
+// намерению гостя: наведение, касание, фокус на кнопке или первый скролл. К моменту клика виджет
+// обычно уже готов и модалка открывается сразу.
 // Точки ресторанов (bookingPoint) отдаёт components/remarked-points.twig (#remarked-points).
 onReady(() => {
   const pointsEl = document.getElementById('remarked-points');
@@ -19,6 +21,12 @@ onReady(() => {
   if (!points.length) {
     return;
   }
+
+  const BUTTON_SELECTOR = '.js-button-booking, [class*="widget__point__"]';
+  const LOADING_CLASS = 'is-booking-loading';
+  // Сколько ждём стороннего виджета, прежде чем отпустить кнопку: за это время гость успевает
+  // понять, что нажатие принято, а мы — не заблокировать бронь навсегда при недоступном Remarked.
+  const READY_TIMEOUT = 10000;
 
   // Конфиг виджета — как на старом сайте
   const langEn = {
@@ -54,15 +62,65 @@ onReady(() => {
     selectNoEmpty: true,
   };
 
-  let loaded = false;
-  let ready = false;
+  let loading = null; // промис загрузки, чтобы параллельные намерения не плодили теги
+  let bound = 0; // сколько раз вызван widgetArea: шапка плюс по одной точке на страницу
+  let ready = false; // все модалки отрисованы — клики обрабатывает сам виджет
 
-  const loadRemarked = () =>
+  const setLoading = (button, state) => {
+    if (!button) return;
+    button.classList.toggle(LOADING_CLASS, state);
+    if (state) {
+      button.setAttribute('aria-busy', 'true');
+    } else {
+      button.removeAttribute('aria-busy');
+    }
+  };
+
+  const preconnect = () => {
+    ['https://remarked.ru', 'https://api.remarked.ru'].forEach((href) => {
+      if (document.querySelector(`link[rel="preconnect"][href="${href}"]`)) return;
+      const link = document.createElement('link');
+      link.rel = 'preconnect';
+      link.href = href;
+      link.crossOrigin = '';
+      document.head.appendChild(link);
+    });
+  };
+
+  // Ждём условие с поллингом: newidget-v2.js объявляет window.widgetArea не в момент onload, а
+  // чуть позже, и разметку модалки вешает тоже не сразу — клик по кнопке до этого уходит в пустоту
+  // и кнопка выглядит сломанной.
+  const waitFor = (check, deadline) =>
     new Promise((resolve) => {
+      const tick = () => {
+        if (check()) {
+          resolve(true);
+          return;
+        }
+        if (Date.now() > deadline) {
+          resolve(false);
+          return;
+        }
+        setTimeout(tick, 50);
+      };
+      tick();
+    });
+
+  const widgetAreaReady = () => typeof window.widgetArea === 'function';
+  // На каждый вызов widgetArea виджет рисует свою модалку и только тогда начинает слушать свою
+  // кнопку. Ждём все: иначе клик по карточке уходит в пустоту, пока готова лишь модалка шапки.
+  const widgetDomReady = () => document.querySelectorAll('.remarked-primary-widget__wrap').length >= bound;
+
+  const loadRemarked = () => {
+    if (loading) return loading;
+    preconnect();
+    loading = new Promise((resolve) => {
       if (typeof window.widgetArea === 'function') {
-        resolve();
+        resolve(true);
         return;
       }
+      const deadline = Date.now() + READY_TIMEOUT;
+
       const css = document.createElement('link');
       css.rel = 'stylesheet';
       css.href = 'https://remarked.ru/widget/new/css/stylesheet.css';
@@ -76,16 +134,24 @@ onReady(() => {
         form.async = true;
         form.src = 'https://api.remarked.ru/api/v1/js/jquery.remform.v3.min.js';
         document.head.appendChild(form);
-        resolve();
+        waitFor(widgetAreaReady, deadline).then(resolve);
       };
-      script.onerror = resolve;
+      script.onerror = () => resolve(false);
       document.head.appendChild(script);
+    }).then((ok) => {
+      if (!ok) {
+        loading = null; // не поднялся — следующее намерение попробует снова
+      }
+      return ok;
     });
+    return loading;
+  };
 
   const initWidgets = () => {
-    if (typeof window.widgetArea !== 'function') return;
+    if (typeof window.widgetArea !== 'function' || bound) return;
     // Шапка — все рестораны
     window.widgetArea({ ...baseCfg, booking: points, button: '.js-button-booking' });
+    bound = 1;
     // Кнопки конкретных ресторанов: страница ресторана — одна точка, каталог /restaurants — у каждой
     // карточки своя. Биндим widgetArea на каждую точку, встреченную на странице.
     const seen = new Set();
@@ -101,6 +167,7 @@ onReady(() => {
       // requiredSelect выключен: свой ресторан уже выбран первым (как на старом сайте),
       // плейсхолдер «Выберите ресторан» нужен только в общей модалке шапки
       window.widgetArea({ ...baseCfg, requiredSelect: false, booking: sorted, button: `.widget__point__${pt}` });
+      bound += 1;
     });
     watchSuccess();
   };
@@ -127,26 +194,57 @@ onReady(() => {
     observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
   };
 
+  // Предзагрузка по намерению: наведение, касание, фокус на кнопке брони или первый скролл
+  // страницы. Ошибку глушим — клик всё равно попробует загрузить виджет ещё раз.
+  const warmUp = () => {
+    if (ready || loading) return;
+    loadRemarked().then(async (ok) => {
+      if (!ok) return;
+      initWidgets();
+      ready = await waitFor(widgetDomReady, Date.now() + READY_TIMEOUT);
+    });
+  };
+
+  ['pointerenter', 'touchstart', 'focusin'].forEach((type) => {
+    document.addEventListener(
+      type,
+      (event) => {
+        const target = event.target;
+        if (target && typeof target.closest === 'function' && target.closest(BUTTON_SELECTOR)) {
+          warmUp();
+        }
+      },
+      { capture: true, passive: true }
+    );
+  });
+  window.addEventListener('scroll', warmUp, { once: true, passive: true });
+
   document.addEventListener(
     'click',
     async (event) => {
-      const button = event.target.closest('.js-button-booking, [class*="widget__point__"]');
-      if (!button || ready || loaded) {
-        return;
+      const button = event.target.closest(BUTTON_SELECTOR);
+      if (!button || ready) {
+        return; // виджет уже поднят — клик обрабатывает он сам
       }
       event.preventDefault();
       event.stopImmediatePropagation();
-      loaded = true;
 
-      await loadRemarked();
+      setLoading(button, true);
+      const ok = await loadRemarked();
 
-      if (typeof window.widgetArea === 'function') {
-        initWidgets();
-        ready = true;
-        button.click(); // повторный клик — теперь его перехватит виджет и откроет модалку
-      } else {
-        loaded = false; // не загрузился — позволим повторить
+      if (!ok) {
+        setLoading(button, false);
+        return; // Remarked недоступен: кнопка остаётся живой, следующий клик попробует снова
       }
+      initWidgets();
+      // Виджет вешает свои обработчики не в момент widgetArea(), а когда отрисует модалку —
+      // кликаем только после этого, иначе нажатие пропадёт и гостю придётся жать второй раз
+      ready = await waitFor(widgetDomReady, Date.now() + READY_TIMEOUT);
+      setLoading(button, false);
+      if (!ready) {
+        return; // модалка так и не отрисовалась: кнопка остаётся живой, повтор без зацикливания
+      }
+      button.click(); // повторный клик — теперь его перехватит виджет и откроет модалку
     },
     true
   );

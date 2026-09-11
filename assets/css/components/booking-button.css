@@ -1,0 +1,32 @@
+/* Состояние кнопки брони, пока грузится сторонний виджет Remarked: без него нажатие выглядело
+   как несработавшее — виджет тянется с чужого домена и на мобильном интернете это секунды. */
+.is-booking-loading {
+  cursor: progress;
+  pointer-events: none;
+}
+
+.is-booking-loading::after {
+  content: "";
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-left: .8rem;
+  border: .2rem solid currentcolor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  opacity: .7;
+  animation: booking-spin .7s linear infinite;
+}
+
+@keyframes booking-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .is-booking-loading::after {
+    animation: none;
+    border-top-color: currentcolor;
+    opacity: .4;
+  }
+}
