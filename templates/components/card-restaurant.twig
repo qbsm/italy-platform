@@ -78,10 +78,18 @@
           </div>
         {% endif %}
 
+        {# Обложки отдаём через picture: из raw-пути резолвятся webp/avif нужных размеров.
+           Прямой <img src=raw> грузил исходники в мегабайты, а там, где исходник не выложен
+           на прод, слайд оставался пустым. #}
         {% for cover in covers %}
           <div class="swiper-slide card-restaurant-slide card-restaurant-slide--photo">
-            <img src="{{ url(cover.src) }}" alt="{{ cover.alt | default(name) }}"
-                 class="card-restaurant-slide__photo" loading="lazy">
+            {% include 'components/picture.twig' with {
+              'image': cover.src,
+              'alt': cover.alt | default(name),
+              'class': 'card-restaurant-slide__photo',
+              'sizes_preset': 'card',
+              'loading': 'lazy'
+            } %}
           </div>
         {% endfor %}
       </div>
