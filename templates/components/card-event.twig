@@ -9,7 +9,13 @@
    aria-label="{{ e.title | default('Событие') }} — {{ d.day | default('') }} {{ d.month | default('') }}, {{ e.restaurant.name | default('') }}">
   <div class="card-event__media">
     {% if cover %}
-      <img src="{{ url(cover.src) }}" alt="{{ cover.alt | default(e.title) }}" class="card-event__img" loading="lazy">
+      {% include 'components/picture.twig' with {
+        'image': cover.src,
+        'alt': cover.alt | default(e.title),
+        'class': 'card-event__img',
+        'sizes_preset': 'card',
+        'loading': 'lazy'
+      } %}
     {% endif %}
     {% if d.day is defined %}
       <span class="card-event__date" aria-hidden="true">

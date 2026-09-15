@@ -132,7 +132,9 @@
 {% elseif image is iterable == false and image %}
   {% set avifSrcset = self.raw_srcset(image, 'avif') %}
   {% set webpSrcset = self.raw_srcset(image, 'webp') %}
-  {% set fallbackSrc = self.raw_fallback(image)|trim %}
+  {# Нет собранных вариантов (картинка лежит одним файлом, без папок размеров) — отдаём её саму,
+     иначе src оказывался пустым и вместо изображения получалась дырка. #}
+  {% set fallbackSrc = self.raw_fallback(image)|trim|default(image) %}
   {% set dims = imageWidth and imageHeight ? {'width': imageWidth, 'height': imageHeight} : image_dimensions(fallbackSrc) %}
 
   <picture {% if pictureClass %}class="{{ pictureClass }}"{% endif %} {% if pictureStyle %}style="{{ pictureStyle }}"{% endif %}>
