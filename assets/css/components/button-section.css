@@ -16,7 +16,6 @@
   @media (--lg) {
     height: 11rem;
     padding: 1.4rem 3rem;
-    border-radius: 4rem;
     background: var(--gradient-3);
     color: var(--color-2);
   }

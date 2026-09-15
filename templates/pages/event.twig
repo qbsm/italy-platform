@@ -191,9 +191,9 @@
             </div>
 
             {% if soldOut %}
-              <a href="#buy" class="button button-md bg-color-6 color-2 button-rounded uppercase event-ticket__cta">В лист ожидания</a>
+              <a href="#buy" class="button button-md bg-color-6 color-2 uppercase event-ticket__cta">В лист ожидания</a>
             {% else %}
-              <a href="{{ buyHref }}"{% if buyExternal %} target="_blank" rel="noopener noreferrer"{% endif %} class="button button-md bg-color-3 color-1 button-rounded uppercase event-ticket__cta">Купить билет</a>
+              <a href="{{ buyHref }}"{% if buyExternal %} target="_blank" rel="noopener noreferrer"{% endif %} class="button button-md bg-color-3 color-1 uppercase event-ticket__cta">Купить билет</a>
             {% endif %}
 
             <button type="button" class="event-ticket__share js-event-share"
@@ -248,7 +248,7 @@
           <span class="event-stickybar__value">{{ d.day | default('') }} {{ d.month | default('') }}{% if d.time is defined %}, {{ d.time }}{% endif %}</span>
         {% endif %}
       </span>
-      <a href="{{ buyHref }}"{% if buyExternal %} target="_blank" rel="noopener noreferrer"{% endif %} class="button button-md bg-color-3 color-1 button-rounded uppercase event-stickybar__cta">Купить билет</a>
+      <a href="{{ buyHref }}"{% if buyExternal %} target="_blank" rel="noopener noreferrer"{% endif %} class="button button-md bg-color-3 color-1 uppercase event-stickybar__cta">Купить билет</a>
     </div>
   {% endif %}
 

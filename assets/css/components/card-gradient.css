@@ -22,7 +22,6 @@
   @container card-gradient (min-width: 75rem) {
     padding: 4rem;
     gap: 1.25rem;
-    border-radius: 4rem;
   }
 }
 

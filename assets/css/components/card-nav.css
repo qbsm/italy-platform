@@ -14,7 +14,6 @@
 
   @container card-nav (min-width: 75rem) {
     padding: 4rem;
-    border-radius: 4rem;
   }
 }
 
