@@ -1,7 +1,7 @@
 {
     "metaDescription": "«Итали» на Большой Морской, 14 — камерная римская траттория в историческом центре Петербурга с завтраками весь день и итальянской кухней.",
     "slug": "italy-bolshaya-morskaya",
-    "visible": true,
+    "visible": false,
     "restaurant": {
         "@type": "Restaurant",
         "venueId": 35,
