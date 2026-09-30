@@ -352,6 +352,12 @@
               },
               "items": [
                 {
+                  "title": "Farm to Table with love",
+                  "cover": "data/img/navigation/banners/banner-farm-to-table.webp",
+                  "href": "https://t.me/MS_italycommunity/7394",
+                  "target": "_blank"
+                },
+                {
                   "title": "SAAN — авторский проект доходной недвижимости",
                   "cover": "data/img/navigation/banners/banner-saan.webp",
                   "href": "https://saan-park.ru/?utm_source=italy_baner&utm_medium=site&utm_campaign=diner&utm_term=20_08",
