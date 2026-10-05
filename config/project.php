@@ -62,4 +62,10 @@ return [
         'restorany-italyanskoy-kuhni',
         'restorany-na-kazhdyy-den',
     ],
+
+    // Внешние интеграции: счётчики Яндекс.Метрики (фолбэк, если YANDEX_METRIC_ID
+    // в .env пуст — см. config/settings.php; ID публичные, живут в HTML страницы).
+    'integrations' => [
+        'yandex_metric_ids' => [111695507, 79139110],
+    ],
 ];

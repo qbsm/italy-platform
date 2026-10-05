@@ -39,15 +39,20 @@ if ($envDefaultLang !== false && $envDefaultLang !== '') {
     $default_lang = (string) $envDefaultLang;
 }
 
-$yandex_metric_ids = array_values(array_filter(array_map(
-    static fn(string $id): int => (int) trim($id),
-    explode(',', (string) (getenv('YANDEX_METRIC_ID') ?: ''))
-)));
-
 // Ключи и ширины для адаптивных изображений (picture.twig, tools/build) — единый источник
 // Проектная конфигурация (route_map, collections, sitemap_pages, integrations)
 $projectConfigPath = __DIR__ . '/project.php';
 $projectConfig = is_file($projectConfigPath) ? (array) require $projectConfigPath : [];
+
+// Счётчики Яндекс.Метрики: приоритет у окружения (список через запятую), фолбэк —
+// integrations.yandex_metric_ids из project.php, чтобы ID ехали git-деплоем и не
+// зависели от .env (ID публичные, живут в HTML страницы). Инцидент 05.10 (wey/avatr).
+$ymEnvIds = (string) (getenv('YANDEX_METRIC_ID') ?: '');
+$ymTrackedIds = (array) ($projectConfig['integrations']['yandex_metric_ids'] ?? []);
+$yandex_metric_ids = array_values(array_filter(array_map(
+    static fn(string $id): int => (int) trim($id),
+    explode(',', $ymEnvIds !== '' ? $ymEnvIds : implode(',', $ymTrackedIds))
+)));
 
 $imageSizesPath = __DIR__ . '/image-sizes.json';
 $image_sizes = [
