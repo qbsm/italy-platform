@@ -352,6 +352,13 @@
               },
               "items": [
                 {
+                  "title": "Дарим 2000 бонусов за первую бронь в italy touch",
+                  "cover": "data/img/navigation/banners/banner-italy-touch-bonus.webp",
+                  "href": "https://redirect.appmetrica.yandex.com/serve/966450630770056189",
+                  "target": "_blank",
+                  "hideFrom": "2026-12-01"
+                },
+                {
                   "title": "Farm to Table with love",
                   "cover": "data/img/navigation/banners/banner-farm-to-table.webp",
                   "href": "https://t.me/MS_italycommunity/7394",
