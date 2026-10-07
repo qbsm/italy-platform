@@ -356,7 +356,8 @@
                   "cover": "data/img/navigation/banners/banner-italy-touch-bonus.webp",
                   "href": "https://redirect.appmetrica.yandex.com/serve/966450630770056189",
                   "target": "_blank",
-                  "hideFrom": "2026-12-01"
+                  "hideFrom": "2026-12-01",
+                  "hideOn": "desktop"
                 },
                 {
                   "title": "Farm to Table with love",

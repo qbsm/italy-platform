@@ -151,3 +151,18 @@
 .swiper-container.no-pagination .swiper-button-prev {
   margin-top: 0 !important;
 }
+
+/* Слайды с data-hide-on="desktop|mobile" видны только на части устройств (см. components/slider.js:
+   до инициализации Swiper снимаются с целевого устройства из DOM, чтобы он не считал их в loop/пагинации).
+   Здесь — скрытие до инициализации, чтобы на целевом устройстве слайд не успевал мелькнуть. */
+@media (--lg) {
+  .swiper-container:not(.swiper-initialized) .swiper-slide[data-hide-on='desktop'] {
+    display: none;
+  }
+}
+
+@media (width < 1200px) {
+  .swiper-container:not(.swiper-initialized) .swiper-slide[data-hide-on='mobile'] {
+    display: none;
+  }
+}

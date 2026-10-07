@@ -1,4 +1,37 @@
 // JavaScript для slider
+
+// Десктопный брейкпоинт платформы (custom-media --lg в assets/css/base/mq.css)
+const DESKTOP_MQ = '(min-width: 1200px)';
+const desktopMq = window.matchMedia(DESKTOP_MQ);
+
+// Слайды с data-hide-on="desktop|mobile" показываются только на мобильных/только на десктопе:
+// снимаем их из DOM до инициализации Swiper, иначе он считает скрытый слайд в loop и пагинации
+// (при effect: fade на его очереди игрок показывал бы пустой кадр). Скрытие до инициализации
+// продублировано CSS-правилом в slider.css — чтобы слайд не мелькал до срабатывания скрипта.
+function applyDeviceSlides(slider) {
+  const removed = slider.deviceSlides || (slider.deviceSlides = []);
+
+  // Возвращаем ранее снятые слайды на свои места (порядок в DOM сохраняем через next)
+  removed.forEach(({ slide, next }) => {
+    next.parentElement.insertBefore(slide, next);
+  });
+  removed.length = 0;
+
+  slider.querySelectorAll('.swiper-slide[data-hide-on]').forEach((slide) => {
+    const hideOn = slide.dataset.hideOn;
+    if ((hideOn === 'desktop' && desktopMq.matches) || (hideOn === 'mobile' && !desktopMq.matches)) {
+      removed.push({ slide, next: slide.nextSibling });
+      slide.remove();
+    }
+  });
+}
+
+function hasDeviceSlides(slider) {
+  return Boolean(
+    (slider.deviceSlides && slider.deviceSlides.length) || slider.querySelectorAll('.swiper-slide[data-hide-on]').length
+  );
+}
+
 export default function setupSliders() {
   // Проверяем наличие Swiper
   if (typeof window.Swiper === 'undefined') {
@@ -7,6 +40,25 @@ export default function setupSliders() {
   }
 
   initializeSliders();
+
+  // При пересечении десктопного брейкпоинта набор слайдов меняется — переинициализируем
+  // затронутые слайдеры на актуальном наборе
+  desktopMq.addEventListener('change', () => {
+    document.querySelectorAll('.swiper-container').forEach((slider) => {
+      if (!hasDeviceSlides(slider)) return;
+
+      try {
+        if (slider.swiperInstance) {
+          slider.swiperInstance.destroy(true, true);
+          slider.swiperInstance = null;
+        }
+        applyDeviceSlides(slider);
+        initSlider(slider);
+      } catch (error) {
+        console.error('Ошибка при переинициализации слайдера:', error);
+      }
+    });
+  });
 }
 
 function initializeSliders() {
@@ -29,6 +81,9 @@ function initializeSliders() {
 function initSlider(slider) {
   // Проверяем, был ли слайдер уже инициализирован
   if (slider.swiperInstance) return;
+
+  // Снимаем слайды, скрытые на текущем устройстве, до создания Swiper
+  applyDeviceSlides(slider);
 
   // Получаем настройки, переданные через data-атрибут
   let settings = {};
