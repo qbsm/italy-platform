@@ -100,9 +100,7 @@ async function main() {
   const filters = args.filter((a) => !a.startsWith('--'));
 
   const wantRestaurants = !filters.length || filters.includes('restaurants');
-  const groups = filters.length
-    ? filters.filter((f) => SOURCES[f])
-    : Object.keys(SOURCES);
+  const groups = filters.length ? filters.filter((f) => SOURCES[f]) : Object.keys(SOURCES);
 
   if (!groups.length && !wantRestaurants) {
     console.error(`Неизвестный фильтр. Доступные: ${Object.keys(SOURCES).join(', ')}`);
