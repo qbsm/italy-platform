@@ -25,7 +25,10 @@
   flex-direction: column;
   justify-content: flex-start;
   gap: 2.13rem;
-  padding: 9.5rem 2.6rem 3rem;
+
+  /* Левый отступ = отступу лого в шапке (.header .container, 2rem):
+     в открытом меню левый край пунктов совпадает с левым краем знака */
+  padding: 9.5rem 2.6rem 3rem 2rem;
   background-color: transparent;
 
   @media (--lg) {
