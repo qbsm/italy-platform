@@ -51,6 +51,22 @@
   opacity: 1;
 }
 
+/* Открытое меню: перетекающий знак возвращается в своё гнездо в шапке и
+   показывается штатными цветами. Без этого вверху страницы (перетекание ещё
+   не доехало) знак остаётся трансформом в точке интро — по центру экрана —
+   и рисуется поверх пунктов меню: z-index лого выше z-index панели. */
+.logo-flow-on.header:has(.burger-icon.active) .header__logo {
+  transform: none;
+}
+
+.logo-flow-on.header:has(.burger-icon.active) .header__logo .logo-mark {
+  fill: #C72229;
+}
+
+.logo-flow-on.header:has(.burger-icon.active) .header__logo .logo-figure {
+  fill: #fff;
+}
+
 .header .section__item.logo-wrap a {
   display: flex;
   width: 9.4rem;
