@@ -71,3 +71,11 @@
     border-top-right-radius: 2rem;
   }
 }
+
+/* Ссылка на политику — заметная и переносится по словам (канон 0025): general.css делает a inline-block, и
+   она целиком уезжала на новую строку, оставляя дыру после предлога. */
+.cookie-panel .desc a {
+  display: inline;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+}

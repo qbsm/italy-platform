@@ -408,14 +408,14 @@
   "cookie-panel": {
     "enabled": false,
     "ru": {
-      "desc": "Наш сайт использует файлы cookie для улучшения работы сайта — <a href='/policy/' class='link color-2 weight-400'>подробнее</a>.",
+      "desc": "Мы используем cookie и Яндекс.Метрику, чтобы сайт работал и мы понимали, как им пользуются. Они включаются только с вашего согласия. Подробнее — в <a href='/policy/' class='link color-2 weight-400'>политике конфиденциальности</a>.",
       "button": {
-        "title": "Принимаю",
+        "title": "Принять",
         "class": "button button-sm outline-color-2 button-animated animation-shift uppercase link nowrap js-cookie"
       }
     },
     "en": {
-      "desc": "Our website uses cookies to improve the site's performance — <a href='/en/policy/' class='link color-2 weight-400'>learn more</a>.",
+      "desc": "We use cookies and Yandex.Metrica to keep the site working and understand how it is used. They are turned on only with your consent. Learn more in our <a href='/en/policy/' class='link color-2 weight-400'>privacy policy</a>.",
       "button": {
         "title": "Accept",
         "class": "button button-sm outline-color-2 button-animated animation-shift uppercase link nowrap js-cookie"
