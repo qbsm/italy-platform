@@ -159,6 +159,11 @@ return [
         'queue' => Env::bool('RESCUE_QUEUE', true),
     ],
 
+    // Каналы после ответа посетителю (DeferredChannel), через запятую: mail, telegram (ADR-0017).
+    'notifications' => [
+        'deferred' => (string) (getenv('FORM_DEFER_CHANNELS') ?: ''),
+    ],
+
     'calltouch' => [
         'enable' => Env::bool('CALLTOUCH_ENABLE'),
         'route_key' => Env::get('CALLTOUCH_ROUTE_KEY'),
