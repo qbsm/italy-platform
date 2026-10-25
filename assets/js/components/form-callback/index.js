@@ -90,6 +90,8 @@ export class CallbackForm {
     }
 
     this.isSubmitting = true;
+    // Хронология отправки для приёмника (ADR-0017): сколько занял запрос к серверу и с каким ответом.
+    this.timing = { started: performance.now(), steps: [] };
     this.ui.setLoadingState();
     this.abortController = new AbortController();
     let hasSucceeded = false;
@@ -141,7 +143,30 @@ export class CallbackForm {
   }
 
   _reportOutcome(outcome, error = '') {
-    this.form.dispatchEvent(new CustomEvent('ismart:send-result', { bubbles: true, detail: { outcome, error } }));
+    const detail = { outcome, error };
+    if (this.timing && outcome !== 'validation_failed') {
+      detail.timing = { total_ms: Math.round(performance.now() - this.timing.started), steps: this.timing.steps };
+    }
+    this.form.dispatchEvent(new CustomEvent('ismart:send-result', { bubbles: true, detail }));
+  }
+
+  /** Шаг отправки в хронологию: запрос к серверу (мс, статус). */
+  _step(kind, data) {
+    if (this.timing && this.timing.steps.length < 8) this.timing.steps.push({ k: kind, ...data });
+  }
+
+  async _timedSend(formData) {
+    const started = performance.now();
+    try {
+      const response = await this.api.send(formData, this.abortController.signal);
+      this._step('send', { ms: Math.round(performance.now() - started), status: 200 });
+      return response;
+    } catch (error) {
+      let status = error && typeof error.status === 'number' ? error.status : 0;
+      if (error && error.name === 'AbortError') status = 'timeout';
+      this._step('send', { ms: Math.round(performance.now() - started), status });
+      throw error;
+    }
   }
 
   _handleInput(event) {
@@ -213,7 +238,7 @@ export class CallbackForm {
    */
   async _sendWithRetry(formData) {
     try {
-      return await this.api.send(formData, this.abortController.signal);
+      return await this._timedSend(formData);
     } catch (error) {
       if (!error || error.code !== 'TOKEN_INVALID') throw error;
 
@@ -223,7 +248,7 @@ export class CallbackForm {
       formData.set('form_token', token);
       const wait = Number(error.retryAfter) > 0 ? Number(error.retryAfter) : 3;
       await new Promise((resolve) => setTimeout(resolve, (wait + 0.5) * 1000));
-      return this.api.send(formData, this.abortController.signal);
+      return this._timedSend(formData);
     }
   }
 

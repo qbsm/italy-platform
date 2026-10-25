@@ -155,6 +155,8 @@ return [
         'site' => Env::get('RESCUE_SITE'),
         'key' => Env::get('RESCUE_KEY'),
         'timeout' => Env::int('RESCUE_TIMEOUT', 3),
+        // Очередь досылки (RescueQueue, ADR-0017): сбой сети, DNS или 5xx приёмника не теряет копию заявки.
+        'queue' => Env::bool('RESCUE_QUEUE', true),
     ],
 
     'calltouch' => [
