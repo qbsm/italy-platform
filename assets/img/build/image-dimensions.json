@@ -5170,5 +5170,325 @@
   "restaurants/italy-moskovskiy/covers/1280/25.avif": {
     "width": 1280,
     "height": 986
+  },
+  "restaurants/bist/covers/400/35.webp": {
+    "width": 400,
+    "height": 267
+  },
+  "restaurants/bist/covers/400/35.avif": {
+    "width": 400,
+    "height": 267
+  },
+  "restaurants/bist/covers/800/35.webp": {
+    "width": 800,
+    "height": 533
+  },
+  "restaurants/bist/covers/800/35.avif": {
+    "width": 800,
+    "height": 533
+  },
+  "restaurants/bist/covers/1280/35.webp": {
+    "width": 1280,
+    "height": 853
+  },
+  "restaurants/bist/covers/1280/35.avif": {
+    "width": 1280,
+    "height": 853
+  },
+  "restaurants/bist/covers/1600/35.webp": {
+    "width": 1600,
+    "height": 1067
+  },
+  "restaurants/bist/covers/1600/35.avif": {
+    "width": 1600,
+    "height": 1067
+  },
+  "restaurants/bist/covers/1920/35.webp": {
+    "width": 1920,
+    "height": 1280
+  },
+  "restaurants/bist/covers/1920/35.avif": {
+    "width": 1920,
+    "height": 1280
+  },
+  "restaurants/bist/covers/400/34.webp": {
+    "width": 400,
+    "height": 267
+  },
+  "restaurants/bist/covers/400/34.avif": {
+    "width": 400,
+    "height": 267
+  },
+  "restaurants/bist/covers/800/34.webp": {
+    "width": 800,
+    "height": 533
+  },
+  "restaurants/bist/covers/800/34.avif": {
+    "width": 800,
+    "height": 533
+  },
+  "restaurants/bist/covers/1280/34.webp": {
+    "width": 1280,
+    "height": 853
+  },
+  "restaurants/bist/covers/1280/34.avif": {
+    "width": 1280,
+    "height": 853
+  },
+  "restaurants/bist/covers/1600/34.webp": {
+    "width": 1600,
+    "height": 1067
+  },
+  "restaurants/bist/covers/1600/34.avif": {
+    "width": 1600,
+    "height": 1067
+  },
+  "restaurants/bist/covers/1920/34.webp": {
+    "width": 1920,
+    "height": 1280
+  },
+  "restaurants/bist/covers/1920/34.avif": {
+    "width": 1920,
+    "height": 1280
+  },
+  "restaurants/bist/covers/400/33.webp": {
+    "width": 400,
+    "height": 267
+  },
+  "restaurants/bist/covers/400/33.avif": {
+    "width": 400,
+    "height": 267
+  },
+  "restaurants/bist/covers/800/33.webp": {
+    "width": 800,
+    "height": 533
+  },
+  "restaurants/bist/covers/800/33.avif": {
+    "width": 800,
+    "height": 533
+  },
+  "restaurants/bist/covers/1280/33.webp": {
+    "width": 1280,
+    "height": 853
+  },
+  "restaurants/bist/covers/1280/33.avif": {
+    "width": 1280,
+    "height": 853
+  },
+  "restaurants/bist/covers/1600/33.webp": {
+    "width": 1600,
+    "height": 1067
+  },
+  "restaurants/bist/covers/1600/33.avif": {
+    "width": 1600,
+    "height": 1067
+  },
+  "restaurants/bist/covers/1920/33.webp": {
+    "width": 1920,
+    "height": 1280
+  },
+  "restaurants/bist/covers/1920/33.avif": {
+    "width": 1920,
+    "height": 1280
+  },
+  "restaurants/bist/covers/400/32.webp": {
+    "width": 400,
+    "height": 267
+  },
+  "restaurants/bist/covers/400/32.avif": {
+    "width": 400,
+    "height": 267
+  },
+  "restaurants/bist/covers/800/32.webp": {
+    "width": 800,
+    "height": 533
+  },
+  "restaurants/bist/covers/800/32.avif": {
+    "width": 800,
+    "height": 533
+  },
+  "restaurants/bist/covers/1280/32.webp": {
+    "width": 1280,
+    "height": 853
+  },
+  "restaurants/bist/covers/1280/32.avif": {
+    "width": 1280,
+    "height": 853
+  },
+  "restaurants/bist/covers/1600/32.webp": {
+    "width": 1600,
+    "height": 1067
+  },
+  "restaurants/bist/covers/1600/32.avif": {
+    "width": 1600,
+    "height": 1067
+  },
+  "restaurants/bist/covers/1920/32.webp": {
+    "width": 1920,
+    "height": 1280
+  },
+  "restaurants/bist/covers/1920/32.avif": {
+    "width": 1920,
+    "height": 1280
+  },
+  "restaurants/bist/covers/400/31.webp": {
+    "width": 400,
+    "height": 267
+  },
+  "restaurants/bist/covers/400/31.avif": {
+    "width": 400,
+    "height": 267
+  },
+  "restaurants/bist/covers/800/31.webp": {
+    "width": 800,
+    "height": 533
+  },
+  "restaurants/bist/covers/800/31.avif": {
+    "width": 800,
+    "height": 533
+  },
+  "restaurants/bist/covers/1280/31.webp": {
+    "width": 1280,
+    "height": 853
+  },
+  "restaurants/bist/covers/1280/31.avif": {
+    "width": 1280,
+    "height": 853
+  },
+  "restaurants/bist/covers/1600/31.webp": {
+    "width": 1600,
+    "height": 1067
+  },
+  "restaurants/bist/covers/1600/31.avif": {
+    "width": 1600,
+    "height": 1067
+  },
+  "restaurants/bist/covers/1920/31.webp": {
+    "width": 1920,
+    "height": 1280
+  },
+  "restaurants/bist/covers/1920/31.avif": {
+    "width": 1920,
+    "height": 1280
+  },
+  "restaurants/bist/covers/400/30.webp": {
+    "width": 400,
+    "height": 267
+  },
+  "restaurants/bist/covers/400/30.avif": {
+    "width": 400,
+    "height": 267
+  },
+  "restaurants/bist/covers/800/30.webp": {
+    "width": 800,
+    "height": 533
+  },
+  "restaurants/bist/covers/800/30.avif": {
+    "width": 800,
+    "height": 533
+  },
+  "restaurants/bist/covers/1280/30.webp": {
+    "width": 1280,
+    "height": 853
+  },
+  "restaurants/bist/covers/1280/30.avif": {
+    "width": 1280,
+    "height": 853
+  },
+  "restaurants/bist/covers/1600/30.webp": {
+    "width": 1600,
+    "height": 1067
+  },
+  "restaurants/bist/covers/1600/30.avif": {
+    "width": 1600,
+    "height": 1067
+  },
+  "restaurants/bist/covers/1920/30.webp": {
+    "width": 1920,
+    "height": 1280
+  },
+  "restaurants/bist/covers/1920/30.avif": {
+    "width": 1920,
+    "height": 1280
+  },
+  "restaurants/bist/covers/400/29.webp": {
+    "width": 400,
+    "height": 267
+  },
+  "restaurants/bist/covers/400/29.avif": {
+    "width": 400,
+    "height": 267
+  },
+  "restaurants/bist/covers/800/29.webp": {
+    "width": 800,
+    "height": 533
+  },
+  "restaurants/bist/covers/800/29.avif": {
+    "width": 800,
+    "height": 533
+  },
+  "restaurants/bist/covers/1280/29.webp": {
+    "width": 1280,
+    "height": 853
+  },
+  "restaurants/bist/covers/1280/29.avif": {
+    "width": 1280,
+    "height": 853
+  },
+  "restaurants/bist/covers/1600/29.webp": {
+    "width": 1600,
+    "height": 1067
+  },
+  "restaurants/bist/covers/1600/29.avif": {
+    "width": 1600,
+    "height": 1067
+  },
+  "restaurants/bist/covers/1920/29.webp": {
+    "width": 1920,
+    "height": 1280
+  },
+  "restaurants/bist/covers/1920/29.avif": {
+    "width": 1920,
+    "height": 1280
+  },
+  "restaurants/bist/covers/400/28.webp": {
+    "width": 400,
+    "height": 267
+  },
+  "restaurants/bist/covers/400/28.avif": {
+    "width": 400,
+    "height": 267
+  },
+  "restaurants/bist/covers/800/28.webp": {
+    "width": 800,
+    "height": 533
+  },
+  "restaurants/bist/covers/800/28.avif": {
+    "width": 800,
+    "height": 533
+  },
+  "restaurants/bist/covers/1280/28.webp": {
+    "width": 1280,
+    "height": 853
+  },
+  "restaurants/bist/covers/1280/28.avif": {
+    "width": 1280,
+    "height": 853
+  },
+  "restaurants/bist/covers/1600/28.webp": {
+    "width": 1600,
+    "height": 1067
+  },
+  "restaurants/bist/covers/1600/28.avif": {
+    "width": 1600,
+    "height": 1067
+  },
+  "restaurants/bist/covers/1920/28.webp": {
+    "width": 1920,
+    "height": 1280
+  },
+  "restaurants/bist/covers/1920/28.avif": {
+    "width": 1920,
+    "height": 1280
   }
 }
