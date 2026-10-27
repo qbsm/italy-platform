@@ -352,6 +352,12 @@
               },
               "items": [
                 {
+                  "title": "Cooking Challenge Italy — конкурс для линейных поваров и кондитеров сообщества итали",
+                  "cover": "data/img/navigation/banners/banner-cooking-challenge.webp",
+                  "href": "https://clck.ru/3WeoZu",
+                  "target": "_blank"
+                },
+                {
                   "title": "Дарим 2000 бонусов за первую бронь в italy touch",
                   "cover": "data/img/navigation/banners/banner-italy-touch-bonus.webp",
                   "href": "https://redirect.appmetrica.yandex.com/serve/966450630770056189",
