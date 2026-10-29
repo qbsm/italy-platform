@@ -1,150 +1,155 @@
 {
-  "metaDescription": "Salone pasta&bar на набережной реки Фонтанки, 30 — культ домашней пасты ручной работы и дружелюбный сервис. Итальянская кухня в Петербурге.",
-  "slug": "salone-pasta-bar",
-  "visible": true,
-  "restaurant": {
-    "@type": "Restaurant",
-    "venueId": 28,
-    "name": "Salone pasta&bar Санкт-Петербург",
-    "nameHtml": "Salone pasta&amp;bar<br>Санкт-Петербург",
-    "telephone": {
-      "title": "+7 (921) 777-06-23",
-      "href": "tel:+79217770623"
+    "metaDescription": "Salone pasta&bar на набережной реки Фонтанки, 30 — культ домашней пасты ручной работы и дружелюбный сервис. Итальянская кухня в Петербурге.",
+    "slug": "salone-pasta-bar",
+    "visible": true,
+    "restaurant": {
+        "@type": "Restaurant",
+        "venueId": 28,
+        "name": "Salone pasta&bar Санкт-Петербург",
+        "nameHtml": "Salone pasta&amp;bar<br>Санкт-Петербург",
+        "telephone": {
+            "title": "+7 (921) 777-06-23",
+            "href": "tel:+79217770623"
+        },
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Набережная реки Фонтанки, 30",
+            "addressLocality": "Санкт-Петербург",
+            "addressRegion": "Санкт-Петербург",
+            "addressCountry": "RU"
+        },
+        "openingHours": [
+            {
+                "days": "Пн-Чт",
+                "hours": "12:00–00:00"
+            },
+            {
+                "days": "Пт-Сб",
+                "hours": "12:00–01:00"
+            },
+            {
+                "days": "Вс",
+                "hours": "12:00–00:00"
+            }
+        ],
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "59.93876",
+            "longitude": "30.34371"
+        },
+        "hasMap": "https://yandex.ru/maps/?pt=30.34371,59.93876&z=17&l=map",
+        "servesCuisine": [
+            "Итальянская кухня"
+        ],
+        "priceRange": "₽₽",
+        "menuLink": "https://atelierfamily.ru/menu-salone-spb",
+        "bookingPoint": "910026"
     },
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Набережная реки Фонтанки, 30",
-      "addressLocality": "Санкт-Петербург",
-      "addressRegion": "Санкт-Петербург",
-      "addressCountry": "RU"
+    "desc": {
+        "short": "Ресторан на Фонтанке с домашней пастой и по-настоящему дружелюбным сервисом",
+        "full": [
+            "Salone pasta&bar — это место, в котором царит культ пасты. Здесь ей выделен целый зал, в центре которого ежедневно стоят пастайоло и вручную лепят домашние тальятелле, мальтальяти и равиоли по рецептам, которые были собраны нами во время путешествий по Эмилии-Романье.",
+            "Побывать в Salone и не попробовать тартар из говядины со сливочным соусом, баклажан Алла Пармиджана, «сумасшедшую» пицца пацца или тортелли с прошутто и трюфельной пастой — всё равно, что приехать в Рим и не увидеть Колизей.",
+            "Особую роль в образе проекта играет бар. Напитки, которые смешивают в Salone, воспринимаются как синонимы эталонного качества, вкуса и стиля.",
+            "А тот самый коктейль с маракуйей, легендарный Пьер Вудман, стал живой легендой не только в Петербурге и Москве, но и далеко за пределами России."
+        ],
+        "blocks": []
     },
-    "openingHours": [
-      {
-        "days": "Пн-Чт",
-        "hours": "12:00–00:00"
-      },
-      {
-        "days": "Пт-Сб",
-        "hours": "12:00–02:00"
-      },
-      {
-        "days": "Вс",
-        "hours": "12:00–00:00"
-      }
+    "loyalty": false,
+    "tags": [
+        "итальянская кухня",
+        "можно с животными"
     ],
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": "59.93876",
-      "longitude": "30.34371"
-    },
-    "hasMap": "https://yandex.ru/maps/?pt=30.34371,59.93876&z=17&l=map",
-    "servesCuisine": ["Итальянская кухня"],
-    "priceRange": "₽₽",
-    "menuLink": "https://atelierfamily.ru/menu-salone-spb",
-    "bookingPoint": "910026"
-  },
-  "desc": {
-    "short": "Ресторан на Фонтанке с домашней пастой и по-настоящему дружелюбным сервисом",
-    "full": [
-      "Salone pasta&bar — это место, в котором царит культ пасты. Здесь ей выделен целый зал, в центре которого ежедневно стоят пастайоло и вручную лепят домашние тальятелле, мальтальяти и равиоли по рецептам, которые были собраны нами во время путешествий по Эмилии-Романье.",
-      "Побывать в Salone и не попробовать тартар из говядины со сливочным соусом, баклажан Алла Пармиджана, «сумасшедшую» пицца пацца или тортелли с прошутто и трюфельной пастой — всё равно, что приехать в Рим и не увидеть Колизей.",
-      "Особую роль в образе проекта играет бар. Напитки, которые смешивают в Salone, воспринимаются как синонимы эталонного качества, вкуса и стиля.",
-      "А тот самый коктейль с маракуйей, легендарный Пьер Вудман, стал живой легендой не только в Петербурге и Москве, но и далеко за пределами России."
+    "covers": [
+        {
+            "src": "data/img/restaurants/salone-pasta-bar/covers/raw/1.jpg",
+            "alt": "Salone pasta&bar"
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar/covers/raw/2.jpg",
+            "alt": "Salone pasta&bar"
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar/covers/raw/3.jpg",
+            "alt": "Salone pasta&bar"
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar/covers/raw/4.jpg",
+            "alt": "Salone pasta&bar"
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar/covers/raw/5.jpg",
+            "alt": "Salone pasta&bar"
+        }
     ],
-    "blocks": []
-  },
-  "loyalty": false,
-  "tags": ["итальянская кухня", "можно с животными"],
-  "covers": [
-    {
-      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/1.jpg",
-      "alt": "Salone pasta&bar"
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/2.jpg",
-      "alt": "Salone pasta&bar"
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/3.jpg",
-      "alt": "Salone pasta&bar"
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/4.jpg",
-      "alt": "Salone pasta&bar"
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/5.jpg",
-      "alt": "Salone pasta&bar"
-    }
-  ],
-  "logos": [
-    {
-      "src": "data/img/restaurants/salone-pasta-bar/logos/logo-color-1.svg",
-      "alt": "Salone pasta&bar Санкт-Петербург белый лого",
-      "height": "6.0rem"
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar/logos/logo-color-2.svg",
-      "alt": "Salone pasta&bar Санкт-Петербург чёрный лого",
-      "height": "6.0rem"
-    }
-  ],
-  "icons": [
-    {
-      "src": "data/img/restaurants/salone-pasta-bar/icons/icon-color-1.svg",
-      "alt": "Salone pasta&bar Санкт-Петербург белая иконка"
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar/icons/icon-color-2.svg",
-      "alt": "Salone pasta&bar Санкт-Петербург чёрная иконка"
-    }
-  ],
-  "staff": [
-    {
-      "role": "Бренд-шеф",
-      "name": "Денис Лукьяненко"
-    },
-    {
-      "role": "Шеф-повар",
-      "name": "Владислав Коптев"
-    }
-  ],
-  "metaTitle": "Salone pasta&bar — ресторан с домашней пастой на Фонтанке, СПб",
-  "faq": [
-    {
-      "q": "Что за коктейль «Пьер Вудман»?",
-      "a": "Фирменный коктейль Salone с маракуйей, известный за пределами Петербурга и Москвы."
-    },
-    {
-      "q": "Можно ли с собакой?",
-      "a": "Да, Salone на Фонтанке — заведение группы, куда пускают с животными."
-    }
-  ],
-  "gallery": [
-    {
-      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/1.jpg",
-      "alt": "Salone pasta&bar Санкт-Петербург, Санкт-Петербург",
-      "span": 12
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/2.jpg",
-      "alt": "Salone pasta&bar Санкт-Петербург, Санкт-Петербург",
-      "span": 6
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/3.jpg",
-      "alt": "Salone pasta&bar Санкт-Петербург, Санкт-Петербург",
-      "span": 6
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/4.jpg",
-      "alt": "Salone pasta&bar Санкт-Петербург, Санкт-Петербург",
-      "span": 6
-    },
-    {
-      "src": "data/img/restaurants/salone-pasta-bar/covers/raw/5.jpg",
-      "alt": "Salone pasta&bar Санкт-Петербург, Санкт-Петербург",
-      "span": 6
-    }
-  ]
+    "logos": [
+        {
+            "src": "data/img/restaurants/salone-pasta-bar/logos/logo-color-1.svg",
+            "alt": "Salone pasta&bar Санкт-Петербург белый лого",
+            "height": "6.0rem"
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar/logos/logo-color-2.svg",
+            "alt": "Salone pasta&bar Санкт-Петербург чёрный лого",
+            "height": "6.0rem"
+        }
+    ],
+    "icons": [
+        {
+            "src": "data/img/restaurants/salone-pasta-bar/icons/icon-color-1.svg",
+            "alt": "Salone pasta&bar Санкт-Петербург белая иконка"
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar/icons/icon-color-2.svg",
+            "alt": "Salone pasta&bar Санкт-Петербург чёрная иконка"
+        }
+    ],
+    "staff": [
+        {
+            "role": "Бренд-шеф",
+            "name": "Денис Лукьяненко"
+        },
+        {
+            "role": "Шеф-повар",
+            "name": "Владислав Коптев"
+        }
+    ],
+    "metaTitle": "Salone pasta&bar — ресторан с домашней пастой на Фонтанке, СПб",
+    "faq": [
+        {
+            "q": "Что за коктейль «Пьер Вудман»?",
+            "a": "Фирменный коктейль Salone с маракуйей, известный за пределами Петербурга и Москвы."
+        },
+        {
+            "q": "Можно ли с собакой?",
+            "a": "Да, Salone на Фонтанке — заведение группы, куда пускают с животными."
+        }
+    ],
+    "gallery": [
+        {
+            "src": "data/img/restaurants/salone-pasta-bar/covers/raw/1.jpg",
+            "alt": "Salone pasta&bar Санкт-Петербург, Санкт-Петербург",
+            "span": 12
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar/covers/raw/2.jpg",
+            "alt": "Salone pasta&bar Санкт-Петербург, Санкт-Петербург",
+            "span": 6
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar/covers/raw/3.jpg",
+            "alt": "Salone pasta&bar Санкт-Петербург, Санкт-Петербург",
+            "span": 6
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar/covers/raw/4.jpg",
+            "alt": "Salone pasta&bar Санкт-Петербург, Санкт-Петербург",
+            "span": 6
+        },
+        {
+            "src": "data/img/restaurants/salone-pasta-bar/covers/raw/5.jpg",
+            "alt": "Salone pasta&bar Санкт-Петербург, Санкт-Петербург",
+            "span": 6
+        }
+    ]
 }
