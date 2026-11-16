@@ -355,7 +355,8 @@
                   "title": "Cooking Challenge Italy — конкурс для линейных поваров и кондитеров сообщества итали",
                   "cover": "data/img/navigation/banners/banner-cooking-challenge.webp",
                   "href": "https://clck.ru/3WeoZu",
-                  "target": "_blank"
+                  "target": "_blank",
+                  "hideFrom": "2026-11-16"
                 },
                 {
                   "title": "Дарим 2000 бонусов за первую бронь в italy touch",
