@@ -17,7 +17,6 @@
             "addressRegion": "Санкт-Петербург",
             "addressCountry": "RU"
         },
-        "hoursSource": "manual",
         "openingHours": [
             {
                 "days": "Вс-Вт",
