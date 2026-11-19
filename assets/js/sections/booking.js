@@ -2,7 +2,9 @@ import { onReady } from '../base/init.js';
 
 // Виджет онлайн-бронирования столов Remarked — логика как на старом сайте.
 // Кнопки: .js-button-booking (шапка, все рестораны, выбор в модалке) и .widget__point__N (страница
-// ресторана и карточки каталога /restaurants — своя точка первой в списке). Виджет тянется со
+// ресторана и карточки каталога /restaurants — своя точка первой в списке). Ссылка с якорем
+// #openReMarkedWidgetN открывает виджет сразу при переходе (кнопка точки N должна быть на странице).
+// Виджет тянется со
 // стороннего домена (~137 КБ + форма), поэтому грузим его не сразу с документом, а по первому
 // намерению гостя: наведение, касание, фокус на кнопке или первый скролл. К моменту клика виджет
 // обычно уже готов и модалка открывается сразу.
@@ -219,33 +221,48 @@ onReady(() => {
   });
   window.addEventListener('scroll', warmUp, { once: true, passive: true });
 
+  const openBooking = async (button) => {
+    if (ready) {
+      button.click();
+      return;
+    }
+    setLoading(button, true);
+    const ok = await loadRemarked();
+
+    if (!ok) {
+      setLoading(button, false);
+      return; // Remarked недоступен: кнопка остаётся живой, следующий клик попробует снова
+    }
+    initWidgets();
+    // Виджет вешает свои обработчики не в момент widgetArea(), а когда отрисует модалку —
+    // кликаем только после этого, иначе нажатие пропадёт и гостю придётся жать второй раз
+    ready = await waitFor(widgetDomReady, Date.now() + READY_TIMEOUT);
+    setLoading(button, false);
+    if (!ready) {
+      return; // модалка так и не отрисовалась: кнопка остаётся живой, повтор без зацикливания
+    }
+    button.click(); // повторный клик — теперь его перехватит виджет и откроет модалку
+  };
+
   document.addEventListener(
     'click',
-    async (event) => {
+    (event) => {
       const button = event.target.closest(BUTTON_SELECTOR);
       if (!button || ready) {
         return; // виджет уже поднят — клик обрабатывает он сам
       }
       event.preventDefault();
       event.stopImmediatePropagation();
-
-      setLoading(button, true);
-      const ok = await loadRemarked();
-
-      if (!ok) {
-        setLoading(button, false);
-        return; // Remarked недоступен: кнопка остаётся живой, следующий клик попробует снова
-      }
-      initWidgets();
-      // Виджет вешает свои обработчики не в момент widgetArea(), а когда отрисует модалку —
-      // кликаем только после этого, иначе нажатие пропадёт и гостю придётся жать второй раз
-      ready = await waitFor(widgetDomReady, Date.now() + READY_TIMEOUT);
-      setLoading(button, false);
-      if (!ready) {
-        return; // модалка так и не отрисовалась: кнопка остаётся живой, повтор без зацикливания
-      }
-      button.click(); // повторный клик — теперь его перехватит виджет и откроет модалку
+      openBooking(button);
     },
     true
   );
+
+  // Переход по ссылке с якорем #openReMarkedWidgetN: если на странице есть кнопка точки N,
+  // поднимаем виджет и открываем модалку этой точки без клика гостя.
+  const autoOpen = location.hash.match(/^#openReMarkedWidget(\d+)$/);
+  if (autoOpen) {
+    const autoButton = document.querySelector(`.widget__point__${autoOpen[1]}`);
+    if (autoButton) openBooking(autoButton);
+  }
 });
