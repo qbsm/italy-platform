@@ -3,7 +3,7 @@ import { onReady } from '../base/init.js';
 // Виджет онлайн-бронирования столов Remarked — логика как на старом сайте.
 // Кнопки: .js-button-booking (шапка, все рестораны, выбор в модалке) и .widget__point__N (страница
 // ресторана и карточки каталога /restaurants — своя точка первой в списке). Ссылка с якорем
-// #openReMarkedWidgetN открывает виджет сразу при переходе (кнопка точки N должна быть на странице).
+// #openReMarkedWidgetN открывает виджет сразу при переходе с любой страницы сайта.
 // Виджет тянется со
 // стороннего домена (~137 КБ + форма), поэтому грузим его не сразу с документом, а по первому
 // намерению гостя: наведение, касание, фокус на кнопке или первый скролл. К моменту клика виджет
@@ -258,11 +258,27 @@ onReady(() => {
     true
   );
 
-  // Переход по ссылке с якорем #openReMarkedWidgetN: если на странице есть кнопка точки N,
-  // поднимаем виджет и открываем модалку этой точки без клика гостя.
-  const autoOpen = location.hash.match(/^#openReMarkedWidget(\d+)$/);
-  if (autoOpen) {
-    const autoButton = document.querySelector(`.widget__point__${autoOpen[1]}`);
-    if (autoButton) openBooking(autoButton);
-  }
+  // Переход по ссылке с якорем #openReMarkedWidgetN открывает модалку точки N без клика гостя.
+  // Своя кнопка есть только на странице ресторана и в каталоге; если ссылка открылась на другой
+  // странице (например, на главной), добавляем скрытую кнопку сами — точка известна из
+  // #remarked-points, поэтому якорь работает с любой страницы сайта.
+  let autoOpened = false;
+  const autoOpenFromHash = () => {
+    if (autoOpened) return;
+    const m = location.hash.match(/^#openReMarkedWidget(\d+)$/i);
+    if (!m || !points.some((p) => p.point === parseInt(m[1], 10))) return;
+    let button = document.querySelector(`.widget__point__${m[1]}`);
+    if (!button) {
+      button = document.createElement('button');
+      button.type = 'button';
+      button.className = `widget__point__${m[1]}`;
+      button.setAttribute('aria-hidden', 'true');
+      button.style.cssText = 'position:fixed;top:0;left:-9999px;';
+      document.body.appendChild(button);
+    }
+    autoOpened = true;
+    openBooking(button);
+  };
+  autoOpenFromHash();
+  window.addEventListener('hashchange', autoOpenFromHash);
 });
