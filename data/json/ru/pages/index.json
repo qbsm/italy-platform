@@ -356,7 +356,16 @@
                   "cover": "data/img/navigation/banners/banner-cooking-challenge-final.webp",
                   "href": "https://italytouch.ru/app/events/204",
                   "target": "_blank",
-                  "hideFrom": "2026-12-09 19:01"
+                  "hideFrom": "2026-12-09 19:01",
+                  "hideOn": "mobile"
+                },
+                {
+                  "title": "Финал Cooking Challenge Italy — ужин начинающих поваров 9 декабря в 19:00",
+                  "cover": "data/img/navigation/banners/banner-cooking-challenge-final-mobile.jpg",
+                  "href": "https://italytouch.ru/app/events/204",
+                  "target": "_blank",
+                  "hideFrom": "2026-12-09 19:01",
+                  "hideOn": "desktop"
                 },
                 {
                   "title": "Cooking Challenge Italy — конкурс для линейных поваров и кондитеров сообщества итали",
